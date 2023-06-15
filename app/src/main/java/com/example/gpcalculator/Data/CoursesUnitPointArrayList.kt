@@ -17,7 +17,7 @@ class CoursesUnitPointArrayList {
     val twoUnitE = ArrayList<Int>()
     val twoUnitF = ArrayList<Int>()
 
-    val oneUnitA = ArrayList<Int>()
+    var oneUnitA = ArrayList<Int>()
     val oneUnitB = ArrayList<Int>()
     val oneUnitC = ArrayList<Int>()
     val oneUnitD = ArrayList<Int>()

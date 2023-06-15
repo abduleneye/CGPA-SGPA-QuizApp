@@ -8,8 +8,8 @@ class CourseDataEntries {
     var oneUnitCoursesPointSum: Int = 0
     var totalCoursesPointSum: Double = 0.0
 
-    var gradeList = listOf("nil","A","B","C","D","E","F")
-    var unitList = listOf("nil","3","2","1","0")
+    var gradeList = listOf("A","B","C","D","E","F")
+    var unitList = listOf("3","2","1","0")
 
 
 }

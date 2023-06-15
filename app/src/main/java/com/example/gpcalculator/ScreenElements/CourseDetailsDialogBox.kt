@@ -11,7 +11,7 @@ import androidx.compose.ui.window.DialogProperties
 
 
 @Composable
-fun DialogBox(
+fun CourseEntryDialogBox(
 
     onEvent: (DialogBoxUiEvents)-> Unit,
     dbState: DialogBoxState,
@@ -22,13 +22,16 @@ fun DialogBox(
     properties: DialogProperties  = DialogProperties()
 ){
     
-    Dialog(onDismissRequest = { onEvent(DialogBoxUiEvents.hideDBox) }, properties = DialogProperties()) {
+    Dialog(onDismissRequest = {
+        onEvent(DialogBoxUiEvents.hideDataEntryDBox)
+        onEvent(DialogBoxUiEvents.resetResultField)
+                              }, properties = DialogProperties()) {
 
         Card(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = androidx.compose.ui.Modifier
-                .height(500.dp)
+                .height(420.dp)
         ) {
 
             Box(
@@ -43,9 +46,14 @@ fun DialogBox(
 
                        Text(text = title, modifier = androidx.compose.ui.Modifier
                            .align(Alignment.Start)
-                           .padding(start = 20.dp))
+                           .padding(start = 20.dp, bottom = 10.dp))
+                       Text(
+                           modifier = androidx.compose.ui.Modifier
+                               .align(Alignment.Start)
+                               .padding(start = 20.dp, bottom = 10.dp),
+                       text = "Entries: ${dbState.enteredCourses} of ${dbState.totalCourses}"
+                       )
 
-                    Spacer(modifier = androidx.compose.ui.Modifier.height(10.dp))
 
                     
                     OutlinedTextField(
@@ -54,7 +62,7 @@ fun DialogBox(
                             onEvent(DialogBoxUiEvents.setCourseCode(it))
                                         },
                         label = {
-                            Text(text = "Enter  Your Course Code...")
+                            Text(text = dbState.enteredCourseCodeLabel)
                         }
                     )
 
@@ -64,8 +72,8 @@ fun DialogBox(
                     Row {
 
                         DropDownMenu(
-                            labelTextOne = "unit",
-                            labelTextTwo = "Grade",
+                            labelTextOne = dbState.pickedCourseUnitLabel,
+                            labelTextTwo = dbState.pickedCourseGradeLabel,
                             dBState = dbState,
                             onEvent = onEvent,
                         )
@@ -74,7 +82,7 @@ fun DialogBox(
                     }
                     
                     Spacer(modifier = androidx.compose.ui.Modifier
-                        .height(160.dp))
+                        .height(130.dp))
 
                     Row(
                         modifier = androidx.compose.ui.Modifier
@@ -84,7 +92,7 @@ fun DialogBox(
                     ) {
 
                         TextButton(onClick = {
-                            onEvent(DialogBoxUiEvents.hideDBox)
+                            onEvent(DialogBoxUiEvents.hideDataEntryDBox)
                             onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
                             onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
                             onEvent(DialogBoxUiEvents.setCourseCode(""))
@@ -99,14 +107,14 @@ fun DialogBox(
                         }
 
                         Spacer(modifier = androidx.compose.ui.Modifier
-                            .width(10.dp))
+                            .width(5.dp))
 
                         Button(onClick = {
                             onEvent(DialogBoxUiEvents.addEntriesToArrayList)
-                            onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
-                            onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
-                            onEvent(DialogBoxUiEvents.setCourseCode(""))
-                            onEvent(DialogBoxUiEvents.hideDBox)
+                            //onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
+                            //onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
+                            //onEvent(DialogBoxUiEvents.setCourseCode(""))
+                            //onEvent(DialogBoxUiEvents.hideDataEntryDBox)
                         }) {
 
                             Text(text = "Add")
@@ -128,31 +136,23 @@ fun DialogBox(
         
     }
 
-@Composable
-fun ShowDialogBox(
-    state: DialogBoxState,
-    onEvent: (DialogBoxUiEvents) -> Unit
+//@Composable
+//fun ShowDialogBox(
+//    state: DialogBoxState,
+//    onEvent: (DialogBoxUiEvents) -> Unit
+//
+//){
+//
+//
+//            CourseEntryDialogBox(
+//                onEvent = onEvent,
+//                dbState = state,
+//                title = "Enter Your Course Details:",
+//
+//            )
+//        }
 
-){
 
-    Button(onClick = { /*TODO*/ }) {
 
-        if (state.dialogBoxVisibility){
-
-            DialogBox(
-                onEvent = onEvent,
-                dbState = state,
-                title = "Enter Your Course Details:",
-
-            )
-
-        }
-        else{
-
-        }
-
-    }
-
-}
 
 

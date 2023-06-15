@@ -11,9 +11,14 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 
@@ -58,7 +63,10 @@ fun DropDownMenu(
            Column() {
 
                OutlinedTextField(
+
+
                    value = dBState.selectedCourseUnit,
+                   textStyle = TextStyle(baselineShift = BaselineShift(-0.37f)),
                    onValueChange = {},
                    enabled = false,
                    modifier = Modifier
@@ -68,9 +76,10 @@ fun DropDownMenu(
 
                        }
                        .width(130.dp)
-                       .height(70.dp),
+                       .height(70.dp)
+                       ,
                    label = {
-                       Text(text = labelTextOne)
+                       Text(text = labelTextOne, style = TextStyle(baselineShift = BaselineShift(-0.37f)))
                    },
                    trailingIcon = {
 
@@ -134,6 +143,7 @@ fun DropDownMenu(
 
                 OutlinedTextField(
                     value = dBState.selectedCourseGrade,
+                    textStyle = TextStyle(baselineShift = BaselineShift(-0.37f)),
                     onValueChange = {},
                     enabled = false,
                     modifier = Modifier
@@ -145,7 +155,7 @@ fun DropDownMenu(
                         .width(130.dp)
                         .height(70.dp),
                     label = {
-                        Text(text = labelTextTwo)
+                        Text(text = labelTextTwo, style = TextStyle(baselineShift = BaselineShift(-0.37f)))
                     },
                     trailingIcon = {
 
