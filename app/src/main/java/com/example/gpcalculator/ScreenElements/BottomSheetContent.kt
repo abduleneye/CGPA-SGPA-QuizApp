@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
@@ -29,7 +30,8 @@ fun  ResultBottomSheetContent(
     
     Box(
         modifier = Modifier
-            .height(150.dp),
+            .height(150.dp)
+            .fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
 

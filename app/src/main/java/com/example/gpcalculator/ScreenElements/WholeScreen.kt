@@ -45,7 +45,7 @@ fun MainScreen(
         sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
         sheetBackgroundColor = Color.LightGray,
         modifier =  Modifier
-           // .fillMaxWidth()
+            .fillMaxWidth()
             .width(sheetWidth.value)
            // .height(10.dp)
                 ,
