@@ -4,6 +4,7 @@ import GpCalculatorPrototype.Data.CourseDataEntries
 import GpCalculatorPrototype.Data.CourseMaps
 import GpCalculatorPrototype.Data.CoursesUnitPointArrayList
 import GpCalculatorPrototype.Data.GpData
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import com.example.gpcalculator.Data.ErrorMessages
 import com.example.gpcalculator.Data.ErrorPassedValues
@@ -214,6 +215,24 @@ class FirstViewModel:ViewModel() {
 
             }
 
+            is DialogBoxUiEvents.increaseCourseEntryDbHeight -> {
+
+                _dbState.update {
+                    it.copy(
+                        dialogDefaultHeight = 420.dp
+                    )
+                }
+            }
+
+            is DialogBoxUiEvents.decreaseCourseEntryDbHeight -> {
+
+                _dbState.update {
+                    it.copy(
+                        dialogDefaultHeight = it.dialogDefaultHeight
+                    )
+                }
+            }
+
             else -> {}
         }
 
@@ -321,7 +340,7 @@ class FirstViewModel:ViewModel() {
 
     private fun operations(totalCreditLoad: Int): String {
 
-        var finalAns: Int  = 0
+
 
 
 
@@ -330,9 +349,9 @@ class FirstViewModel:ViewModel() {
         coursesDataEntryObj.oneUnitCoursesPointSum = coursePointObj.oneUnitA.sum() + coursePointObj.oneUnitB.sum() + coursePointObj.oneUnitC.sum() + coursePointObj.oneUnitD.sum() + coursePointObj.oneUnitE.sum() + coursePointObj.oneUnitF.sum()
         coursesDataEntryObj.totalCoursesPointSum = (coursesDataEntryObj.threeUnitCoursesPointSum + coursesDataEntryObj.twoUnitCoursesPointSum + coursesDataEntryObj.oneUnitCoursesPointSum).toDouble()
 
-         finalAns  = (coursesDataEntryObj.totalCoursesPointSum  /  totalCreditLoad).toInt()
+         var finalAns  = (coursesDataEntryObj.totalCoursesPointSum  /  totalCreditLoad)
 
-        return ("Your Gp is: $finalAns")
+        return ("$finalAns")
     }
 
     private fun courseValueMapper(courseGrade: ArrayList<GpData>){

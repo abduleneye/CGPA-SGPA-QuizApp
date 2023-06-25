@@ -1,5 +1,7 @@
 package com.example.gpcalculator.ScreenElements
 
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.example.gpcalculator.Data.ErrorPassedValues
 
 data class DialogBoxState(
@@ -21,8 +23,8 @@ data class DialogBoxState(
     var totalCreditLoadLabel: String = ErrorPassedValues.enterTotalCreditLoadLabel,
     var enteredCourseCodeLabel: String = ErrorPassedValues.enterCourseCodeLabel,
     var pickedCourseUnitLabel: String  = ErrorPassedValues.enterCourseUnitLabel,
-    var pickedCourseGradeLabel: String = ErrorPassedValues.enterCourseGradeLabel
-
+    var pickedCourseGradeLabel: String = ErrorPassedValues.enterCourseGradeLabel,
+    var dialogDefaultHeight: Dp = 300.dp
 
 
 

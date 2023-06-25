@@ -7,13 +7,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -22,8 +25,10 @@ import kotlinx.coroutines.launch
 fun MainScreen(
     onEvent: (DialogBoxUiEvents) -> Unit,
     state : DialogBoxState,
-    stateTwo: ArrayList<GpData>
+    stateTwo: ArrayList<GpData>,
 ){
+
+
 
 
     val sheetState = rememberBottomSheetState(
@@ -99,7 +104,13 @@ fun MainScreen(
                         "Click the Add button!!!"
                     }else{
                         ""
-                    }
+                    },
+                    fontSize = 40.sp,
+                    color = Color.Gray,
+                    maxLines = 1,
+                    lineHeight = 1000.sp,
+
+
                 )
             }
 
@@ -125,7 +136,10 @@ fun MainScreen(
                 }
             }
             else if(state.baseEntryDialogBoxVisibility){
-                BaseEntryDialogBox(Desc = "Welcome please make your entries:", state = state, events = onEvent)
+
+
+
+                BaseEntryDialogBox(Desc = "Welcome please make your entries", state = state, events = onEvent)
 
             }
             else if(state.resultDialogBoxVisibility){

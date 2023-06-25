@@ -21,6 +21,13 @@ sealed interface DialogBoxUiEvents{
     object showResultDBox: DialogBoxUiEvents
     object hideResultDBox: DialogBoxUiEvents
     object addEntriesToArrayList: DialogBoxUiEvents
+
     object executeCalculation: DialogBoxUiEvents
+
+    object increaseCourseEntryDbHeight: DialogBoxUiEvents
+
+    object decreaseCourseEntryDbHeight: DialogBoxUiEvents
+
+
 
 }

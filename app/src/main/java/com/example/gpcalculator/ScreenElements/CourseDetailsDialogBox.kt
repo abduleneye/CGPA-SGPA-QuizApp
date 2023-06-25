@@ -5,9 +5,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.SecureFlagPolicy
 
 
 @Composable
@@ -25,18 +27,29 @@ fun CourseEntryDialogBox(
     Dialog(onDismissRequest = {
         onEvent(DialogBoxUiEvents.hideDataEntryDBox)
         onEvent(DialogBoxUiEvents.resetResultField)
-                              }, properties = DialogProperties()) {
+                              }, properties = DialogProperties(
+        dismissOnBackPress = true,
+        dismissOnClickOutside = true,
+        securePolicy = SecureFlagPolicy.SecureOn
+    )) {
 
         Card(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = androidx.compose.ui.Modifier
-                .height(420.dp)
+                .height(
+                    390.dp //final
+                    //300.dp
+                    //dbState.dialogDefaultHeight.value.dp
+                )
         ) {
 
             Box(
-                modifier = androidx.compose.ui.Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 16.dp),
+                contentAlignment = Alignment.TopStart,
+
             ) {
 
                 Column(
@@ -46,11 +59,12 @@ fun CourseEntryDialogBox(
 
                        Text(text = title, modifier = androidx.compose.ui.Modifier
                            .align(Alignment.Start)
-                           .padding(start = 20.dp, bottom = 10.dp))
+                           .padding(start = 20.dp))
+                    Spacer(modifier = Modifier.height(2.dp))
                        Text(
                            modifier = androidx.compose.ui.Modifier
                                .align(Alignment.Start)
-                               .padding(start = 20.dp, bottom = 10.dp),
+                               .padding(start = 20.dp),
                        text = "Entries: ${dbState.enteredCourses} of ${dbState.totalCourses}"
                        )
 
@@ -66,8 +80,9 @@ fun CourseEntryDialogBox(
                         }
                     )
 
-                    Spacer(modifier = androidx.compose.ui.Modifier
-                        .height(10.dp))
+                    Spacer(modifier = Modifier
+                        .height(8.dp)
+                    )
 
                     Row {
 
@@ -82,16 +97,20 @@ fun CourseEntryDialogBox(
                     }
                     
                     Spacer(modifier = androidx.compose.ui.Modifier
-                        .height(130.dp))
+                        .height(
+                            //20.dp
+                            126.dp //final
+                        ))
 
                     Row(
                         modifier = androidx.compose.ui.Modifier
                             .fillMaxWidth()
-                            .padding(end = 15.dp),
+                            .padding(end = 15.dp)
+                        ,
                         horizontalArrangement = Arrangement.End
                     ) {
 
-                        TextButton(onClick = {
+                        Button(onClick = {
                             onEvent(DialogBoxUiEvents.hideDataEntryDBox)
                             onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
                             onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
@@ -107,7 +126,7 @@ fun CourseEntryDialogBox(
                         }
 
                         Spacer(modifier = androidx.compose.ui.Modifier
-                            .width(5.dp))
+                            .width(16.dp))
 
                         Button(onClick = {
                             onEvent(DialogBoxUiEvents.addEntriesToArrayList)

@@ -1,6 +1,7 @@
 package com.example.gpcalculator.ScreenElements
 
 import GpCalculatorPrototype.Data.CourseDataEntries
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Modifier
@@ -16,6 +17,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.BaselineShift
@@ -31,6 +33,8 @@ fun DropDownMenu(
 
 
 ){
+
+    val context = LocalContext.current
 
     var dataEntryObj = CourseDataEntries()
 
@@ -91,10 +95,13 @@ fun DropDownMenu(
 
                                    if(dBState.isUnitDropDownMenuExpanded){
                                        onEvent(DialogBoxUiEvents.hideUnitMenuDropDown)
+                                       onEvent(DialogBoxUiEvents.decreaseCourseEntryDbHeight)
 
                                    }else{
-
+                                       onEvent(DialogBoxUiEvents.increaseCourseEntryDbHeight)
                                        onEvent(DialogBoxUiEvents.showUnitMenuDropDown)
+                                       Toast.makeText(context, "${dBState.dialogDefaultHeight}", Toast.LENGTH_SHORT).show()
+
 
 
                                    }
