@@ -1,5 +1,6 @@
 package com.example.gpcalculator.ScreenElements
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -14,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.font.FontStyle
@@ -22,8 +24,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.delay
+import kotlin.math.round
 
 
 @Composable
@@ -32,16 +36,6 @@ fun BaseEntryDialogBox(
     state: DialogBoxState,
     events: (DialogBoxUiEvents) -> Unit
 ){
-
-
-
-
-
-
-
-
-
-
 
     Dialog(onDismissRequest = { /*TODO*/ }) {
 
@@ -64,7 +58,9 @@ fun BaseEntryDialogBox(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = androidx.compose.ui.Modifier
-                .height(264.dp)
+                .height(264.dp),
+            backgroundColor = Cream
+
         ) {
 
             Box(
@@ -91,7 +87,7 @@ fun BaseEntryDialogBox(
                             Text(text = state.totalCourseslabel)
                         },
                         singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                         modifier = Modifier
                             .focusRequester(focusRequester)
                     )
@@ -111,7 +107,7 @@ fun BaseEntryDialogBox(
                             Text(text = state.totalCreditLoadLabel)
                         },
                         singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
 
                         
                     )

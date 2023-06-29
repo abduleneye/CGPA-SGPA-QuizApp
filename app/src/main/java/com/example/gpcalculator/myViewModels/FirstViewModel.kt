@@ -13,6 +13,7 @@ import com.example.gpcalculator.ScreenElements.DialogBoxUiEvents
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,7 +34,7 @@ class FirstViewModel:ViewModel() {
 
     fun onEvent(event: DialogBoxUiEvents){
 
-        when(event){
+        when(event) {
 
             is DialogBoxUiEvents.resetResultField -> {
 
@@ -44,13 +45,13 @@ class FirstViewModel:ViewModel() {
                 }
             }
 
-            is DialogBoxUiEvents.showDataEntryDBox  ->  {
+            is DialogBoxUiEvents.showDataEntryDBox -> {
 
-               _dbState.update {
-                   it.copy(
-                       courseEntryDialogBoxVisibility = true
-                   )
-               }
+                _dbState.update {
+                    it.copy(
+                        courseEntryDialogBoxVisibility = true
+                    )
+                }
 
             }
 
@@ -64,10 +65,10 @@ class FirstViewModel:ViewModel() {
 
             is DialogBoxUiEvents.showUnitMenuDropDown -> {
 
-                    _dbState.update {
-                        it.copy(
-                            isUnitDropDownMenuExpanded = true
-                        )
+                _dbState.update {
+                    it.copy(
+                        isUnitDropDownMenuExpanded = true
+                    )
                 }
 
             }
@@ -81,7 +82,7 @@ class FirstViewModel:ViewModel() {
                 }
             }
 
-            is  DialogBoxUiEvents.showGradeMenuDropDown -> {
+            is DialogBoxUiEvents.showGradeMenuDropDown -> {
                 _dbState.update {
                     it.copy(
                         isGradeDropDownMenuExpanded = true
@@ -89,7 +90,7 @@ class FirstViewModel:ViewModel() {
                 }
             }
 
-            is  DialogBoxUiEvents.hideGradeMenuDropDown -> {
+            is DialogBoxUiEvents.hideGradeMenuDropDown -> {
                 _dbState.update {
                     it.copy(
                         isGradeDropDownMenuExpanded = false
@@ -150,47 +151,15 @@ class FirstViewModel:ViewModel() {
 
             is DialogBoxUiEvents.executeCalculation -> {
 
-//                _dbState.update {
-//                    it.copy(
-//                        resultDialogBoxVisibility = true
-//                    )
-//                }
+                courseValueMapper(_courseEntries.value)
+                result = operations(_dbState.value.totalCreditLoad.toInt())
+                _dbState.update {
+                    it.copy(
+                        finalResult = result
+                    )
+                }
 
-
-
-                    courseValueMapper(_courseEntries.value)
-                     result = operations(_dbState.value.totalCreditLoad.toInt())
-                    _dbState.update {
-                        it.copy(
-                            finalResult = result
-                        )
-                    }
-
-                coursePointObj.threeUnitA.clear()
-                coursePointObj.threeUnitB.clear()
-                coursePointObj.threeUnitC.clear()
-                coursePointObj.threeUnitD.clear()
-                coursePointObj.threeUnitE.clear()
-                coursePointObj.threeUnitF.clear()
-
-
-                coursePointObj.twoUnitA.clear()
-                coursePointObj.twoUnitB.clear()
-                coursePointObj.twoUnitC.clear()
-                coursePointObj.twoUnitD.clear()
-                coursePointObj.twoUnitE.clear()
-                coursePointObj.twoUnitF.clear()
-
-                coursePointObj.oneUnitA.clear()
-                coursePointObj.oneUnitB.clear()
-                coursePointObj.oneUnitC.clear()
-                coursePointObj.oneUnitD.clear()
-                coursePointObj.oneUnitE.clear()
-                coursePointObj.oneUnitF.clear()
-
-
-
-
+                onRe_executeCalculationClearArrayField()
 
             }
 
@@ -215,23 +184,32 @@ class FirstViewModel:ViewModel() {
 
             }
 
-            is DialogBoxUiEvents.increaseCourseEntryDbHeight -> {
+            is DialogBoxUiEvents.resetTotalEntries -> {
 
-                _dbState.update {
-                    it.copy(
-                        dialogDefaultHeight = 420.dp
-                    )
+
+                if (_dbState.value.totalCourses > 0.toString()){
+
+                    _courseEntries.value.clear()
+                    _dbState.update {
+                        it.copy(
+                            totalCourses = "",
+                            totalCreditLoad = "",
+                            enteredCourses = "0",
+                            baseEntryDialogBoxVisibility = true
+                        )
+                    }
+
                 }
+                else{
+
+
+
+                }
+
+
             }
 
-            is DialogBoxUiEvents.decreaseCourseEntryDbHeight -> {
 
-                _dbState.update {
-                    it.copy(
-                        dialogDefaultHeight = it.dialogDefaultHeight
-                    )
-                }
-            }
 
             else -> {}
         }
@@ -350,8 +328,11 @@ class FirstViewModel:ViewModel() {
         coursesDataEntryObj.totalCoursesPointSum = (coursesDataEntryObj.threeUnitCoursesPointSum + coursesDataEntryObj.twoUnitCoursesPointSum + coursesDataEntryObj.oneUnitCoursesPointSum).toDouble()
 
          var finalAns  = (coursesDataEntryObj.totalCoursesPointSum  /  totalCreditLoad)
+         //var decimalFormat = DecimalFormat("#.##")
+         var final_result = String.format("%.2f", finalAns)
 
-        return ("$finalAns")
+
+        return ("$final_result")
     }
 
     private fun courseValueMapper(courseGrade: ArrayList<GpData>){
@@ -511,10 +492,29 @@ class FirstViewModel:ViewModel() {
         }
     }
 
-    private fun clearResultEntry(){
-        _dbState.update {
-            it.copy(finalResult = "")
-        }
+    private fun onRe_executeCalculationClearArrayField(){
+
+        coursePointObj.threeUnitA.clear()
+        coursePointObj.threeUnitB.clear()
+        coursePointObj.threeUnitC.clear()
+        coursePointObj.threeUnitD.clear()
+        coursePointObj.threeUnitE.clear()
+        coursePointObj.threeUnitF.clear()
+
+
+        coursePointObj.twoUnitA.clear()
+        coursePointObj.twoUnitB.clear()
+        coursePointObj.twoUnitC.clear()
+        coursePointObj.twoUnitD.clear()
+        coursePointObj.twoUnitE.clear()
+        coursePointObj.twoUnitF.clear()
+
+        coursePointObj.oneUnitA.clear()
+        coursePointObj.oneUnitB.clear()
+        coursePointObj.oneUnitC.clear()
+        coursePointObj.oneUnitD.clear()
+        coursePointObj.oneUnitE.clear()
+        coursePointObj.oneUnitF.clear()
     }
 
 }

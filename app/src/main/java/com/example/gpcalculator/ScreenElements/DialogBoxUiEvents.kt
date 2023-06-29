@@ -24,10 +24,7 @@ sealed interface DialogBoxUiEvents{
 
     object executeCalculation: DialogBoxUiEvents
 
-    object increaseCourseEntryDbHeight: DialogBoxUiEvents
-
-    object decreaseCourseEntryDbHeight: DialogBoxUiEvents
-
+   object resetTotalEntries: DialogBoxUiEvents
 
 
 }

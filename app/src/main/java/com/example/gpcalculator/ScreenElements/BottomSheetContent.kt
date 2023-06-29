@@ -47,7 +47,7 @@ fun  ResultBottomSheetContent(
             
 
             Icon(
-                painter = painterResource(id = R.drawable.bottom_sheet_handle),
+                painter = painterResource(id = R.drawable.horizontal_rule),
                 contentDescription = "handle",
                 modifier = Modifier
                     .padding(top = 0.dp)

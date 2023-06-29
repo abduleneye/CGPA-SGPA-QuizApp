@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.SecureFlagPolicy
+import com.example.gpcalculator.ui.theme.Cream
 
 
 @Composable
@@ -41,7 +42,9 @@ fun CourseEntryDialogBox(
                     390.dp //final
                     //300.dp
                     //dbState.dialogDefaultHeight.value.dp
-                )
+                ),
+            backgroundColor = Cream
+
         ) {
 
             Box(

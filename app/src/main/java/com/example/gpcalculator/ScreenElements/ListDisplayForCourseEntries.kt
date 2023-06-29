@@ -14,7 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.gpcalculator.ui.theme.Cream
 
 
 @Composable
@@ -47,7 +49,6 @@ fun MyCardView(
 
     Card(
         shape = RoundedCornerShape(16.dp),
-        backgroundColor = Color.White,
         elevation = 8.dp,
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -55,7 +56,10 @@ fun MyCardView(
             .height(70.dp)
             .clickable {
                 Toast.makeText(context,"Clicked on Item $index", Toast.LENGTH_SHORT).show()
-            }
+            },
+        backgroundColor = Cream
+
+
     ) {
         Box(modifier = Modifier
             .fillMaxSize()) {
@@ -63,15 +67,15 @@ fun MyCardView(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = info.courseCode)
+                Text(text = info.courseCode, fontWeight = FontWeight.Bold)
                 Row(
                     modifier = Modifier
                     .fillMaxWidth()
                         .padding(horizontal = 20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween) {
 
-                    Text(text = info.courseGrade)
-                    Text(text = info.courseUnit.toString())
+                    Text(text = info.courseGrade, fontWeight = FontWeight.Bold)
+                    Text(text = info.courseUnit.toString(), fontWeight = FontWeight.Bold)
 
                 }
                 
