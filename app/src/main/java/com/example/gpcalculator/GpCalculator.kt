@@ -24,10 +24,10 @@ fun main(){
 
     println("Welcome to Gp Calculator>>>:")
     println("Please enter your total credit load for this semester:")
-    var totalCreditLoad = readLine()!!.toInt()
+    var totalCreditLoad = readln().toInt()
 
     println("Please enter your total number of courses for this semester:")
-    var totalNumberOfCourses = readLine()!!.toInt()
+    var totalNumberOfCourses = readln().toInt()
 
 
     enterYourCourses(totalNumberOfCourses)
@@ -208,11 +208,11 @@ fun enterYourCourses(noOfCourses: Int){
    for(i in 0 until noOfCourses){
 
        println("Enter Your Course Code:")
-       val courseCode = readLine().toString().uppercase(Locale.getDefault())
+       val courseCode = readlnOrNull().toString().uppercase(Locale.getDefault())
        println("Enter the Course grade:")
-       val courseGrade = readLine().toString().uppercase(Locale.getDefault())
+       val courseGrade = readlnOrNull().toString().uppercase(Locale.getDefault())
        println("Enter the course unit:")
-       val courseUnit = readLine().toString().toInt()
+       val courseUnit = readlnOrNull().toString().toInt()
        coursesDataEntryObj.coursesDataEntry.add(GpData(courseCode  = courseCode, courseGrade = courseGrade, courseUnit = courseUnit))
        decrementing -= 1
        if(decrementing == 1){

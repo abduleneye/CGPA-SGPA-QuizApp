@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gpcalculator.R
+import com.example.gpcalculator.ui.theme.Cream
 
 
 @Composable
@@ -52,7 +53,7 @@ fun  ResultBottomSheetContent(
                 modifier = Modifier
                     .padding(top = 0.dp)
                     ,
-                tint = Color.Gray
+                tint = Color.DarkGray
             )
 
 

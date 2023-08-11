@@ -3,7 +3,7 @@ package com.example.gpcalculator.Data
 import com.example.gpcalculator.R
 
 object ErrorPassedValues {
-    const val enterTotalCoursesLabel = "Enter total courses"
+    const val enterTotalCoursesLabel = "Enter total number of  courses"
     const val enterTotalCreditLoadLabel = "Enter total credit load"
     const val selectUnitLabel = "Unit"
     const val selectGradeLabel = "Grade"

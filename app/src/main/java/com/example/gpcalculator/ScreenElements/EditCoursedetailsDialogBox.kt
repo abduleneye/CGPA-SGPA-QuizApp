@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.SecureFlagPolicy
@@ -28,7 +29,7 @@ import com.example.gpcalculator.ui.theme.Cream
 
 
 @Composable
-fun CourseEntryDialogBox(
+fun EditCourseEntryDialogBox(
 
     onEvent: (DialogBoxUiEvents) -> Unit,
     dbState: DialogBoxState,
@@ -40,7 +41,7 @@ fun CourseEntryDialogBox(
 
     Dialog(
         onDismissRequest = {
-            onEvent(DialogBoxUiEvents.hideDataEntryDBox)
+            onEvent(DialogBoxUiEvents.hideCourseEntryEditDBox)
             onEvent(DialogBoxUiEvents.resetResultField)
         },
         properties = DialogProperties(
@@ -82,16 +83,19 @@ fun CourseEntryDialogBox(
                     ) {
 
                         Text(
-                            text = title, modifier = androidx.compose.ui.Modifier
-                                .align(Alignment.Start)
+                            text = title,
+                            fontSize = 16.sp,
+                            modifier = androidx.compose.ui.Modifier
+                                .align(Alignment.CenterHorizontally)
                                 .padding(start = 20.dp)
+
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             modifier = androidx.compose.ui.Modifier
                                 .align(Alignment.Start)
                                 .padding(start = 20.dp),
-                            text = "Entries: ${dbState.enteredCourses} of ${dbState.totalCourses}"
+                            text = "Entry: ${(dbState.courseEntryIndex.toInt() + 1)} of ${dbState.totalCourses}"
                         )
 
 
@@ -139,7 +143,7 @@ fun CourseEntryDialogBox(
                         ) {
 
                             Button(onClick = {
-                                onEvent(DialogBoxUiEvents.hideDataEntryDBox)
+                                onEvent(DialogBoxUiEvents.hideCourseEntryEditDBox)
                                 onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
                                 onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
                                 onEvent(DialogBoxUiEvents.setCourseCode(""))
@@ -158,14 +162,15 @@ fun CourseEntryDialogBox(
                             )
 
                             Button(onClick = {
-                                onEvent(DialogBoxUiEvents.addEntriesToArrayList)
+                                //onEvent(DialogBoxUiEvents.addEntriesToArrayList)
                                 //onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
                                 //onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
-                                //onEvent(DialogBoxUiEvents.setCourseCode(""))
-                                //onEvent(DialogBoxUiEvents.hideDataEntryDBox)
+                                onEvent(DialogBoxUiEvents.replaceEditedInEntriesToArrayList)
+                                onEvent(DialogBoxUiEvents.hideCourseEntryEditDBox)
+
                             }) {
 
-                                Text(text = "Add")
+                                Text(text = "Done")
 
                             }
 

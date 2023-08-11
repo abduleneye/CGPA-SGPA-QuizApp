@@ -4,7 +4,6 @@ import GpCalculatorPrototype.Data.CourseDataEntries
 import GpCalculatorPrototype.Data.CourseMaps
 import GpCalculatorPrototype.Data.CoursesUnitPointArrayList
 import GpCalculatorPrototype.Data.GpData
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import com.example.gpcalculator.Data.ErrorMessages
 import com.example.gpcalculator.Data.ErrorPassedValues
@@ -13,28 +12,68 @@ import com.example.gpcalculator.ScreenElements.DialogBoxUiEvents
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import java.text.DecimalFormat
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Locale
 
-class FirstViewModel:ViewModel() {
+class FirstViewModel : ViewModel() {
 
     private val coursePointObj = CoursesUnitPointArrayList()
     private val courseMapObj = CourseMaps()
-    private val coursesDataEntryObj  = CourseDataEntries()
-    private val stateClassObject  = DialogBoxState()
-    private var result  = ""
+    private val coursesDataEntryObj = CourseDataEntries()
+    private val stateClassObject = DialogBoxState()
+    private var result = ""
 
     private var _courseEntries = MutableStateFlow(CourseDataEntries().coursesDataEntry)
     var courseEntries = _courseEntries.asStateFlow()
 
-    private  var _dbState = MutableStateFlow(DialogBoxState())
-          var dbState = _dbState.asStateFlow()
+    private var _dbState = MutableStateFlow(DialogBoxState())
+    var dbState = _dbState.asStateFlow()
 
 
-    fun onEvent(event: DialogBoxUiEvents){
+    fun onEvent(event: DialogBoxUiEvents) {
 
-        when(event) {
+        when (event) {
+
+            is DialogBoxUiEvents.replaceEditedInEntriesToArrayList -> {
+                textFieldsErrorCheckEditedCourseDataEntry()
+            }
+
+            is DialogBoxUiEvents.editItemsEntries -> {
+
+                _dbState.update {
+                    it.copy(
+                        courseCode = event.courseCodeEdit,
+                        selectedCourseUnit = event.unitEdit,
+                        selectedCourseGrade = event.gradeEdit
+
+                    )
+                }
+
+            }
+
+            is DialogBoxUiEvents.updateCourseIndexEntry -> {
+                _dbState.update {
+                    it.copy(
+                        courseEntryIndex = event.entryIndex
+                    )
+                }
+            }
+
+            is DialogBoxUiEvents.showCourseEntryEditDBox -> {
+                _dbState.update {
+                    it.copy(
+                        courseEntryEditDialogBoxVisibility = true
+                    )
+                }
+            }
+
+            is DialogBoxUiEvents.hideCourseEntryEditDBox -> {
+                _dbState.update {
+                    it.copy(
+                        courseEntryEditDialogBoxVisibility = false
+                    )
+                }
+            }
+
 
             is DialogBoxUiEvents.resetResultField -> {
 
@@ -46,7 +85,6 @@ class FirstViewModel:ViewModel() {
             }
 
             is DialogBoxUiEvents.showDataEntryDBox -> {
-
                 _dbState.update {
                     it.copy(
                         courseEntryDialogBoxVisibility = true
@@ -116,12 +154,43 @@ class FirstViewModel:ViewModel() {
                 }
             }
 
-            is DialogBoxUiEvents.setCourseCode -> {
+            is DialogBoxUiEvents.deleteCourseEntry -> {
+
+                _courseEntries.value.removeAt(event.itemToRemove)
                 _dbState.update {
                     it.copy(
-                        courseCode = event.courseCode
+                        enteredCourses = _courseEntries.value.size.toString()
                     )
                 }
+//                _courseEntries.value.add(
+//                    GpData(
+//                        _dbState.value.courseCode.uppercase(Locale.UK),
+//                        _dbState.value.selectedCourseGrade,
+//                        _dbState.value.selectedCourseUnit.toInt()
+//                    ))
+            }
+
+            is DialogBoxUiEvents.setCourseCode -> {
+
+                if (event.toString().contains("")) {
+                    _dbState.update {
+                        it.copy(
+                            courseCode = event.courseCode.removePrefix("")
+                        )
+
+
+                    }
+                } else {
+                    _dbState.update {
+                        it.copy(
+                            courseCode = event.courseCode
+                        )
+
+
+                    }
+                }
+
+
             }
 
             is DialogBoxUiEvents.addEntriesToArrayList -> {
@@ -184,10 +253,29 @@ class FirstViewModel:ViewModel() {
 
             }
 
+            is DialogBoxUiEvents.showCourseDataEntriesContextmenu -> {
+
+                _dbState.update {
+                    it.copy(
+                        courseItemsDropDownVisibility = true
+                    )
+                }
+
+
+            }
+
+            is DialogBoxUiEvents.hideCourseDataEntriesContextmenu -> {
+                _dbState.update {
+                    it.copy(
+                        courseItemsDropDownVisibility = false
+                    )
+                }
+            }
+
             is DialogBoxUiEvents.resetTotalEntries -> {
 
 
-                if (_dbState.value.totalCourses > 0.toString()){
+                if (_dbState.value.totalCourses > 0.toString()) {
 
                     _courseEntries.value.clear()
                     _dbState.update {
@@ -199,16 +287,13 @@ class FirstViewModel:ViewModel() {
                         )
                     }
 
-                }
-                else{
-
+                } else {
 
 
                 }
 
 
             }
-
 
 
             else -> {}
@@ -217,11 +302,9 @@ class FirstViewModel:ViewModel() {
     }
 
 
+    private fun textFieldsErrorCheckBaseEntryDB() {
 
-
-    private fun textFieldsErrorCheckBaseEntryDB(){
-
-        if (_dbState.value.totalCourses  == ""){
+        if (_dbState.value.totalCourses == "") {
 
             _dbState.update {
                 it.copy(
@@ -230,10 +313,7 @@ class FirstViewModel:ViewModel() {
             }
 
 
-
-
-        }
-        else if(_dbState.value.totalCreditLoad == ""){
+        } else if (_dbState.value.totalCreditLoad == "") {
             _dbState.update {
                 it.copy(
                     totalCreditLoadLabel = ErrorMessages.errorMessageForTotalNumberOFCreditLoad
@@ -241,8 +321,7 @@ class FirstViewModel:ViewModel() {
                 )
             }
 
-        }
-        else{
+        } else {
 
             _dbState.update {
                 it.copy(
@@ -255,9 +334,9 @@ class FirstViewModel:ViewModel() {
 
     }
 
-    private fun textFieldsErrorCheckCourseDataEntry(){
+    private fun textFieldsErrorCheckEditedCourseDataEntry() {
 
-        if (_dbState.value.courseCode == "" ){
+        if (_dbState.value.courseCode == "") {
 
             _dbState.update {
                 it.copy(
@@ -266,10 +345,7 @@ class FirstViewModel:ViewModel() {
             }
 
 
-
-
-        }
-        else if(_dbState.value.selectedCourseUnit == ""){
+        } else if (_dbState.value.selectedCourseUnit == "") {
             _dbState.update {
                 it.copy(
                     pickedCourseUnitLabel = ErrorMessages.errorMessageForCourseUnit
@@ -277,9 +353,7 @@ class FirstViewModel:ViewModel() {
                 )
             }
 
-        }
-
-        else if(_dbState.value.selectedCourseGrade  == ""){
+        } else if (_dbState.value.selectedCourseGrade == "") {
 
             _dbState.update {
                 it.copy(
@@ -287,22 +361,23 @@ class FirstViewModel:ViewModel() {
                 )
             }
 
-        }
-        else{
+        } else {
 
-            _courseEntries.value.add(
+            _courseEntries.value.set(
+                _dbState.value.courseEntryIndex.toInt(),
                 GpData(
-                    _dbState.value.courseCode.uppercase(Locale.UK),
-                    _dbState.value.selectedCourseGrade,
-                    _dbState.value.selectedCourseUnit.toInt()
-                ))
+                    courseCode = _dbState.value.courseCode.uppercase(),
+                    courseGrade = _dbState.value.selectedCourseGrade,
+                    courseUnit = _dbState.value.selectedCourseUnit.toInt()
+                )
+            )
 
             _dbState.update {
                 it.copy(
                     enteredCourses = _courseEntries.value.size.toString(),
                     courseEntryDialogBoxVisibility = false,
 
-                )
+                    )
             }
             clearCourseDataEntry()
 
@@ -310,66 +385,122 @@ class FirstViewModel:ViewModel() {
         }
 
 
-
     }
 
 
+    private fun textFieldsErrorCheckCourseDataEntry() {
+
+        if (_dbState.value.courseCode == "") {
+
+            _dbState.update {
+                it.copy(
+                    enteredCourseCodeLabel = ErrorMessages.errorMessageForCourseCode
+                )
+            }
+
+
+        } else if (_dbState.value.selectedCourseUnit == "") {
+            _dbState.update {
+                it.copy(
+                    pickedCourseUnitLabel = ErrorMessages.errorMessageForCourseUnit
+
+                )
+            }
+
+        } else if (_dbState.value.selectedCourseGrade == "") {
+
+            _dbState.update {
+                it.copy(
+                    pickedCourseGradeLabel = ErrorMessages.errorMessageForCourseGrade
+                )
+            }
+
+        } else {
+
+            _courseEntries.value.add(
+                GpData(
+                    _dbState.value.courseCode.uppercase(Locale.UK),
+                    _dbState.value.selectedCourseGrade,
+                    _dbState.value.selectedCourseUnit.toInt()
+                )
+            )
+
+            _dbState.update {
+                it.copy(
+                    enteredCourses = _courseEntries.value.size.toString(),
+                    courseEntryDialogBoxVisibility = false,
+
+                    )
+            }
+            clearCourseDataEntry()
+
+
+        }
+
+
+    }
 
 
     private fun operations(totalCreditLoad: Int): String {
 
 
+        coursesDataEntryObj.threeUnitCoursesPointSum =
+            coursePointObj.threeUnitA.sum() + coursePointObj.threeUnitB.sum() + coursePointObj.threeUnitC.sum() + coursePointObj.threeUnitD.sum() + coursePointObj.threeUnitE.sum() + coursePointObj.threeUnitF.sum()
+        coursesDataEntryObj.twoUnitCoursesPointSum =
+            coursePointObj.twoUnitA.sum() + coursePointObj.twoUnitB.sum() + coursePointObj.twoUnitC.sum() + coursePointObj.twoUnitD.sum() + coursePointObj.twoUnitE.sum() + coursePointObj.twoUnitF.sum()
+        coursesDataEntryObj.oneUnitCoursesPointSum =
+            coursePointObj.oneUnitA.sum() + coursePointObj.oneUnitB.sum() + coursePointObj.oneUnitC.sum() + coursePointObj.oneUnitD.sum() + coursePointObj.oneUnitE.sum() + coursePointObj.oneUnitF.sum()
+        coursesDataEntryObj.totalCoursesPointSum =
+            (coursesDataEntryObj.threeUnitCoursesPointSum + coursesDataEntryObj.twoUnitCoursesPointSum + coursesDataEntryObj.oneUnitCoursesPointSum).toDouble()
 
-
-
-        coursesDataEntryObj.threeUnitCoursesPointSum = coursePointObj.threeUnitA.sum() + coursePointObj.threeUnitB.sum() + coursePointObj.threeUnitC.sum() + coursePointObj.threeUnitD.sum() + coursePointObj.threeUnitE.sum() + coursePointObj.threeUnitF.sum()
-        coursesDataEntryObj.twoUnitCoursesPointSum  = coursePointObj.twoUnitA.sum() + coursePointObj.twoUnitB.sum() + coursePointObj.twoUnitC.sum() + coursePointObj.twoUnitD.sum() + coursePointObj.twoUnitE.sum() + coursePointObj.twoUnitF.sum()
-        coursesDataEntryObj.oneUnitCoursesPointSum = coursePointObj.oneUnitA.sum() + coursePointObj.oneUnitB.sum() + coursePointObj.oneUnitC.sum() + coursePointObj.oneUnitD.sum() + coursePointObj.oneUnitE.sum() + coursePointObj.oneUnitF.sum()
-        coursesDataEntryObj.totalCoursesPointSum = (coursesDataEntryObj.threeUnitCoursesPointSum + coursesDataEntryObj.twoUnitCoursesPointSum + coursesDataEntryObj.oneUnitCoursesPointSum).toDouble()
-
-         var finalAns  = (coursesDataEntryObj.totalCoursesPointSum  /  totalCreditLoad)
-         //var decimalFormat = DecimalFormat("#.##")
-         var final_result = String.format("%.2f", finalAns)
+        var finalAns = (coursesDataEntryObj.totalCoursesPointSum / totalCreditLoad)
+        //var decimalFormat = DecimalFormat("#.##")
+        var final_result = String.format("%.2f", finalAns)
 
 
         return ("$final_result")
     }
 
-    private fun courseValueMapper(courseGrade: ArrayList<GpData>){
+    private fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
 
         courseGrade.forEach { courseData ->
 
-            when(courseData){
+            when (courseData) {
 
                 //For three unit Courses
 
-                GpData(courseCode = courseData.courseCode ,courseGrade = "A", courseUnit = 3) ->{
+                GpData(courseCode = courseData.courseCode, courseGrade = "A", courseUnit = 3) -> {
 
                     courseMapObj.threeUnit_GradeMap["A"]?.let { coursePointObj.threeUnitA.add(it) }
 
                 }
-                GpData(courseCode = courseData.courseCode ,courseGrade = "B", courseUnit = 3) ->{
+
+                GpData(courseCode = courseData.courseCode, courseGrade = "B", courseUnit = 3) -> {
 
                     courseMapObj.threeUnit_GradeMap["B"]?.let { coursePointObj.threeUnitB.add(it) }
 
                 }
-                GpData(courseCode = courseData.courseCode ,courseGrade = "C", courseUnit = 3) ->{
+
+                GpData(courseCode = courseData.courseCode, courseGrade = "C", courseUnit = 3) -> {
 
                     courseMapObj.threeUnit_GradeMap["C"]?.let { coursePointObj.threeUnitC.add(it) }
 
                 }
-                GpData(courseCode = courseData.courseCode ,courseGrade = "D", courseUnit = 3) ->{
+
+                GpData(courseCode = courseData.courseCode, courseGrade = "D", courseUnit = 3) -> {
 
                     courseMapObj.threeUnit_GradeMap["D"]?.let { coursePointObj.threeUnitD.add(it) }
 
                 }
-                GpData(courseCode = courseData.courseCode ,courseGrade = "E", courseUnit = 3) ->{
+
+                GpData(courseCode = courseData.courseCode, courseGrade = "E", courseUnit = 3) -> {
 
                     courseMapObj.threeUnit_GradeMap["E"]?.let { coursePointObj.threeUnitE.add(it) }
 
                 }
-                GpData(courseCode = courseData.courseCode ,courseGrade = "F", courseUnit = 3) ->{
+
+                GpData(courseCode = courseData.courseCode, courseGrade = "F", courseUnit = 3) -> {
 
                     courseMapObj.threeUnit_GradeMap["F"]?.let { coursePointObj.threeUnitF.add(it) }
 
@@ -378,49 +509,59 @@ class FirstViewModel:ViewModel() {
 
                 //For two unit courses:
 
-                GpData(courseCode = courseData.courseCode, "A", 2)  -> {
+                GpData(courseCode = courseData.courseCode, "A", 2) -> {
 
                     courseMapObj.twoUnit_GradeMap["A"]?.let {
 
                         coursePointObj.twoUnitA.add(it)
                     }
 
-                } GpData(courseCode = courseData.courseCode, "B", 2)  -> {
-
-                courseMapObj.twoUnit_GradeMap["B"]?.let {
-
-                    coursePointObj.twoUnitB.add(it)
                 }
 
-            } GpData(courseCode = courseData.courseCode, "C", 2)  -> {
+                GpData(courseCode = courseData.courseCode, "B", 2) -> {
 
-                courseMapObj.twoUnit_GradeMap["C"]?.let {
+                    courseMapObj.twoUnit_GradeMap["B"]?.let {
 
-                    coursePointObj.twoUnitC.add(it)
+                        coursePointObj.twoUnitB.add(it)
+                    }
+
                 }
 
-            } GpData(courseCode = courseData.courseCode, "D", 2)  -> {
+                GpData(courseCode = courseData.courseCode, "C", 2) -> {
 
-                courseMapObj.twoUnit_GradeMap["D"]?.let {
+                    courseMapObj.twoUnit_GradeMap["C"]?.let {
 
-                    coursePointObj.twoUnitD.add(it)
+                        coursePointObj.twoUnitC.add(it)
+                    }
+
                 }
 
-            } GpData(courseCode = courseData.courseCode, "E", 2)  -> {
+                GpData(courseCode = courseData.courseCode, "D", 2) -> {
 
-                courseMapObj.twoUnit_GradeMap["E"]?.let {
+                    courseMapObj.twoUnit_GradeMap["D"]?.let {
 
-                    coursePointObj.twoUnitE.add(it)
+                        coursePointObj.twoUnitD.add(it)
+                    }
+
                 }
 
-            } GpData(courseCode = courseData.courseCode, "A", 2)  -> {
+                GpData(courseCode = courseData.courseCode, "E", 2) -> {
 
-                courseMapObj.twoUnit_GradeMap["F"]?.let {
+                    courseMapObj.twoUnit_GradeMap["E"]?.let {
 
-                    coursePointObj.twoUnitF.add(it)
+                        coursePointObj.twoUnitE.add(it)
+                    }
+
                 }
 
-            }
+                GpData(courseCode = courseData.courseCode, "A", 2) -> {
+
+                    courseMapObj.twoUnit_GradeMap["F"]?.let {
+
+                        coursePointObj.twoUnitF.add(it)
+                    }
+
+                }
 
                 //For one unit Courses
 
@@ -431,6 +572,7 @@ class FirstViewModel:ViewModel() {
                     }
 
                 }
+
                 GpData(courseCode = courseData.courseCode, courseGrade = "B", courseUnit = 1) -> {
 
                     courseMapObj.oneUnit_GradeMap["B"]?.let {
@@ -438,6 +580,7 @@ class FirstViewModel:ViewModel() {
                     }
 
                 }
+
                 GpData(courseCode = courseData.courseCode, courseGrade = "C", courseUnit = 1) -> {
 
                     courseMapObj.oneUnit_GradeMap["C"]?.let {
@@ -445,6 +588,7 @@ class FirstViewModel:ViewModel() {
                     }
 
                 }
+
                 GpData(courseCode = courseData.courseCode, courseGrade = "D", courseUnit = 1) -> {
 
                     courseMapObj.oneUnit_GradeMap["D"]?.let {
@@ -452,6 +596,7 @@ class FirstViewModel:ViewModel() {
                     }
 
                 }
+
                 GpData(courseCode = courseData.courseCode, courseGrade = "E", courseUnit = 1) -> {
 
                     courseMapObj.oneUnit_GradeMap["E"]?.let {
@@ -459,6 +604,7 @@ class FirstViewModel:ViewModel() {
                     }
 
                 }
+
                 GpData(courseCode = courseData.courseCode, courseGrade = "F", courseUnit = 1) -> {
 
                     courseMapObj.oneUnit_GradeMap["F"]?.let {
@@ -468,17 +614,14 @@ class FirstViewModel:ViewModel() {
                 }
 
 
-
             }
-
-
 
 
         }
 
     }
 
-    private fun clearCourseDataEntry(){
+    private fun clearCourseDataEntry() {
         _dbState.update {
             it.copy(
                 courseCode = "",
@@ -486,13 +629,13 @@ class FirstViewModel:ViewModel() {
                 selectedCourseGrade = "",
                 pickedCourseGradeLabel = ErrorPassedValues.enterCourseGradeLabel,
                 pickedCourseUnitLabel = ErrorPassedValues.enterCourseUnitLabel,
-                enteredCourseCodeLabel = ErrorPassedValues.enterCourseCodeLabel ,
+                enteredCourseCodeLabel = ErrorPassedValues.enterCourseCodeLabel,
 
-            )
+                )
         }
     }
 
-    private fun onRe_executeCalculationClearArrayField(){
+    private fun onRe_executeCalculationClearArrayField() {
 
         coursePointObj.threeUnitA.clear()
         coursePointObj.threeUnitB.clear()

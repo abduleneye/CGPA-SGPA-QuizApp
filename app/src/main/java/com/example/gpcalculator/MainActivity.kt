@@ -3,13 +3,10 @@ package com.example.gpcalculator
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.focus.FocusRequester
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.gpcalculator.ScreenElements.*
+import com.example.gpcalculator.ScreenElements.MainScreen
 import com.example.gpcalculator.myViewModels.FirstViewModel
 
 class MainActivity : ComponentActivity() {
@@ -23,10 +20,9 @@ class MainActivity : ComponentActivity() {
             MainScreen(onEvent = viewModel::onEvent, state = state, stateTwo = statetwo)
 
 
-
-            }
         }
     }
+}
 
 
 
