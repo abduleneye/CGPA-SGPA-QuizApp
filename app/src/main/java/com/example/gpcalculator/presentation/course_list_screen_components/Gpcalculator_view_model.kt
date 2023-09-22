@@ -1,20 +1,18 @@
-package com.example.gpcalculator.myViewModels
+package com.example.gpcalculator.presentation.course_list_screen_components
 
 import GpCalculatorPrototype.Data.CourseDataEntries
 import GpCalculatorPrototype.Data.CourseMaps
 import GpCalculatorPrototype.Data.CoursesUnitPointArrayList
 import GpCalculatorPrototype.Data.GpData
 import androidx.lifecycle.ViewModel
-import com.example.gpcalculator.Data.ErrorMessages
-import com.example.gpcalculator.Data.ErrorPassedValues
-import com.example.gpcalculator.ScreenElements.DialogBoxState
-import com.example.gpcalculator.ScreenElements.DialogBoxUiEvents
+import com.example.gpcalculator.data.ErrorMessages
+import com.example.gpcalculator.data.ErrorPassedValues
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.util.Locale
 
-class FirstViewModel : ViewModel() {
+class gpcalculator_view_model : ViewModel() {
 
     private val coursePointObj = CoursesUnitPointArrayList()
     private val courseMapObj = CourseMaps()
@@ -201,7 +199,9 @@ class FirstViewModel : ViewModel() {
 
             is DialogBoxUiEvents.setTotalCreditLoad -> {
                 _dbState.update {
-                    it.copy(totalCreditLoad = event.totalCreditLoad.toInt().toString())
+                    it.copy(
+                        totalCreditLoad = event.totalCreditLoad
+                    )
                 }
             }
 
@@ -228,7 +228,7 @@ class FirstViewModel : ViewModel() {
                     )
                 }
 
-                onRe_executeCalculationClearArrayField()
+                onReExecuteCalculationClearArrayField()
 
             }
 
@@ -248,6 +248,15 @@ class FirstViewModel : ViewModel() {
                         finalResult = ""
 
                     )
+                }
+            }
+
+            is DialogBoxUiEvents.resetAlreadyInList -> {
+                _dbState.update {
+                    it.copy(
+                        allReadyInList = false
+                    )
+
                 }
 
 
@@ -295,6 +304,43 @@ class FirstViewModel : ViewModel() {
 
             }
 
+            is DialogBoxUiEvents.resetDefaultValuesFromErrorsTNOC -> {
+                _dbState.update {
+                    it.copy(
+                        defaultLabelColourTNOC = ErrorPassedValues.errorPassedColour,
+                        defaultLabelTNOC = ErrorPassedValues.labelForTNOC
+
+                    )
+                }
+            }
+
+            is DialogBoxUiEvents.resetDefaultValuesFromErrorsTNOCL -> {
+                _dbState.update {
+                    it.copy(
+                        defaultLabelTNOCL = ErrorPassedValues.labelForTNOCC,
+                        defaultLabelColourTNOCL = ErrorPassedValues.errorPassedColour
+
+                    )
+                }
+            }
+
+            is DialogBoxUiEvents.showEditBaseEntryDBox -> {
+                _dbState.update {
+                    it.copy(
+                        editBaseEntryDialogBoxVisibility = true
+
+                    )
+                }
+            }
+
+            is DialogBoxUiEvents.hideEditBaseEntryDBox -> {
+                _dbState.update {
+                    it.copy(
+                        editBaseEntryDialogBoxVisibility = false
+                    )
+                }
+            }
+
 
             else -> {}
         }
@@ -304,19 +350,21 @@ class FirstViewModel : ViewModel() {
 
     private fun textFieldsErrorCheckBaseEntryDB() {
 
-        if (_dbState.value.totalCourses == "") {
+        if (_dbState.value.totalCourses.isEmpty()) {
 
             _dbState.update {
                 it.copy(
-                    totalCourseslabel = ErrorMessages.errorMessageForTotalNumberOFCourses
+                    defaultLabelTNOC = ErrorMessages.errorLabelMessageForTNOC,
+                    defaultLabelColourTNOC = ErrorMessages.textFieldErrorLabelColor
                 )
             }
 
 
-        } else if (_dbState.value.totalCreditLoad == "") {
+        } else if (_dbState.value.totalCreditLoad.isEmpty()) {
             _dbState.update {
                 it.copy(
-                    totalCreditLoadLabel = ErrorMessages.errorMessageForTotalNumberOFCreditLoad
+                    defaultLabelTNOCL = ErrorMessages.errorLabelMessageForTNOCL,
+                    defaultLabelColourTNOCL = ErrorMessages.textFieldErrorLabelColor
 
                 )
             }
@@ -336,16 +384,16 @@ class FirstViewModel : ViewModel() {
 
     private fun textFieldsErrorCheckEditedCourseDataEntry() {
 
-        if (_dbState.value.courseCode == "") {
+        if (_dbState.value.courseCode.isEmpty()) {
 
             _dbState.update {
                 it.copy(
-                    enteredCourseCodeLabel = ErrorMessages.errorMessageForCourseCode
+                    defaultEnteredCourseCodeLabel = ErrorMessages.errorMessageForCourseCode
                 )
             }
 
 
-        } else if (_dbState.value.selectedCourseUnit == "") {
+        } else if (_dbState.value.selectedCourseUnit.isEmpty()) {
             _dbState.update {
                 it.copy(
                     pickedCourseUnitLabel = ErrorMessages.errorMessageForCourseUnit
@@ -353,7 +401,7 @@ class FirstViewModel : ViewModel() {
                 )
             }
 
-        } else if (_dbState.value.selectedCourseGrade == "") {
+        } else if (_dbState.value.selectedCourseGrade.isEmpty()) {
 
             _dbState.update {
                 it.copy(
@@ -361,15 +409,35 @@ class FirstViewModel : ViewModel() {
                 )
             }
 
+        } else if (_courseEntries.value.contains(
+                GpData(
+                    _dbState.value.courseCode.uppercase(Locale.UK),
+                    _dbState.value.selectedCourseGrade,
+                    _dbState.value.selectedCourseUnit.toInt()
+                )
+            )
+        ) {
+
+            _dbState.update {
+                it.copy(
+                    allReadyInList = true
+                )
+            }
+            _dbState.update {
+                it.copy(
+                    allReadyInList = false
+                )
+            }
+
+
         } else {
 
-            _courseEntries.value.set(
-                _dbState.value.courseEntryIndex.toInt(),
-                GpData(
-                    courseCode = _dbState.value.courseCode.uppercase(),
-                    courseGrade = _dbState.value.selectedCourseGrade,
-                    courseUnit = _dbState.value.selectedCourseUnit.toInt()
-                )
+            //RemoveSpace Regardless
+            val noSpaceCourseCode = _dbState.value.courseCode.replace(" ", "")
+            _courseEntries.value[_dbState.value.courseEntryIndex.toInt()] = GpData(
+                courseCode = noSpaceCourseCode.uppercase(),
+                courseGrade = _dbState.value.selectedCourseGrade,
+                courseUnit = _dbState.value.selectedCourseUnit.toInt()
             )
 
             _dbState.update {
@@ -390,11 +458,11 @@ class FirstViewModel : ViewModel() {
 
     private fun textFieldsErrorCheckCourseDataEntry() {
 
-        if (_dbState.value.courseCode == "") {
+        if (_dbState.value.courseCode.isEmpty()) {
 
             _dbState.update {
                 it.copy(
-                    enteredCourseCodeLabel = ErrorMessages.errorMessageForCourseCode
+                    defaultEnteredCourseCodeLabel = ErrorMessages.errorMessageForCourseCode
                 )
             }
 
@@ -415,7 +483,29 @@ class FirstViewModel : ViewModel() {
                 )
             }
 
+        } else if (_courseEntries.value.contains(
+                GpData(
+                    _dbState.value.courseCode.uppercase(Locale.UK),
+                    _dbState.value.selectedCourseGrade,
+                    _dbState.value.selectedCourseUnit.toInt()
+                )
+            )
+        ) {
+
+            _dbState.update {
+                it.copy(
+                    allReadyInList = true
+                )
+            }
+
+
         } else {
+            _dbState.update {
+                it.copy(
+                    allReadyInList = false
+                )
+            }
+
 
             _courseEntries.value.add(
                 GpData(
@@ -629,13 +719,13 @@ class FirstViewModel : ViewModel() {
                 selectedCourseGrade = "",
                 pickedCourseGradeLabel = ErrorPassedValues.enterCourseGradeLabel,
                 pickedCourseUnitLabel = ErrorPassedValues.enterCourseUnitLabel,
-                enteredCourseCodeLabel = ErrorPassedValues.enterCourseCodeLabel,
+                defaultEnteredCourseCodeLabel = ErrorPassedValues.enterCourseCodeLabel,
 
                 )
         }
     }
 
-    private fun onRe_executeCalculationClearArrayField() {
+    private fun onReExecuteCalculationClearArrayField() {
 
         coursePointObj.threeUnitA.clear()
         coursePointObj.threeUnitB.clear()

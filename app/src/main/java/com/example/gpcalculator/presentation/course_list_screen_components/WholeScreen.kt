@@ -1,4 +1,4 @@
-package com.example.gpcalculator.ScreenElements
+package com.example.gpcalculator.presentation.myViewModels.course_list_screen_component
 
 import GpCalculatorPrototype.Data.GpData
 import android.annotation.SuppressLint
@@ -10,23 +10,23 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.BaselineShift
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.gpcalculator.presentation.course_list_screen_components.BaseEntryDialogBox
+import com.example.gpcalculator.presentation.course_list_screen_components.CourseEntryDialogBox
+import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxState
+import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxUiEvents
+import com.example.gpcalculator.presentation.course_list_screen_components.EditBaseEntryDialogBox
+import com.example.gpcalculator.presentation.course_list_screen_components.ResultBottomSheetContent
+import com.example.gpcalculator.presentation.course_list_screen_components.TopAppBarDropDownMenu
 import com.example.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.launch
 
@@ -51,9 +51,6 @@ fun MainScreen(
         bottomSheetState = sheetState
     )
 
-    var optionsMenuState by remember {
-        mutableStateOf(false)
-    }
 
     val scope = rememberCoroutineScope()
     val sheetWidth = remember {
@@ -93,10 +90,15 @@ fun MainScreen(
         Scaffold(
             floatingActionButton = {
                 FloatingActionButton(onClick = {
+
+
                     if (stateTwo.size < state.totalCourses.toInt()) {
 
                         onEvent(DialogBoxUiEvents.showDataEntryDBox)
 
+
+//                    } else if (state.totalCreditLoad == "" || state.totalCourses == "") {
+//                        onEvent(DialogBoxUiEvents.showBaseEntryDBox)
 
                     } else {
                         onEvent(DialogBoxUiEvents.executeCalculation)
@@ -123,72 +125,7 @@ fun MainScreen(
             },
             topBar = {
 
-                TopAppBar(
-
-                    title = {
-
-                        Text(text = "GpCalculator")
-                    },
-                    actions = {
-                        IconButton(onClick = {
-
-                            optionsMenuState = !optionsMenuState
-
-                        }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = "more")
-
-                        }
-
-                        DropdownMenu(
-                            expanded = optionsMenuState, onDismissRequest = {
-                                optionsMenuState = false
-                            },
-                            modifier = Modifier
-                                .background(Cream),
-                            offset = DpOffset(0.0.dp, 2.0.dp)
-                        ) {
-
-                            DropdownMenuItem(
-                                onClick = {
-
-
-                                    onEvent(DialogBoxUiEvents.resetTotalEntries)
-                                    optionsMenuState = !optionsMenuState
-                                    scope.launch {
-                                        if (sheetState.isExpanded) {
-                                            sheetState.collapse()
-                                        }
-                                    }
-
-                                },
-                                modifier = Modifier
-                                    .background(Cream)
-                                    .height(35.dp),
-
-
-                                ) {
-                                Row(
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-
-                                    Text(
-                                        text = "Reset",
-                                        fontSize = 16.sp,
-                                        style = TextStyle(baselineShift = BaselineShift(0.199f))
-                                    )
-                                    Spacer(modifier = Modifier.width(10.dp))
-                                    Icon(Icons.Default.Refresh, contentDescription = "settings")
-                                }
-                            }
-
-
-                        }
-
-                    }
-
-                )
+                TopAppBarDropDownMenu(onEvent = onEvent)
 
             },
 
@@ -247,6 +184,13 @@ fun MainScreen(
 
                 BaseEntryDialogBox(
                     Desc = "Welcome please make your entries",
+                    state = state,
+                    events = onEvent
+                )
+
+            } else if (state.editBaseEntryDialogBoxVisibility) {
+                EditBaseEntryDialogBox(
+                    Desc = "Edit Entries",
                     state = state,
                     events = onEvent
                 )

@@ -1,4 +1,4 @@
-package com.example.gpcalculator.ScreenElements
+package com.example.gpcalculator.presentation.myViewModels.course_list_screen_component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,10 +13,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.SecureFlagPolicy
+import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxState
+import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.example.gpcalculator.ui.theme.Cream
 
 
@@ -106,7 +108,7 @@ fun EditCourseEntryDialogBox(
                                 onEvent(DialogBoxUiEvents.setCourseCode(it))
                             },
                             label = {
-                                Text(text = dbState.enteredCourseCodeLabel)
+                                Text(text = dbState.defaultEnteredCourseCodeLabel)
                             }
                         )
 

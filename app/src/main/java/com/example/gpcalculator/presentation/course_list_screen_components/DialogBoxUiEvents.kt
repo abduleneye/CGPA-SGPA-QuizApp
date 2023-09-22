@@ -1,4 +1,4 @@
-package com.example.gpcalculator.ScreenElements
+package com.example.gpcalculator.presentation.course_list_screen_components
 
 sealed interface DialogBoxUiEvents {
     object showUnitMenuDropDown : DialogBoxUiEvents
@@ -47,6 +47,14 @@ sealed interface DialogBoxUiEvents {
 
     object showCourseEntryEditDBox : DialogBoxUiEvents
     object hideCourseEntryEditDBox : DialogBoxUiEvents
+    object resetAlreadyInList : DialogBoxUiEvents
+    object resetDefaultValuesFromErrorsTNOC : DialogBoxUiEvents
+    object resetDefaultLabelTextTNOC : DialogBoxUiEvents
+    object resetDefaultValuesFromErrorsTNOCL : DialogBoxUiEvents
+    object resetDefaultLabelTextTNOCL : DialogBoxUiEvents
+    object showEditBaseEntryDBox : DialogBoxUiEvents
+    object hideEditBaseEntryDBox : DialogBoxUiEvents
+
     data class dropDownAssumeText(val text: String) : DialogBoxUiEvents
 
 

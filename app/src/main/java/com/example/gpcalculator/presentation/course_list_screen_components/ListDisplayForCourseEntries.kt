@@ -1,4 +1,4 @@
-package com.example.gpcalculator.ScreenElements
+package com.example.gpcalculator.presentation.myViewModels.course_list_screen_component
 
 import GpCalculatorPrototype.Data.GpData
 import android.widget.Toast
@@ -38,7 +38,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import com.example.gpcalculator.Data.CourseItemsModifierDropDownItems
+import com.example.gpcalculator.data.CourseItemsModifierDropDownItems
+import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxState
+import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.example.gpcalculator.ui.theme.Cream
 
 
@@ -81,7 +83,14 @@ fun TotalCoursesListCardViewToDisplay(
                     ).show()
 
                     if (it.text == "Delete") {
-                        onClickEvent(DialogBoxUiEvents.deleteCourseEntry(index))
+                        try {
+                            onClickEvent(DialogBoxUiEvents.deleteCourseEntry(index))
+
+                        } catch (e: Exception) {
+                            Toast.makeText(
+                                context, "Course already entered", Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                     if (it.text == "Edit") {
                         Toast.makeText(

@@ -1,4 +1,4 @@
-package com.example.gpcalculator.Data
+package com.example.gpcalculator.data
 
 data class CourseItemsModifierDropDownItems(
     val text: String

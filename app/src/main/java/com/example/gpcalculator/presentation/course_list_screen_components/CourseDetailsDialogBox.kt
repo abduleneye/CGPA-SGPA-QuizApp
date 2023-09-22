@@ -1,5 +1,6 @@
-package com.example.gpcalculator.ScreenElements
+package com.example.gpcalculator.presentation.course_list_screen_components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,17 +14,19 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.SecureFlagPolicy
+import com.example.gpcalculator.presentation.myViewModels.course_list_screen_component.DropDownMenu
 import com.example.gpcalculator.ui.theme.Cream
 
 
@@ -36,12 +39,19 @@ fun CourseEntryDialogBox(
     properties: DialogProperties = DialogProperties()
 ) {
     var scrollState = rememberScrollState()
+    val context = LocalContext.current
+
 
 
     Dialog(
         onDismissRequest = {
             onEvent(DialogBoxUiEvents.hideDataEntryDBox)
             onEvent(DialogBoxUiEvents.resetResultField)
+            onEvent(DialogBoxUiEvents.resetAlreadyInList)
+            onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
+            onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
+            onEvent(DialogBoxUiEvents.setCourseCode(""))
+
         },
         properties = DialogProperties(
             dismissOnBackPress = true,
@@ -102,7 +112,7 @@ fun CourseEntryDialogBox(
                                 onEvent(DialogBoxUiEvents.setCourseCode(it))
                             },
                             label = {
-                                Text(text = dbState.enteredCourseCodeLabel)
+                                Text(text = dbState.defaultEnteredCourseCodeLabel)
                             }
                         )
 
@@ -158,7 +168,18 @@ fun CourseEntryDialogBox(
                             )
 
                             Button(onClick = {
+
                                 onEvent(DialogBoxUiEvents.addEntriesToArrayList)
+                                if (
+                                    dbState.allReadyInList
+                                ) {
+                                    Toast.makeText(
+                                        context,
+                                        "entries already in list",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
                                 //onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
                                 //onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
                                 //onEvent(DialogBoxUiEvents.setCourseCode(""))
@@ -185,3 +206,4 @@ fun CourseEntryDialogBox(
     }
 
 }
+
