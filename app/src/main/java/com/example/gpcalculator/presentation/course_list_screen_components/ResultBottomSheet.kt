@@ -37,7 +37,7 @@ fun ResultBottomSheet(
     }
 
     BottomSheetScaffold(
-        sheetContent = { ResultBottomSheetContent(state) },
+        sheetContent = { ResultBottomSheetContent(state, sheetState) },
         sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
         sheetBackgroundColor = Color.LightGray,
         modifier = Modifier

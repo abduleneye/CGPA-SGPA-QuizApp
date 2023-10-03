@@ -1,5 +1,6 @@
 package com.example.gpcalculator.presentation.course_list_screen_components
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -14,14 +15,17 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.rememberBottomSheetState
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,19 +33,26 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.gpcalculator.presentation.navigation.Screen
+import com.example.gpcalculator.ui.theme.AppBars
 import com.example.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBarDropDownMenu(
-    onEvent: (DialogBoxUiEvents) -> Unit
+    onEvent: (DialogBoxUiEvents) -> Unit,
+    calcViewModel: gpcalculator_view_model,
+    dbState: DialogBoxState,
+    navController: NavController
 ) {
     var optionsMenuState by remember {
         mutableStateOf(false)
@@ -51,13 +62,26 @@ fun TopAppBarDropDownMenu(
     val sheetState = rememberBottomSheetState(
         initialValue = BottomSheetValue.Collapsed
     )
+    val context = LocalContext.current
+    val size = calcViewModel.courseEntries.collectAsState().value.size
 
 
-    TopAppBar(
+
+
+    CenterAlignedTopAppBar(
+
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = AppBars,
+
+            ),
 
         title = {
 
-            Text(text = "GpCalculator")
+            Text(
+                text = "GpCalculator",
+                fontSize = 20.sp,
+
+                )
         },
         actions = {
             IconButton(onClick = {
@@ -77,12 +101,26 @@ fun TopAppBarDropDownMenu(
                     .background(Cream),
                 offset = DpOffset(0.0.dp, 2.0.dp)
             ) {
-//Reset Option Menu Item
+//Clear Courses Option Menu Item
                 DropdownMenuItem(
                     onClick = {
+                        if (
+                            dbState.enteredCourses.toInt() == 0
+                        ) {
+
+                            Toast.makeText(
+                                context,
+                                "No course(s) to clear yet",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        } else {
+
+                            onEvent(DialogBoxUiEvents.showClearConfirmationDBox)
+
+                        }
 
 
-                        onEvent(DialogBoxUiEvents.resetTotalEntries)
                         optionsMenuState = !optionsMenuState
                         scope.launch {
                             if (sheetState.isExpanded) {
@@ -104,17 +142,35 @@ fun TopAppBarDropDownMenu(
                     ) {
 
                         Text(
-                            text = "Reset",
+                            text = "Clear courses",
                             fontSize = 16.sp,
                             style = TextStyle(baselineShift = BaselineShift(0.199f))
                         )
                         Spacer(modifier = Modifier.width(10.dp))
-                        Icon(Icons.Default.Refresh, contentDescription = "settings")
+                        Icon(Icons.Default.Clear, contentDescription = "clear courses")
                     }
                 }
 //Edit Base entry DialogBox Item
                 DropdownMenuItem(onClick = {
-                    onEvent(DialogBoxUiEvents.showEditBaseEntryDBox)
+
+                    if (
+                        dbState.totalCourses.isBlank()
+                    ) {
+
+                        Toast.makeText(
+                            context,
+                            "Nothing to edit yet",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    } else {
+
+                        onEvent(DialogBoxUiEvents.showEditBaseEntryDBox)
+
+                    }
+
+
+
                     optionsMenuState = !optionsMenuState
                     scope.launch {
                         if (sheetState.isExpanded) {
@@ -129,7 +185,7 @@ fun TopAppBarDropDownMenu(
                     ) {
 
                         Text(
-                            text = "Edit",
+                            text = "Edit numbers",
                             fontSize = 16.sp,
                             style = TextStyle(baselineShift = BaselineShift(0.199f))
                         )
@@ -142,6 +198,7 @@ fun TopAppBarDropDownMenu(
 //About Item
 
                 DropdownMenuItem(onClick = {
+                    navController.navigate(Screen.About.route)
                     optionsMenuState = !optionsMenuState
                     scope.launch {
                         if (sheetState.isExpanded) {
@@ -161,7 +218,7 @@ fun TopAppBarDropDownMenu(
                             style = TextStyle(baselineShift = BaselineShift(0.199f))
                         )
                         Spacer(modifier = Modifier.width(10.dp))
-                        Icon(Icons.Default.Info, contentDescription = "Edit")
+                        Icon(Icons.Default.Info, contentDescription = "About")
                     }
 
 

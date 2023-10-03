@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
@@ -140,7 +140,7 @@ fun MyCardView(
 
     val context = LocalContext.current
     var pressOffset by remember {
-        mutableStateOf(DpOffset(0.dp, 100.dp))
+        mutableStateOf(DpOffset((-10).dp, 80.dp))
     }
 
     val density = LocalDensity.current
@@ -148,7 +148,7 @@ fun MyCardView(
         MutableInteractionSource()
     }
     var itemHeight by remember {
-        mutableStateOf(0.dp)
+        mutableStateOf(80.dp)
     }
 
     var isContextMenuVisible by remember {
@@ -158,25 +158,38 @@ fun MyCardView(
 
 
 
-    androidx.compose.material3.Card(
-        colors = CardDefaults.cardColors(containerColor = Cream),
+    Card(
+        ///
+        elevation = CardDefaults.cardElevation(8.dp),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         modifier = Modifier
-            .onSizeChanged {
-                itemHeight = with(density) { it.height.toDp() }
-            }
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            // .fillMaxWidth()
-            .height(70.dp)
-            .background(color = Cream)
+            .height(90.dp)
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Cream
+        )
+        ///
+        //colors = CardDefaults.cardColors(containerColor = Cream),
+//        shape = RoundedCornerShape(16.dp),
+//        //elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+//        elevation = 8.dp,
+//
+//        modifier = Modifier
+//            .onSizeChanged {
+//                itemHeight = with(density) { it.height.toDp() }
+//            }
+//            .padding(horizontal = 16.dp, vertical = 8.dp)
+//            // .fillMaxWidth()
+//            .height(70.dp)
+//            .background(color = Cream)
 
     ) {
         Box(
 
             modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp)
+                .height(90.dp)
                 .indication(interactionSource = interactionSource, LocalIndication.current)
                 .pointerInput(true) {
                     detectTapGestures(
@@ -254,3 +267,4 @@ fun MyCardView(
         }
     }
 }
+

@@ -54,8 +54,14 @@ sealed interface DialogBoxUiEvents {
     object resetDefaultLabelTextTNOCL : DialogBoxUiEvents
     object showEditBaseEntryDBox : DialogBoxUiEvents
     object hideEditBaseEntryDBox : DialogBoxUiEvents
+    object hideEditBaseEntryRegardlessDBox : DialogBoxUiEvents
+    object hideBaseEntryRegardlessDBox : DialogBoxUiEvents
+    object hideClearConfirmationDBox : DialogBoxUiEvents
+    object showClearConfirmationDBox : DialogBoxUiEvents
+
 
     data class dropDownAssumeText(val text: String) : DialogBoxUiEvents
+    data class setPrevTotalCourses(val text: String) : DialogBoxUiEvents
 
 
 }

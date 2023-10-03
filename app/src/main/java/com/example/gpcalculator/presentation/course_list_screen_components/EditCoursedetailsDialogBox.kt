@@ -16,7 +16,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +29,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.SecureFlagPolicy
 import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxState
 import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxUiEvents
+import com.example.gpcalculator.ui.theme.AppBars
 import com.example.gpcalculator.ui.theme.Cream
 
 
@@ -45,6 +48,9 @@ fun EditCourseEntryDialogBox(
         onDismissRequest = {
             onEvent(DialogBoxUiEvents.hideCourseEntryEditDBox)
             onEvent(DialogBoxUiEvents.resetResultField)
+            onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
+            onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
+            onEvent(DialogBoxUiEvents.setCourseCode(""))
         },
         properties = DialogProperties(
             dismissOnBackPress = true,
@@ -107,6 +113,11 @@ fun EditCourseEntryDialogBox(
                             onValueChange = {
                                 onEvent(DialogBoxUiEvents.setCourseCode(it))
                             },
+                            singleLine = true,
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                focusedLabelColor = AppBars,
+                                focusedBorderColor = AppBars
+                            ),
                             label = {
                                 Text(text = dbState.defaultEnteredCourseCodeLabel)
                             }
@@ -144,14 +155,19 @@ fun EditCourseEntryDialogBox(
                             horizontalArrangement = Arrangement.End
                         ) {
 
-                            Button(onClick = {
-                                onEvent(DialogBoxUiEvents.hideCourseEntryEditDBox)
-                                onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
-                                onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
-                                onEvent(DialogBoxUiEvents.setCourseCode(""))
+                            Button(
+                                onClick = {
+                                    onEvent(DialogBoxUiEvents.hideCourseEntryEditDBox)
+                                    onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
+                                    onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
+                                    onEvent(DialogBoxUiEvents.setCourseCode(""))
 
 
-                            }) {
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = AppBars
+                                ),
+                            ) {
 
                                 Text(text = "Cancel")
 
@@ -163,14 +179,19 @@ fun EditCourseEntryDialogBox(
                                     .width(16.dp)
                             )
 
-                            Button(onClick = {
-                                //onEvent(DialogBoxUiEvents.addEntriesToArrayList)
-                                //onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
-                                //onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
-                                onEvent(DialogBoxUiEvents.replaceEditedInEntriesToArrayList)
-                                onEvent(DialogBoxUiEvents.hideCourseEntryEditDBox)
+                            Button(
+                                onClick = {
+                                    //onEvent(DialogBoxUiEvents.addEntriesToArrayList)
+                                    //onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
+                                    //onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
+                                    onEvent(DialogBoxUiEvents.replaceEditedInEntriesToArrayList)
+                                    onEvent(DialogBoxUiEvents.hideCourseEntryEditDBox)
 
-                            }) {
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = AppBars
+                                ),
+                            ) {
 
                                 Text(text = "Done")
 

@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">GpCalculator</string>
+    <string name="title_activity_samplechk">Samplechk</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="title_activity_about_screen">AboutScreenActivity</string>
+    <string name="AboutApp">
+        Gp(Grade point)Calculator is an app developed as a hobby project for university students
+        using (5.0) grading system in order to help students calculate their Gp effortlessly also
+        students can edit their course entry details and use it to predict how their performance
+        could be using different parameters.
+        Tip: Long press on a course entry to edit details.
+    </string>
+
+    <string name="AboutDeveloper">
+        Abdulhameed Abdulhakeem a student of federal university of technology minna
+        is a tech enthusiast,
+        quite new in the android development sphere who loves to tinker
+        around with new tools and technology
+        to improve the society.
+        you can contact me via the platforms below:
+
+    </string>
+
 </resources>

@@ -61,7 +61,7 @@ fun Splash(
     ) {
 
         Image(
-            painter = painterResource(id = R.drawable.splash_screen_two),
+            painter = painterResource(id = R.drawable.newest),
             contentDescription = "SplashScreen",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier

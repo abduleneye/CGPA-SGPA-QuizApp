@@ -17,7 +17,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +29,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.SecureFlagPolicy
 import com.example.gpcalculator.presentation.myViewModels.course_list_screen_component.DropDownMenu
+import com.example.gpcalculator.ui.theme.AppBars
 import com.example.gpcalculator.ui.theme.Cream
 
 
@@ -69,7 +72,16 @@ fun CourseEntryDialogBox(
                     390.dp //final
                     //300.dp
                     //dbState.dialogDefaultHeight.value.dp
-                ),
+                )
+//                .clickable {
+//                    if (dbState.isUnitDropDownMenuExpanded) {
+//
+//                        onEvent(DialogBoxUiEvents.hideUnitMenuDropDown)
+//
+//                    }
+//                }
+            ,
+
             backgroundColor = Cream
 
         ) {
@@ -111,6 +123,10 @@ fun CourseEntryDialogBox(
                             onValueChange = {
                                 onEvent(DialogBoxUiEvents.setCourseCode(it))
                             },
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                focusedLabelColor = AppBars,
+                                focusedBorderColor = AppBars
+                            ),
                             label = {
                                 Text(text = dbState.defaultEnteredCourseCodeLabel)
                             }
@@ -148,14 +164,19 @@ fun CourseEntryDialogBox(
                             horizontalArrangement = Arrangement.End
                         ) {
 
-                            Button(onClick = {
-                                onEvent(DialogBoxUiEvents.hideDataEntryDBox)
-                                onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
-                                onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
-                                onEvent(DialogBoxUiEvents.setCourseCode(""))
+                            Button(
+                                onClick = {
+                                    onEvent(DialogBoxUiEvents.hideDataEntryDBox)
+                                    onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
+                                    onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
+                                    onEvent(DialogBoxUiEvents.setCourseCode(""))
 
 
-                            }) {
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = AppBars
+                                ),
+                            ) {
 
                                 Text(text = "Cancel")
 
@@ -167,24 +188,31 @@ fun CourseEntryDialogBox(
                                     .width(16.dp)
                             )
 
-                            Button(onClick = {
+                            Button(
+                                onClick = {
 
-                                onEvent(DialogBoxUiEvents.addEntriesToArrayList)
-                                if (
-                                    dbState.allReadyInList
+                                    onEvent(DialogBoxUiEvents.addEntriesToArrayList)
+                                    if (
+                                        dbState.allReadyInList
+                                    ) {
+                                        Toast.makeText(
+                                            context,
+                                            "entries already in list",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    //onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
+                                    //onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
+                                    //onEvent(DialogBoxUiEvents.setCourseCode(""))
+                                    //onEvent(DialogBoxUiEvents.hideDataEntryDBox)
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = AppBars
+                                ),
+
+
                                 ) {
-                                    Toast.makeText(
-                                        context,
-                                        "entries already in list",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-
-                                //onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
-                                //onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
-                                //onEvent(DialogBoxUiEvents.setCourseCode(""))
-                                //onEvent(DialogBoxUiEvents.hideDataEntryDBox)
-                            }) {
 
                                 Text(text = "Add")
 

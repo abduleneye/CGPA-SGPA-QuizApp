@@ -9,8 +9,9 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -20,24 +21,45 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.gpcalculator.presentation.ads_components.AnchoredAdaptiveBanner
 import com.example.gpcalculator.presentation.course_list_screen_components.BaseEntryDialogBox
+import com.example.gpcalculator.presentation.course_list_screen_components.ConfirmClearCoursesEntryConfirmationDialogBox
 import com.example.gpcalculator.presentation.course_list_screen_components.CourseEntryDialogBox
 import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxState
 import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.example.gpcalculator.presentation.course_list_screen_components.EditBaseEntryDialogBox
 import com.example.gpcalculator.presentation.course_list_screen_components.ResultBottomSheetContent
 import com.example.gpcalculator.presentation.course_list_screen_components.TopAppBarDropDownMenu
+import com.example.gpcalculator.presentation.course_list_screen_components.gpcalculator_view_model
+import com.example.gpcalculator.ui.theme.AppBars
 import com.example.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class)
+
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
     onEvent: (DialogBoxUiEvents) -> Unit,
     state: DialogBoxState,
     stateTwo: ArrayList<GpData>,
+    calcViewModel: gpcalculator_view_model,
+    navController: NavController,
+    adId: String
 ) {
+
+    val current = navController.currentBackStackEntry
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+
+//    (Toast.makeText(
+//        navController.context,
+//        "cur loc:  $current: ${navBackStackEntry?.destination?.route} but",
+//        Toast.LENGTH_SHORT
+//    ).show())
+    //onBackPressedDispatcher.onBackPressed()
 
 
     val context = LocalContext.current
@@ -56,62 +78,81 @@ fun MainScreen(
     val sheetWidth = remember {
         mutableStateOf(60.dp)
     }
-    val statusIcon = if (state.baseEntryDialogBoxVisibility) {
-        Icons.Filled.Add
-    } else if (state.enteredCourses < state.totalCourses) {
-        Icons.Filled.Add
-    } else {
-        Icons.Filled.Check
+    val statusIcon = Icons.Filled.Add
 
-    }
+    var initStatusIcon = Icons.Filled.Add
 
-    var initStatusIcon = Icons.Filled.KeyboardArrowUp
-
+    /////////////
 
 
     BottomSheetScaffold(
+//        onDismissRequest = {
+//            scope.launch {
+//                if (sheetState.isExpanded) {
+//                    sheetState.collapse()
+//                }
+//            }
+//
+//        },
+
         scaffoldState = scaffoldState,
-        sheetContent = { ResultBottomSheetContent(state) },
+        sheetContent = { ResultBottomSheetContent(state, sheetState) },
         sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
         modifier = Modifier
             .fillMaxWidth()
             .width(sheetWidth.value)
-            .background(color = Cream)
+            .background(color = Cream),
 
         // .height(10.dp)
-        ,
         sheetPeekHeight = 0.dp,
         drawerGesturesEnabled = true,
         sheetElevation = 100.dp,
-        backgroundColor = Cream
-    ) {
+        backgroundColor = Cream,
+
+        ) {
 
 
         Scaffold(
             floatingActionButton = {
-                FloatingActionButton(onClick = {
+                FloatingActionButton(
+                    onClick = {
 
 
-                    if (stateTwo.size < state.totalCourses.toInt()) {
+                        if (state.totalCourses == ""
+                        //|| state.totalCreditLoad == ""
+                        ) {
 
-                        onEvent(DialogBoxUiEvents.showDataEntryDBox)
+                            onEvent(DialogBoxUiEvents.showBaseEntryDBox)
+
+                        } else if (stateTwo.size < state.totalCourses.toInt()) {
+
+                            onEvent(DialogBoxUiEvents.showDataEntryDBox)
+                            if (state.enteredCourses < state.totalCourses) {
+                                Icons.Filled.Add
+                            } else {
+                                Icons.Filled.Check
+
+                            }
 
 
 //                    } else if (state.totalCreditLoad == "" || state.totalCourses == "") {
 //                        onEvent(DialogBoxUiEvents.showBaseEntryDBox)
 
-                    } else {
-                        onEvent(DialogBoxUiEvents.executeCalculation)
-                        //onEvent(DialogBoxUiEvents.showResultDBox)
-                        scope.launch {
-                            if (sheetState.isCollapsed) {
-                                sheetState.expand()
-                            } else {
-                                sheetState.collapse()
+                        } else {
+                            onEvent(DialogBoxUiEvents.executeCalculation)
+                            //onEvent(DialogBoxUiEvents.showResultDBox)
+                            scope.launch {
+                                if (sheetState.isCollapsed) {
+                                    sheetState.expand()
+                                } else {
+                                    sheetState.collapse()
+                                }
                             }
                         }
-                    }
-                }) {
+                    },
+                    backgroundColor = AppBars,
+
+                    ) {
 
                     androidx.compose.material.Icon(
                         imageVector = statusIcon,
@@ -125,8 +166,33 @@ fun MainScreen(
             },
             topBar = {
 
-                TopAppBarDropDownMenu(onEvent = onEvent)
+                TopAppBarDropDownMenu(
+                    onEvent = onEvent,
+                    calcViewModel = calcViewModel,
+                    dbState = state,
+                    navController = navController
+                )
 
+            },
+
+            bottomBar = {
+//
+//
+                androidx.compose.material3.BottomAppBar(
+                    containerColor = AppBars,
+                    contentPadding = PaddingValues(0.dp)
+
+
+                ) {
+
+//
+                    AnchoredAdaptiveBanner(modifier = Modifier, adId = adId)
+//
+                }
+//
+////                }
+//
+//
             },
 
             backgroundColor = Cream
@@ -183,14 +249,14 @@ fun MainScreen(
 
 
                 BaseEntryDialogBox(
-                    Desc = "Welcome please make your entries",
+                    Desc = "please make your entry:",
                     state = state,
                     events = onEvent
                 )
 
             } else if (state.editBaseEntryDialogBoxVisibility) {
                 EditBaseEntryDialogBox(
-                    Desc = "Edit Entries",
+                    Desc = "Edit Entry:",
                     state = state,
                     events = onEvent
                 )
@@ -198,6 +264,11 @@ fun MainScreen(
             } else if (state.courseEntryEditDialogBoxVisibility) {
 
                 EditCourseEntryDialogBox(onEvent = onEvent, dbState = state, title = "Edit Entries")
+
+            } else if (state.clearCoursesConfirmationDBoxVisibility) {
+
+                ConfirmClearCoursesEntryConfirmationDialogBox(onEvent = onEvent, dbState = state)
+
 
             } else {
 

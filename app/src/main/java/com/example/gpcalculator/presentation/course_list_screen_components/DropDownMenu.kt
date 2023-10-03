@@ -1,7 +1,6 @@
 package com.example.gpcalculator.presentation.myViewModels.course_list_screen_component
 
 import GpCalculatorPrototype.Data.CourseDataEntries
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -104,7 +103,8 @@ fun DropDownMenu(
                         disabledTextColor = Color.Black,
                         disabledTrailingIconColor = Color.Black,
                         disabledContainerColor = Cream,
-                        disabledPlaceholderColor = Color.Gray
+                        disabledPlaceholderColor = Color.Gray,
+                        unfocusedPlaceholderColor = Color.Gray
                         //disabledIndicatorColor = Cream,
 
                     ),
@@ -127,11 +127,6 @@ fun DropDownMenu(
 
                                     } else {
                                         onEvent(DialogBoxUiEvents.showUnitMenuDropDown)
-                                        Toast.makeText(
-                                            context,
-                                            "${dBState.dialogDefaultHeight}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
 
 
                                     }
@@ -144,7 +139,7 @@ fun DropDownMenu(
 
                 DropdownMenu(
                     expanded = dBState.isUnitDropDownMenuExpanded,
-                    onDismissRequest = { onEvent(DialogBoxUiEvents.showUnitMenuDropDown) },
+                    onDismissRequest = { onEvent(DialogBoxUiEvents.hideUnitMenuDropDown) },
                     modifier = Modifier
                         .width(with(LocalDensity.current) {
                             textFilledSize.width.toDp()
@@ -184,6 +179,7 @@ fun DropDownMenu(
                     textStyle = TextStyle(baselineShift = BaselineShift(-0.37f)),
                     onValueChange = {},
                     enabled = false,
+
                     modifier = Modifier
                         .onGloballyPositioned { co_ordinates ->
 
@@ -192,6 +188,16 @@ fun DropDownMenu(
                         }
                         .width(130.dp)
                         .height(70.dp),
+                    colors = TextFieldDefaults.colors(
+                        disabledTextColor = Color.Black,
+                        disabledTrailingIconColor = Color.Black,
+                        disabledContainerColor = Cream,
+                        disabledPlaceholderColor = Color.Gray,
+                        unfocusedPlaceholderColor = Color.Gray
+
+                    ),
+                    //disabledIndicatorColor = Cream,
+
                     label = {
                         Text(
                             text = labelTextTwo,
@@ -221,7 +227,7 @@ fun DropDownMenu(
 
                 DropdownMenu(
                     expanded = dBState.isGradeDropDownMenuExpanded,
-                    onDismissRequest = { onEvent(DialogBoxUiEvents.showGradeMenuDropDown) },
+                    onDismissRequest = { onEvent(DialogBoxUiEvents.hideGradeMenuDropDown) },
                     modifier = Modifier
                         .width(with(LocalDensity.current) {
                             textFilledSize.width.toDp()

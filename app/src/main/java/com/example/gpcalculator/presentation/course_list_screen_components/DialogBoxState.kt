@@ -1,25 +1,25 @@
 package com.example.gpcalculator.presentation.course_list_screen_components
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import android.os.Parcelable
 import com.example.gpcalculator.data.ErrorPassedValues
-import com.example.gpcalculator.ui.theme.Purple200
 
+
+@kotlinx.parcelize.Parcelize
 data class DialogBoxState(
 
     var courseCode: String = "",
     var selectedCourseUnit: String = "",
     var selectedCourseGrade: String = "",
     var totalCourses: String = "",
-    var totalCreditLoad: String = "",
+    var totalCreditLoad: String = "0",
     var enteredCourses: String = "0",
     var isUnitDropDownMenuExpanded: Boolean = false,
     var isGradeDropDownMenuExpanded: Boolean = false,
-    var baseEntryDialogBoxVisibility: Boolean = true,
+    var baseEntryDialogBoxVisibility: Boolean = false,
     var resultDialogBoxVisibility: Boolean = false,
     var finalResult: String = "",
     var substituteFinalResult: String = "",
+    var dayGreetingState: String = "Good Evening,",
 
 
     var defaultLabelTNOC: String = ErrorPassedValues.labelForTNOC,
@@ -27,16 +27,16 @@ data class DialogBoxState(
     var defaultLabelETNOC: String = ErrorPassedValues.labelForETNOC,
     var defaultLabelETNOCL: String = ErrorPassedValues.labelForETNOCC,
 
-    var defaultLabelColourETNOC: Color = Purple200,
-    var defaultLabelColourETNOCL: Color = Purple200,
+
+//    var defaultLabelColourETNOC: @RawValue Color = Purple200,
+//    var defaultLabelColourETNOCL: @RawValue Color = Purple200,
     var defaultEnteredCourseCodeLabel: String = ErrorPassedValues.enterCourseCodeLabel,
-    var defaultLabelColourTNOC: Color = Purple200,
-    var defaultLabelColourTNOCL: Color = Purple200,
+//    var defaultLabelColourTNOC: @RawValue Color = Purple200,
+//    var defaultLabelColourTNOCL: @RawValue Color = Purple200,
 
 
     var pickedCourseUnitLabel: String = ErrorPassedValues.enterCourseUnitLabel,
     var pickedCourseGradeLabel: String = ErrorPassedValues.enterCourseGradeLabel,
-    var dialogDefaultHeight: Dp = 300.dp,
     var courseItemsDropDownVisibility: Boolean = false,
     var courseCodeEdited: String = "",
     var selectedCourseUnitEdited: String = "",
@@ -45,7 +45,13 @@ data class DialogBoxState(
     var courseEntryDialogBoxVisibility: Boolean = false,
     var editBaseEntryDialogBoxVisibility: Boolean = false,
     var courseEntryEditDialogBoxVisibility: Boolean = false,
-    var allReadyInList: Boolean = false
+    var allReadyInList: Boolean = false,
+    var editedNmberOfCoursesHolder: String = "",
+    var prevTotalNumberOfCourses: String = "",
+    var clearCoursesConfirmationDBoxVisibility: Boolean = false,
+    var greeting: String = "",
+    var gpaDescriptor: String = "",
+    var remark: String = ""
 
 
-)
+) : Parcelable
