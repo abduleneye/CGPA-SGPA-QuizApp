@@ -1,5 +1,6 @@
 package com.example.gpcalculator.presentation.myViewModels.course_list_screen_component
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -42,6 +45,7 @@ fun EditCourseEntryDialogBox(
     properties: DialogProperties = DialogProperties()
 ) {
     var scrollState = rememberScrollState()
+    var context = LocalContext.current
 
 
     Dialog(
@@ -68,7 +72,8 @@ fun EditCourseEntryDialogBox(
                     390.dp //final
                     //300.dp
                     //dbState.dialogDefaultHeight.value.dp
-                ),
+                )
+                .padding(start = 8.dp, end = 8.dp),
             backgroundColor = Cream
 
         ) {
@@ -112,14 +117,18 @@ fun EditCourseEntryDialogBox(
                             value = dbState.courseCode,
                             onValueChange = {
                                 onEvent(DialogBoxUiEvents.setCourseCode(it))
+
+                                
+
+                                onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsECC)
                             },
                             singleLine = true,
                             colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedLabelColor = AppBars,
-                                focusedBorderColor = AppBars
+                                focusedLabelColor = Color(dbState.defaultLabelColourECC),
+                                focusedBorderColor = Color(dbState.defaultLabelColourECC)
                             ),
                             label = {
-                                Text(text = dbState.defaultEnteredCourseCodeLabel)
+                                Text(text = dbState.defaultEditCourseCodeLabel)
                             }
                         )
 
@@ -131,8 +140,8 @@ fun EditCourseEntryDialogBox(
                         Row {
 
                             DropDownMenu(
-                                labelTextOne = dbState.pickedCourseUnitLabel,
-                                labelTextTwo = dbState.pickedCourseGradeLabel,
+                                labelTextOne = dbState.pickedCourseUnitDefaultLabel,
+                                labelTextTwo = dbState.pickedCourseGradeDefaultLabel,
                                 dBState = dbState,
                                 onEvent = onEvent,
                             )
@@ -185,7 +194,7 @@ fun EditCourseEntryDialogBox(
                                     //onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
                                     //onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
                                     onEvent(DialogBoxUiEvents.replaceEditedInEntriesToArrayList)
-                                    onEvent(DialogBoxUiEvents.hideCourseEntryEditDBox)
+                                    // onEvent(DialogBoxUiEvents.hideCourseEntryEditDBox)
 
                                 },
                                 colors = ButtonDefaults.buttonColors(

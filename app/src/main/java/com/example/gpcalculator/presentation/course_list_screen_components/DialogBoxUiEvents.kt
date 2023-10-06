@@ -33,7 +33,6 @@ sealed interface DialogBoxUiEvents {
     object showDataEntryDBox : DialogBoxUiEvents
     object hideDataEntryDBox : DialogBoxUiEvents
     object showBaseEntryDBox : DialogBoxUiEvents
-    object hideBaseEntryDBox : DialogBoxUiEvents
     object showResultDBox : DialogBoxUiEvents
     object hideResultDBox : DialogBoxUiEvents
     object addEntriesToArrayList : DialogBoxUiEvents
@@ -48,20 +47,31 @@ sealed interface DialogBoxUiEvents {
     object showCourseEntryEditDBox : DialogBoxUiEvents
     object hideCourseEntryEditDBox : DialogBoxUiEvents
     object resetAlreadyInList : DialogBoxUiEvents
-    object resetDefaultValuesFromErrorsTNOC : DialogBoxUiEvents
-    object resetDefaultLabelTextTNOC : DialogBoxUiEvents
+    object resetBackToDefaultValuesFromErrorsTNOC : DialogBoxUiEvents
     object resetDefaultValuesFromErrorsTNOCL : DialogBoxUiEvents
     object resetDefaultLabelTextTNOCL : DialogBoxUiEvents
     object showEditBaseEntryDBox : DialogBoxUiEvents
-    object hideEditBaseEntryDBox : DialogBoxUiEvents
     object hideEditBaseEntryRegardlessDBox : DialogBoxUiEvents
     object hideBaseEntryRegardlessDBox : DialogBoxUiEvents
+    object hideBaseEntryDBox : DialogBoxUiEvents
+    object hideEditBaseEntryDBox : DialogBoxUiEvents
     object hideClearConfirmationDBox : DialogBoxUiEvents
     object showClearConfirmationDBox : DialogBoxUiEvents
 
 
     data class dropDownAssumeText(val text: String) : DialogBoxUiEvents
     data class setPrevTotalCourses(val text: String) : DialogBoxUiEvents
+
+    object hideHomeAdShimmerEffect : DialogBoxUiEvents
+    object showHomeAdShimmerEffect : DialogBoxUiEvents
+    object hideAboutAdShimmerEffect : DialogBoxUiEvents
+    object showAboutAdShimmerEffect : DialogBoxUiEvents
+    object resetBackToDefaultValuesFromErrorsCC : DialogBoxUiEvents
+    object resetBackToDefaultValuesFromErrorsCU : DialogBoxUiEvents
+    object resetBackToDefaultValuesFromErrorsCG : DialogBoxUiEvents
+    object resetBackToDefaultValuesFromErrorsECC : DialogBoxUiEvents
+
+    data class setTotalNumberOfEditedCourses(val noOfEditedTotalCourse: String) : DialogBoxUiEvents
 
 
 }

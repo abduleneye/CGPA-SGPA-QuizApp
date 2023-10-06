@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -44,10 +45,11 @@ fun BaseEntryDialogBox(
 ) {
     val context = LocalContext.current
 
+
     Dialog(onDismissRequest = {
         events(DialogBoxUiEvents.hideBaseEntryRegardlessDBox)
-        events(DialogBoxUiEvents.resetDefaultValuesFromErrorsTNOC)
-        events(DialogBoxUiEvents.resetDefaultLabelTextTNOC)
+        events(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsTNOC)
+
     }) {
 
 
@@ -70,6 +72,7 @@ fun BaseEntryDialogBox(
             shape = RoundedCornerShape(20.dp),
             modifier = androidx.compose.ui.Modifier
                 .height(220.dp)
+                .padding(start = 8.dp, end = 8.dp)
             //.padding(top = 16.dp)
             ,
             backgroundColor = Cream
@@ -120,22 +123,34 @@ fun BaseEntryDialogBox(
                     OutlinedTextField(
                         value = state.totalCourses,
                         onValueChange = {
-                            events(DialogBoxUiEvents.setPrevTotalCourses(it))
-                            events(DialogBoxUiEvents.setTotalCourses(it))
-                            events(DialogBoxUiEvents.resetDefaultValuesFromErrorsTNOC)
-                            events(DialogBoxUiEvents.resetDefaultLabelTextTNOC)
+
+                            if (it.length <= state.maxNoOfCoursesLength) {
+                                events(DialogBoxUiEvents.setPrevTotalCourses(it))
+                                events(DialogBoxUiEvents.setTotalCourses(it))
+                            } else {
+
+                                events(DialogBoxUiEvents.setPrevTotalCourses(""))
+                                events(DialogBoxUiEvents.setTotalCourses(""))
+                                Toast.makeText(
+                                    context,
+                                    "cannot be more  than two digits",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            events(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsTNOC)
                         },
                         label = {
                             Text(text = state.defaultLabelTNOC)
                         },
                         singleLine = true,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedLabelColor = AppBars,
-                            focusedBorderColor = AppBars
+                            focusedLabelColor = Color(state.defaultLabelColourTNOC),
+                            focusedBorderColor = Color(state.defaultLabelColourTNOC)
                         ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.NumberPassword,
-                            imeAction = ImeAction.Next
+                            imeAction = ImeAction.Done
 
                         ),
                         modifier = Modifier
@@ -146,34 +161,6 @@ fun BaseEntryDialogBox(
                         modifier = androidx.compose.ui.Modifier
                             .height(10.dp)
                     )
-
-//                    OutlinedTextField(
-//                        value = state.totalCreditLoad,
-//
-//                        onValueChange = {
-//                            events(DialogBoxUiEvents.setTotalCreditLoad(it))
-//                            events(DialogBoxUiEvents.resetDefaultValuesFromErrorsTNOCL)
-//                            events(DialogBoxUiEvents.resetDefaultLabelTextTNOCL)
-//
-//
-//                        },
-//
-//                        label = {
-//                            Text(text = state.defaultLabelTNOCL)
-//                        },
-//                        singleLine = true,
-//                        colors = TextFieldDefaults.outlinedTextFieldColors(
-//                            focusedLabelColor = state.defaultLabelColourTNOCL,
-//                            focusedBorderColor = state.defaultLabelColourTNOCL
-//                        ),
-//
-//                        keyboardOptions = KeyboardOptions(
-//                            keyboardType = KeyboardType.NumberPassword,
-//                            imeAction = ImeAction.Done
-//                        ),
-//
-//
-//                        )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -191,11 +178,11 @@ fun BaseEntryDialogBox(
                             //colors = androidx.compose.material3.MaterialTheme.colorScheme,
                             onClick = {
                                 events(DialogBoxUiEvents.hideBaseEntryDBox)
-                                Toast.makeText(
-                                    context,
-                                    "${state.totalCourses} : ${state.prevTotalNumberOfCourses}",
-                                    Toast.LENGTH_LONG
-                                ).show()
+//                                Toast.makeText(
+//                                    context,
+//                                    "${state.totalCourses} : ${state.prevTotalNumberOfCourses}",
+//                                    Toast.LENGTH_LONG
+//                                ).show()
                             },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = AppBars
@@ -217,16 +204,3 @@ fun BaseEntryDialogBox(
 
 
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun BaseEntryDbPreview() {
-//    GpCalculatorTheme {
-////        BaseEntryDialogBox(
-////            Desc = "please make your entry:",
-////            DialogBoxState(),
-////            DialogBoxUiEvents,
-////        )
-//        Text(text = "Hmm")
-//    }
-//}

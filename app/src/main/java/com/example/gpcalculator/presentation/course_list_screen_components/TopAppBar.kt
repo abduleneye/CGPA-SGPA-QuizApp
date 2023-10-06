@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.BottomSheetValue
+import androidx.compose.material.BottomSheetState
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
@@ -20,7 +20,6 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
@@ -52,16 +51,15 @@ fun TopAppBarDropDownMenu(
     onEvent: (DialogBoxUiEvents) -> Unit,
     calcViewModel: gpcalculator_view_model,
     dbState: DialogBoxState,
-    navController: NavController
+    navController: NavController,
+    sheetState: BottomSheetState
+
 ) {
     var optionsMenuState by remember {
         mutableStateOf(false)
     }
     val scope = rememberCoroutineScope()
 
-    val sheetState = rememberBottomSheetState(
-        initialValue = BottomSheetValue.Collapsed
-    )
     val context = LocalContext.current
     val size = calcViewModel.courseEntries.collectAsState().value.size
 
@@ -166,6 +164,11 @@ fun TopAppBarDropDownMenu(
                     } else {
 
                         onEvent(DialogBoxUiEvents.showEditBaseEntryDBox)
+                        scope.launch {
+                            if (sheetState.isExpanded) {
+                                sheetState.collapse()
+                            }
+                        }
 
                     }
 
@@ -200,11 +203,7 @@ fun TopAppBarDropDownMenu(
                 DropdownMenuItem(onClick = {
                     navController.navigate(Screen.About.route)
                     optionsMenuState = !optionsMenuState
-                    scope.launch {
-                        if (sheetState.isExpanded) {
-                            sheetState.collapse()
-                        }
-                    }
+
                 }) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,

@@ -197,6 +197,7 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
                 _courseEntries.value.removeAt(event.itemToRemove)
                 savedStateHandle.set(COURSE_ENTRIES_KEY, _courseEntries.value)
+                _dbState.value.arrayOfAlreadyEnteredCourseslist.removeAt(event.itemToRemove)
                 _dbState.update {
                     it.copy(
                         enteredCourses = _courseEntries.value.size.toString()
@@ -214,7 +215,23 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
             is DialogBoxUiEvents.setCourseCode -> {
 
-                // if (event.toString().contains("")) {
+                if (_dbState.value.arrayOfAlreadyEnteredCourseslist.contains(event.courseCode.uppercase())) {
+                    _dbState.update {
+                        it.copy(
+                            allReadyInList = true,
+                            matchAlreadyInCourseEntry = event.courseCode.uppercase()
+                        )
+                    }
+                } else {
+//                    _dbState.update {
+//                        it.copy(
+//                            allReadyInList = false,
+//                            matchAlreadyInCourseEntry = ""
+//
+//                        )
+//                    }
+
+                }
                 _dbState.update {
                     it.copy(
                         courseCode = event.courseCode.replace(" ", "")
@@ -241,6 +258,7 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
                 textFieldsErrorCheckCourseDataEntry()
 
+
             }
 
             is DialogBoxUiEvents.setTotalCreditLoad -> {
@@ -254,12 +272,38 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
             }
 
             is DialogBoxUiEvents.setTotalCourses -> {
+//                var use = event.totalCourses
+//                if (use[0] == '0') {
+//                    use = use.replace("0", "")
+//                    _dbState.update {
+//                        it.copy(
+//                            totalCourses = use
+//                        )
+//                    }
+//                    savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+//
+//
+//                } else if (use[0] == '0' && use[1] == '0') {
+//                    use = use.replace("0", "")
+//                    _dbState.update {
+//                        it.copy(
+//                            totalCourses = use
+//                        )
+//                    }
+//                    savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+//
+//
+//                } else {
                 _dbState.update {
                     it.copy(
-                        totalCourses = event.totalCourses,
+                        totalCourses = event.totalCourses
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
+                // }
+
 
             }
 
@@ -330,12 +374,15 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
                 if (_dbState.value.totalCourses > 0.toString()) {
 
+
+                    _dbState.value.arrayOfAlreadyEnteredCourseslist.clear()
                     _courseEntries.value.clear()
                     _dbState.update {
                         it.copy(
                             //totalCourses = "",
                             totalCreditLoad = "",
                             enteredCourses = "0",
+
                             //baseEntryDialogBoxVisibility = true
                         )
                     }
@@ -350,10 +397,10 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
             }
 
-            is DialogBoxUiEvents.resetDefaultValuesFromErrorsTNOC -> {
+            is DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsTNOC -> {
                 _dbState.update {
                     it.copy(
-                        //defaultLabelColourTNOC = ErrorPassedValues.errorPassedColour,
+                        defaultLabelColourTNOC = ErrorPassedValues.errorPassedColour,
                         defaultLabelTNOC = ErrorPassedValues.labelForTNOC
 
                     )
@@ -361,6 +408,29 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
             }
+
+            is DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCC -> {
+                _dbState.update {
+                    it.copy(
+                        defaultLabelColourCC = ErrorPassedValues.errorPassedColour,
+                        defaultEnteredCourseCodeLabel = ErrorPassedValues.enterCourseCodeLabel
+
+                    )
+                }
+
+            }
+
+            is DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsECC -> {
+                _dbState.update {
+                    it.copy(
+                        defaultLabelColourECC = ErrorPassedValues.errorPassedColour,
+                        defaultEditCourseCodeLabel = ErrorPassedValues.editCourseCodeLabel
+
+                    )
+                }
+
+            }
+
 
             is DialogBoxUiEvents.resetDefaultValuesFromErrorsTNOCL -> {
                 _dbState.update {
@@ -377,7 +447,8 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
             is DialogBoxUiEvents.showEditBaseEntryDBox -> {
                 _dbState.update {
                     it.copy(
-                        editBaseEntryDialogBoxVisibility = true
+                        editBaseEntryDialogBoxVisibility = true,
+                        errorToastMessageVisibilityETNOCDB = true
 
                     )
                 }
@@ -387,23 +458,40 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
             is DialogBoxUiEvents.hideEditBaseEntryDBox -> {
 
-                _dbState.update {
-                    it.copy(
-                        editBaseEntryDialogBoxVisibility = false
-                    )
-                }
+                textFieldsErrorEditedCheckBaseEntryDB()
+
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
             }
 
             is DialogBoxUiEvents.hideEditBaseEntryRegardlessDBox -> {
 
-                _dbState.update {
-                    it.copy(
-                        editBaseEntryDialogBoxVisibility = false
-                    )
+                if (_dbState.value.enteredCourses == "0") {
+
+                    _dbState.update {
+                        it.copy(
+                            editBaseEntryDialogBoxVisibility = false,
+                            totalCourses = _dbState.value.prevTotalNumberOfCourses
+                        )
+                    }
+
+                    savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+                } else if (_dbState.value.enteredCourses != "0") {
+
+                    _dbState.update {
+                        it.copy(
+                            editBaseEntryDialogBoxVisibility = false,
+                            totalCourses = _dbState.value.enteredCourses
+
+                        )
+                    }
+
+                    savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
 
             }
 
@@ -425,6 +513,13 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
 
             is DialogBoxUiEvents.executeCalculation -> {
+
+                _dbState.update {
+                    it.copy(
+                        changeDoneIcon = true
+                    )
+                }
+
                 var execTotalUnit: Int = 0
 
 
@@ -463,7 +558,10 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
             is DialogBoxUiEvents.hideBaseEntryRegardlessDBox -> {
                 _dbState.update {
                     it.copy(
-                        baseEntryDialogBoxVisibility = false
+                        baseEntryDialogBoxVisibility = false,
+                        totalCourses = "",
+                        prevTotalNumberOfCourses = ""
+
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
@@ -500,6 +598,72 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
             }
 
+            is DialogBoxUiEvents.showHomeAdShimmerEffect -> {
+                _dbState.update {
+                    it.copy(
+                        homeAdShimmerEffectVisibility = true
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+            }
+
+            is DialogBoxUiEvents.hideHomeAdShimmerEffect -> {
+                _dbState.update {
+                    it.copy(
+                        homeAdShimmerEffectVisibility = false
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+            }
+
+            is DialogBoxUiEvents.showAboutAdShimmerEffect -> {
+                _dbState.update {
+                    it.copy(
+                        aboutAdShimmerEffectVisibility = true
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+            }
+
+            is DialogBoxUiEvents.hideAboutAdShimmerEffect -> {
+                _dbState.update {
+                    it.copy(
+                        aboutAdShimmerEffectVisibility = true
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+            }
+
+            is DialogBoxUiEvents.setTotalNumberOfEditedCourses -> {
+                _dbState.update {
+                    it.copy(
+                        editedNumberOfCourses = event.noOfEditedTotalCourse
+                    )
+                }
+            }
+
+            is DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCU -> {
+                _dbState.update {
+                    it.copy(
+                        pickedCourseUnitDefaultLabel = ErrorPassedValues.enterCourseUnitLabel,
+                        defaultLabelColourCU = ErrorPassedValues.dropDownErrorPassedColour
+                    )
+                }
+            }
+
+            is DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCG -> {
+                _dbState.update {
+                    it.copy(
+                        pickedCourseGradeDefaultLabel = ErrorPassedValues.enterCourseGradeLabel,
+                        defaultLabelColourCG = ErrorPassedValues.dropDownErrorPassedColour
+                    )
+                }
+            }
+
 
             else -> {}
         }
@@ -509,12 +673,15 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
     private fun textFieldsErrorCheckBaseEntryDB() {
 
-        if (_dbState.value.totalCourses.isEmpty()) {
+        if (_dbState.value.totalCourses.isEmpty() || _dbState.value.totalCourses == "0" || _dbState.value.totalCourses == "00" || _dbState.value.totalCourses.get(
+                0
+            ) == '0'
+        ) {
 
             _dbState.update {
                 it.copy(
                     defaultLabelTNOC = ErrorMessages.errorLabelMessageForTNOC,
-                    //defaultLabelColourTNOC = ErrorMessages.textFieldErrorLabelColor
+                    defaultLabelColourTNOC = ErrorMessages.textFieldErrorLabelColorHexCode
                 )
             }
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
@@ -536,38 +703,109 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
     private fun textFieldsErrorEditedCheckBaseEntryDB() {
 
-        if (_dbState.value.totalCourses.isEmpty()) {
-
+        if (_dbState.value.totalCourses == _dbState.value.prevTotalNumberOfCourses && _dbState.value.enteredCourses == "0") {
             _dbState.update {
                 it.copy(
-                    defaultLabelTNOC = ErrorMessages.errorLabelMessageForTNOC,
-                    //defaultLabelColourTNOC = ErrorMessages.textFieldErrorLabelColor
-                )
+                    errorMessageHolderForETNOCDBToastMessage = "No changes made",
+                    editBaseEntryDialogBoxVisibility = false,
+                    errorToastMessageVisibilityETNOCDB = false,
+
+                    )
             }
+        } else if (_dbState.value.editedNumberOfCourses.isEmpty() || _dbState.value.editedNumberOfCourses == "0" || _dbState.value.editedNumberOfCourses == "00" || _dbState.value.editedNumberOfCourses.get(
+                0
+            ) == '0'
+        ) {
+            if (_dbState.value.enteredCourses == "0") {
+                _dbState.update {
+                    it.copy(
+                        errorMessageHolderForETNOCDBToastMessage = "entry can't be empty",
+                        totalCourses = _dbState.value.prevTotalNumberOfCourses,
+                        editedNumberOfCourses = _dbState.value.prevTotalNumberOfCourses,
+                        errorToastMessageVisibilityETNOCDB = true,
+
+
+                        )
+                }
+            } else if (_dbState.value.enteredCourses != "0") {
+                _dbState.update {
+                    it.copy(
+                        errorToastMessageVisibilityETNOCDB = true,
+                        errorMessageHolderForETNOCDBToastMessage = "entry can't be empty",
+                        totalCourses = _dbState.value.enteredCourses,
+                        editedNumberOfCourses = _dbState.value.enteredCourses
+
+                    )
+                }
+            }
+
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-        }
-//        else if (_dbState.value.totalCreditLoad.isEmpty()) {
-//            _dbState.update {
-//                it.copy(
-//                    defaultLabelTNOCL = ErrorMessages.errorLabelMessageForTNOCL,
-//                    defaultLabelColourTNOCL = ErrorMessages.textFieldErrorLabelColor
-//
-//                )
-//            }
-//
-//        }
-        else {
+        } else if (_dbState.value.editedNumberOfCourses == "0") {
 
-            _dbState.update {
-                it.copy(
-                    baseEntryDialogBoxVisibility = false
-                )
+            if (_dbState.value.enteredCourses == "0") {
+                _dbState.update {
+                    it.copy(
+                        errorToastMessageVisibilityETNOCDB = true,
+                        errorMessageHolderForETNOCDBToastMessage = "entry can't be 0",
+                        totalCourses = _dbState.value.prevTotalNumberOfCourses,
+                        editedNumberOfCourses = _dbState.value.prevTotalNumberOfCourses
+
+                    )
+                }
+            } else if (_dbState.value.enteredCourses != "0") {
+                _dbState.update {
+                    it.copy(
+                        errorToastMessageVisibilityETNOCDB = true,
+                        errorMessageHolderForETNOCDBToastMessage = "entry can't be 0",
+                        totalCourses = _dbState.value.enteredCourses,
+                        editedNumberOfCourses = _dbState.value.enteredCourses
+
+                    )
+                }
             }
+
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
+        } else if (_dbState.value.editedNumberOfCourses.isNotEmpty() && _dbState.value.enteredCourses != "0") {
+
+            if (_dbState.value.editedNumberOfCourses.toInt() < dbState.value.enteredCourses.toInt()) {
+                _dbState.update {
+                    it.copy(
+                        errorToastMessageVisibilityETNOCDB = true,
+                        errorMessageHolderForETNOCDBToastMessage = "entry can't be less than already entered courses",
+                        totalCourses = _dbState.value.enteredCourses,
+                        editedNumberOfCourses = _dbState.value.enteredCourses
+
+                    )
+                }
+            } else if (_dbState.value.editedNumberOfCourses >= _dbState.value.enteredCourses) {
+                _dbState.update {
+                    it.copy(
+                        errorToastMessageVisibilityETNOCDB = false,
+                        errorMessageHolderForETNOCDBToastMessage = "successfully updated",
+                        totalCourses = _dbState.value.editedNumberOfCourses,
+                        editBaseEntryDialogBoxVisibility = false,
+                        editedNumberOfCourses = _dbState.value.editedNumberOfCourses
+
+
+                    )
+                }
+            }
+
+            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
+        } else {
+            _dbState.update {
+                it.copy(
+                    errorToastMessageVisibilityETNOCDB = false,
+                    errorMessageHolderForETNOCDBToastMessage = "",
+                    editBaseEntryDialogBoxVisibility = false,
+                )
+            }
         }
 
 
@@ -580,64 +818,49 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
             _dbState.update {
                 it.copy(
-                    //defaultEnteredCourseCodeLabel = ErrorMessages.errorMessageForCourseCode
-                )
-            }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                    defaultEditCourseCodeLabel = ErrorMessages.errorMessageForCourseCode,
+                    defaultLabelColourECC = ErrorMessages.textFieldErrorLabelColorHexCode
 
-
-        } else if (_dbState.value.selectedCourseUnit.isEmpty()) {
-            _dbState.update {
-                it.copy(
-                    pickedCourseUnitLabel = ErrorMessages.errorMessageForCourseUnit
 
                 )
             }
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-        } else if (_dbState.value.selectedCourseGrade.isEmpty()) {
-
-            _dbState.update {
-                it.copy(
-                    pickedCourseGradeLabel = ErrorMessages.errorMessageForCourseGrade
-                )
-            }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
-
-
-        } else if (_courseEntries.value.contains(
-                GpData(
-                    _dbState.value.courseCode.uppercase(Locale.UK),
-                    _dbState.value.selectedCourseGrade,
-                    _dbState.value.selectedCourseUnit.toInt()
+        } else if (_dbState.value.arrayOfAlreadyEnteredCourseslist.contains(
+                _dbState.value.courseCode.uppercase(
+                    Locale.UK
                 )
             )
         ) {
 
-            _dbState.update {
-                it.copy(
-                    allReadyInList = true
+            var stillSameCourseCode = _dbState.value.arrayOfAlreadyEnteredCourseslist.indexOf(
+                _dbState.value.courseCode.uppercase(
+                    Locale.UK
                 )
-            }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            )
+            _courseEntries.value[_dbState.value.courseEntryIndex.toInt()] = GpData(
+                courseCode = _dbState.value.arrayOfAlreadyEnteredCourseslist[stillSameCourseCode],
+                courseGrade = _dbState.value.selectedCourseGrade,
+                courseUnit = _dbState.value.selectedCourseUnit.toInt()
+            )
+            savedStateHandle.set(COURSE_ENTRIES_KEY, _courseEntries.value)
+
 
             _dbState.update {
                 it.copy(
-                    allReadyInList = false
+                    courseEntryEditDialogBoxVisibility = false,
+                    matchAlreadyInCourseEntry = "No changes made"
+
                 )
             }
+            clearCourseDataEntry()
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
         } else {
 
-            //RemoveSpace Regardless
-//            _dbState.update {
-//                it.copy(
-//                    courseCode = courseCode.replace(" ", "")
-//                )
-//            }
+
             _courseEntries.value[_dbState.value.courseEntryIndex.toInt()] = GpData(
                 courseCode = _dbState.value.courseCode.uppercase(),
                 courseGrade = _dbState.value.selectedCourseGrade,
@@ -649,13 +872,13 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
             _dbState.update {
                 it.copy(
                     enteredCourses = _courseEntries.value.size.toString(),
-                    courseEntryDialogBoxVisibility = false,
+                    courseEntryEditDialogBoxVisibility = false
+//                    courseEntryDialogBoxVisibility = false,
 
-                    )
+                )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
-
             clearCourseDataEntry()
+            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
         }
@@ -666,64 +889,74 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
     private fun textFieldsErrorCheckCourseDataEntry() {
 
+        _dbState.update {
+            it.copy(
+                allReadyInList = true
+            )
+        }
+
         if (_dbState.value.courseCode.isEmpty()) {
 
             _dbState.update {
                 it.copy(
-                    //defaultEnteredCourseCodeLabel = ErrorMessages.errorMessageForCourseCode
+                    defaultEnteredCourseCodeLabel = ErrorMessages.errorMessageForCourseCode,
+                    defaultLabelColourCC = ErrorMessages.textFieldErrorLabelColorHexCode
                 )
             }
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-        } else if (_dbState.value.selectedCourseUnit == "") {
+        } else if (_dbState.value.selectedCourseUnit.isEmpty()) {
             _dbState.update {
                 it.copy(
-                    pickedCourseUnitLabel = ErrorMessages.errorMessageForCourseUnit
+                    pickedCourseUnitDefaultLabel = ErrorMessages.errorMessageForCourseUnit,
+                    defaultLabelColourCU = ErrorMessages.textFieldErrorLabelColorHexCode
 
                 )
             }
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-        } else if (_dbState.value.selectedCourseGrade == "") {
+        } else if (_dbState.value.selectedCourseGrade.isEmpty()) {
 
             _dbState.update {
                 it.copy(
-                    pickedCourseGradeLabel = ErrorMessages.errorMessageForCourseGrade
+                    pickedCourseGradeDefaultLabel = ErrorMessages.errorMessageForCourseGrade,
+                    defaultLabelColourCG = ErrorMessages.textFieldErrorLabelColorHexCode
                 )
             }
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-        } else if (_courseEntries.value.contains(
-                GpData(
-                    _dbState.value.courseCode.uppercase(Locale.UK),
-                    _dbState.value.selectedCourseGrade,
-                    _dbState.value.selectedCourseUnit.toInt()
-                )
+        } else if (
+
+
+            _dbState.value.arrayOfAlreadyEnteredCourseslist.contains(
+                _dbState.value.courseCode.uppercase(Locale.UK)
             )
         ) {
-            savedStateHandle.set(COURSE_ENTRIES_KEY, _courseEntries.value)
 
 
             _dbState.update {
                 it.copy(
-                    allReadyInList = true
+                    matchAlreadyInCourseEntry = _dbState.value.courseCode.uppercase(Locale.UK),
+                    allReadyInList = true,
+
+                    )
+            }
+            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            _dbState.update {
+                it.copy(
+                    allReadyInList = false,
+                    //matchAlreadyInCourseEntry = ""
                 )
             }
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
         } else {
-            _dbState.update {
-                it.copy(
-                    allReadyInList = false
-                )
-            }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
-
-
 
             _courseEntries.value.add(
                 GpData(
@@ -735,12 +968,32 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
             savedStateHandle.set(COURSE_ENTRIES_KEY, _courseEntries.value)
 
 
+            _dbState.value.arrayOfAlreadyEnteredCourseslist.add(
+                _dbState.value.courseCode.uppercase(
+                    Locale.UK
+                )
+            )
+            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
+
             _dbState.update {
                 it.copy(
+                    allReadyInList = false,
                     enteredCourses = _courseEntries.value.size.toString(),
                     courseEntryDialogBoxVisibility = false,
 
                     )
+            }
+
+            if (_dbState.value.totalCourses == _dbState.value.enteredCourses) {
+                _dbState.update {
+                    it.copy(
+                        changeDoneIcon = true
+                    )
+                }
+
+
             }
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
@@ -1021,8 +1274,8 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
                 courseCode = "",
                 selectedCourseUnit = "",
                 selectedCourseGrade = "",
-                pickedCourseGradeLabel = ErrorPassedValues.enterCourseGradeLabel,
-                pickedCourseUnitLabel = ErrorPassedValues.enterCourseUnitLabel,
+                pickedCourseGradeDefaultLabel = ErrorPassedValues.enterCourseGradeLabel,
+                pickedCourseUnitDefaultLabel = ErrorPassedValues.enterCourseUnitLabel,
                 //defaultEnteredCourseCodeLabel = ErrorPassedValues.enterCourseCodeLabel,
 
             )

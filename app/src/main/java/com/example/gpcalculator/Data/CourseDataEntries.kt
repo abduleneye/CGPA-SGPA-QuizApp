@@ -16,7 +16,7 @@ data class CourseDataEntries(
     var totalCoursesPointSum: Double = 0.0,
 
     var gradeList: List<String> = listOf("A", "B", "C", "D", "E", "F"),
-    var unitList: List<String> = listOf("6", "4", "3", "2", "1", "0"),
+    var unitList: List<String> = listOf("0", "1", "2", "3", "4", "6"),
 
     ) //: parc
     : Parcelable

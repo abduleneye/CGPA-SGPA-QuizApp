@@ -103,8 +103,10 @@ fun DropDownMenu(
                         disabledTextColor = Color.Black,
                         disabledTrailingIconColor = Color.Black,
                         disabledContainerColor = Cream,
-                        disabledPlaceholderColor = Color.Gray,
-                        unfocusedPlaceholderColor = Color.Gray
+                        disabledPlaceholderColor = Color(dBState.defaultLabelColourCU),
+                        unfocusedIndicatorColor = Color(dBState.defaultLabelColourCU),
+
+
                         //disabledIndicatorColor = Cream,
 
                     ),
@@ -139,7 +141,11 @@ fun DropDownMenu(
 
                 DropdownMenu(
                     expanded = dBState.isUnitDropDownMenuExpanded,
-                    onDismissRequest = { onEvent(DialogBoxUiEvents.hideUnitMenuDropDown) },
+                    onDismissRequest = {
+                        onEvent(DialogBoxUiEvents.hideUnitMenuDropDown)
+                        onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCU)
+
+                    },
                     modifier = Modifier
                         .width(with(LocalDensity.current) {
                             textFilledSize.width.toDp()
@@ -153,6 +159,7 @@ fun DropDownMenu(
                         DropdownMenuItem(onClick = {
                             onEvent(DialogBoxUiEvents.setSelectedCourseUnit(courseUnit))
                             onEvent(DialogBoxUiEvents.hideUnitMenuDropDown)
+                            onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCU)
                         }) {
 
                             Text(text = courseUnit)
@@ -189,13 +196,19 @@ fun DropDownMenu(
                         .width(130.dp)
                         .height(70.dp),
                     colors = TextFieldDefaults.colors(
+                        //needed else where
+                        //disabledTextColor = Color(dBState.defaultLabelColourCG),
+                        //
                         disabledTextColor = Color.Black,
                         disabledTrailingIconColor = Color.Black,
                         disabledContainerColor = Cream,
-                        disabledPlaceholderColor = Color.Gray,
-                        unfocusedPlaceholderColor = Color.Gray
+                        disabledPlaceholderColor = Color(dBState.defaultLabelColourCG),
+                        unfocusedIndicatorColor = Color(dBState.defaultLabelColourCG),
+                        disabledPrefixColor = Color(dBState.defaultLabelColourCG),
+                        disabledSuffixColor = Color(dBState.defaultLabelColourCG),
 
-                    ),
+
+                        ),
                     //disabledIndicatorColor = Cream,
 
                     label = {
@@ -227,7 +240,11 @@ fun DropDownMenu(
 
                 DropdownMenu(
                     expanded = dBState.isGradeDropDownMenuExpanded,
-                    onDismissRequest = { onEvent(DialogBoxUiEvents.hideGradeMenuDropDown) },
+                    onDismissRequest = {
+                        onEvent(DialogBoxUiEvents.hideGradeMenuDropDown)
+                        onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCG)
+
+                    },
                     modifier = Modifier
                         .width(with(LocalDensity.current) {
                             textFilledSize.width.toDp()
@@ -241,6 +258,8 @@ fun DropDownMenu(
                         DropdownMenuItem(onClick = {
                             onEvent(DialogBoxUiEvents.setSelectedCourseGrade(courseGrade))
                             onEvent(DialogBoxUiEvents.hideGradeMenuDropDown)
+                            onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCG)
+
                         }) {
 
                             Text(text = courseGrade)

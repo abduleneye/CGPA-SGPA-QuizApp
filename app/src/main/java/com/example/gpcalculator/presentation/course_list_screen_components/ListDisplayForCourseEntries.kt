@@ -1,7 +1,6 @@
 package com.example.gpcalculator.presentation.myViewModels.course_list_screen_component
 
 import GpCalculatorPrototype.Data.GpData
-import android.widget.Toast
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,8 +18,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomSheetState
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,19 +43,26 @@ import com.example.gpcalculator.data.CourseItemsModifierDropDownItems
 import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxState
 import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.example.gpcalculator.ui.theme.Cream
+import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TotalCoursesListCardViewToDisplay(
     data: ArrayList<GpData>,
     onClickEvent: (DialogBoxUiEvents) -> Unit,
+    dbState: DialogBoxState,
+    sheetState: BottomSheetState
 ) {
     val state = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+
 
     LazyColumn(
         state = state,
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxWidth()
+            .height(550.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         // contentPadding = PaddingValues(16.dp)
     ) {
@@ -76,28 +84,28 @@ fun TotalCoursesListCardViewToDisplay(
 
                 ),
                 onMenuItemClick = {
-                    Toast.makeText(
-                        context,
-                        it.text,
-                        Toast.LENGTH_LONG
-                    ).show()
+//                    Toast.makeText(
+//                        context,
+//                        it.text,
+//                        Toast.LENGTH_LONG
+//                    ).show()
 
                     if (it.text == "Delete") {
                         try {
                             onClickEvent(DialogBoxUiEvents.deleteCourseEntry(index))
+                            scope.launch {
+                                if (sheetState.isExpanded) {
+                                    sheetState.collapse()
+                                }
+                            }
 
                         } catch (e: Exception) {
-                            Toast.makeText(
-                                context, "Course already entered", Toast.LENGTH_SHORT
-                            ).show()
+//                            Toast.makeText(
+//                                context, "Course already entered", Toast.LENGTH_SHORT
+//                            ).show()
                         }
-                    }
-                    if (it.text == "Edit") {
-                        Toast.makeText(
-                            context,
-                            item.courseCode,
-                            Toast.LENGTH_LONG
-                        ).show()
+                    } else if (it.text == "Edit") {
+
                         onClickEvent(DialogBoxUiEvents.updateCourseIndexEntry(index.toString()))
                         onClickEvent(
                             DialogBoxUiEvents.editItemsEntries(
@@ -106,10 +114,19 @@ fun TotalCoursesListCardViewToDisplay(
                                 item.courseUnit.toString()
                             )
                         )
+                        scope.launch {
+                            if (sheetState.isExpanded) {
+                                sheetState.collapse()
+                            } else {
+                                sheetState.collapse()
+                            }
+                        }
                         onClickEvent(DialogBoxUiEvents.showCourseEntryEditDBox)
+
                     }
                 },
-                onItemClick = onClickEvent
+                onItemClick = onClickEvent,
+                sheetState = sheetState
 
 
             )
@@ -123,6 +140,7 @@ fun TotalCoursesListCardViewToDisplay(
 }
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyCardView(
     info: GpData,
@@ -133,7 +151,9 @@ fun MyCardView(
     modifier: Modifier = Modifier,
     state: DialogBoxState,
     onItemClick: (DialogBoxUiEvents) -> Unit,
-    onMenuItemClick: (CourseItemsModifierDropDownItems) -> Unit
+    onMenuItemClick: (CourseItemsModifierDropDownItems) -> Unit,
+    sheetState: BottomSheetState
+
 
 ) {
 
@@ -155,6 +175,9 @@ fun MyCardView(
         mutableStateOf(false)
     }
     val myContext = LocalContext.current
+
+    val scope = rememberCoroutineScope()
+
 
 
 
@@ -196,11 +219,13 @@ fun MyCardView(
                         onLongPress = {
                             //onItemClick(DialogBoxUiEvents.showCourseDataEntriesContextmenu)
                             isContextMenuVisible = true
-                            Toast
-                                .makeText(myContext, "A  ahead", Toast.LENGTH_SHORT)
-                                .show()
                             pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
                             onItemClick(DialogBoxUiEvents.showCourseDataEntriesContextmenu)
+                            scope.launch {
+                                if (sheetState.isExpanded) {
+                                    sheetState.collapse()
+                                }
+                            }
 
 
                         },

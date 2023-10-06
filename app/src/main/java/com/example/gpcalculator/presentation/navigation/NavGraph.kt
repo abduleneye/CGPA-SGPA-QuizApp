@@ -28,7 +28,10 @@ fun SetUpNavGraph(
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    
+    var viewModel = viewModel<gpcalculator_view_model>()
+    val state by viewModel.dbState.collectAsState()
+    val statetwo by viewModel.courseEntries.collectAsState()
+
     NavHost(
         navController = navController,
         startDestination = Screen.Splash.route
@@ -40,9 +43,7 @@ fun SetUpNavGraph(
         }
 
         composable(route = Screen.Home.route) {
-            var viewModel = viewModel<gpcalculator_view_model>()
-            val state by viewModel.dbState.collectAsState()
-            val statetwo by viewModel.courseEntries.collectAsState()
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -65,7 +66,10 @@ fun SetUpNavGraph(
         composable(route = Screen.About.route) {
             AboutScreen(
                 navController = navController,
-                adId = "ca-app-pub-3940256099942544/6300978111"
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                state = state,
+                onEvent = viewModel::onEvent
+
 
             )
         }

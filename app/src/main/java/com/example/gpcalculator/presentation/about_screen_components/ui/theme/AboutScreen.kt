@@ -42,7 +42,9 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavController
 import com.example.gpcalculator.R
-import com.example.gpcalculator.presentation.ads_components.AnchoredAdaptiveBanner
+import com.example.gpcalculator.presentation.ads_components.ShimmerBottomAboutBarItemAd
+import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxState
+import com.example.gpcalculator.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.example.gpcalculator.ui.theme.AppBars
 import com.example.gpcalculator.ui.theme.Cream
 
@@ -50,7 +52,9 @@ import com.example.gpcalculator.ui.theme.Cream
 @Composable
 fun AboutScreen(
     navController: NavController,
-    adId: String
+    adId: String,
+    state: DialogBoxState,
+    onEvent: (DialogBoxUiEvents) -> Unit
 
 ) {
 //    val navController = rememberNavController()
@@ -103,8 +107,15 @@ fun AboutScreen(
             ) {
 
 
-                AnchoredAdaptiveBanner(modifier = Modifier, adId = adId)
+                ShimmerBottomAboutBarItemAd(
+                    isLoading = state,
+                    onEvent = onEvent,
+                    contentAfterLoading = {
 
+                    },
+                    modifier = Modifier,
+                    adId = adId
+                )
 
             }
 
@@ -162,14 +173,14 @@ fun AboutScreen(
                             modifier = Modifier
                                 .padding(10.dp)
                                 .fillMaxSize(),
-                            text = "Gp(Grade point)Calculator is an app developed as a hobby project for university students\n" +
+                            text = "GPA(Grade point average)Calculator is an app developed as a hobby project for university students\n" +
                                     "using the(5.0) grading system.\n" +
                                     "Manage your course entries, calculate your GPA and even predict your future performance with different scenarios\n" +
                                     "Key features include:\n" +
                                     "Easy Course Management: Add, edit, and remove course details seamlessly.\n" +
                                     "Accurate GPA Calculation: Effortlessly calculate your GPA based on your  course grades and credit loads\n" +
                                     "Predictive Analysis: Use our prediction feature to  explore how your GPA might change under different circumstances.\n" +
-                                    "Tip: Long press on a course entry to edit and predict details and result.\n",
+                                    "Tip: Long press on a course entry to edit  details and predict result.\n",
                             textAlign = TextAlign.Start,
                             fontSize = 15.sp,
 
@@ -285,12 +296,15 @@ fun AboutScreen(
                                             startActivity(context, intent, null)
                                         } catch (e: Exception) {
                                             //WhatsApp not installed, fallback to SMS
-                                            val smsIntent = Intent(
-                                                Intent.ACTION_SENDTO,
-                                                Uri.parse("smsto:$phoneNumber")
-                                            )
-                                            smsIntent.putExtra("sms_body", message)
-                                            startActivity(context, smsIntent, null)
+//                                            val smsIntent = Intent(
+//                                                Intent.ACTION_SENDTO,
+//                                                Uri.parse("smsto:$phoneNumber")
+//                                            )
+//                                            smsIntent.putExtra("sms_body", message)
+//                                            startActivity(context, smsIntent, null)
+                                            intent.setPackage("com.whatsapp.w4b")
+                                            intent.putExtra("sms_body", message)
+                                            startActivity(context, intent, null)
 
 
                                         }

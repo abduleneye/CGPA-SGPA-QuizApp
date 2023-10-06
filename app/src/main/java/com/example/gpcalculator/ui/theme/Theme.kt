@@ -7,15 +7,19 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = AppBars,
+    primaryVariant = AppBars,
+    secondary = AppBars,
+    background = AppBars
+
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = AppBars,
+    primaryVariant = AppBars,
+    secondary = AppBars,
+    background = AppBars
+
 
     /* Other default colors to override
     background = Color.White,
@@ -39,6 +43,6 @@ fun GpCalculatorTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Comp
         colors = colors,
         typography = Typography,
         shapes = Shapes,
-        content = content
+        content = content,
     )
 }

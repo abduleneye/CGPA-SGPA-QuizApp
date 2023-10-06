@@ -23,6 +23,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -54,6 +55,10 @@ fun CourseEntryDialogBox(
             onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
             onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
             onEvent(DialogBoxUiEvents.setCourseCode(""))
+            onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCC)
+            onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCU)
+            onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCG)
+
 
         },
         properties = DialogProperties(
@@ -73,6 +78,7 @@ fun CourseEntryDialogBox(
                     //300.dp
                     //dbState.dialogDefaultHeight.value.dp
                 )
+                .padding(start = 8.dp, end = 8.dp)
 //                .clickable {
 //                    if (dbState.isUnitDropDownMenuExpanded) {
 //
@@ -122,15 +128,19 @@ fun CourseEntryDialogBox(
                             value = dbState.courseCode,
                             onValueChange = {
                                 onEvent(DialogBoxUiEvents.setCourseCode(it))
+                                onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCC)
                             },
                             colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedLabelColor = AppBars,
-                                focusedBorderColor = AppBars
+                                focusedLabelColor = Color(dbState.defaultLabelColourCC),
+                                focusedBorderColor = Color(dbState.defaultLabelColourCC),
+                                unfocusedBorderColor = Color(dbState.defaultLabelColourCC)
                             ),
                             label = {
                                 Text(text = dbState.defaultEnteredCourseCodeLabel)
-                            }
-                        )
+                            },
+                            singleLine = true,
+
+                            )
 
                         Spacer(
                             modifier = Modifier
@@ -140,8 +150,8 @@ fun CourseEntryDialogBox(
                         Row {
 
                             DropDownMenu(
-                                labelTextOne = dbState.pickedCourseUnitLabel,
-                                labelTextTwo = dbState.pickedCourseGradeLabel,
+                                labelTextOne = dbState.pickedCourseUnitDefaultLabel,
+                                labelTextTwo = dbState.pickedCourseGradeDefaultLabel,
                                 dBState = dbState,
                                 onEvent = onEvent,
                             )
@@ -170,6 +180,7 @@ fun CourseEntryDialogBox(
                                     onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
                                     onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
                                     onEvent(DialogBoxUiEvents.setCourseCode(""))
+                                    onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCC)
 
 
                                 },
@@ -193,11 +204,11 @@ fun CourseEntryDialogBox(
 
                                     onEvent(DialogBoxUiEvents.addEntriesToArrayList)
                                     if (
-                                        dbState.allReadyInList
+                                        true
                                     ) {
                                         Toast.makeText(
                                             context,
-                                            "entries already in list",
+                                            "${dbState.matchAlreadyInCourseEntry} already in list",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }

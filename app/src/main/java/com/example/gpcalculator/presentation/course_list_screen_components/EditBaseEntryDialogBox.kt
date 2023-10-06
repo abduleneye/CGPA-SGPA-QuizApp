@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -46,7 +47,6 @@ fun EditBaseEntryDialogBox(
 
     val context = LocalContext.current
     var viewModel = viewModel<gpcalculator_view_model>()
-    val state by viewModel.dbState.collectAsState()
     val statetwo by viewModel.courseEntries.collectAsState()
     var dummy by remember {
         mutableStateOf("")
@@ -54,6 +54,7 @@ fun EditBaseEntryDialogBox(
 
     Dialog(onDismissRequest = {
         events(DialogBoxUiEvents.hideEditBaseEntryRegardlessDBox)
+
     }) {
 
         Card(
@@ -61,7 +62,9 @@ fun EditBaseEntryDialogBox(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .height(200.dp),
+                .height(200.dp)
+                .padding(start = 8.dp, end = 8.dp),
+
             backgroundColor = Cream
 
         ) {
@@ -95,26 +98,39 @@ fun EditBaseEntryDialogBox(
                 ) {
 
                     OutlinedTextField(
-                        value = state.totalCourses.toString(),
-                        onValueChange = { it ->
-                            events(DialogBoxUiEvents.setTotalCourses(it))
-                            events(DialogBoxUiEvents.resetDefaultValuesFromErrorsTNOC)
-                            events(DialogBoxUiEvents.resetDefaultLabelTextTNOC)
-                            dummy = it
-                            Toast.makeText(
-                                context,
-                                "${state.totalCourses}:${state.prevTotalNumberOfCourses}:${dummy}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        value = state.totalCourses,
+                        onValueChange = {
+                            if (it.length <= state.maxNoOfCoursesLength) {
+                                events(DialogBoxUiEvents.setTotalNumberOfEditedCourses(it))
+                                events(DialogBoxUiEvents.setTotalCourses(it))
+                            } else {
+                                if (state.enteredCourses != "0") {
+                                    events(DialogBoxUiEvents.setTotalNumberOfEditedCourses(state.enteredCourses))
+                                    events(DialogBoxUiEvents.setTotalCourses(state.enteredCourses))
 
+                                } else if (state.enteredCourses == "0") {
+                                    events(DialogBoxUiEvents.setTotalNumberOfEditedCourses(state.prevTotalNumberOfCourses))
+                                    events(DialogBoxUiEvents.setTotalCourses(state.prevTotalNumberOfCourses))
+
+                                } else {
+                                    events(DialogBoxUiEvents.setTotalNumberOfEditedCourses(state.totalCourses))
+                                    events(DialogBoxUiEvents.setTotalCourses(state.totalCourses))
+                                }
+
+                                Toast.makeText(
+                                    context, "cannot be more  than two digits",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+//                            events(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsETNOC)
                         },
                         label = {
                             Text(text = state.defaultLabelETNOC)
                         },
                         singleLine = true,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedLabelColor = AppBars,
-                            focusedBorderColor = AppBars
+                            focusedLabelColor = Color(state.defaultLabelColourETNOC),
+                            focusedBorderColor = Color(state.defaultLabelColourETNOC),
                         ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.NumberPassword,
@@ -123,39 +139,6 @@ fun EditBaseEntryDialogBox(
                         ),
 
                         )
-
-//                    Spacer(
-//                        modifier = Modifier
-//                            .height(10.dp)
-//                    )
-
-//                    OutlinedTextField(
-//                        value = state.totalCreditLoad,
-//
-//                        onValueChange = {
-//                            events(DialogBoxUiEvents.setTotalCreditLoad(it))
-//                            events(DialogBoxUiEvents.resetDefaultValuesFromErrorsTNOCL)
-//                            events(DialogBoxUiEvents.resetDefaultLabelTextTNOCL)
-//
-//
-//                        },
-//
-//                        label = {
-//                            Text(text = state.defaultLabelETNOCL)
-//                        },
-//                        singleLine = true,
-//                        colors = TextFieldDefaults.outlinedTextFieldColors(
-//                            focusedLabelColor = state.defaultLabelColourETNOCL,
-//                            focusedBorderColor = state.defaultLabelColourETNOCL
-//                        ),
-//
-//                        keyboardOptions = KeyboardOptions(
-//                            keyboardType = KeyboardType.NumberPassword,
-//                            imeAction = ImeAction.Done
-//                        ),
-//
-//
-//                        )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -171,39 +154,15 @@ fun EditBaseEntryDialogBox(
                             modifier = Modifier
                                 .padding(bottom = 8.dp), //colors = androidx.compose.material3.MaterialTheme.colorScheme,
                             onClick = {
-                                if (state.totalCourses.isNotBlank()) {
-                                    if (
-                                        state.totalCourses.toInt() < state.enteredCourses.toInt() || state.totalCourses.equals(
-                                            "0"
-                                        )
-                                    ) {
-                                        Toast.makeText(
-                                            context,
-                                            "entry can't be 0 or less then entered courses....${state.totalCourses}:${state.prevTotalNumberOfCourses}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        events(DialogBoxUiEvents.setTotalCourses(state.prevTotalNumberOfCourses))
-
-                                    }
-
-
-                                } else if (state.totalCourses == "") {
-                                    events(DialogBoxUiEvents.setTotalCourses(state.prevTotalNumberOfCourses))
-                                    Toast.makeText(
-                                        context,
-                                        "entry can't be empty..${state.totalCourses}:${state.prevTotalNumberOfCourses}:${dummy}",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-
-
-                                } else if (dummy.toInt() == state.prevTotalNumberOfCourses.toInt() || dummy.toInt() > state.prevTotalNumberOfCourses.toInt()) {
-                                    events(DialogBoxUiEvents.hideEditBaseEntryDBox)
-                                    Toast.makeText(
-                                        context,
-                                        "equal ${state.totalCourses}::${state.prevTotalNumberOfCourses}",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
+                                events(DialogBoxUiEvents.hideEditBaseEntryDBox)
+//                                if (state.errorToastMessageVisibilityETNOCDB == true) {
+//                                    Toast.makeText(
+//                                        context,
+//                                        "${state.errorMessageHolderForETNOCDBToastMessage}",
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
+//
+//                                }
 
 
                             },

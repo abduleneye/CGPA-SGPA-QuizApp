@@ -9,13 +9,21 @@ import androidx.activity.OnBackPressedDispatcherOwner
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.gpcalculator.presentation.course_list_screen_components.gpcalculator_view_model
 import com.example.gpcalculator.presentation.navigation.SetUpNavGraph
+import com.example.gpcalculator.ui.theme.AppBars
+import com.example.gpcalculator.ui.theme.GpCalculatorTheme
 import com.google.android.gms.ads.MobileAds
 
 class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
@@ -32,30 +40,15 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-            
-
             BackHandler(enabled = true, onBack = {
 
-                val current = navController.previousBackStackEntry?.destination?.route
-
-//                (Toast.makeText(
-//                    this,
-//                    "on back detected  cur loc:  $current: ${navBackStackEntry?.destination?.route} but",
-//                    Toast.LENGTH_SHORT
-//                ).show())
-                //onBackPressedDispatcher.onBackPressed()
-                //finish()
 
                 if (navBackStackEntry?.destination?.route == null) {
-//                    (Toast.makeText(
-//                        this,
-//                        "on home screen ",
-//                        Toast.LENGTH_SHORT
-//                    ).show())
+
                     if (doubleBackToExitPressedOnce) {
                         (Toast.makeText(
                             this,
-                            "Press back again to exit",
+                            "Press back  to exit",
                             Toast.LENGTH_SHORT
                         )
                             .show())
@@ -64,7 +57,7 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
                         doubleBackToExitPressedOnce = true
                         (Toast.makeText(
                             this,
-                            "oPress back again to exit",
+                            "Press back again to exit",
                             Toast.LENGTH_SHORT
                         )
                             .show())
@@ -81,7 +74,30 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
 
             })
 
-            SetUpNavGraph(navController = navController, gpcalculatorViewModel = viewModel)
+
+
+
+            GpCalculatorTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = AppBars
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        SetUpNavGraph(
+                            navController = navController,
+                            gpcalculatorViewModel = viewModel
+                        )
+
+
+                    }
+                }
+            }
 
 
         }

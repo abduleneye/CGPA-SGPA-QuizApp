@@ -8,10 +8,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -22,8 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.gpcalculator.presentation.ads_components.AnchoredAdaptiveBanner
+import com.example.gpcalculator.presentation.ads_components.ShimmerBottomHomeBarItemAd
 import com.example.gpcalculator.presentation.course_list_screen_components.BaseEntryDialogBox
 import com.example.gpcalculator.presentation.course_list_screen_components.ConfirmClearCoursesEntryConfirmationDialogBox
 import com.example.gpcalculator.presentation.course_list_screen_components.CourseEntryDialogBox
@@ -50,9 +48,6 @@ fun MainScreen(
     adId: String
 ) {
 
-    val current = navController.currentBackStackEntry
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-
 
 //    (Toast.makeText(
 //        navController.context,
@@ -78,9 +73,22 @@ fun MainScreen(
     val sheetWidth = remember {
         mutableStateOf(60.dp)
     }
-    val statusIcon = Icons.Filled.Add
 
-    var initStatusIcon = Icons.Filled.Add
+
+    val iv = remember {
+        mutableStateOf(Icons.Default.Add)
+    }
+    var initial_working_StatusIcon = if (state.totalCourses == state.enteredCourses) {
+        Icons.Default.Done
+
+    } else {
+        Icons.Default.Add
+
+
+    }
+
+    var finalStatusIcon = Icons.Filled.Done
+
 
     /////////////
 
@@ -127,12 +135,11 @@ fun MainScreen(
                         } else if (stateTwo.size < state.totalCourses.toInt()) {
 
                             onEvent(DialogBoxUiEvents.showDataEntryDBox)
-                            if (state.enteredCourses < state.totalCourses) {
-                                Icons.Filled.Add
-                            } else {
-                                Icons.Filled.Check
-
-                            }
+//                            Toast.makeText(
+//                                context,
+//                                "list  size: ${stateTwo.size} TONOEC: ${state.totalCourses}",
+//                                Toast.LENGTH_LONG
+//                            ).show()
 
 
 //                    } else if (state.totalCreditLoad == "" || state.totalCourses == "") {
@@ -140,6 +147,7 @@ fun MainScreen(
 
                         } else {
                             onEvent(DialogBoxUiEvents.executeCalculation)
+
                             //onEvent(DialogBoxUiEvents.showResultDBox)
                             scope.launch {
                                 if (sheetState.isCollapsed) {
@@ -155,7 +163,7 @@ fun MainScreen(
                     ) {
 
                     androidx.compose.material.Icon(
-                        imageVector = statusIcon,
+                        imageVector = initial_working_StatusIcon,
                         contentDescription = "Add Course details",
 
 
@@ -170,7 +178,8 @@ fun MainScreen(
                     onEvent = onEvent,
                     calcViewModel = calcViewModel,
                     dbState = state,
-                    navController = navController
+                    navController = navController,
+                    sheetState = sheetState
                 )
 
             },
@@ -180,13 +189,28 @@ fun MainScreen(
 //
                 androidx.compose.material3.BottomAppBar(
                     containerColor = AppBars,
-                    contentPadding = PaddingValues(0.dp)
+                    contentPadding = PaddingValues(0.dp),
+                    modifier = Modifier
+                        .height(48.dp)
 
 
                 ) {
 
 //
-                    AnchoredAdaptiveBanner(modifier = Modifier, adId = adId)
+//                    AnchoredAdaptiveBanner(
+//                        modifier = Modifier,
+//                        adId = adId,
+//                        isLoading = state,
+//                        onEvent = onEvent
+//                    )
+
+                    ShimmerBottomHomeBarItemAd(
+                        isLoading = state,
+                        contentAfterLoading = {
+                        },
+                        adId = adId,
+                        onEvent = onEvent
+                    )
 //
                 }
 //
@@ -195,7 +219,10 @@ fun MainScreen(
 //
             },
 
-            backgroundColor = Cream
+            backgroundColor = Cream,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
 
 
         ) {
@@ -267,12 +294,22 @@ fun MainScreen(
 
             } else if (state.clearCoursesConfirmationDBoxVisibility) {
 
-                ConfirmClearCoursesEntryConfirmationDialogBox(onEvent = onEvent, dbState = state)
+                ConfirmClearCoursesEntryConfirmationDialogBox(
+                    onEvent = onEvent,
+                    dbState = state,
+                    sheetState = sheetState
+                )
 
 
             } else {
 
-                TotalCoursesListCardViewToDisplay(data = stateTwo, onClickEvent = onEvent)
+                TotalCoursesListCardViewToDisplay(
+                    data = stateTwo,
+                    onClickEvent = onEvent,
+                    sheetState = sheetState,
+                    dbState = state
+                )
+
 
             }
 
