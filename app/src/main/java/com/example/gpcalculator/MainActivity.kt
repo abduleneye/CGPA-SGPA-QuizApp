@@ -46,18 +46,12 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
                 if (navBackStackEntry?.destination?.route == null) {
 
                     if (doubleBackToExitPressedOnce) {
-                        (Toast.makeText(
-                            this,
-                            "Press back  to exit",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show())
                         finish()
                     } else {
                         doubleBackToExitPressedOnce = true
                         (Toast.makeText(
                             this,
-                            "Press back again to exit",
+                            "Press back button again to exit",
                             Toast.LENGTH_SHORT
                         )
                             .show())
