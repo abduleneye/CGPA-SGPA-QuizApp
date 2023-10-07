@@ -67,6 +67,8 @@ data class DialogBoxState(
     var errorMessageHolderForETNOCDBToastMessage: String = "",
     var errorToastMessageVisibilityETNOCDB: Boolean = false,
     val maxNoOfCoursesLength: Int = 2,
+    val sameValHolder: String = "",
+    val allReadyInListForEditCourseEntries: Boolean = false
 
 
-    ) : Parcelable
+) : Parcelable

@@ -1,6 +1,5 @@
 package com.example.gpcalculator.presentation.myViewModels.course_list_screen_component
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -118,7 +117,7 @@ fun EditCourseEntryDialogBox(
                             onValueChange = {
                                 onEvent(DialogBoxUiEvents.setCourseCode(it))
 
-                                
+
 
                                 onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsECC)
                             },
@@ -190,11 +189,15 @@ fun EditCourseEntryDialogBox(
 
                             Button(
                                 onClick = {
-                                    //onEvent(DialogBoxUiEvents.addEntriesToArrayList)
-                                    //onEvent(DialogBoxUiEvents.setSelectedCourseGrade(""))
-                                    //onEvent(DialogBoxUiEvents.setSelectedCourseUnit(""))
                                     onEvent(DialogBoxUiEvents.replaceEditedInEntriesToArrayList)
-                                    // onEvent(DialogBoxUiEvents.hideCourseEntryEditDBox)
+//                                    if (dbState.allReadyInListForEditCourseEntries) {
+//                                        Toast.makeText(
+//                                            context,
+//                                            "entries already in list no changes made",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                    }
+
 
                                 },
                                 colors = ButtonDefaults.buttonColors(

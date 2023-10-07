@@ -76,7 +76,7 @@ fun TopAppBarDropDownMenu(
         title = {
 
             Text(
-                text = "GpCalculator",
+                text = "GpaCalculator",
                 fontSize = 20.sp,
 
                 )

@@ -77,7 +77,7 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
             is DialogBoxUiEvents.showCourseEntryEditDBox -> {
                 _dbState.update {
                     it.copy(
-                        courseEntryEditDialogBoxVisibility = true
+                        courseEntryEditDialogBoxVisibility = true,
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
@@ -120,6 +120,7 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
             is DialogBoxUiEvents.hideDataEntryDBox -> {
                 _dbState.update {
                     it.copy(
+                        allReadyInList = false,
                         courseEntryDialogBoxVisibility = false
                     )
                 }
@@ -205,12 +206,6 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
-//                _courseEntries.value.add(
-//                    GpData(
-//                        _dbState.value.courseCode.uppercase(Locale.UK),
-//                        _dbState.value.selectedCourseGrade,
-//                        _dbState.value.selectedCourseUnit.toInt()
-//                    ))
             }
 
             is DialogBoxUiEvents.setCourseCode -> {
@@ -223,13 +218,13 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
                         )
                     }
                 } else {
-//                    _dbState.update {
-//                        it.copy(
-//                            allReadyInList = false,
-//                            matchAlreadyInCourseEntry = ""
-//
-//                        )
-//                    }
+                    _dbState.update {
+                        it.copy(
+                            allReadyInList = false,
+                            matchAlreadyInCourseEntry = ""
+
+                        )
+                    }
 
                 }
                 _dbState.update {
@@ -827,58 +822,49 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-        } else if (_dbState.value.arrayOfAlreadyEnteredCourseslist.contains(
-                _dbState.value.courseCode.uppercase(
-                    Locale.UK
-                )
-            )
-        ) {
-
-            var stillSameCourseCode = _dbState.value.arrayOfAlreadyEnteredCourseslist.indexOf(
-                _dbState.value.courseCode.uppercase(
-                    Locale.UK
-                )
-            )
-            _courseEntries.value[_dbState.value.courseEntryIndex.toInt()] = GpData(
-                courseCode = _dbState.value.arrayOfAlreadyEnteredCourseslist[stillSameCourseCode],
-                courseGrade = _dbState.value.selectedCourseGrade,
-                courseUnit = _dbState.value.selectedCourseUnit.toInt()
-            )
-            savedStateHandle.set(COURSE_ENTRIES_KEY, _courseEntries.value)
-
-
-            _dbState.update {
-                it.copy(
-                    courseEntryEditDialogBoxVisibility = false,
-                    matchAlreadyInCourseEntry = "No changes made"
-
-                )
-            }
-            clearCourseDataEntry()
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
-
-
         } else {
 
+            if (
+                _courseEntries.value.contains(
+                    GpData(
+                        courseCode = _dbState.value.courseCode.uppercase(),
+                        courseGrade = _dbState.value.selectedCourseGrade,
+                        courseUnit = _dbState.value.selectedCourseUnit.toInt()
+                    )
+                )
+            ) {
 
-            _courseEntries.value[_dbState.value.courseEntryIndex.toInt()] = GpData(
-                courseCode = _dbState.value.courseCode.uppercase(),
-                courseGrade = _dbState.value.selectedCourseGrade,
-                courseUnit = _dbState.value.selectedCourseUnit.toInt()
-            )
-            savedStateHandle.set(COURSE_ENTRIES_KEY, _courseEntries.value)
+                _dbState.update {
+                    it.copy(
+                        enteredCourses = _courseEntries.value.size.toString(),
+                        courseEntryEditDialogBoxVisibility = false,
+
+                        )
+                }
 
 
-            _dbState.update {
-                it.copy(
-                    enteredCourses = _courseEntries.value.size.toString(),
-                    courseEntryEditDialogBoxVisibility = false
+            } else {
+                _courseEntries.value[_dbState.value.courseEntryIndex.toInt()] = GpData(
+                    courseCode = _dbState.value.courseCode.uppercase(),
+                    courseGrade = _dbState.value.selectedCourseGrade,
+                    courseUnit = _dbState.value.selectedCourseUnit.toInt()
+                )
+                savedStateHandle.set(COURSE_ENTRIES_KEY, _courseEntries.value)
+
+
+                _dbState.update {
+                    it.copy(
+                        enteredCourses = _courseEntries.value.size.toString(),
+                        courseEntryEditDialogBoxVisibility = false
 //                    courseEntryDialogBoxVisibility = false,
 
-                )
+                    )
+                }
+                clearCourseDataEntry()
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
             }
-            clearCourseDataEntry()
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
         }
@@ -889,11 +875,11 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
 
     private fun textFieldsErrorCheckCourseDataEntry() {
 
-        _dbState.update {
-            it.copy(
-                allReadyInList = true
-            )
-        }
+//        _dbState.update {
+//            it.copy(
+//                allReadyInList = false
+//            )
+//        }
 
         if (_dbState.value.courseCode.isEmpty()) {
 
@@ -949,7 +935,7 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
             _dbState.update {
                 it.copy(
-                    allReadyInList = false,
+                    // allReadyInList = false,
                     //matchAlreadyInCourseEntry = ""
                 )
             }
@@ -982,8 +968,9 @@ class gpcalculator_view_model(private val savedStateHandle: SavedStateHandle) : 
                     allReadyInList = false,
                     enteredCourses = _courseEntries.value.size.toString(),
                     courseEntryDialogBoxVisibility = false,
+                    //matchAlreadyInCourseEntry =
 
-                    )
+                )
             }
 
             if (_dbState.value.totalCourses == _dbState.value.enteredCourses) {

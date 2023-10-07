@@ -203,9 +203,7 @@ fun CourseEntryDialogBox(
                                 onClick = {
 
                                     onEvent(DialogBoxUiEvents.addEntriesToArrayList)
-                                    if (
-                                        true
-                                    ) {
+                                    if (dbState.allReadyInList) {
                                         Toast.makeText(
                                             context,
                                             "${dbState.matchAlreadyInCourseEntry} already in list",

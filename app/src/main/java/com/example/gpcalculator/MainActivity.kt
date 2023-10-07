@@ -30,8 +30,8 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
 
+        setContent {
             MobileAds.initialize(this)
 
             var viewModel = viewModel<gpcalculator_view_model>()

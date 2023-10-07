@@ -295,16 +295,20 @@ fun AboutScreen(
                                         try {
                                             startActivity(context, intent, null)
                                         } catch (e: Exception) {
-                                            //WhatsApp not installed, fallback to SMS
-//                                            val smsIntent = Intent(
-//                                                Intent.ACTION_SENDTO,
-//                                                Uri.parse("smsto:$phoneNumber")
-//                                            )
-//                                            smsIntent.putExtra("sms_body", message)
-//                                            startActivity(context, smsIntent, null)
-                                            intent.setPackage("com.whatsapp.w4b")
-                                            intent.putExtra("sms_body", message)
-                                            startActivity(context, intent, null)
+                                            //Normal whatsApp not installed, fallback to SMS
+                                            try {
+                                                intent.setPackage("com.whatsapp.w4b")
+                                                intent.putExtra("sms_body", message)
+                                                startActivity(context, intent, null)
+                                            } catch (e: Exception) {
+                                                //whatsappBusiness not installed, fallback to SMS
+                                                val smsIntent = Intent(
+                                                    Intent.ACTION_SENDTO,
+                                                    Uri.parse("smsto:$phoneNumber")
+                                                )
+                                                smsIntent.putExtra("sms_body", message)
+                                                startActivity(context, smsIntent, null)
+                                            }
 
 
                                         }

@@ -93,11 +93,7 @@ fun TotalCoursesListCardViewToDisplay(
                     if (it.text == "Delete") {
                         try {
                             onClickEvent(DialogBoxUiEvents.deleteCourseEntry(index))
-                            scope.launch {
-                                if (sheetState.isExpanded) {
-                                    sheetState.collapse()
-                                }
-                            }
+
 
                         } catch (e: Exception) {
 //                            Toast.makeText(
@@ -114,13 +110,6 @@ fun TotalCoursesListCardViewToDisplay(
                                 item.courseUnit.toString()
                             )
                         )
-                        scope.launch {
-                            if (sheetState.isExpanded) {
-                                sheetState.collapse()
-                            } else {
-                                sheetState.collapse()
-                            }
-                        }
                         onClickEvent(DialogBoxUiEvents.showCourseEntryEditDBox)
 
                     }
