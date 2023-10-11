@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-    namespace 'com.example.gpcalculator'
+    namespace 'com.engpacalculator.gpcalculator'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.gpcalculator"
-        minSdk 24
+        applicationId "com.engpacalculator.gpcalculator"
+        minSdk 21
         //noinspection EditedTargetSdkVersion
         targetSdk 34
         versionCode 1
