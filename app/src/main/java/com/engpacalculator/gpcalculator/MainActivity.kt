@@ -25,6 +25,7 @@ import com.engpacalculator.gpcalculator.presentation.navigation.SetUpNavGraph
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.GpCalculatorTheme
 import com.google.android.gms.ads.MobileAds
+import com.google.firebase.analytics.FirebaseAnalytics
 
 class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -33,6 +34,8 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
 
         setContent {
             MobileAds.initialize(this)
+            FirebaseAnalytics.getInstance(this)
+
 
             var viewModel = viewModel<gpcalculator_view_model>()
             val state by viewModel.dbState.collectAsState()

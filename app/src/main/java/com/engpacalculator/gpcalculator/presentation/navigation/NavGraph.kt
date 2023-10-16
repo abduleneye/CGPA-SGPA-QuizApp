@@ -57,6 +57,7 @@ fun SetUpNavGraph(
                     navController = navController,
                     adId = "ca-app-pub-3656021994888380/3450364305"
                     //ca-app-pub-3656021994888380/3450364305
+                    // Test Ad unit ca-app-pub-3940256099942544/6300978111
                 )
 
             }
@@ -69,6 +70,8 @@ fun SetUpNavGraph(
                 navController = navController,
                 adId = "ca-app-pub-3656021994888380/4847206452",
                 //ca-app-pub-3656021994888380/4847206452
+                // Test Ad unit ca-app-pub-3940256099942544/6300978111
+
                 state = state,
                 onEvent = viewModel::onEvent
 

@@ -173,15 +173,14 @@ fun AboutScreen(
                             modifier = Modifier
                                 .padding(10.dp)
                                 .fillMaxSize(),
-                            text = "GPA(Grade point average)Calculator is an app developed as a hobby project for university students\n" +
-                                    "using the(5.0) grading system.\n" +
-                                    "Manage your course entries, calculate your (SGPA) and even predict your future performance with different scenarios\n" +
+                            text = "EnGPA(Grade point average)Calculator is an app developed as a hobby project for university students using the(5.0) grading system.\n" +
+                                    "Manage your course entries, calculate your (SGPA) and simulate your future performance with different scenarios.\n" +
                                     "Key features include:\n" +
                                     "Easy Course Management: Add, edit, and remove course details seamlessly.\n" +
                                     "Accurate (SGPA) Calculation: Effortlessly calculate your (SGPA) based on your  course grades and credit loads.\n" +
-                                    "Predictive Analysis: Use our prediction feature to  explore how your (SGPA) might change under different circumstances.\n" +
+                                    "Simulation Analysis: Use our simulation capability by editing your course entry grades  and credit unit to  explore how your (SGPA) might change under different circumstances.\n" +
                                     "For now the calculator can only calculate your  gpa per semester basis i.e (SGPA)  future app updates will be able to calculate your (CGPA) and packed with more features, so stay tuned for updates.\n" +
-                                    "Tip: Long press on a course entry to edit  details and predict result.\n",
+                                    "Tip: Long press on a course entry to edit  details and simulate your  result.\n",
                             textAlign = TextAlign.Start,
                             fontSize = 15.sp,
 
@@ -235,11 +234,10 @@ fun AboutScreen(
                             modifier = Modifier
                                 .padding(10.dp)
                                 .fillMaxWidth(),
-                            text = "Abdulhameed Abdulhakeem is a passionate tech enthusiast currently pursuing studies at the\n" +
-                                    "Federal University of Technology Minna,\n" +
-                                    "Although relatively new to android development, he loves  exploring   the latest tools and technologies.\n" +
-                                    "Abdulhameed has keen interest in open source projects and is open to freelance opportunities\n" +
-                                    "Get in touch with Abdulhameed for collaborations or projects through the platforms below:\n",
+                            text = "Abdulhameed Abdulhakeem Eneye is a passionate tech enthusiast currently pursuing studies at the Federal University of Technology Minna,\n" +
+                                    "Although relatively new to android development, he loves exploring the latest tools and technologies.\n" +
+                                    "Abdulhameed has keen interest in open source projects and is open to freelance opportunities.\n" +
+                                    "Get in touch with Abdulhameed for: new app  features request, collaborations and projects through the platforms below:\n",
                             textAlign = TextAlign.Start,
                             fontSize = 15.sp,
 

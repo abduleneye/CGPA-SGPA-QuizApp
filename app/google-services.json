@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "359244255251",
+    "project_id": "engpa-calculator",
+    "storage_bucket": "engpa-calculator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359244255251:android:7f56e74be703ea1e1c2fe6",
+        "android_client_info": {
+          "package_name": "com.engpacalculator.gpcalculator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOwL-0Nx22iJoMMYxzWAkgcKavSlO6syk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      },
+      "admob_app_id": "ca-app-pub-3656021994888380~4763445973"
+    }
+  ],
+  "configuration_version": "1"
+}
