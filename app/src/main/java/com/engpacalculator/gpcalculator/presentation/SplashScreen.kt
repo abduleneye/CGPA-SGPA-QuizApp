@@ -1,5 +1,6 @@
 package com.engpacalculator.gpcalculator.presentation
 
+import android.os.Build
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -59,16 +60,18 @@ fun Splash(
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Image(
+                painter = painterResource(id = R.drawable.nocrashss),
+                contentDescription = "SplashScreen",
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier
+                    .alpha(alpha = alpha)
 
-        Image(
-            painter = painterResource(id = R.drawable.rvss),
-            contentDescription = "SplashScreen",
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier
-                .alpha(alpha = alpha)
 
+            )
+        }
 
-        )
 
     }
 }
