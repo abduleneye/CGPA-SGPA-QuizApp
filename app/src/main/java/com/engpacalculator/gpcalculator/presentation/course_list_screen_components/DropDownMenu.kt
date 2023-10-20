@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -151,18 +152,26 @@ fun DropDownMenu(
                             textFilledSize.width.toDp()
                         })
                         .height(120.dp)
-                        .background(color = Cream)
-                ) {
+                        .background(color = Cream),
+
+
+                    ) {
 
                     dataEntryObj.unitList.forEach { courseUnit ->
 
-                        DropdownMenuItem(onClick = {
-                            onEvent(DialogBoxUiEvents.setSelectedCourseUnit(courseUnit))
-                            onEvent(DialogBoxUiEvents.hideUnitMenuDropDown)
-                            onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCU)
-                        }) {
+                        DropdownMenuItem(
+                            onClick = {
+                                onEvent(DialogBoxUiEvents.setSelectedCourseUnit(courseUnit))
+                                onEvent(DialogBoxUiEvents.hideUnitMenuDropDown)
+                                onEvent(DialogBoxUiEvents.resetBackToDefaultValuesFromErrorsCU)
+                            },
+                            modifier = Modifier
+                                .padding(bottom = 0.3.dp),
+                        ) {
 
-                            Text(text = courseUnit)
+                            Text(
+                                text = courseUnit
+                            )
 
                         }
 
