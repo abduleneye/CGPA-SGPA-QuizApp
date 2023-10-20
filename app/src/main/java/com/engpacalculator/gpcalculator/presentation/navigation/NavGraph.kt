@@ -55,7 +55,7 @@ fun SetUpNavGraph(
                     stateTwo = statetwo,
                     calcViewModel = gpcalculatorViewModel,
                     navController = navController,
-                    adId = "ca-app-pub-3656021994888380/3450364305"
+                    adId = "ca-app-pub-3940256099942544/6300978111"
                     //ca-app-pub-3656021994888380/3450364305
                     // Test Ad unit ca-app-pub-3940256099942544/6300978111
                 )
@@ -68,7 +68,7 @@ fun SetUpNavGraph(
         composable(route = Screen.About.route) {
             AboutScreen(
                 navController = navController,
-                adId = "ca-app-pub-3656021994888380/4847206452",
+                adId = "ca-app-pub-3940256099942544/6300978111",
                 //ca-app-pub-3656021994888380/4847206452
                 // Test Ad unit ca-app-pub-3940256099942544/6300978111
 
