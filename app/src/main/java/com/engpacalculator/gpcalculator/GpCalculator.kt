@@ -29,6 +29,7 @@ fun main() {
     courseValueMapper(coursesDataEntryObj.coursesDataEntry)
     println(operations(totalCreditLoad))
     println(coursesDataEntryObj.coursesDataEntry)
+    println("tsting")
 
 
 }
