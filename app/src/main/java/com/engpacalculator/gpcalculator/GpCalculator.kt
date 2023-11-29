@@ -30,6 +30,7 @@ fun main() {
     println(operations(totalCreditLoad))
     println(coursesDataEntryObj.coursesDataEntry)
     println("tsting")
+    println("tsting")
 
 
 }
