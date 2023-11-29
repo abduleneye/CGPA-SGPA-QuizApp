@@ -20,7 +20,6 @@ fun main() {
     println("Welcome to Gp Calculator>>>:")
     println("Please enter your total credit load for this semester:")
     var totalCreditLoad = readln().toInt()
-
     println("Please enter your total number of courses for this semester:")
     var totalNumberOfCourses = readln().toInt()
 
@@ -30,6 +29,8 @@ fun main() {
     println(operations(totalCreditLoad))
     println(coursesDataEntryObj.coursesDataEntry)
     println("Testing master")
+    println("Retesting_commit")
+
 
 }
 
