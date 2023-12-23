@@ -36,8 +36,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.DialogBoxState
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.DialogBoxUiEvents
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.course_list_screen_components.DialogBoxState
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
 @OptIn(ExperimentalMaterial3Api::class)

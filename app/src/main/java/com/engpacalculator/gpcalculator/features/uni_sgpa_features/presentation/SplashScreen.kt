@@ -19,7 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.engpacalculator.gpcalculator.R
-import com.engpacalculator.gpcalculator.presentation.navigation.Screen
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.navigation.Screen
 import kotlinx.coroutines.delay
 
 @Composable

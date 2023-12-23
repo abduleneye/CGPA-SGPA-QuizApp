@@ -14,8 +14,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.DialogBoxState
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.ResultBottomSheetContent
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.course_list_screen_components.DialogBoxState
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.course_list_screen_components.ResultBottomSheetContent
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

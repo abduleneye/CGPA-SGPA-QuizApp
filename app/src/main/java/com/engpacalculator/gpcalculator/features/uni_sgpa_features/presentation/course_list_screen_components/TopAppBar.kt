@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.gpcalculator_view_model
-import com.engpacalculator.gpcalculator.presentation.navigation.Screen
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.navigation.Screen
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.launch

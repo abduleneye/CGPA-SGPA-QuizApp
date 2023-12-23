@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.ui.theme.GpCalculatorTheme
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.about_screen_components.ui.theme.GpCalculatorTheme
 
 class Samplechk : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

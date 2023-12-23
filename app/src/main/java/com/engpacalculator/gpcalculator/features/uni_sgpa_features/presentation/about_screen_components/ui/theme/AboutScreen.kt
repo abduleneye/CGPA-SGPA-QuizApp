@@ -42,9 +42,9 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.R
-import com.engpacalculator.gpcalculator.presentation.ads_components.ShimmerBottomAboutBarItemAd
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.DialogBoxState
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.DialogBoxUiEvents
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.ads_components.ShimmerBottomAboutBarItemAd
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.course_list_screen_components.DialogBoxState
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 

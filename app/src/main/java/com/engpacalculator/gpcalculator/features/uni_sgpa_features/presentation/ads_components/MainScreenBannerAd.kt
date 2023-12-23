@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.DialogBoxState
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.DialogBoxUiEvents
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.course_list_screen_components.DialogBoxState
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize

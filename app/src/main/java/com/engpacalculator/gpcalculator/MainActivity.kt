@@ -20,12 +20,13 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.gpcalculator_view_model
-import com.engpacalculator.gpcalculator.presentation.navigation.SetUpNavGraph
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.gpcalculator_view_model
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.navigation.SetUpNavGraph
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.GpCalculatorTheme
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.analytics.FirebaseAnalytics
+
 
 class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
     @RequiresApi(Build.VERSION_CODES.O)

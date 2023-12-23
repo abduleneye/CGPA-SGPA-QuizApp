@@ -14,9 +14,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.engpacalculator.gpcalculator.presentation.AnimatedSplash
-import com.engpacalculator.gpcalculator.presentation.about_screen_components.ui.theme.AboutScreen
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.gpcalculator_view_model
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.AnimatedSplash
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.about_screen_components.ui.theme.AboutScreen
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.gpcalculator_view_model
 import com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component.MainScreen
 
 @RequiresApi(Build.VERSION_CODES.O)

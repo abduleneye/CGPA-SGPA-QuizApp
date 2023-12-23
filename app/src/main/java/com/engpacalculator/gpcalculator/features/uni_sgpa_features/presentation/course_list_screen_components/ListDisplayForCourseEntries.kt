@@ -39,8 +39,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.engpacalculator.gpcalculator.features.uni_sgpa_features.data.CourseItemsModifierDropDownItems
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.DialogBoxState
-import com.engpacalculator.gpcalculator.presentation.course_list_screen_components.DialogBoxUiEvents
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.course_list_screen_components.DialogBoxState
+import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.launch
 
