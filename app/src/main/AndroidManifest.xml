@@ -8,6 +8,7 @@
 
 
     <application
+        android:name=".features.five_grading_system_sgpa_features.UniFiveSgpaApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,11 +18,11 @@
         android:theme="@style/Theme.GpCalculator"
         tools:targetApi="31">
 
-        <activity
-            android:name=".presentation.course_list_screen_components.Samplechk"
-            android:exported="false"
-            android:label="@string/title_activity_samplechk"
-            android:theme="@style/Theme.GpCalculator" />
+        <!--        <activity-->
+        <!--            android:name=".presentation.course_list_screen_components.Samplechk"-->
+        <!--            android:exported="false"-->
+        <!--            android:label="@string/title_activity_samplechk"-->
+        <!--            android:theme="@style/Theme.GpCalculator" />-->
         <activity
             android:name=".MainActivity"
             android:exported="true"

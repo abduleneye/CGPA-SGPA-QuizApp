@@ -17,17 +17,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.gpcalculator_view_model
-import com.engpacalculator.gpcalculator.features.uni_sgpa_features.presentation.navigation.SetUpNavGraph
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.UniFiveSgpaViewModel
+import com.engpacalculator.gpcalculator.core.navigation.SetUpNavGraph
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.GpCalculatorTheme
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.analytics.FirebaseAnalytics
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +39,7 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
             FirebaseAnalytics.getInstance(this)
 
 
-            var viewModel = viewModel<gpcalculator_view_model>()
+            var viewModel: UniFiveSgpaViewModel = hiltViewModel()
             val state by viewModel.dbState.collectAsState()
             val statetwo by viewModel.courseEntries.collectAsState()
             val navController = rememberNavController()
