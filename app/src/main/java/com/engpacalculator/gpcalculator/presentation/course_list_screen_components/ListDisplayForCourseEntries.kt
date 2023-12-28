@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -202,6 +201,18 @@ fun MyCardView(
                     detectTapGestures(
                         onLongPress = {
                             //onItemClick(DialogBoxUiEvents.showCourseDataEntriesContextmenu)
+//                            isContextMenuVisible = true
+//                            pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
+//                            onItemClick(DialogBoxUiEvents.showCourseDataEntriesContextmenu)
+//                            scope.launch {
+//                                if (sheetState.isExpanded) {
+//                                    sheetState.collapse()
+//                                }
+//                            }
+
+
+                        },
+                        onPress = {
                             isContextMenuVisible = true
                             pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
                             onItemClick(DialogBoxUiEvents.showCourseDataEntriesContextmenu)
@@ -212,21 +223,10 @@ fun MyCardView(
                             }
 
 
-                        },
-                        onPress = {
-//                            val toast = Toast
-//                                .makeText(
-//                                    myContext,
-//                                    "Long press to edit or delete",
-//                                    Toast.LENGTH_SHORT
-//                                )
-//                                .show()
-
-
-                            val press = PressInteraction.Press(it)
-                            interactionSource.emit(press)
-                            tryAwaitRelease()
-                            interactionSource.emit(PressInteraction.Release(press))
+//                            val press = PressInteraction.Press(it)
+//                            interactionSource.emit(press)
+//                            tryAwaitRelease()
+//                            interactionSource.emit(PressInteraction.Release(press))
                         }
                     )
 
