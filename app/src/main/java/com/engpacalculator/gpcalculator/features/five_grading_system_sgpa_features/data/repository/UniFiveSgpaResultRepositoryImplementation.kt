@@ -1,6 +1,7 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.repository
 
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.UniFiveSgpaResultRecordDao
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultEntity
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.repository.UniFiveSgpaResultRepository
 import kotlinx.coroutines.flow.Flow
 
