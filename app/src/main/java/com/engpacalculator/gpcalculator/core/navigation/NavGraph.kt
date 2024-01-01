@@ -10,17 +10,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.engpacalculator.gpcalculator.HomeScreen.HomeScreen
 import com.engpacalculator.gpcalculator.about_screen_components.ui.theme.AboutScreen
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.AnimatedSplash
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.UniFiveSgpaViewModel
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.results_record_screen_component.FullResultScreen
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.results_record_screen_component.RecordScreen
-import com.engpacalculator.gpcalculator.five_grading_system_top_level_components.Five_Grading_System_Mode
+import com.engpacalculator.gpcalculator.five_grading_system_top_level_components.Five_Grading_System_Mode_Screen
+import com.engpacalculator.gpcalculator.four_grading_system_top_level_components.Four_Grading_System_Mode_Screen
 import com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component.MainScreen
+import com.engpacalculator.gpcalculator.quiz_top_level_components.Quiz_Mode_Screen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -34,7 +39,12 @@ fun SetUpNavGraph(
     var viewModel = viewModel<UniFiveSgpaViewModel>()
     val state by viewModel.dbState.collectAsState()
     val statetwo by viewModel.courseEntries.collectAsState()
-    val stateThree by viewModel.resultDB.collectAsState()
+    val stateThree by viewModel.resultIntroDB.collectAsState()
+
+
+//    for (i in 1..stateThree.resultItems.size) {
+//        stateThree.resultItems[i].resultName
+//    }
 
     NavHost(
         navController = navController,
@@ -54,7 +64,12 @@ fun SetUpNavGraph(
 
             ) {
 
-                HomeScreen(navController)
+                HomeScreen(
+                    navController = navController,
+                    onEvent = viewModel::onEvent,
+                    state = state,
+                    adId = "ca-app-pub-3940256099942544/6300978111"
+                )
 
 
             }
@@ -76,16 +91,15 @@ fun SetUpNavGraph(
             )
         }
 
-        composable(route = Screen.Five_Sgpa_Records_Screen.route) {
-            RecordScreen(
-                navController = navController,
-                state = stateThree.resultItems,
-                viewModel = viewModel
-            )
-        }
+
 
         composable(route = Screen.Five_Screen.route) {
-            Five_Grading_System_Mode(navController = navController)
+            Five_Grading_System_Mode_Screen(
+                navController = navController,
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                state = state,
+                onEvent = viewModel::onEvent
+            )
         }
 
         composable(route = Screen.Five_Sgpa_Screen.route) {
@@ -100,6 +114,70 @@ fun SetUpNavGraph(
                 // Test Ad unit ca-app-pub-3940256099942544/6300978111
             )
 
+        }
+
+        composable(route = Screen.Quiz_Mode_Screen.route) {
+            Quiz_Mode_Screen(
+                navController = navController,
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                state = state, onEvent = viewModel::onEvent
+            )
+        }
+
+        composable(route = Screen.Four_Screen.route) {
+            Four_Grading_System_Mode_Screen(
+                navController = navController,
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                state = state,
+                onEvent = viewModel::onEvent
+            )
+        }
+
+        composable(
+            route = Screen.Five_Sgpa_Records_Screen.route
+            //            + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}"
+        ) {
+            RecordScreen(
+                navController = navController,
+                state = stateThree,
+                viewModel = viewModel,
+                onEvent = viewModel::onEvent
+            )
+        }
+
+        composable(
+            route = Screen.Five_Sgpa_Full_Records_Screen.route + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}",
+            arguments = listOf(
+                navArgument(name = "ResultName") {
+                    type = NavType.StringType
+                    defaultValue = "ResultName"
+
+                },
+                navArgument(name = "ListOfCourseDetails") {
+                    type = NavType.StringType
+                    defaultValue = "Results..."
+
+                },
+                navArgument(name = "Gp") {
+                    type = NavType.StringType
+                    defaultValue = "GradePoint"
+
+                },
+                navArgument(name = "ResultRemark") {
+                    type = NavType.StringType
+                    defaultValue = "Result remark"
+
+                }
+            )
+        ) { entry ->
+            FullResultScreen(
+                resultName = entry.arguments?.getString("ResultName"),
+                actualResults = entry.arguments?.getString("ListOfCourseDetails"),
+                gP = entry.arguments?.getString("Gp"),
+                resultRemark = entry.arguments?.getString("ResultRemark"),
+                onEvent = viewModel::onEvent,
+                navController = navController
+            )
         }
 
 

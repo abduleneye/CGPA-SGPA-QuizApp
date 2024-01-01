@@ -1,10 +1,13 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.results_record_screen_component
 
-import androidx.compose.foundation.gestures.detectTapGestures
+import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,30 +16,42 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultEntity
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.UniFiveSgpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxState
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 
 @Composable
 fun Init() {
-    Box {
-        Text(text = "Holla")
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+
+        Text(text = "No saved record(s) yet")
+
     }
 }
 
@@ -44,10 +59,13 @@ fun Init() {
 @Composable
 fun RecordScreen(
     navController: NavController,
-    state: List<UniFiveSgpaResultEntity>,
-    viewModel: UniFiveSgpaViewModel,
+    //state: List<UniFiveSgpaResultEntity>,
+    state: ResultsRecordState,
 
-    ) {
+    viewModel: UniFiveSgpaViewModel,
+    onEvent: (DialogBoxUiEvents) -> Unit
+
+) {
 
     val scope = rememberCoroutineScope()
 
@@ -63,12 +81,21 @@ fun RecordScreen(
     }
     //
 
-    Init()
 
-    ResultRecordToDisplay(
-        data = state,
-    )
+    if (state.resultItems.isEmpty()) {
 
+        Init()
+
+
+    } else {
+        ResultRecordToDisplay(
+            data = state,
+            navController = navController,
+            onEvent = onEvent,
+            viewModel = viewModel
+        )
+
+    }
     //
 }
 
@@ -76,13 +103,17 @@ fun RecordScreen(
 @Composable
 fun MyCardView(
     info: UniFiveSgpaResultEntity,
+    navController: NavController,
     index: Int,
     modifier: Modifier = Modifier,
     state: DialogBoxState,
+    onEvent: (DialogBoxUiEvents) -> Unit,
+    viewModel: UniFiveSgpaViewModel,
 
 
     ) {
 
+    val json = Gson().toJson(info.resultEntries)
 
     val myContext = LocalContext.current
 
@@ -96,92 +127,81 @@ fun MyCardView(
         elevation = CardDefaults.cardElevation(8.dp),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .height(320.dp)
+            .height(120.dp)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clickable {
+                Toast
+                    .makeText(myContext, "Clicked from card view!!!", Toast.LENGTH_SHORT)
+                    .show()
+            },
         colors = CardDefaults.cardColors(
             containerColor = Cream
         )
 
 
     ) {
-        Box(
 
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(90.dp)
-//                    .indication(interactionSource = interactionSource, LocalIndication.current)
-                .pointerInput(true) {
-                    detectTapGestures(
-                        onLongPress = {
-                            //onItemClick(DialogBoxUiEvents.showCourseDataEntriesContextmenu)
-//                            isContextMenuVisible = true
-//                            pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
-//                            onItemClick(DialogBoxUiEvents.showCourseDataEntriesContextmenu)
-//                            scope.launch {
-//                                if (sheetState.isExpanded) {
-//                                    sheetState.collapse()
-//                                }
-//                            }
-
-
-                        },
-//                            onPress = {
-//                                isContextMenuVisible = true
-//                                pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
-//                                onItemClick(DialogBoxUiEvents.showCourseDataEntriesContextmenu)
-//                                scope.launch {
-//                                    if (sheetState.isExpanded) {
-//                                        sheetState.collapse()
-//                                    }
-//                                }
-//
-//
-////                            val press = PressInteraction.Press(it)
-////                            interactionSource.emit(press)
-////                            tryAwaitRelease()
-////                            interactionSource.emit(PressInteraction.Release(press))
-//                            }
+                .fillMaxSize()
+                .clickable {
+                    navController.navigate(
+                        Screen.Five_Sgpa_Full_Records_Screen.withArgs(
+                            info.resultName,
+                            json,
+                            info.gp,
+                            info.remark
+                        )
                     )
+                    Toast
+                        .makeText(myContext, "Clicked from column!!!", Toast.LENGTH_SHORT)
+                        .show()
 
-                }
-                .padding(top = 8.dp)
 
-
+                },
         ) {
-
-
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = info.resultEntries.toString(), fontWeight = FontWeight.Bold)
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-
-                    Text(text = info.gp, fontWeight = FontWeight.Bold)
-                    Text(text = info.remark, fontWeight = FontWeight.Bold)
+            Row() {
+                IconButton(onClick = {
+                    onEvent(DialogBoxUiEvents.DeleteResult(info))
+                    //viewModel.loadData()
+                }) {
+                    Icon(Icons.Default.Delete, contentDescription = "Delete Result")
 
                 }
-
             }
+
+            Text(text = info.resultName, fontWeight = FontWeight.Bold)
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Text(text = info.resultEntries.toString(), fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = info.gp, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = info.remark, fontWeight = FontWeight.Bold)
+
+
+            //}
 
         }
 
-
     }
+
+
 }
 
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ResultRecordToDisplay(
-    data: List<UniFiveSgpaResultEntity>,
-) {
+    //data: List<UniFiveSgpaResultEntity>,
+    data: ResultsRecordState,
+    navController: NavController,
+    onEvent: (DialogBoxUiEvents) -> Unit,
+    viewModel: UniFiveSgpaViewModel,
+
+    ) {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
@@ -194,19 +214,22 @@ fun ResultRecordToDisplay(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         // contentPadding = PaddingValues(16.dp)
     ) {
-        itemsIndexed(items = data, key = { id, listItem ->
-            listItem.hashCode()
+        itemsIndexed(items = data.resultItems, key = { id, listItem ->
+            id.hashCode()
         }) { index, item ->
 
             val context = LocalContext.current
 
             MyCardView(
+
                 info = item,
                 index = index,
                 state = DialogBoxState(),
+                navController = navController,
+                onEvent = onEvent,
+                viewModel = viewModel
 
-
-                )
+            )
 
         }
 

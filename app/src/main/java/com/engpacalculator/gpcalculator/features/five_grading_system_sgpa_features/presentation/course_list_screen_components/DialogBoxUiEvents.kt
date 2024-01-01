@@ -1,5 +1,7 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components
 
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultEntity
+
 sealed interface DialogBoxUiEvents {
     object showUnitMenuDropDown : DialogBoxUiEvents
     object hideUnitMenuDropDown : DialogBoxUiEvents
@@ -34,7 +36,6 @@ sealed interface DialogBoxUiEvents {
     object hideDataEntryDBox : DialogBoxUiEvents
     object showBaseEntryDBox : DialogBoxUiEvents
     object showResultDBox : DialogBoxUiEvents
-    object hideResultDBox : DialogBoxUiEvents
     object addEntriesToArrayList : DialogBoxUiEvents
 
     object replaceEditedInEntriesToArrayList : DialogBoxUiEvents
@@ -57,6 +58,8 @@ sealed interface DialogBoxUiEvents {
     object hideEditBaseEntryDBox : DialogBoxUiEvents
     object hideClearConfirmationDBox : DialogBoxUiEvents
     object showClearConfirmationDBox : DialogBoxUiEvents
+    object showSaveResultDBox : DialogBoxUiEvents
+    object hideSaveResultDBox : DialogBoxUiEvents
 
 
     data class dropDownAssumeText(val text: String) : DialogBoxUiEvents
@@ -70,10 +73,19 @@ sealed interface DialogBoxUiEvents {
     object resetBackToDefaultValuesFromErrorsCU : DialogBoxUiEvents
     object resetBackToDefaultValuesFromErrorsCG : DialogBoxUiEvents
     object resetBackToDefaultValuesFromErrorsECC : DialogBoxUiEvents
+    object resetBackToDefaultValueFromErrorSRA : DialogBoxUiEvents
     object save : DialogBoxUiEvents
     object loadResult : DialogBoxUiEvents
+    object hideSaveResultsDialogBox : DialogBoxUiEvents {
+
+    }
 
     data class setTotalNumberOfEditedCourses(val noOfEditedTotalCourse: String) : DialogBoxUiEvents
+    data class setSRA(val savedResultName: String) : DialogBoxUiEvents
+
+    data class DeleteResult(var result: UniFiveSgpaResultEntity) : DialogBoxUiEvents
+
+    data class DeleteResultByReference(var result: String) : DialogBoxUiEvents
 
 
 }

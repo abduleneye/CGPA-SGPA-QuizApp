@@ -28,6 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
 import com.engpacalculator.gpcalculator.core.navigation.Screen
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.ads_components.ShimmerBottomAboutBarItemAd
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxState
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
@@ -35,7 +38,10 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
-    navController: NavController?
+    navController: NavController?,
+    adId: String?,
+    state: DialogBoxState?,
+    onEvent: ((DialogBoxUiEvents) -> Unit)?
 
 ) {
 
@@ -63,15 +69,21 @@ fun HomeScreen(
             ) {
 
 
-//                ShimmerBottomAboutBarItemAd(
-//                    isLoading = state,
-//                    onEvent = onEvent,
-//                    contentAfterLoading = {
-//
-//                    },
-//                    modifier = Modifier,
-//                    adId = adId
-//                )
+                if (state != null) {
+                    if (onEvent != null) {
+                        if (adId != null) {
+                            ShimmerBottomAboutBarItemAd(
+                                isLoading = state,
+                                onEvent = onEvent,
+                                contentAfterLoading = {
+
+                                },
+                                modifier = Modifier,
+                                adId = adId
+                            )
+                        }
+                    }
+                }
 
             }
 
@@ -130,7 +142,7 @@ fun HomeScreen(
 
                 if (navController != null) {
                     DefaultCardSample(
-                        textInCardBox = "Quiz".uppercase(),
+                        textInCardBox = "quiz".uppercase(),
                         navController = navController,
                         Screen.Quiz_Mode_Screen.route
                     )
@@ -157,5 +169,5 @@ fun HomeScreen(
 fun HomeScreenPreview(
 
 ) {
-    HomeScreen(navController = null)
+    HomeScreen(navController = null, null, state = null, onEvent = null)
 }

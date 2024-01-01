@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
@@ -20,10 +23,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
-import com.engpacalculator.gpcalculator.core.navigation.Screen
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.ads_components.ShimmerBottomAboutBarItemAd
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxState
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
@@ -31,9 +37,12 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Four_Grading_System_Mode(
+fun Four_Grading_System_Mode_Screen(
 
-    navController: NavController
+    navController: NavController?,
+    adId: String?,
+    state: DialogBoxState?,
+    onEvent: ((DialogBoxUiEvents) -> Unit)?
 
 ) {
 
@@ -43,7 +52,7 @@ fun Four_Grading_System_Mode(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Calculator mode")
+                    Text(text = "4.0 Calculator mode")
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = AppBars
@@ -74,15 +83,21 @@ fun Four_Grading_System_Mode(
             ) {
 
 
-//                ShimmerBottomAboutBarItemAd(
-//                    isLoading = state,
-//                    onEvent = onEvent,
-//                    contentAfterLoading = {
-//
-//                    },
-//                    modifier = Modifier,
-//                    adId = adId
-//                )
+                if (onEvent != null) {
+                    if (state != null) {
+                        if (adId != null) {
+                            ShimmerBottomAboutBarItemAd(
+                                isLoading = state,
+                                onEvent = onEvent,
+                                contentAfterLoading = {
+
+                                },
+                                modifier = Modifier,
+                                adId = adId
+                            )
+                        }
+                    }
+                }
 
             }
 
@@ -96,17 +111,26 @@ fun Four_Grading_System_Mode(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
-                modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = it.calculateStartPadding(layoutDirection = LayoutDirection.Ltr)),
             ) {
 
-//                DefaultCardSample(
-//                    textInCardBox = "5.0 grading".uppercase(),
-//                    navController = navController,
-//                    Screen.Four_Screen.route
-//                )
-//                DefaultCardSample(textInCardBox = "4.0 grading".uppercase())
+                if (navController != null) {
+                    DefaultCardSample(
+                        textInCardBox = "sgpa".uppercase(),
+                        navController = null,
+                        route = null
+                    )
+                }
+                if (navController != null) {
+                    DefaultCardSample(
+                        textInCardBox = "cgpa".uppercase(),
+                        navController = null, route = null
+                    )
+                }
 
             }
 
@@ -117,12 +141,14 @@ fun Four_Grading_System_Mode(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Composable
-@Preview(showSystemUi = true, showBackground = true)
-fun Four_Grading_System_Mode_Preview(
+    @OptIn(ExperimentalMaterial3Api::class)
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+    @Composable
+    @Preview(showSystemUi = true, showBackground = true)
+    fun Four_Grading_System_Mode_Preview(
 
-) {
-    //Four_Grading_System_Mode()
-}
+    ) {
+        Four_Grading_System_Mode_Screen(
+            navController = null, null, null, null
+        )
+    }

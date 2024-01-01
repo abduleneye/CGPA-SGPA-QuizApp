@@ -28,6 +28,7 @@ data class DialogBoxState(
     var defaultLabelETNOCL: String = ErrorPassedValues.labelForETNOCC,
     var defaultEnteredCourseCodeLabel: String = ErrorPassedValues.enterCourseCodeLabel,
     var defaultEditCourseCodeLabel: String = ErrorPassedValues.editCourseCodeLabel,
+    var defaultLabelSRA: String = ErrorPassedValues.labelForSRA,
 
 
     var defaultLabelColourETNOC: Long = 0xFFB6B07B,
@@ -38,6 +39,7 @@ data class DialogBoxState(
     var defaultLabelColourECC: Long = 0xFFB6B07B,
     var defaultLabelColourCU: Long = 0xFF888888,
     var defaultLabelColourCG: Long = 0xFF888888,
+    val defaultLabelColourSRA: Long = 0xFFB6B07B,
 
 
     var pickedCourseUnitDefaultLabel: String = ErrorPassedValues.enterCourseUnitLabel,
@@ -68,7 +70,10 @@ data class DialogBoxState(
     var errorToastMessageVisibilityETNOCDB: Boolean = false,
     val maxNoOfCoursesLength: Int = 2,
     val sameValHolder: String = "",
-    val allReadyInListForEditCourseEntries: Boolean = false
+    val allReadyInListForEditCourseEntries: Boolean = false,
+    val saveResultAs: String = "",
+    var saveResultAsDialogBoxVisibility: Boolean = false,
 
+    ) : Parcelable {
 
-) : Parcelable
+}

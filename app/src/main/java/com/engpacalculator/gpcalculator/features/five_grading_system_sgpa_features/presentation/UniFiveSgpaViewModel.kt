@@ -57,21 +57,23 @@ class UniFiveSgpaViewModel @Inject constructor(
 
     //
 
-    private var _resultDB = MutableStateFlow(ResultsRecordState())
-    val resultDB = _resultDB.asStateFlow()
+    private var _resultIntroDB = MutableStateFlow(ResultsRecordState())
+    val resultIntroDB = _resultIntroDB.asStateFlow()
     //combine(_resultDB, _results, _newRes)
 
     val chk: ArrayList<UniFiveSgpaResult> = ArrayList<UniFiveSgpaResult>()
 
     fun loadData() {
-//        viewModelScope.launch {
-//            _resultDB.value.resultItems = myRepository.getUniFiveSgpaResultRecordDao()
-//
-//        }
         viewModelScope.launch {
             myRepository.getUniFiveSgpaResultRecordDao()
                 .collect { result ->
-                    _resultDB.value.resultItems = result
+
+                    _resultIntroDB.update {
+                        it.copy(
+                            resultItems = result
+                        )
+                    }
+                    //  _resultIntroDB.value.resultItems = result
 
                 }
         }
@@ -83,26 +85,80 @@ class UniFiveSgpaViewModel @Inject constructor(
 
         when (event) {
 
-//            is DialogBoxUiEvents.loadResult -> {
-//                viewModelScope.launch {
-//                    myRepository.getUniFiveSgpaResultRecordDao()
-//                    _resultDB.value.resultItems = myRepository.getUniFiveSgpaResultRecordDao()
-//
-//                }
-//            }
-
-            is DialogBoxUiEvents.save -> {
+            is DialogBoxUiEvents.DeleteResultByReference -> {
                 viewModelScope.launch {
-                    myRepository.insertResult(
-                        UniFiveSgpaResultEntity(
-                            resultEntries = _courseEntries.value,
-                            gp = _dbState.value.finalResult,
-                            resultName = "",
-                            remark = _dbState.value.remark
-                        )
-                    )
+                    myRepository.resultToBeDeleted(event.result)
+                }
+            }
+
+
+            is DialogBoxUiEvents.DeleteResult -> {
+                viewModelScope.launch {
+                    myRepository.deleteResult(event.result)
 
                 }
+
+            }
+
+            is DialogBoxUiEvents.showResultDBox -> {
+                _dbState.update {
+                    it.copy(
+                        resultDialogBoxVisibility = true
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+            }
+
+            is DialogBoxUiEvents.hideSaveResultDBox -> {
+                _dbState.update {
+                    it.copy(
+                        saveResultAsDialogBoxVisibility = false
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+            }
+
+            is DialogBoxUiEvents.setSRA -> {
+                _dbState.update {
+                    it.copy(
+                        saveResultAs = event.savedResultName
+
+                    )
+                }
+
+            }
+
+            is DialogBoxUiEvents.save -> {
+
+                if (
+                    _dbState.value.saveResultAs.isEmpty()
+                ) {
+                    textFieldsErrorCheckSaveResultAsDataEntry()
+
+                } else {
+                    viewModelScope.launch {
+                        myRepository.insertResult(
+                            UniFiveSgpaResultEntity(
+                                resultEntries = _courseEntries.value,
+                                gp = _dbState.value.finalResult,
+                                resultName = _dbState.value.saveResultAs,
+                                remark = _dbState.value.remark
+                            )
+                        )
+                    }
+
+                    resetSRADBox()
+
+
+                }
+
+            }
+
+            is DialogBoxUiEvents.resetBackToDefaultValueFromErrorSRA -> {
+                resetSRADBox()
+
             }
 
             is DialogBoxUiEvents.replaceEditedInEntriesToArrayList -> {
@@ -366,28 +422,26 @@ class UniFiveSgpaViewModel @Inject constructor(
 
             }
 
-            is DialogBoxUiEvents.showResultDBox -> {
+            is DialogBoxUiEvents.showSaveResultDBox -> {
                 _dbState.update {
                     it.copy(
-                        resultDialogBoxVisibility = true
+                        saveResultAsDialogBoxVisibility = true
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
             }
 
-            is DialogBoxUiEvents.hideResultDBox -> {
-                _dbState.update {
-
-                    it.copy(
-                        resultDialogBoxVisibility = false,
-                        finalResult = ""
-
-                    )
-                }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
-
-            }
+//            is DialogBoxUiEvents.hideSaveResultDBox -> {
+//                _dbState.update {
+//
+//                    it.copy(
+//                        saveResultAsDialogBoxVisibility = false,
+//                    )
+//                }
+//                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+//
+//            }
 
             is DialogBoxUiEvents.resetAlreadyInList -> {
                 _dbState.update {
@@ -934,12 +988,6 @@ class UniFiveSgpaViewModel @Inject constructor(
 
     private fun textFieldsErrorCheckCourseDataEntry() {
 
-//        _dbState.update {
-//            it.copy(
-//                allReadyInList = false
-//            )
-//        }
-
         if (_dbState.value.courseCode.isEmpty()) {
 
             _dbState.update {
@@ -1051,6 +1099,34 @@ class UniFiveSgpaViewModel @Inject constructor(
 
     }
 
+    private fun textFieldsErrorCheckSaveResultAsDataEntry() {
+
+        _dbState.update {
+            it.copy(
+                defaultLabelSRA = ErrorMessages.errorMessageForSRA,
+                defaultLabelColourSRA = ErrorMessages.textFieldErrorLabelColorHexCode,
+                saveResultAsDialogBoxVisibility = true
+            )
+        }
+        savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
+    }
+
+
+    private fun resetSRADBox() {
+        _dbState.update {
+            it.copy(
+                defaultLabelSRA = ErrorPassedValues.labelForSRA,
+                defaultLabelColourSRA = ErrorPassedValues.errorPassedColour,
+                saveResultAsDialogBoxVisibility = false,
+                saveResultAs = ""
+
+
+            )
+        }
+        savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+    }
 
     private fun operations(totalCreditLoad: Int): String {
 

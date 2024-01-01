@@ -30,6 +30,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.EditBaseEntryDialogBox
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.ResultBottomSheetContent
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.SaveResultDialogBox
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.TopAppBarDropDownMenu
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -301,6 +302,12 @@ fun MainScreen(
                 )
 
 
+            } else if (state.saveResultAsDialogBoxVisibility) {
+                SaveResultDialogBox(
+                    onEvent = onEvent,
+                    dbState = state,
+                    sheetState = sheetState
+                )
             } else {
 
                 TotalCoursesListCardViewToDisplay(

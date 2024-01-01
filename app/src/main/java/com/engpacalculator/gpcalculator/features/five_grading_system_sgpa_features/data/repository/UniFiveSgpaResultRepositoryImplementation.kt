@@ -2,6 +2,7 @@ package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featu
 
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.UniFiveSgpaResultRecordDao
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultEntity
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultIntroEntity
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.repository.UniFiveSgpaResultRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -15,11 +16,19 @@ class UniFiveSgpaResultRepositoryImplementation(
     override fun getUniFiveSgpaResultRecordDao(
         //resultName: String
     ): Flow<List<UniFiveSgpaResultEntity>> {
-        return dao.getResults()
+        return dao.getFullResults()
+    }
+
+    override fun getUniFiveSgpaIntroResultRecordDao(): Flow<List<UniFiveSgpaResultIntroEntity>> {
+        return dao.getIntroResults()
     }
 
 
     override suspend fun deleteResult(result: UniFiveSgpaResultEntity) {
         dao.deleteResult(result)
+    }
+
+    override suspend fun resultToBeDeleted(resultToBeDeleted: String) {
+        dao.resultToBeDeleted(resultToBeDeleted)
     }
 }

@@ -1,5 +1,6 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,13 +14,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetState
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,9 +33,10 @@ import androidx.compose.ui.window.DialogProperties
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ConfirmClearCoursesEntryConfirmationDialogBox(
+fun SaveResultDialogBox(
     onEvent: (DialogBoxUiEvents) -> Unit,
     dbState: DialogBoxState,
     sheetState: BottomSheetState
@@ -39,12 +45,13 @@ fun ConfirmClearCoursesEntryConfirmationDialogBox(
 ) {
 
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
 
     Dialog(
         onDismissRequest = {
-            onEvent(DialogBoxUiEvents.hideClearConfirmationDBox)
-
+            onEvent(DialogBoxUiEvents.resetBackToDefaultValueFromErrorSRA)
+            onEvent(DialogBoxUiEvents.hideSaveResultDBox)
         },
         properties = DialogProperties(
             dismissOnBackPress = true,
@@ -59,7 +66,7 @@ fun ConfirmClearCoursesEntryConfirmationDialogBox(
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
                 .height(
-                    160.dp //final
+                    200.dp //final
 
                 ),
 
@@ -76,9 +83,7 @@ fun ConfirmClearCoursesEntryConfirmationDialogBox(
                 ) {
                     Column {
                         Text(
-                            text = "Are you sure you want to clear all" +
-                                    "\nentered Courses?" +
-                                    "\nthis action can't be undone",
+                            text = "Save result As:",
                             modifier = Modifier
                                 .align(Alignment.Start)
                                 .padding(start = 20.dp),
@@ -88,7 +93,33 @@ fun ConfirmClearCoursesEntryConfirmationDialogBox(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
+
+                OutlinedTextField(
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(start = 20.dp),
+                    value = dbState.saveResultAs,
+                    onValueChange = {
+
+                        onEvent(DialogBoxUiEvents.setSRA(it))
+
+
+                    },
+                    label = {
+                        Text(text = dbState.defaultLabelSRA)
+                    },
+                    singleLine = true,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedLabelColor = Color(dbState.defaultLabelColourSRA),
+                        focusedBorderColor = Color(dbState.defaultLabelColourSRA),
+                    ),
+
+
+                    )
+
+
+                Spacer(modifier = Modifier.height(8.dp))
 
 
 
@@ -104,14 +135,15 @@ fun ConfirmClearCoursesEntryConfirmationDialogBox(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = 15.dp, bottom = 2.dp),
+                            .padding(end = 15.dp, bottom = 2.dp, top = 8.dp),
                         horizontalArrangement = Arrangement.End
 
                     ) {
 
                         Button(
                             onClick = {
-                                onEvent(DialogBoxUiEvents.hideClearConfirmationDBox)
+                                onEvent(DialogBoxUiEvents.hideSaveResultDBox)
+                                onEvent(DialogBoxUiEvents.resetBackToDefaultValueFromErrorSRA)
 
                             },
                             colors = ButtonDefaults.buttonColors(
@@ -119,7 +151,7 @@ fun ConfirmClearCoursesEntryConfirmationDialogBox(
                             ),
                         ) {
 
-                            Text(text = "No")
+                            Text(text = "Cancel")
 
 
                         }
@@ -132,8 +164,19 @@ fun ConfirmClearCoursesEntryConfirmationDialogBox(
                         Button(
                             onClick = {
 
-                                onEvent(DialogBoxUiEvents.resetTotalEntries)
-                                onEvent(DialogBoxUiEvents.hideClearConfirmationDBox)
+                                if (dbState.saveResultAs.isNotEmpty()) {
+
+                                    onEvent(DialogBoxUiEvents.save)
+
+                                    Toast.makeText(
+                                        context,
+                                        "${dbState.saveResultAs} saved successfully!!!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                //Toast.makeText(context, "Saved", Toast.LENGTH_LONG).show()
+                                //onEvent(DialogBoxUiEvents.hideSaveResultDBox)
 
 
                             },
@@ -142,7 +185,7 @@ fun ConfirmClearCoursesEntryConfirmationDialogBox(
                             ),
                         ) {
 
-                            Text(text = "Yes")
+                            Text(text = "Save")
 
                         }
 

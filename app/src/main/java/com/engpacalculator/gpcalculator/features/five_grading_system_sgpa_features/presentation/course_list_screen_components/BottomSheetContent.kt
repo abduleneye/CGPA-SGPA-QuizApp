@@ -1,6 +1,5 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -80,9 +79,8 @@ fun ResultBottomSheetContent(
                 Text(text = "Your SGPA is:", fontSize = 20.sp)
 
                 Button(onClick = {
-                    onEvent(DialogBoxUiEvents.save)
-                    Toast.makeText(context, "Saved", Toast.LENGTH_LONG).show()
-
+                    onEvent(DialogBoxUiEvents.showSaveResultDBox)
+                    
                 }) {
 
                     Text(text = "S")

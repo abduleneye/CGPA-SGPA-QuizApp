@@ -16,14 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
 @Composable
 fun DefaultCardSample(
     textInCardBox: String,
-    navController: NavController,
-    route: String
+    navController: NavController?,
+    route: String?
 ) {
 
     Card(
@@ -33,11 +32,9 @@ fun DefaultCardSample(
         modifier = Modifier
             .height(164.dp)
             .width(164.dp)
-            .clickable {
-                navController.navigate(route)
-            },
 
-        ) {
+
+    ) {
 
         Column(
             verticalArrangement = Arrangement.Center,
@@ -45,6 +42,11 @@ fun DefaultCardSample(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = Cream)
+                .clickable {
+                    if (route != null) {
+                        navController?.navigate(route)
+                    }
+                },
         ) {
 
             Text(text = textInCardBox)

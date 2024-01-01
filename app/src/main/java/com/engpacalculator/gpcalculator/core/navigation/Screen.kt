@@ -9,7 +9,7 @@ sealed class Screen(val route: String) {
 
     object Five_Sgpa_Screen : Screen("five_sgpa_screen")
 
-    object Five_Cgpa_Screen : Screen("five_sgpa_screen")
+    object Five_Cgpa_Screen : Screen("five_cgpa_screen")
 
     object Four_Screen : Screen("four_screen")
 
@@ -24,5 +24,21 @@ sealed class Screen(val route: String) {
     object Quiz_Legit_Screen : Screen("quiz_legit_screen")
 
 
-    object Five_Sgpa_Records_Screen : Screen("records_screen")
+    object Five_Sgpa_Records_Screen :
+    //Screen("records_screen/ResultName/ListOfCourseDetails/Gp/ResultRemark")
+        Screen("records_screen")
+
+
+    object Five_Sgpa_Full_Records_Screen :
+        Screen("full_records_screen")
+
+    fun withArgs(vararg args: String): String {
+        return buildString {
+            append(route)
+
+            args.forEach { arg ->
+                append("/$arg")
+            }
+        }
+    }
 }

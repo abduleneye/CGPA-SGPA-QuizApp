@@ -28,6 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
 import com.engpacalculator.gpcalculator.core.navigation.Screen
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.ads_components.ShimmerBottomAboutBarItemAd
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxState
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
@@ -35,8 +38,11 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Five_Grading_System_Mode(
-    navController: NavController?
+fun Five_Grading_System_Mode_Screen(
+    navController: NavController?,
+    adId: String?,
+    state: DialogBoxState?,
+    onEvent: ((DialogBoxUiEvents) -> Unit)?
 
 ) {
 
@@ -46,7 +52,7 @@ fun Five_Grading_System_Mode(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Calculator mode")
+                    Text(text = "5.0 Calculator mode")
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = AppBars
@@ -77,15 +83,21 @@ fun Five_Grading_System_Mode(
             ) {
 
 
-//                ShimmerBottomAboutBarItemAd(
-//                    isLoading = state,
-//                    onEvent = onEvent,
-//                    contentAfterLoading = {
-//
-//                    },
-//                    modifier = Modifier,
-//                    adId = adId
-//                )
+                if (onEvent != null) {
+                    if (state != null) {
+                        if (adId != null) {
+                            ShimmerBottomAboutBarItemAd(
+                                isLoading = state,
+                                onEvent = onEvent,
+                                contentAfterLoading = {
+
+                                },
+                                modifier = Modifier,
+                                adId = adId
+                            )
+                        }
+                    }
+                }
 
             }
 
@@ -137,5 +149,5 @@ fun Five_Grading_System_Mode(
 fun Five_Grading_System_Mode_preview(
 
 ) {
-    Five_Grading_System_Mode(navController = null)
+    Five_Grading_System_Mode_Screen(navController = null, adId = null, state = null, onEvent = null)
 }

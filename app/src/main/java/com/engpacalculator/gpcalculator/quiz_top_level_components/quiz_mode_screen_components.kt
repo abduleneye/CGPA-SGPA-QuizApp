@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
@@ -20,10 +23,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
 import com.engpacalculator.gpcalculator.core.navigation.Screen
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.ads_components.ShimmerBottomAboutBarItemAd
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxState
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
@@ -31,8 +38,11 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Quiz_Mode(
-    navController: NavController?
+fun Quiz_Mode_Screen(
+    navController: NavController?,
+    adId: String?,
+    state: DialogBoxState?,
+    onEvent: ((DialogBoxUiEvents) -> Unit)?
 
 ) {
 
@@ -73,15 +83,21 @@ fun Quiz_Mode(
             ) {
 
 
-//                ShimmerBottomAboutBarItemAd(
-//                    isLoading = state,
-//                    onEvent = onEvent,
-//                    contentAfterLoading = {
-//
-//                    },
-//                    modifier = Modifier,
-//                    adId = adId
-//                )
+                if (state != null) {
+                    if (onEvent != null) {
+                        if (adId != null) {
+                            ShimmerBottomAboutBarItemAd(
+                                isLoading = state,
+                                onEvent = onEvent,
+                                contentAfterLoading = {
+
+                                },
+                                modifier = Modifier,
+                                adId = adId
+                            )
+                        }
+                    }
+                }
 
             }
 
@@ -95,16 +111,26 @@ fun Quiz_Mode(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
-                modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = it.calculateStartPadding(layoutDirection = LayoutDirection.Ltr)),
             ) {
 
                 if (navController != null) {
-                    DefaultCardSample(textInCardBox = "Demo".uppercase(), navController = navController, Screen.Quiz_Demo_Screen.route)
+                    DefaultCardSample(
+                        textInCardBox = "Demo".uppercase(),
+                        navController = navController,
+                        Screen.Quiz_Demo_Screen.route
+                    )
                 }
                 if (navController != null) {
-                    DefaultCardSample(textInCardBox = "Legit".uppercase(), navController = navController, Screen.Quiz_Legit_Screen.route)
+                    DefaultCardSample(
+                        textInCardBox = "Legit".uppercase(),
+                        navController = navController,
+                        Screen.Quiz_Legit_Screen.route
+                    )
                 }
 
             }
@@ -123,5 +149,5 @@ fun Quiz_Mode(
 fun Quiz_Mode_Preview(
 
 ) {
-    Quiz_Mode(navController = null)
+    Quiz_Mode_Screen(navController = null, null, null, null)
 }

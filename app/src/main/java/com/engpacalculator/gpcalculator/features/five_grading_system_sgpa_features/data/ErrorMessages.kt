@@ -9,5 +9,6 @@ object ErrorMessages {
     const val errorMessageForCourseCode = "Enter valid  course code!!!"
     const val errorMessageForCourseUnit = "Unit?"
     const val errorMessageForCourseGrade = "Grade?"
+    const val errorMessageForSRA = "Record Name can't be empty"
 
 }
