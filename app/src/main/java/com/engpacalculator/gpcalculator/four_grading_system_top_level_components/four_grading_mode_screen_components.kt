@@ -141,14 +141,14 @@ fun Four_Grading_System_Mode_Screen(
 
 }
 
-    @OptIn(ExperimentalMaterial3Api::class)
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-    @Composable
-    @Preview(showSystemUi = true, showBackground = true)
-    fun Four_Grading_System_Mode_Preview(
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+@Preview(showSystemUi = true, showBackground = true)
+fun Four_Grading_System_Mode_Preview(
 
-    ) {
-        Four_Grading_System_Mode_Screen(
-            navController = null, null, null, null
-        )
-    }
+) {
+    Four_Grading_System_Mode_Screen(
+        navController = null, null, null, null
+    )
+}

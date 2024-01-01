@@ -163,7 +163,7 @@ fun MyCardView(
 
                 },
         ) {
-            Row() {
+            Row {
                 IconButton(onClick = {
                     onEvent(DialogBoxUiEvents.DeleteResult(info))
                     //viewModel.loadData()

@@ -76,9 +76,7 @@ sealed interface DialogBoxUiEvents {
     object resetBackToDefaultValueFromErrorSRA : DialogBoxUiEvents
     object save : DialogBoxUiEvents
     object loadResult : DialogBoxUiEvents
-    object hideSaveResultsDialogBox : DialogBoxUiEvents {
-
-    }
+    object hideSaveResultsDialogBox : DialogBoxUiEvents
 
     data class setTotalNumberOfEditedCourses(val noOfEditedTotalCourse: String) : DialogBoxUiEvents
     data class setSRA(val savedResultName: String) : DialogBoxUiEvents

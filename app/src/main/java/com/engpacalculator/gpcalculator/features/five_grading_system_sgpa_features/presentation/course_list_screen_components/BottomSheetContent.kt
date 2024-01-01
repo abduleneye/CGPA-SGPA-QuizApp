@@ -75,12 +75,12 @@ fun ResultBottomSheetContent(
             )
 
 
-            Row() {
+            Row {
                 Text(text = "Your SGPA is:", fontSize = 20.sp)
 
                 Button(onClick = {
                     onEvent(DialogBoxUiEvents.showSaveResultDBox)
-                    
+
                 }) {
 
                     Text(text = "S")

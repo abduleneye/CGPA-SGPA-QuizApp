@@ -74,6 +74,4 @@ data class DialogBoxState(
     val saveResultAs: String = "",
     var saveResultAsDialogBoxVisibility: Boolean = false,
 
-    ) : Parcelable {
-
-}
+    ) : Parcelable
