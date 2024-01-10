@@ -20,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.UniFiveSgpaViewModel
 import com.engpacalculator.gpcalculator.core.navigation.SetUpNavGraph
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.GpCalculatorTheme
 import com.google.android.gms.ads.MobileAds
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
             FirebaseAnalytics.getInstance(this)
 
 
-            var viewModel: UniFiveSgpaViewModel = hiltViewModel()
+            var viewModel: FiveSgpaViewModel = hiltViewModel()
             val state by viewModel.dbState.collectAsState()
             val statetwo by viewModel.courseEntries.collectAsState()
             val navController = rememberNavController()

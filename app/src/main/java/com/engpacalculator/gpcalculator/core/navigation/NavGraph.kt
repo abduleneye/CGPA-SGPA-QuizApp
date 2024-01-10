@@ -18,28 +18,31 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.engpacalculator.gpcalculator.HomeScreen.HomeScreen
 import com.engpacalculator.gpcalculator.about_screen_components.ui.theme.AboutScreen
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.AnimatedSplash
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.UniFiveSgpaViewModel
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.results_record_screen_component.FullResultScreen
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.results_record_screen_component.RecordScreen
+import com.engpacalculator.gpcalculator.core.AnimatedSplash
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.uni_five_cgpa_main_screen_components.FiveCgpaMainScreen
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaFullResultScreen
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaResultRecordScreen
 import com.engpacalculator.gpcalculator.five_grading_system_top_level_components.Five_Grading_System_Mode_Screen
 import com.engpacalculator.gpcalculator.four_grading_system_top_level_components.Four_Grading_System_Mode_Screen
-import com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component.MainScreen
+import com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component.FiveSgpaMainScreen
 import com.engpacalculator.gpcalculator.quiz_top_level_components.Quiz_Mode_Screen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SetUpNavGraph(
     navController: NavHostController,
-    gpcalculatorViewModel: UniFiveSgpaViewModel
+    gpcalculatorViewModel: FiveSgpaViewModel
 
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    var viewModel = viewModel<UniFiveSgpaViewModel>()
-    val state by viewModel.dbState.collectAsState()
-    val statetwo by viewModel.courseEntries.collectAsState()
-    val stateThree by viewModel.resultIntroDB.collectAsState()
+    var fiveSgpaViewModel = viewModel<FiveSgpaViewModel>()
+    val fiveSgpaUiStates by fiveSgpaViewModel.dbState.collectAsState()
+    val fiveSgpaCourseEntriesState by fiveSgpaViewModel.courseEntries.collectAsState()
+    val fiveSgpaResultFromDBStates by fiveSgpaViewModel.resultIntroDB.collectAsState()
+    val fiveSgpaRecordsToBeDisplayedForCgpa by fiveSgpaViewModel.fiveCgpaUiState.collectAsState()
+    val fiveCgpaUiStates by fiveSgpaViewModel.fiveCgpaUiState.collectAsState()
 
 
 //    for (i in 1..stateThree.resultItems.size) {
@@ -66,8 +69,8 @@ fun SetUpNavGraph(
 
                 HomeScreen(
                     navController = navController,
-                    onEvent = viewModel::onEvent,
-                    state = state,
+                    onEvent = fiveSgpaViewModel::onEvent,
+                    state = fiveSgpaUiStates,
                     adId = "ca-app-pub-3940256099942544/6300978111"
                 )
 
@@ -84,8 +87,8 @@ fun SetUpNavGraph(
                 //ca-app-pub-3656021994888380/4847206452
                 // Test Ad unit ca-app-pub-3940256099942544/6300978111
 
-                state = state,
-                onEvent = viewModel::onEvent
+                state = fiveSgpaUiStates,
+                onEvent = fiveSgpaViewModel::onEvent
 
 
             )
@@ -97,16 +100,16 @@ fun SetUpNavGraph(
             Five_Grading_System_Mode_Screen(
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
-                state = state,
-                onEvent = viewModel::onEvent
+                state = fiveSgpaUiStates,
+                onEvent = fiveSgpaViewModel::onEvent
             )
         }
 
         composable(route = Screen.Five_Sgpa_Screen.route) {
-            MainScreen(
-                onEvent = viewModel::onEvent,
-                state = state,
-                stateTwo = statetwo,
+            FiveSgpaMainScreen(
+                onEvent = fiveSgpaViewModel::onEvent,
+                state = fiveSgpaUiStates,
+                stateTwo = fiveSgpaCourseEntriesState,
                 calcViewModel = gpcalculatorViewModel,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111"
@@ -116,11 +119,26 @@ fun SetUpNavGraph(
 
         }
 
+        composable(route = Screen.Five_Cgpa_Screen.route) {
+            FiveCgpaMainScreen(
+                onEvent = fiveSgpaViewModel::onEvent,
+                fiveSgpaUiStates = fiveSgpaUiStates,
+                fiveSgpaRecordsState = fiveSgpaResultFromDBStates,
+                fiveCgpaUiStates = fiveSgpaRecordsToBeDisplayedForCgpa,
+                stateTwo = fiveSgpaCourseEntriesState,
+                navController = navController,
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                // uniFiveCgpaViewModel =  ,
+                fiveSgpaViewModel = fiveSgpaViewModel,
+                // onEventFiveCgpa =
+            )
+        }
+
         composable(route = Screen.Quiz_Mode_Screen.route) {
             Quiz_Mode_Screen(
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
-                state = state, onEvent = viewModel::onEvent
+                state = fiveSgpaUiStates, onEvent = fiveSgpaViewModel::onEvent
             )
         }
 
@@ -128,8 +146,8 @@ fun SetUpNavGraph(
             Four_Grading_System_Mode_Screen(
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
-                state = state,
-                onEvent = viewModel::onEvent
+                state = fiveSgpaUiStates,
+                onEvent = fiveSgpaViewModel::onEvent
             )
         }
 
@@ -137,11 +155,11 @@ fun SetUpNavGraph(
             route = Screen.Five_Sgpa_Records_Screen.route
             //            + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}"
         ) {
-            RecordScreen(
+            FiveSgpaResultRecordScreen(
                 navController = navController,
-                state = stateThree,
-                viewModel = viewModel,
-                onEvent = viewModel::onEvent
+                state = fiveSgpaResultFromDBStates,
+                viewModel = fiveSgpaViewModel,
+                onEvent = fiveSgpaViewModel::onEvent
             )
         }
 
@@ -170,12 +188,12 @@ fun SetUpNavGraph(
                 }
             )
         ) { entry ->
-            FullResultScreen(
+            FiveSgpaFullResultScreen(
                 resultName = entry.arguments?.getString("ResultName"),
                 actualResults = entry.arguments?.getString("ListOfCourseDetails"),
                 gP = entry.arguments?.getString("Gp"),
                 resultRemark = entry.arguments?.getString("ResultRemark"),
-                onEvent = viewModel::onEvent,
+                onEvent = fiveSgpaViewModel::onEvent,
                 navController = navController
             )
         }

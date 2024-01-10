@@ -27,10 +27,10 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
+import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomAboutBarItemAd
 import com.engpacalculator.gpcalculator.core.navigation.Screen
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.ads_components.ShimmerBottomAboutBarItemAd
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxState
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.course_list_screen_components.DialogBoxUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
@@ -41,8 +41,8 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 fun Five_Grading_System_Mode_Screen(
     navController: NavController?,
     adId: String?,
-    state: DialogBoxState?,
-    onEvent: ((DialogBoxUiEvents) -> Unit)?
+    state: FiveSgpaUiStates?,
+    onEvent: ((FiveSgpaUiEvents) -> Unit)?
 
 ) {
 
