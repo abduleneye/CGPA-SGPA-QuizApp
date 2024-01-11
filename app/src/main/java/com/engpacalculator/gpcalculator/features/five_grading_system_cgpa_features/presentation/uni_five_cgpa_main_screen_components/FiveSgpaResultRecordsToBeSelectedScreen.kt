@@ -32,7 +32,6 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaResultsRecordState
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
 
@@ -54,39 +53,19 @@ fun Init() {
 fun UniFiveSgpaRecordedResultToBeSelectedFrom(
     navController: NavController,
     fiveCgpaUiStates: FiveCgpaUiStates,
-    fiveSgpaRecordsState: FiveSgpaResultsRecordState,
     fiveSgpaViewModel: FiveSgpaViewModel,
-    //uniFiveCgpaViewModel: FiveCgpaViewModel,
     onEventFiveSgpa: (FiveSgpaUiEvents) -> Unit,
-    //onEventFiveCgpa: (FiveCgpaUiEvents) -> Unit
 
 
-) {
+    ) {
 
 
-//    if (fiveSgpaRecordsState.resultItems.isEmpty()) {
-//
-//        Init()
-//
-//
-//    } else {
-
-//        Checkbox(
-//            checked = fiveCgpaUiStates.checkBoxStatus,
-//            onCheckedChange = {
-//                onEventFiveCgpa(UniFiveCgpaUiEvents.onCheckChanged(isChecked = it))
-//            },
-//        )
     ResultRecordToDisplay(
         data = fiveCgpaUiStates,
-        navController = navController,
         onEventFiveSgpa = onEventFiveSgpa,
         fiveSgpaViewModel = fiveSgpaViewModel,
-        //uniFiveCgpaViewModel = uniFiveCgpaViewModel,
-        //onEventFiveCgpa = onEventFiveCgpa,
-        uniFiveCgpaUiState = fiveCgpaUiStates
 
-    )
+        )
 
 }
 //
@@ -96,16 +75,13 @@ fun UniFiveSgpaRecordedResultToBeSelectedFrom(
 @Composable
 fun MyCardView(
     info: SgpaResultDisplayFormatForFiveCgpaCalculation,
-    navController: NavController,
     index: Int,
-    modifier: Modifier = Modifier,
     uniFiveCgpaUiState: FiveCgpaUiStates,
     onEventFiveSgpaUiEvents: (FiveSgpaUiEvents) -> Unit,
     fiveSgpaViewModel: FiveSgpaViewModel,
-    // uniFiveCgpaViewModel: FiveCgpaViewModel,
 
 
-) {
+    ) {
 
     //val json = Gson().toJson(info.resultEntries)
 
@@ -140,14 +116,7 @@ fun MyCardView(
             modifier = Modifier
                 .height(100.dp)
                 .clickable {
-//                    navController.navigate(
-//                        Screen.Five_Sgpa_Full_Records_Screen.withArgs(
-//                            info.resultName,
-//                            json,
-//                            info.gp,
-//                            info.remark
-//                        )
-//                    )
+
                     Toast
                         .makeText(myContext, "Clicked from column!!!", Toast.LENGTH_SHORT)
                         .show()
@@ -155,7 +124,6 @@ fun MyCardView(
 
                 },
         ) {
-            val scope = rememberCoroutineScope()
             val context = LocalContext.current
 
             Row(
@@ -173,21 +141,19 @@ fun MyCardView(
                                 index = index
                             )
                         )
-                        Toast.makeText(context, "${index}", Toast.LENGTH_SHORT).show()
-                        //uniFiveCgpaUiState.checkBoxStatus = isChecked
+                        Toast.makeText(
+                            context,
+                            " Sgpa for ${index} ${info.resultName} is ${info.resultSgpa} ",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     })
             }
 
 
 
             Text(text = info.resultName, fontWeight = FontWeight.Bold)
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(text = info.resultEntries.toString(), fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(text = info.resultSgpa, fontWeight = FontWeight.SemiBold)
-
-
-            //}
 
         }
 
@@ -200,16 +166,11 @@ fun MyCardView(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ResultRecordToDisplay(
-    //data: List<UniFiveSgpaResultEntity>,
     data: FiveCgpaUiStates,
-    uniFiveCgpaUiState: FiveCgpaUiStates,
-    navController: NavController,
     onEventFiveSgpa: (FiveSgpaUiEvents) -> Unit,
-    //onEventFiveCgpa: (FiveCgpaUiEvents) -> Unit,
     fiveSgpaViewModel: FiveSgpaViewModel,
-    // uniFiveCgpaViewModel: FiveCgpaViewModel
 
-) {
+    ) {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
@@ -232,13 +193,11 @@ fun ResultRecordToDisplay(
 
                 info = item,
                 index = index,
-                uniFiveCgpaUiState = uniFiveCgpaUiState,
-                navController = navController,
+                uniFiveCgpaUiState = data,
                 onEventFiveSgpaUiEvents = onEventFiveSgpa,
                 fiveSgpaViewModel = fiveSgpaViewModel,
-                // uniFiveCgpaViewModel = uniFiveCgpaViewModel
 
-            )
+                )
 
         }
 

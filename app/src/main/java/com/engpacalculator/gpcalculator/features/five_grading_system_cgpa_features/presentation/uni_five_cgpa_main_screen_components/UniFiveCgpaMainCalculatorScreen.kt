@@ -222,18 +222,10 @@ fun FiveCgpaMainScreen(
                     UniFiveSgpaRecordedResultToBeSelectedFrom(
                         navController = navController,
                         fiveCgpaUiStates = fiveCgpaUiStates,
-                        fiveSgpaRecordsState = fiveSgpaRecordsState,
-                        // uniFiveCgpaViewModel = uniFiveCgpaViewModel,
                         fiveSgpaViewModel = fiveSgpaViewModel,
                         onEventFiveSgpa = onEvent,
-                        // onEventFiveCgpa = onEventFiveCgpa
                     )
 
-//                    Checkbox(
-//                        checked = uniFiveCgpaUiStates.checkBoxStatus,
-//                        onCheckedChange = {
-//                            onEventFiveCgpa(UniFiveCgpaUiEvents.onCheckChanged(isChecked = it))
-//                        })
                 }
 
 

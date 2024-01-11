@@ -79,7 +79,7 @@ class FiveSgpaViewModel @Inject constructor(
                         )
                     }
 
-                    for (i in 0 until result.size - 1) {
+                    for (i in 0 until result.size) {
 
                         _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.add(
                             SgpaResultDisplayFormatForFiveCgpaCalculation(
@@ -109,6 +109,8 @@ class FiveSgpaViewModel @Inject constructor(
             is FiveSgpaUiEvents.DeleteResultByReference -> {
                 viewModelScope.launch {
                     myRepository.resultToBeDeleted(event.result)
+                    _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+
                 }
             }
 
@@ -116,6 +118,8 @@ class FiveSgpaViewModel @Inject constructor(
             is FiveSgpaUiEvents.DeleteResult -> {
                 viewModelScope.launch {
                     myRepository.deleteResult(event.result)
+                    _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+
 
                 }
 
@@ -168,6 +172,8 @@ class FiveSgpaViewModel @Inject constructor(
                                 remark = _dbState.value.remark
                             )
                         )
+                        _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+
                     }
 
                     resetSRADBox()
