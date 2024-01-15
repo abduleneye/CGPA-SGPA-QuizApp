@@ -20,10 +20,12 @@ import androidx.compose.material.Text
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -132,13 +134,21 @@ fun MyCardView(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
+
+
                 Checkbox(
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = Color.Red
+                    ),
                     checked = info.resultSelected,
                     onCheckedChange = {
                         onEventFiveSgpaUiEvents(
                             FiveSgpaUiEvents.onCheckChanged(
+                                info = info,
                                 isChecked = it,
-                                index = index
+                                index = index,
+                                sgpaNeeded = info.resultSgpa,
+                                resultNameRef = info.resultName
                             )
                         )
                         Toast.makeText(
@@ -146,7 +156,10 @@ fun MyCardView(
                             " Sgpa for ${index} ${info.resultName} is ${info.resultSgpa} ",
                             Toast.LENGTH_SHORT
                         ).show()
-                    })
+                        // Invalidate()
+                    },
+
+                    )
             }
 
 
@@ -173,6 +186,7 @@ fun ResultRecordToDisplay(
     ) {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
+    Text(text = data.helperText)
 
 
     LazyColumn(
@@ -185,6 +199,7 @@ fun ResultRecordToDisplay(
     ) {
         itemsIndexed(items = data.displayedResultForFiveCgpaCalculation, key = { id, listItem ->
             id.hashCode()
+
         }) { index, item ->
 
             val context = LocalContext.current

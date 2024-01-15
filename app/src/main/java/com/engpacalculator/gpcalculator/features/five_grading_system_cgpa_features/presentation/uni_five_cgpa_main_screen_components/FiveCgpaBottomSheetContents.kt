@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.engpacalculator.gpcalculator.R
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
@@ -35,9 +36,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ResultBottomSheetContent(
+fun FiveCgpaResultBottomSheetContent(
 
-    state: FiveSgpaUiStates,
+    fiveSgpaUiStates: FiveSgpaUiStates,
+    fiveCgpaUiStates: FiveCgpaUiStates,
     sheetState: BottomSheetState,
     onEvent: (FiveSgpaUiEvents) -> Unit
 ) {
@@ -128,22 +130,26 @@ fun ResultBottomSheetContent(
             Spacer(modifier = Modifier.height(4.dp))
 
             Row {
-                Text(text = "Your SGPA is:", fontSize = 20.sp)
+                Text(text = "Your CGPA is:", fontSize = 20.sp)
 
 
             }
             Spacer(modifier = Modifier.height(3.dp))
 
-            Text(text = "${state.finalResult}", fontSize = 30.sp, fontWeight = FontWeight.Bold)
+            Text(text = "${fiveCgpaUiStates.cgpa}", fontSize = 30.sp, fontWeight = FontWeight.Bold)
 
             Spacer(modifier = Modifier.height(3.dp))
 
-            Text(text = "${state.gpaDescriptor}", fontSize = 20.sp, fontWeight = FontWeight.Medium)
+            Text(
+                text = "${fiveSgpaUiStates.gpaDescriptor}",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "${state.remark}",
+                text = "${fiveSgpaUiStates.remark}",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Light,
                 modifier = Modifier.padding(bottom = 20.dp)

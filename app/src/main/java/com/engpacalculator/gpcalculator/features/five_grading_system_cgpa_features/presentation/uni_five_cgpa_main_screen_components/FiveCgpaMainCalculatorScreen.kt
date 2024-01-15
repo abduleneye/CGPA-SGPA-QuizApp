@@ -35,7 +35,6 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.ResultBottomSheetContent
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaResultsRecordState
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -59,14 +58,6 @@ fun FiveCgpaMainScreen(
     // onEventFiveCgpa: (FiveCgpaUiEvents) -> Unit
 
 ) {
-
-
-//    (Toast.makeText(
-//        navController.context,
-//        "cur loc:  $current: ${navBackStackEntry?.destination?.route} but",
-//        Toast.LENGTH_SHORT
-//    ).show())
-    //onBackPressedDispatcher.onBackPressed()
 
 
     val context = LocalContext.current
@@ -93,15 +84,8 @@ fun FiveCgpaMainScreen(
     val iv = remember {
         mutableStateOf(Icons.Default.Add)
     }
-    var initial_working_StatusIcon =
-        if (fiveSgpaUiStates.totalCourses == fiveSgpaUiStates.enteredCourses) {
-            Icons.Default.Done
+    var initial_working_StatusIcon = Icons.Filled.Add
 
-        } else {
-            Icons.Default.Add
-
-
-        }
 
     var finalStatusIcon = Icons.Filled.Done
 
@@ -112,11 +96,13 @@ fun FiveCgpaMainScreen(
 
         scaffoldState = scaffoldState,
         sheetContent = {
-            ResultBottomSheetContent(
-                fiveSgpaUiStates,
-                sheetState,
-                onEvent = onEvent
+            FiveCgpaResultBottomSheetContent(
+                fiveSgpaUiStates = fiveSgpaUiStates,
+                fiveCgpaUiStates = fiveCgpaUiStates,
+                sheetState = sheetState,
+                onEvent = onEvent,
             )
+
         },
         sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
         modifier = Modifier
@@ -138,18 +124,17 @@ fun FiveCgpaMainScreen(
                     onClick = {
 
 
-                        if (fiveSgpaUiStates.totalCourses == ""
+                        if (fiveCgpaUiStates.sgpaListToBeCalculated.isEmpty()
                         //|| state.totalCreditLoad == ""
                         ) {
+                            initial_working_StatusIcon = Icons.Default.Add
 
-                            onEvent(FiveSgpaUiEvents.showBaseEntryDBox)
 
-                        } else if (stateTwo.size < fiveSgpaUiStates.totalCourses.toInt()) {
+                        } else if (fiveCgpaUiStates.sgpaListToBeCalculated.isNotEmpty()) {
+                            initial_working_StatusIcon = Icons.Default.Done
 
-                            onEvent(FiveSgpaUiEvents.showDataEntryDBox)
 
-                        } else {
-                            onEvent(FiveSgpaUiEvents.executeCalculation)
+                            onEvent(FiveSgpaUiEvents.executeCgpaCalculation)
                             scope.launch {
                                 if (sheetState.isCollapsed) {
                                     sheetState.expand()
@@ -166,7 +151,6 @@ fun FiveCgpaMainScreen(
                     Icon(
                         imageVector = initial_working_StatusIcon,
                         contentDescription = "Add Course details",
-
 
                         )
 

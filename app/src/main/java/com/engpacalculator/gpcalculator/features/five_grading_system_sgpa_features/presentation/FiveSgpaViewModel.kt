@@ -5,10 +5,12 @@ import GpCalculatorPrototype.Data.CourseMaps
 import GpCalculatorPrototype.Data.CoursesUnitPointArrayList
 import GpCalculatorPrototype.Data.GpData
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.ResultTracker
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.SgpaResultDisplayFormatForFiveCgpaCalculation
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.ErrorMessages
@@ -25,6 +27,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter.ofPattern
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class FiveSgpaViewModel @Inject constructor(
@@ -38,6 +41,7 @@ class FiveSgpaViewModel @Inject constructor(
     }
 
     //    val resultsFromDB = myRepository.getUniFiveSgpaResultRecordDao()
+    val pseudoArrayList = ArrayList<SgpaResultDisplayFormatForFiveCgpaCalculation>()
     private val coursePointObj = CoursesUnitPointArrayList()
     private val courseMapObj = CourseMaps()
     private val coursesDataEntryObj = CourseDataEntries()
@@ -64,12 +68,20 @@ class FiveSgpaViewModel @Inject constructor(
         MutableStateFlow(FiveCgpaUiStates())
     var fiveCgpaUiState = _fiveCgpaUiState.asStateFlow()
 
+    //var updatedList = _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation
+    var new = ArrayList<SgpaResultDisplayFormatForFiveCgpaCalculation>()
+    // new.add(SgpaResultDisplayFormatForFiveCgpaCalculation(true, "new", "419"))
+
+
     init {
         loadData()
     }
 
-    private fun loadData() {
+    private fun loadData(chkBoxState: Boolean = false, pseudoIndex: Int = 0) {
+        //_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
         viewModelScope.launch {
+            _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+
             myRepository.getUniFiveSgpaResultRecordDao()
                 .collect { result ->
 
@@ -89,21 +101,96 @@ class FiveSgpaViewModel @Inject constructor(
                             )
                         )
 
+
                     }
                     //  _resultIntroDB.value.resultItems = result
 
                 }
+
+
         }
 
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onEvent(event: FiveSgpaUiEvents) {
 
         when (event) {
+            // var TAG: String = "list"
+
+
+            is FiveSgpaUiEvents.executeCgpaCalculation -> {
+                if (_fiveCgpaUiState.value.sgpaListToBeCalculated.isNotEmpty()) {
+                    for (i in 0.._fiveCgpaUiState.value.sgpaListToBeCalculated.size - 1) {
+                        _fiveCgpaUiState.value.cgpaList.add(
+                            _fiveCgpaUiState.value.sgpaListToBeCalculated.get(
+                                i
+                            ).sgpaResult.toDouble().toFloat()
+                        )
+                    }
+
+                    _fiveCgpaUiState.update {
+                        it.copy(
+                            cgpa = String.format(
+                                "%.2f",
+                                _fiveCgpaUiState.value.cgpaList.sum() / _fiveCgpaUiState.value.cgpaList.size
+                            )
+                        )
+                    }
+                }
+
+                Log.d(
+                    "CGPA",
+                    "Your sum is ${_fiveCgpaUiState.value.cgpaList.sum()} and size is ${_fiveCgpaUiState.value.cgpaList.size}"
+                )
+                Log.d("CGPA", "Your cgpa is ${_fiveCgpaUiState.value.cgpa}")
+
+                //_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+                _fiveCgpaUiState.value.cgpaList.clear()
+                //_fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
+                //loadData()
+            }
+
             is FiveSgpaUiEvents.onCheckChanged -> {
+
+
                 _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.get(event.index).resultSelected =
                     event.isChecked
+
+                val randomNumber = Random.nextInt(1, 1000)
+//                val generatedNumbers = mutableSetOf<Int>()
+//                while (generatedNumbers.size < 500) {
+//                    if (randomNumber !in generatedNumbers) {
+//
+//                        generatedNumbers.add(randomNumber)
+//
+//                    }
+//                }
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        helperText = randomNumber.toString()
+                    )
+                }
+
+
+                if (event.isChecked == true) {
+                    _fiveCgpaUiState.value.sgpaListToBeCalculated.add(
+                        //index = event.index,
+                        ResultTracker(
+                            id = event.index,
+                            sgpaResult = event.sgpaNeeded,
+                            resultName = event.resultNameRef
+                        )
+                    )
+                } else {
+                    _fiveCgpaUiState.value.sgpaListToBeCalculated.removeIf {
+                        it.id == event.index
+                    }
+                }
+
+                // println(_fiveCgpaUiState.value.sgpaListToBeCalculated)
+                Log.d("List of sgpa", "${_fiveCgpaUiState.value.sgpaListToBeCalculated}")
             }
 
             is FiveSgpaUiEvents.DeleteResultByReference -> {

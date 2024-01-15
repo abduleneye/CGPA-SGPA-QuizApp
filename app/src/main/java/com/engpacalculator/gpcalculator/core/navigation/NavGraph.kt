@@ -42,7 +42,7 @@ fun SetUpNavGraph(
     val fiveSgpaCourseEntriesState by fiveSgpaViewModel.courseEntries.collectAsState()
     val fiveSgpaResultFromDBStates by fiveSgpaViewModel.resultIntroDB.collectAsState()
     val fiveSgpaRecordsToBeDisplayedForCgpa by fiveSgpaViewModel.fiveCgpaUiState.collectAsState()
-    val fiveCgpaUiStates by fiveSgpaViewModel.fiveCgpaUiState.collectAsState()
+    // val fiveCgpaUiListStates by fiveSgpaViewModel.fiveCgpaUiStateList.collectAsState()
 
 
 //    for (i in 1..stateThree.resultItems.size) {

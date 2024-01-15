@@ -1,5 +1,6 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation
 
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.SgpaResultDisplayFormatForFiveCgpaCalculation
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultEntity
 
 sealed interface FiveSgpaUiEvents {
@@ -77,6 +78,7 @@ sealed interface FiveSgpaUiEvents {
     object save : FiveSgpaUiEvents
     object loadResult : FiveSgpaUiEvents
     object hideSaveResultsFiveSgpa : FiveSgpaUiEvents
+    object executeCgpaCalculation : FiveSgpaUiEvents
 
     data class setTotalNumberOfEditedCourses(val noOfEditedTotalCourse: String) :
         FiveSgpaUiEvents
@@ -86,7 +88,14 @@ sealed interface FiveSgpaUiEvents {
     data class DeleteResult(var result: UniFiveSgpaResultEntity) : FiveSgpaUiEvents
 
     data class DeleteResultByReference(var result: String) : FiveSgpaUiEvents
-    data class onCheckChanged(var isChecked: Boolean, var index: Int) : FiveSgpaUiEvents
+    data class onCheckChanged(
+        var info: SgpaResultDisplayFormatForFiveCgpaCalculation,
+        var isChecked: Boolean,
+        var index: Int,
+        var sgpaNeeded: String,
+        var resultNameRef: String,
+    ) :
+        FiveSgpaUiEvents
 
 
 }
