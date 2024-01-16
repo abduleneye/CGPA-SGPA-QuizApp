@@ -197,6 +197,8 @@ class FiveSgpaViewModel @Inject constructor(
                 viewModelScope.launch {
                     myRepository.resultToBeDeleted(event.result)
                     _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+                    _fiveCgpaUiState.value.cgpaList.clear()
+                    _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
 
                 }
             }
@@ -206,6 +208,8 @@ class FiveSgpaViewModel @Inject constructor(
                 viewModelScope.launch {
                     myRepository.deleteResult(event.result)
                     _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+                    _fiveCgpaUiState.value.cgpaList.clear()
+                    _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
 
 
                 }
@@ -260,6 +264,8 @@ class FiveSgpaViewModel @Inject constructor(
                             )
                         )
                         _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+                        _fiveCgpaUiState.value.cgpaList.clear()
+                        _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
 
                     }
 
