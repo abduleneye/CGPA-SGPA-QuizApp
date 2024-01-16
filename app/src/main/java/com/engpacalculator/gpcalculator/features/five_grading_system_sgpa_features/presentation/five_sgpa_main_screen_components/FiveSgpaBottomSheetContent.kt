@@ -134,13 +134,17 @@ fun ResultBottomSheetContent(
             }
             Spacer(modifier = Modifier.height(3.dp))
 
-            Text(text = "${state.finalResult}", fontSize = 30.sp, fontWeight = FontWeight.Bold)
+            Text(
+                text = "${state.fiveSgpaFinalResult}",
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold
+            )
 
             Spacer(modifier = Modifier.height(3.dp))
 
             Text(text = "${state.gpaDescriptor}", fontSize = 20.sp, fontWeight = FontWeight.Medium)
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(3.dp))
 
             Text(
                 text = "${state.remark}",

@@ -1,4 +1,4 @@
-package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components
+package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement

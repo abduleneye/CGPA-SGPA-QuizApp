@@ -17,7 +17,7 @@ data class FiveSgpaUiStates(
     var isGradeDropDownMenuExpanded: Boolean = false,
     var baseEntryDialogBoxVisibility: Boolean = false,
     var resultDialogBoxVisibility: Boolean = false,
-    var finalResult: String = "",
+    var fiveSgpaFinalResult: String = "",
     var substituteFinalResult: String = "",
     var dayGreetingState: String = "Good Evening,",
 

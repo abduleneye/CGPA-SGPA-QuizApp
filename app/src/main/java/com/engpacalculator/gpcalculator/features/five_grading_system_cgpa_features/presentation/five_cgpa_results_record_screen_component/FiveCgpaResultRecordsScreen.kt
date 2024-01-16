@@ -1,11 +1,10 @@
-package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.uni_five_cgpa_main_screen_components
+package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,22 +18,21 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.SgpaResultDisplayFormatForFiveCgpaCalculation
-import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
+import com.engpacalculator.gpcalculator.core.navigation.Screen
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultEntity
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.gson.Gson
 
 
 @Composable
@@ -52,44 +50,69 @@ fun Init() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun UniFiveSgpaRecordedResultToBeSelectedFrom(
+fun FiveSgpaResultRecordScreen(
     navController: NavController,
-    fiveCgpaUiStates: FiveCgpaUiStates,
-    fiveSgpaViewModel: FiveSgpaViewModel,
-    onEventFiveSgpa: (FiveSgpaUiEvents) -> Unit,
+    //state: List<UniFiveSgpaResultEntity>,
+    state: FiveCgpaResultsRecordState,
+
+    viewModel: FiveSgpaViewModel,
+    onEvent: (FiveSgpaUiEvents) -> Unit
+
+) {
+
+    val scope = rememberCoroutineScope()
 
 
-    ) {
+//    LaunchedEffect(key1 = true) {
+//
+//        scope.launch {
+//            viewModel.loadData()
+//
+//        }
+//
+//
+//    }
+    //
 
 
-    ResultRecordToDisplay(
-        data = fiveCgpaUiStates,
-        onEventFiveSgpa = onEventFiveSgpa,
-        fiveSgpaViewModel = fiveSgpaViewModel,
+    if (state.resultItems.isEmpty()) {
 
+        Init()
+
+
+    } else {
+        ResultRecordToDisplay(
+            data = state,
+            navController = navController,
+            onEvent = onEvent,
+            viewModel = viewModel
         )
 
+    }
+    //
 }
-//
-//}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyCardView(
-    info: SgpaResultDisplayFormatForFiveCgpaCalculation,
+    info: UniFiveSgpaResultEntity,
+    navController: NavController,
     index: Int,
-    uniFiveCgpaUiState: FiveCgpaUiStates,
-    onEventFiveSgpaUiEvents: (FiveSgpaUiEvents) -> Unit,
-    fiveSgpaViewModel: FiveSgpaViewModel,
+    modifier: Modifier = Modifier,
+    state: FiveSgpaUiStates,
+    onEvent: (FiveSgpaUiEvents) -> Unit,
+    viewModel: FiveSgpaViewModel,
 
 
     ) {
 
-    //val json = Gson().toJson(info.resultEntries)
+    val json = Gson().toJson(info.resultEntries)
 
     val myContext = LocalContext.current
 
     val scope = rememberCoroutineScope()
+
+
 
 
     Card(
@@ -116,9 +139,16 @@ fun MyCardView(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .height(100.dp)
+                .fillMaxSize()
                 .clickable {
-
+                    navController.navigate(
+                        Screen.Five_Sgpa_Full_Records_Screen.withArgs(
+                            info.resultName,
+                            json,
+                            info.gp,
+                            info.remark
+                        )
+                    )
                     Toast
                         .makeText(myContext, "Clicked from column!!!", Toast.LENGTH_SHORT)
                         .show()
@@ -126,47 +156,28 @@ fun MyCardView(
 
                 },
         ) {
-            val context = LocalContext.current
-
-            Row(
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-
-
-                Checkbox(
-                    colors = CheckboxDefaults.colors(
-                        checkedColor = Color.Red
-                    ),
-                    checked = info.resultSelected,
-                    onCheckedChange = {
-                        onEventFiveSgpaUiEvents(
-                            FiveSgpaUiEvents.onCheckChanged(
-                                info = info,
-                                isChecked = it,
-                                index = index,
-                                sgpaNeeded = info.resultSgpa,
-                                resultNameRef = info.resultName
-                            )
-                        )
-                        Toast.makeText(
-                            context,
-                            " Sgpa for ${index} ${info.resultName} is ${info.resultSgpa} ",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // Invalidate()
-                    },
-
-                    )
-            }
-
-
+//            Row {
+//                IconButton(onClick = {
+//                    onEvent(FiveSgpaUiEvents.DeleteResult(info))
+//                    //viewModel.loadData()
+//                }) {
+//                    Icon(Icons.Default.Delete, contentDescription = "Delete Result")
+//
+//                }
+//            }
 
             Text(text = info.resultName, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = info.resultSgpa, fontWeight = FontWeight.SemiBold)
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Text(text = info.resultEntries.toString(), fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = info.gp, fontWeight = FontWeight.SemiBold)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = info.remark, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(text = "Tap to open", fontWeight = FontWeight.Light)
+
+
+            //}
 
         }
 
@@ -179,14 +190,15 @@ fun MyCardView(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ResultRecordToDisplay(
-    data: FiveCgpaUiStates,
-    onEventFiveSgpa: (FiveSgpaUiEvents) -> Unit,
-    fiveSgpaViewModel: FiveSgpaViewModel,
+    //data: List<UniFiveSgpaResultEntity>,
+    data: FiveCgpaResultsRecordState,
+    navController: NavController,
+    onEvent: (FiveSgpaUiEvents) -> Unit,
+    viewModel: FiveSgpaViewModel,
 
     ) {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
-    Text(text = data.helperText)
 
 
     LazyColumn(
@@ -197,9 +209,8 @@ fun ResultRecordToDisplay(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         // contentPadding = PaddingValues(16.dp)
     ) {
-        itemsIndexed(items = data.displayedResultForFiveCgpaCalculation, key = { id, listItem ->
+        itemsIndexed(items = data.resultItems, key = { id, listItem ->
             id.hashCode()
-
         }) { index, item ->
 
             val context = LocalContext.current
@@ -208,11 +219,12 @@ fun ResultRecordToDisplay(
 
                 info = item,
                 index = index,
-                uniFiveCgpaUiState = data,
-                onEventFiveSgpaUiEvents = onEventFiveSgpa,
-                fiveSgpaViewModel = fiveSgpaViewModel,
+                state = FiveSgpaUiStates(),
+                navController = navController,
+                onEvent = onEvent,
+                viewModel = viewModel
 
-                )
+            )
 
         }
 

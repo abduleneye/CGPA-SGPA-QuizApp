@@ -1,4 +1,4 @@
-package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.uni_five_cgpa_main_screen_components
+package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_main_screen_components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -141,15 +141,15 @@ fun FiveCgpaResultBottomSheetContent(
             Spacer(modifier = Modifier.height(3.dp))
 
             Text(
-                text = "${fiveSgpaUiStates.gpaDescriptor}",
+                text = "${fiveCgpaUiStates.gpaDescriptor}",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(3.dp))
 
             Text(
-                text = "${fiveSgpaUiStates.remark}",
+                text = "${fiveCgpaUiStates.remark}",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Light,
                 modifier = Modifier.padding(bottom = 20.dp)

@@ -13,5 +13,10 @@ data class FiveCgpaUiStates(
     var sgpaListToBeCalculated: @RawValue ArrayList<ResultTracker> = arrayListOf(),
     var cgpaList: ArrayList<Float> = arrayListOf(),
     var cgpa: String = "",
-    var helperText: String = ""
+    var helperText: String = "",
+    var operatorIconState: Boolean = false,
+    val remark: String = "",
+    var fiveCgpaFinalResult: String = "",
+    var gpaDescriptor: String = ""
+
 ) : Parcelable

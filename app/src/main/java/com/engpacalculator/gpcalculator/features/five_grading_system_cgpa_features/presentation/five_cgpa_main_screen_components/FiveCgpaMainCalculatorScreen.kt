@@ -1,4 +1,4 @@
-package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.uni_five_cgpa_main_screen_components
+package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_main_screen_components
 
 import GpCalculatorPrototype.Data.GpData
 import android.annotation.SuppressLint
@@ -76,15 +76,14 @@ fun FiveCgpaMainScreen(
     val sheetWidth = remember {
         mutableStateOf(60.dp)
     }
-    val sheetHeight = remember {
-        mutableStateOf(500.dp)
-    }
+    var initial_working_StatusIcon = if (fiveCgpaUiStates.operatorIconState == true) {
+        Icons.Default.Done
+
+    } else {
+        Icons.Default.Add
 
 
-    val iv = remember {
-        mutableStateOf(Icons.Default.Add)
     }
-    var initial_working_StatusIcon = Icons.Filled.Add
 
 
     var finalStatusIcon = Icons.Filled.Done

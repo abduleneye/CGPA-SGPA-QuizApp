@@ -138,6 +138,9 @@ class FiveSgpaViewModel @Inject constructor(
                             )
                         )
                     }
+
+                    GpaDescriptor(_fiveCgpaUiState.value.cgpa.toFloat(), "cgpa")
+
                 }
 
                 Log.d(
@@ -158,6 +161,20 @@ class FiveSgpaViewModel @Inject constructor(
                 _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.get(event.index).resultSelected =
                     event.isChecked
 
+                for (i in 0 until _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.size - 1) {
+                    if (_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation[i].resultSelected == true) {
+                        _fiveCgpaUiState.update {
+                            it.copy(operatorIconState = true)
+                        }
+
+                    } else {
+                        _fiveCgpaUiState.update {
+                            it.copy(operatorIconState = false)
+                        }
+                    }
+
+                }
+
                 val randomNumber = Random.nextInt(1, 1000)
 //                val generatedNumbers = mutableSetOf<Int>()
 //                while (generatedNumbers.size < 500) {
@@ -175,6 +192,10 @@ class FiveSgpaViewModel @Inject constructor(
 
 
                 if (event.isChecked == true) {
+                    _fiveCgpaUiState.update {
+                        it.copy(operatorIconState = true)
+                    }
+
                     _fiveCgpaUiState.value.sgpaListToBeCalculated.add(
                         //index = event.index,
                         ResultTracker(
@@ -187,6 +208,7 @@ class FiveSgpaViewModel @Inject constructor(
                     _fiveCgpaUiState.value.sgpaListToBeCalculated.removeIf {
                         it.id == event.index
                     }
+
                 }
 
                 // println(_fiveCgpaUiState.value.sgpaListToBeCalculated)
@@ -258,7 +280,7 @@ class FiveSgpaViewModel @Inject constructor(
                         myRepository.insertResult(
                             UniFiveSgpaResultEntity(
                                 resultEntries = _courseEntries.value,
-                                gp = _dbState.value.finalResult,
+                                gp = _dbState.value.fiveSgpaFinalResult,
                                 resultName = _dbState.value.saveResultAs,
                                 remark = _dbState.value.remark
                             )
@@ -334,7 +356,7 @@ class FiveSgpaViewModel @Inject constructor(
 
                 _dbState.update {
                     it.copy(
-                        finalResult = "new val"
+                        fiveSgpaFinalResult = "new val"
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
@@ -770,13 +792,13 @@ class FiveSgpaViewModel @Inject constructor(
                 result = operations(_dbState.value.totalCreditLoad.toInt())
                 _dbState.update {
                     it.copy(
-                        finalResult = result
+                        fiveSgpaFinalResult = result
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-                GpaDescriptor(_dbState.value.finalResult.toFloat())
+                GpaDescriptor(_dbState.value.fiveSgpaFinalResult.toFloat(), "sgpa")
 
                 onReExecuteCalculationClearArrayField()
 
@@ -1643,69 +1665,141 @@ class FiveSgpaViewModel @Inject constructor(
         }
     }
 
-    private fun GpaDescriptor(gpa: Float) {
-        if (gpa in 4.50..5.00) {
-            _dbState.update {
-                it.copy(
-                    gpaDescriptor = "First Class",
-                    remark = "You Performed Brilliantly"
-                )
+    private fun GpaDescriptor(gpa: Float, desc: String) {
+        if (desc == "sgpa") {
+            if (gpa in 4.50..5.00) {
+                _dbState.update {
+                    it.copy(
+                        gpaDescriptor = "First Class",
+                        remark = "You Performed Brilliantly"
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+            } else if (gpa in 3.50..4.49) {
+
+                _dbState.update {
+                    it.copy(
+                        gpaDescriptor = "Second Class Upper",
+                        remark = "You Performed Amazing "
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
+            } else if (gpa in 2.40..3.49) {
+
+                _dbState.update {
+                    it.copy(
+                        gpaDescriptor = "Second Class Lower",
+                        remark = "You Performed Great"
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
+            } else if (gpa in 1.50..2.39) {
+
+                _dbState.update {
+                    it.copy(
+                        gpaDescriptor = "Third Class",
+                        remark = "You performed averagely"
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
+            } else if (gpa in 1.00..1.49) {
+
+                _dbState.update {
+                    it.copy(
+                        gpaDescriptor = "Pass",
+                        remark = "You passed"
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
+            } else if (gpa in 0.00..1.00) {
+
+                _dbState.update {
+                    it.copy(
+                        gpaDescriptor = "Failure",
+                        remark = "You Failed"
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
-        } else if (gpa in 3.50..4.49) {
+        } else if (desc == "cgpa") {
 
-            _dbState.update {
-                it.copy(
-                    gpaDescriptor = "Second Class Upper",
-                    remark = "You Performed Amazing "
-                )
+            if (gpa in 4.50..5.00) {
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        gpaDescriptor = "First Class",
+                        remark = "You Performed Brilliantly"
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+            } else if (gpa in 3.50..4.49) {
+
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        gpaDescriptor = "Second Class Upper",
+                        remark = "You Performed Amazing "
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
+            } else if (gpa in 2.40..3.49) {
+
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        gpaDescriptor = "Second Class Lower",
+                        remark = "You Performed Great"
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
+            } else if (gpa in 1.50..2.39) {
+
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        gpaDescriptor = "Third Class",
+                        remark = "You performed averagely"
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
+            } else if (gpa in 1.00..1.49) {
+
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        gpaDescriptor = "Pass",
+                        remark = "You passed"
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
+            } else if (gpa in 0.00..1.00) {
+
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        gpaDescriptor = "Failure",
+                        remark = "You Failed"
+                    )
+                }
+                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+
+
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
-
-
-        } else if (gpa in 2.40..3.49) {
-
-            _dbState.update {
-                it.copy(
-                    gpaDescriptor = "Second Class Lower",
-                    remark = "You Performed Great"
-                )
-            }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
-
-
-        } else if (gpa in 1.50..2.39) {
-
-            _dbState.update {
-                it.copy(
-                    gpaDescriptor = "Third Class",
-                    remark = "You performed averagely"
-                )
-            }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
-
-
-        } else if (gpa in 1.00..1.49) {
-
-            _dbState.update {
-                it.copy(
-                    gpaDescriptor = "Pass",
-                    remark = "You passed"
-                )
-            }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
-
-
-        } else if (gpa in 0.00..1.00) {
-
-            _dbState.update {
-                it.copy(
-                    gpaDescriptor = "Failure",
-                    remark = "You Failed"
-                )
-            }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
         }
