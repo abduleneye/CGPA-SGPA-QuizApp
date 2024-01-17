@@ -2,6 +2,7 @@ package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_featu
 
 import GpCalculatorPrototype.Data.GpData
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,11 +32,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomHomeBarItemAd
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaResultsRecordState
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.launch
@@ -46,10 +47,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun FiveCgpaMainScreen(
     onEvent: (FiveSgpaUiEvents) -> Unit,
-
+    onMainEvent: (FiveCgpaUiEvents) -> Unit,
     fiveSgpaUiStates: FiveSgpaUiStates,
-    fiveSgpaRecordsState: FiveSgpaResultsRecordState,
+    fiveCgpaHelperRecordsState: FiveCgpaUiStates,
+    fiveCgpaUiStatesFromSgpaViewModel: FiveCgpaUiStates,
     fiveCgpaUiStates: FiveCgpaUiStates,
+
     stateTwo: ArrayList<GpData>,
     navController: NavController,
     adId: String,
@@ -76,14 +79,15 @@ fun FiveCgpaMainScreen(
     val sheetWidth = remember {
         mutableStateOf(60.dp)
     }
-    var initial_working_StatusIcon = if (fiveCgpaUiStates.operatorIconState == true) {
-        Icons.Default.Done
+    var initial_working_StatusIcon =
+        if (fiveCgpaUiStatesFromSgpaViewModel.operatorIconState == true) {
+            Icons.Default.Done
 
-    } else {
-        Icons.Default.Add
+        } else {
+            Icons.Default.Add
 
 
-    }
+        }
 
 
     var finalStatusIcon = Icons.Filled.Done
@@ -97,9 +101,9 @@ fun FiveCgpaMainScreen(
         sheetContent = {
             FiveCgpaResultBottomSheetContent(
                 fiveSgpaUiStates = fiveSgpaUiStates,
-                fiveCgpaUiStates = fiveCgpaUiStates,
+                fiveCgpaUiStates = fiveCgpaUiStatesFromSgpaViewModel,
                 sheetState = sheetState,
-                onEvent = onEvent,
+                onEvent = onMainEvent,
             )
 
         },
@@ -122,26 +126,26 @@ fun FiveCgpaMainScreen(
                 FloatingActionButton(
                     onClick = {
 
-
-                        if (fiveCgpaUiStates.sgpaListToBeCalculated.isEmpty()
-                        //|| state.totalCreditLoad == ""
-                        ) {
-                            initial_working_StatusIcon = Icons.Default.Add
-
-
-                        } else if (fiveCgpaUiStates.sgpaListToBeCalculated.isNotEmpty()) {
-                            initial_working_StatusIcon = Icons.Default.Done
-
-
-                            onEvent(FiveSgpaUiEvents.executeCgpaCalculation)
+                        onMainEvent(FiveCgpaUiEvents.help)
+                        onEvent(FiveSgpaUiEvents.executeCgpaCalculation)
+                        if (fiveCgpaUiStatesFromSgpaViewModel.sgpaListToBeCalculated.isNotEmpty()) {
                             scope.launch {
-                                if (sheetState.isCollapsed) {
+                                if (sheetState.isCollapsed
+                                ) {
                                     sheetState.expand()
                                 } else {
                                     sheetState.collapse()
                                 }
                             }
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Please check a result box to calculate",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
+
+
                     },
                     backgroundColor = AppBars,
 
@@ -204,9 +208,21 @@ fun FiveCgpaMainScreen(
                 Column {
                     UniFiveSgpaRecordedResultToBeSelectedFrom(
                         navController = navController,
-                        fiveCgpaUiStates = fiveCgpaUiStates,
+                        fiveCgpaUiStates = fiveCgpaHelperRecordsState,
                         fiveSgpaViewModel = fiveSgpaViewModel,
                         onEventFiveSgpa = onEvent,
+                        sheetState = sheetState
+                    )
+
+
+                }
+
+                if (fiveCgpaUiStates.saveResultDBVisibilty == true) {
+
+                    FiveCgpaSaveResultDialogBox(
+                        onEvent = onMainEvent,
+                        fiveCgpaUiStates = fiveCgpaUiStates,
+                        sheetState = sheetState
                     )
 
                 }

@@ -161,8 +161,8 @@ class FiveSgpaViewModel @Inject constructor(
                 _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.get(event.index).resultSelected =
                     event.isChecked
 
-                for (i in 0 until _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.size - 1) {
-                    if (_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation[i].resultSelected == true) {
+                for (i in 0 until _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.size) {
+                    if (_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation[i].resultSelected) {
                         _fiveCgpaUiState.update {
                             it.copy(operatorIconState = true)
                         }

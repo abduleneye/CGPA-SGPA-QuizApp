@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomSheetState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.material3.Card
@@ -36,6 +37,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -58,17 +60,20 @@ fun UniFiveSgpaRecordedResultToBeSelectedFrom(
     fiveCgpaUiStates: FiveCgpaUiStates,
     fiveSgpaViewModel: FiveSgpaViewModel,
     onEventFiveSgpa: (FiveSgpaUiEvents) -> Unit,
+    sheetState: BottomSheetState
 
 
-    ) {
+) {
 
 
     ResultRecordToDisplay(
         data = fiveCgpaUiStates,
         onEventFiveSgpa = onEventFiveSgpa,
         fiveSgpaViewModel = fiveSgpaViewModel,
+        sheetState = sheetState
 
-        )
+
+    )
 
 }
 //
@@ -82,9 +87,10 @@ fun MyCardView(
     uniFiveCgpaUiState: FiveCgpaUiStates,
     onEventFiveSgpaUiEvents: (FiveSgpaUiEvents) -> Unit,
     fiveSgpaViewModel: FiveSgpaViewModel,
+    sheetState: BottomSheetState
 
 
-    ) {
+) {
 
     //val json = Gson().toJson(info.resultEntries)
 
@@ -143,6 +149,12 @@ fun MyCardView(
                     ),
                     checked = info.resultSelected,
                     onCheckedChange = {
+
+                        scope.launch {
+                            if (sheetState.isExpanded) {
+                                sheetState.collapse()
+                            }
+                        }
                         onEventFiveSgpaUiEvents(
                             FiveSgpaUiEvents.onCheckChanged(
                                 info = info,
@@ -183,8 +195,10 @@ fun ResultRecordToDisplay(
     data: FiveCgpaUiStates,
     onEventFiveSgpa: (FiveSgpaUiEvents) -> Unit,
     fiveSgpaViewModel: FiveSgpaViewModel,
+    sheetState: BottomSheetState
 
-    ) {
+
+) {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
     Text(
@@ -215,8 +229,9 @@ fun ResultRecordToDisplay(
                 uniFiveCgpaUiState = data,
                 onEventFiveSgpaUiEvents = onEventFiveSgpa,
                 fiveSgpaViewModel = fiveSgpaViewModel,
+                sheetState = sheetState
 
-                )
+            )
 
         }
 

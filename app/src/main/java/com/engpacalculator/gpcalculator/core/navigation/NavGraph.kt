@@ -8,17 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.engpacalculator.gpcalculator.HomeScreen.HomeScreen
 import com.engpacalculator.gpcalculator.about_screen_components.ui.theme.AboutScreen
 import com.engpacalculator.gpcalculator.core.AnimatedSplash
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_main_screen_components.FiveCgpaMainScreen
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaFullResultScreen
@@ -32,13 +31,16 @@ import com.engpacalculator.gpcalculator.quiz_top_level_components.Quiz_Mode_Scre
 @Composable
 fun SetUpNavGraph(
     navController: NavHostController,
-    gpcalculatorViewModel: FiveSgpaViewModel
+    fiveSgpaViewModel: FiveSgpaViewModel,
+    fiveCgpaViewModel: FiveCgpaViewModel
+
 
 ) {
-    val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    var fiveSgpaViewModel = viewModel<FiveSgpaViewModel>()
+    var fiveSgpaViewModel = fiveSgpaViewModel
+    // var fiveCgpaViewModel = fiveCgpaViewModel
     val fiveSgpaUiStates by fiveSgpaViewModel.dbState.collectAsState()
+    val fiveCgpaUiStates by fiveCgpaViewModel.fiveCgpaUiStates.collectAsState()
     val fiveSgpaCourseEntriesState by fiveSgpaViewModel.courseEntries.collectAsState()
     val fiveSgpaResultFromDBStates by fiveSgpaViewModel.resultIntroDB.collectAsState()
     val fiveSgpaRecordsToBeDisplayedForCgpa by fiveSgpaViewModel.fiveCgpaUiState.collectAsState()
@@ -110,7 +112,7 @@ fun SetUpNavGraph(
                 onEvent = fiveSgpaViewModel::onEvent,
                 state = fiveSgpaUiStates,
                 stateTwo = fiveSgpaCourseEntriesState,
-                calcViewModel = gpcalculatorViewModel,
+                calcViewModel = fiveSgpaViewModel,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111"
                 //ca-app-pub-3656021994888380/3450364305
@@ -123,14 +125,14 @@ fun SetUpNavGraph(
             FiveCgpaMainScreen(
                 onEvent = fiveSgpaViewModel::onEvent,
                 fiveSgpaUiStates = fiveSgpaUiStates,
-                fiveSgpaRecordsState = fiveSgpaResultFromDBStates,
-                fiveCgpaUiStates = fiveSgpaRecordsToBeDisplayedForCgpa,
+                fiveCgpaHelperRecordsState = fiveSgpaRecordsToBeDisplayedForCgpa,
+                fiveCgpaUiStatesFromSgpaViewModel = fiveSgpaRecordsToBeDisplayedForCgpa,
                 stateTwo = fiveSgpaCourseEntriesState,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
-                // uniFiveCgpaViewModel =  ,
                 fiveSgpaViewModel = fiveSgpaViewModel,
-                // onEventFiveCgpa =
+                onMainEvent = fiveCgpaViewModel::onEvent,
+                fiveCgpaUiStates = fiveCgpaUiStates
             )
         }
 

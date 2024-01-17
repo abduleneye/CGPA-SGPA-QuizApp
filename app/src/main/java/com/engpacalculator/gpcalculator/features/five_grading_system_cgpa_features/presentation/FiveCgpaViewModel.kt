@@ -2,12 +2,50 @@ package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_featu
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.repository.UniFiveSgpaResultRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
-@HiltViewModel
-class FiveCgpaViewModel @Inject constructor(
+class FiveCgpaViewModel constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val myRepository: UniFiveSgpaResultRepository
-) : ViewModel()
+) : ViewModel() {
+
+    private var _fiveCgpaUiStates = MutableStateFlow(FiveCgpaUiStates())
+
+    var fiveCgpaUiStates = _fiveCgpaUiStates.asStateFlow()
+
+    fun onEvent(onEvents: FiveCgpaUiEvents) {
+        when (onEvents) {
+            is FiveCgpaUiEvents.showSaveResultDB -> {
+                _fiveCgpaUiStates.update {
+                    it.copy(
+                        saveResultDBVisibilty = true
+                    )
+                }
+
+
+            }
+
+            is FiveCgpaUiEvents.hideSaveResultDB -> {
+                _fiveCgpaUiStates.update {
+                    it.copy(
+                        saveResultDBVisibilty = false
+                    )
+                }
+            }
+
+            is FiveCgpaUiEvents.help -> {
+
+                _fiveCgpaUiStates.update {
+                    it.copy(
+                        newHelperText = "Ahh..."
+                    )
+                }
+            }
+
+            else -> {
+
+            }
+        }
+    }
+}

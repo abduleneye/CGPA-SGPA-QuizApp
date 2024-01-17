@@ -30,17 +30,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SaveResultDialogBox(
-    onEvent: (FiveSgpaUiEvents) -> Unit,
-    dbState: FiveSgpaUiStates,
+fun FiveCgpaSaveResultDialogBox(
+    onEvent: (FiveCgpaUiEvents) -> Unit,
+    fiveCgpaUiStates: FiveCgpaUiStates,
     sheetState: BottomSheetState
 
 
@@ -52,8 +52,8 @@ fun SaveResultDialogBox(
 
     Dialog(
         onDismissRequest = {
-            onEvent(FiveSgpaUiEvents.resetBackToDefaultValueFromErrorSRA)
-            onEvent(FiveSgpaUiEvents.hideSaveResultDBox)
+            onEvent(FiveCgpaUiEvents.resetBackToDefaultValueFromErrorSRA)
+            onEvent(FiveCgpaUiEvents.hideSaveResultDB)
         },
         properties = DialogProperties(
             dismissOnBackPress = true,
@@ -101,20 +101,20 @@ fun SaveResultDialogBox(
                     modifier = Modifier
                         .align(Alignment.Start)
                         .padding(start = 20.dp),
-                    value = dbState.saveResultAs,
+                    value = fiveCgpaUiStates.saveResultAs,
                     onValueChange = {
 
-                        onEvent(FiveSgpaUiEvents.setSRA(it))
+                        onEvent(FiveCgpaUiEvents.setSRA(it))
 
 
                     },
                     label = {
-                        Text(text = dbState.defaultLabelSRA)
+                        Text(text = fiveCgpaUiStates.defaultLabelSRA)
                     },
                     singleLine = true,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedLabelColor = Color(dbState.defaultLabelColourSRA),
-                        focusedBorderColor = Color(dbState.defaultLabelColourSRA),
+                        focusedLabelColor = Color(fiveCgpaUiStates.defaultLabelColourSRA),
+                        focusedBorderColor = Color(fiveCgpaUiStates.defaultLabelColourSRA),
                     ),
 
 
@@ -144,8 +144,8 @@ fun SaveResultDialogBox(
 
                         Button(
                             onClick = {
-                                onEvent(FiveSgpaUiEvents.hideSaveResultDBox)
-                                onEvent(FiveSgpaUiEvents.resetBackToDefaultValueFromErrorSRA)
+                                onEvent(FiveCgpaUiEvents.hideSaveResultDB)
+                                onEvent(FiveCgpaUiEvents.resetBackToDefaultValueFromErrorSRA)
 
                             },
                             colors = ButtonDefaults.buttonColors(
@@ -166,13 +166,13 @@ fun SaveResultDialogBox(
                         Button(
                             onClick = {
 
-                                if (dbState.saveResultAs.isNotEmpty()) {
+                                if (fiveCgpaUiStates.saveResultAs.isNotEmpty()) {
 
-                                    onEvent(FiveSgpaUiEvents.save)
+                                    onEvent(FiveCgpaUiEvents.save)
 
                                     Toast.makeText(
                                         context,
-                                        "${dbState.saveResultAs} saved successfully!!!",
+                                        "${fiveCgpaUiStates.saveResultAs} saved successfully!!!",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }

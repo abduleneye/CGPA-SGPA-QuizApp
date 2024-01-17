@@ -13,14 +13,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.engpacalculator.gpcalculator.core.navigation.SetUpNavGraph
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.GpCalculatorTheme
@@ -39,9 +40,10 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
             FirebaseAnalytics.getInstance(this)
 
 
-            var viewModel: FiveSgpaViewModel = hiltViewModel()
-            val state by viewModel.dbState.collectAsState()
-            val statetwo by viewModel.courseEntries.collectAsState()
+            var fiveSgpaViewModel: FiveSgpaViewModel = hiltViewModel()
+            val fiveCgpaViewModel = viewModel<FiveCgpaViewModel>()
+//            val state by fiveSgpaViewModel.dbState.collectAsState()
+//            val statetwo by fiveSgpaViewModel.courseEntries.collectAsState()
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
 
@@ -90,11 +92,14 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
                     ) {
                         SetUpNavGraph(
                             navController = navController,
-                            gpcalculatorViewModel = viewModel
+                            fiveSgpaViewModel = fiveSgpaViewModel,
+                            fiveCgpaViewModel = fiveCgpaViewModel
                         )
 
 
                     }
+
+
                 }
             }
 

@@ -80,7 +80,7 @@ fun FiveCgpaTopAppBarDropDownMenu(
         title = {
 
             Text(
-                text = "GpaCalculator",
+                text = "CGpaCalculator",
                 fontSize = 20.sp,
 
                 )
