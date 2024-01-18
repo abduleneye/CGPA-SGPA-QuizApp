@@ -51,7 +51,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun FiveSgpaTopAppBarDropDownMenu(
+fun FiveSgpaTopAppBarAndOptionsMenu(
     onEvent: (FiveSgpaUiEvents) -> Unit,
     calcViewModel: FiveSgpaViewModel,
     dbState: FiveSgpaUiStates,

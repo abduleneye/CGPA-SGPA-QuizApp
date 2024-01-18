@@ -12,11 +12,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.ResultTracker
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.SgpaResultDisplayFormatForFiveCgpaCalculation
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.local.entity.FiveCgpaResultEntity
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.domain.repository.FiveCgpaResultRepository
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component.FiveCgpaResultsRecordState
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.ErrorMessages
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.ErrorPassedValues
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultEntity
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.repository.UniFiveSgpaResultRepository
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.FiveSgpaResultEntity
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.repository.FiveSgpaResultRepository
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaResultsRecordState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,16 +35,17 @@ import kotlin.random.Random
 @HiltViewModel
 class FiveSgpaViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val myRepository: UniFiveSgpaResultRepository
-) : ViewModel() {
+    private val myFiveSgpaRepository: FiveSgpaResultRepository,
+    private val myFiveCgpaRepository: FiveCgpaResultRepository,
+
+
+    ) : ViewModel() {
 
     companion object {
         private const val DB_STATE_KEY = "my_db_state"
         private const val COURSE_ENTRIES_KEY = "my_course_entry_state"
     }
 
-    //    val resultsFromDB = myRepository.getUniFiveSgpaResultRecordDao()
-    val pseudoArrayList = ArrayList<SgpaResultDisplayFormatForFiveCgpaCalculation>()
     private val coursePointObj = CoursesUnitPointArrayList()
     private val courseMapObj = CourseMaps()
     private val coursesDataEntryObj = CourseDataEntries()
@@ -59,33 +63,51 @@ class FiveSgpaViewModel @Inject constructor(
         MutableStateFlow(savedStateHandle.get(DB_STATE_KEY) ?: FiveSgpaUiStates())
     var dbState = _dbState.asStateFlow()
 
-    //
 
-    private var _resultIntroDB = MutableStateFlow(FiveSgpaResultsRecordState())
-    val resultIntroDB = _resultIntroDB.asStateFlow()
+    private var _fiveSgparesultIntroDB = MutableStateFlow(FiveSgpaResultsRecordState())
+    val fiveSgparesultIntroDB = _fiveSgparesultIntroDB.asStateFlow()
+
+    private var _fiveCgpaResultIntroDB = MutableStateFlow(FiveCgpaResultsRecordState())
+    val fiveCgpaResultIntroDB = _fiveCgpaResultIntroDB.asStateFlow()
 
     private var _fiveCgpaUiState =
         MutableStateFlow(FiveCgpaUiStates())
     var fiveCgpaUiState = _fiveCgpaUiState.asStateFlow()
 
-    //var updatedList = _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation
-    var new = ArrayList<SgpaResultDisplayFormatForFiveCgpaCalculation>()
-    // new.add(SgpaResultDisplayFormatForFiveCgpaCalculation(true, "new", "419"))
-
 
     init {
-        loadData()
+        loadFiveSgpaData()
+        loadFiveCgpaData()
     }
 
-    private fun loadData(chkBoxState: Boolean = false, pseudoIndex: Int = 0) {
-        //_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+    private fun loadFiveCgpaData(chkBoxState: Boolean = false, pseudoIndex: Int = 0) {
+        viewModelScope.launch {
+
+            myFiveCgpaRepository.GetFiveCgpaResultRecordDao()
+                .collect { result ->
+
+                    _fiveCgpaResultIntroDB.update {
+                        it.copy(
+                            resultItems = result
+                        )
+                    }
+                    //  _resultIntroDB.value.resultItems = result
+
+                }
+
+
+        }
+
+    }
+
+    private fun loadFiveSgpaData(chkBoxState: Boolean = false, pseudoIndex: Int = 0) {
         viewModelScope.launch {
             _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
 
-            myRepository.getUniFiveSgpaResultRecordDao()
+            myFiveSgpaRepository.GetFiveSgpaResultRecordDao()
                 .collect { result ->
 
-                    _resultIntroDB.update {
+                    _fiveSgparesultIntroDB.update {
                         it.copy(
                             resultItems = result
                         )
@@ -118,6 +140,67 @@ class FiveSgpaViewModel @Inject constructor(
 
         when (event) {
             // var TAG: String = "list"
+
+
+            is FiveSgpaUiEvents.showFiveCgpaSaveResultDB -> {
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        saveResultDBVisibilty = true
+                    )
+                }
+
+
+            }
+
+            is FiveSgpaUiEvents.hideFiveCgpaSaveResultDB -> {
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        saveResultDBVisibilty = false
+                    )
+                }
+            }
+
+            is FiveSgpaUiEvents.helpFiveCgpa -> {
+
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        newHelperText = "Ahh..."
+                    )
+                }
+            }
+
+            is FiveSgpaUiEvents.setFiveCgpaSRA -> {
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        saveResultAs = event.saveResultAs
+                    )
+                }
+
+            }
+
+            is FiveSgpaUiEvents.saveFiveCgpaResult -> {
+
+                if (
+                    _fiveCgpaUiState.value.saveResultAs.isEmpty()
+                ) {
+                    textFieldsErrorCheckSaveFiveCgpaResultAsDataEntry()
+
+                } else {
+                    viewModelScope.launch {
+                        myFiveCgpaRepository.InsertFiveCgpaResult(
+                            FiveCgpaResultEntity(
+                                resultName = _fiveCgpaUiState.value.saveResultAs.uppercase(),
+                                gp = _fiveCgpaUiState.value.cgpa,
+                                remark = _fiveCgpaUiState.value.remark,
+                                resultEntries = _fiveCgpaUiState.value.sgpaResultNames
+                            )
+                        )
+                    }
+
+                }
+
+
+            }
 
 
             is FiveSgpaUiEvents.executeCgpaCalculation -> {
@@ -204,10 +287,12 @@ class FiveSgpaViewModel @Inject constructor(
                             resultName = event.resultNameRef
                         )
                     )
+                    _fiveCgpaUiState.value.sgpaResultNames.add(event.resultNameRef)
                 } else {
                     _fiveCgpaUiState.value.sgpaListToBeCalculated.removeIf {
                         it.id == event.index
                     }
+                    _fiveCgpaUiState.value.sgpaResultNames.remove(event.resultNameRef)
 
                 }
 
@@ -216,8 +301,11 @@ class FiveSgpaViewModel @Inject constructor(
             }
 
             is FiveSgpaUiEvents.DeleteResultByReference -> {
+                _fiveCgpaUiState.update {
+                    it.copy(operatorIconState = false)
+                }
                 viewModelScope.launch {
-                    myRepository.resultToBeDeleted(event.result)
+                    myFiveSgpaRepository.FiveSgpaResultToBeDeleted(event.result)
                     _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
                     _fiveCgpaUiState.value.cgpaList.clear()
                     _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
@@ -227,8 +315,11 @@ class FiveSgpaViewModel @Inject constructor(
 
 
             is FiveSgpaUiEvents.DeleteResult -> {
+                _fiveCgpaUiState.update {
+                    it.copy(operatorIconState = false)
+                }
                 viewModelScope.launch {
-                    myRepository.deleteResult(event.result)
+                    myFiveSgpaRepository.DeleteFiveSgpaResult(event.result)
                     _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
                     _fiveCgpaUiState.value.cgpaList.clear()
                     _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
@@ -268,20 +359,20 @@ class FiveSgpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.save -> {
+            is FiveSgpaUiEvents.saveFiveSgpaResult -> {
 
                 if (
                     _dbState.value.saveResultAs.isEmpty()
                 ) {
-                    textFieldsErrorCheckSaveResultAsDataEntry()
+                    textFieldsErrorCheckSaveFiveSgpaResultAsDataEntry()
 
                 } else {
                     viewModelScope.launch {
-                        myRepository.insertResult(
-                            UniFiveSgpaResultEntity(
+                        myFiveSgpaRepository.InsertFiveSgpaResult(
+                            FiveSgpaResultEntity(
                                 resultEntries = _courseEntries.value,
                                 gp = _dbState.value.fiveSgpaFinalResult,
-                                resultName = _dbState.value.saveResultAs,
+                                resultName = _dbState.value.saveResultAs.uppercase(),
                                 remark = _dbState.value.remark
                             )
                         )
@@ -1241,7 +1332,37 @@ class FiveSgpaViewModel @Inject constructor(
 
     }
 
-    private fun textFieldsErrorCheckSaveResultAsDataEntry() {
+
+    private fun textFieldsErrorCheckSaveFiveCgpaResultAsDataEntry() {
+
+        _fiveCgpaUiState.update {
+            it.copy(
+                defaultLabelSRA = ErrorMessages.errorMessageForSRA,
+                defaultLabelColourSRA = ErrorMessages.textFieldErrorLabelColorHexCode,
+                saveResultDBVisibilty = true
+            )
+        }
+        // savedStateHandle.set(FiveSgpaViewModel.DB_STATE_KEY, _dbState.value)
+
+
+    }
+
+    private fun resetFiveCgpaSRADBox() {
+        _fiveCgpaUiState.update {
+            it.copy(
+                defaultLabelSRA = ErrorPassedValues.labelForSRA,
+                defaultLabelColourSRA = ErrorPassedValues.errorPassedColour,
+                saveResultDBVisibilty = false,
+                saveResultAs = ""
+
+
+            )
+        }
+        //savedStateHandle.set(FiveSgpaViewModel.DB_STATE_KEY, _dbState.value)
+    }
+
+
+    private fun textFieldsErrorCheckSaveFiveSgpaResultAsDataEntry() {
 
         _dbState.update {
             it.copy(

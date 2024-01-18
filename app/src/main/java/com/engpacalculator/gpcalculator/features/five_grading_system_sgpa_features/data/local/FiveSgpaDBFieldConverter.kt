@@ -3,17 +3,17 @@ package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featu
 import GpCalculatorPrototype.Data.GpData
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.util.JsonParser
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.five_sgpa_util.FiveSgpaJsonParser
 import com.google.gson.reflect.TypeToken
 
 @ProvidedTypeConverter
-class Converters(
-    private val jsonParser: JsonParser
+class FiveSgpaDBFieldConverter(
+    private val fiveSgpaJsonParser: FiveSgpaJsonParser
 ) {
 
     @TypeConverter
     fun fromResultJson(json: String): ArrayList<GpData> {
-        return jsonParser.fromJson<ArrayList<GpData>>(
+        return fiveSgpaJsonParser.fromJson<ArrayList<GpData>>(
             json,
             object : TypeToken<ArrayList<GpData>>() {}.type
         ) ?: ArrayList<GpData>()
@@ -21,7 +21,7 @@ class Converters(
 
     @TypeConverter
     fun toResultJson(results: ArrayList<GpData>): String {
-        return jsonParser.toJson(
+        return fiveSgpaJsonParser.toJson(
             results,
             object : TypeToken<ArrayList<GpData>>() {}.type
         ) ?: "[]"

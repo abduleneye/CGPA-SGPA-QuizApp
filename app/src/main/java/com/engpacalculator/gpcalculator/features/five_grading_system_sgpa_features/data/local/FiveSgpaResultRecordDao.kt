@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultEntity
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultIntroEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -27,6 +26,6 @@ interface UniFiveSgpaResultRecordDao {
         //resultName: String
     ): Flow<List<UniFiveSgpaResultEntity>>
 
-    @Query("SELECT resultName, gp, remark FROM unifivesgparesultentity ")
-    fun getIntroResults(): Flow<List<UniFiveSgpaResultIntroEntity>>
+//    @Query("SELECT resultName, gp, remark FROM unifivesgparesultentity ")
+//    fun getIntroResults(): Flow<List<UniFiveSgpaResultIntroEntity>>
 }

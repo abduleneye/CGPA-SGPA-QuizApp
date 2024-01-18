@@ -1,7 +1,6 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.repository
 
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultEntity
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultIntroEntity
 import kotlinx.coroutines.flow.Flow
 
 interface UniFiveSgpaResultRepository {
@@ -18,9 +17,9 @@ interface UniFiveSgpaResultRepository {
         //resultName: String
     ): Flow<List<UniFiveSgpaResultEntity>>
 
-    fun getUniFiveSgpaIntroResultRecordDao(
-        //resultName: String
-    ): Flow<List<UniFiveSgpaResultIntroEntity>>
+//    fun getUniFiveSgpaIntroResultRecordDao(
+//        //resultName: String
+//    ): Flow<List<UniFiveSgpaResultIntroEntity>>
 
 
 }
