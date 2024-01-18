@@ -26,11 +26,19 @@ sealed class Screen(val route: String) {
 
     object Five_Sgpa_Records_Screen :
     //Screen("records_screen/ResultName/ListOfCourseDetails/Gp/ResultRemark")
-        Screen("records_screen")
+        Screen("five_sgpa_records_screen")
 
 
     object Five_Sgpa_Full_Records_Screen :
-        Screen("full_records_screen")
+        Screen("full_sgpa_full_records_screen")
+
+    object Five_Cgpa_Records_Screen :
+    //Screen("records_screen/ResultName/ListOfCourseDetails/Gp/ResultRemark")
+        Screen("five_cgpa_records_screen")
+
+
+    object Five_Cgpa_Full_Records_Screen :
+        Screen("full_cgpa_full_records_screen")
 
     fun withArgs(vararg args: String): String {
         return buildString {

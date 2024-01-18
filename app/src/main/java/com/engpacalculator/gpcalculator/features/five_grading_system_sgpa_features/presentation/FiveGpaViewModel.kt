@@ -33,7 +33,7 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class FiveSgpaViewModel @Inject constructor(
+class FiveGpaViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val myFiveSgpaRepository: FiveSgpaResultRepository,
     private val myFiveCgpaRepository: FiveCgpaResultRepository,
@@ -382,7 +382,7 @@ class FiveSgpaViewModel @Inject constructor(
 
                     }
 
-                    resetSRADBox()
+                    resetFiveCgpaSRADBox()
 
 
                 }
@@ -390,7 +390,7 @@ class FiveSgpaViewModel @Inject constructor(
             }
 
             is FiveSgpaUiEvents.resetBackToDefaultValueFromErrorSRA -> {
-                resetSRADBox()
+                resetFiveSgpaSRADBox()
 
             }
 
@@ -1342,7 +1342,7 @@ class FiveSgpaViewModel @Inject constructor(
                 saveResultDBVisibilty = true
             )
         }
-        // savedStateHandle.set(FiveSgpaViewModel.DB_STATE_KEY, _dbState.value)
+        // savedStateHandle.set(FiveGpaViewModel.DB_STATE_KEY, _dbState.value)
 
 
     }
@@ -1358,7 +1358,7 @@ class FiveSgpaViewModel @Inject constructor(
 
             )
         }
-        //savedStateHandle.set(FiveSgpaViewModel.DB_STATE_KEY, _dbState.value)
+        //savedStateHandle.set(FiveGpaViewModel.DB_STATE_KEY, _dbState.value)
     }
 
 
@@ -1377,7 +1377,7 @@ class FiveSgpaViewModel @Inject constructor(
     }
 
 
-    private fun resetSRADBox() {
+    private fun resetFiveSgpaSRADBox() {
         _dbState.update {
             it.copy(
                 defaultLabelSRA = ErrorPassedValues.labelForSRA,

@@ -17,12 +17,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.engpacalculator.gpcalculator.core.navigation.SetUpNavGraph
-import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaViewModel
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.GpCalculatorTheme
 import com.google.android.gms.ads.MobileAds
@@ -40,8 +38,7 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
             FirebaseAnalytics.getInstance(this)
 
 
-            var fiveSgpaViewModel: FiveSgpaViewModel = hiltViewModel()
-            val fiveCgpaViewModel = viewModel<FiveCgpaViewModel>()
+            val fiveGpaViewModel: FiveGpaViewModel = hiltViewModel()
 //            val state by fiveSgpaViewModel.dbState.collectAsState()
 //            val statetwo by fiveSgpaViewModel.courseEntries.collectAsState()
             val navController = rememberNavController()
@@ -92,8 +89,7 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
                     ) {
                         SetUpNavGraph(
                             navController = navController,
-                            fiveSgpaViewModel = fiveSgpaViewModel,
-                            fiveCgpaViewModel = fiveCgpaViewModel
+                            fiveGpaViewModel = fiveGpaViewModel,
                         )
 
 

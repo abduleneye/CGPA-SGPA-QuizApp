@@ -168,7 +168,7 @@ fun FiveSgpaSaveResultDialogBox(
 
                                 //if (dbState.saveResultAs.isNotEmpty()) {
 
-                                onEvent(FiveSgpaUiEvents.save)
+                                onEvent(FiveSgpaUiEvents.saveFiveSgpaResult)
 
                                 Toast.makeText(
                                     context,

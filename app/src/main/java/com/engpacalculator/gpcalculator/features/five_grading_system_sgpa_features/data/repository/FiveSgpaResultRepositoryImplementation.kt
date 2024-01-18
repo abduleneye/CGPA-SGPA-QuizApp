@@ -1,21 +1,21 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.repository
 
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.UniFiveSgpaResultRecordDao
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultEntity
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.repository.UniFiveSgpaResultRepository
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.FiveSgpaResultRecordDao
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.FiveSgpaResultEntity
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.repository.FiveSgpaResultRepository
 import kotlinx.coroutines.flow.Flow
 
-class UniFiveSgpaResultRepositoryImplementation(
-    private val dao: UniFiveSgpaResultRecordDao
-) : UniFiveSgpaResultRepository {
-    override suspend fun insertResult(result: UniFiveSgpaResultEntity) {
-        dao.insertUniFiveSgpaResult(result)
+class FiveSgpaResultRepositoryImplementation(
+    private val dao: FiveSgpaResultRecordDao
+) : FiveSgpaResultRepository {
+    override suspend fun InsertFiveSgpaResult(result: FiveSgpaResultEntity) {
+        dao.insertFiveSgpaResult(result)
     }
 
-    override fun getUniFiveSgpaResultRecordDao(
+    override fun GetFiveSgpaResultRecordDao(
         //resultName: String
-    ): Flow<List<UniFiveSgpaResultEntity>> {
-        return dao.getFullResults()
+    ): Flow<List<FiveSgpaResultEntity>> {
+        return dao.GetFullFiveSgpaResults()
     }
 //
 //    override fun getUniFiveSgpaIntroResultRecordDao(): Flow<List<UniFiveSgpaResultIntroEntity>> {
@@ -23,11 +23,11 @@ class UniFiveSgpaResultRepositoryImplementation(
 //    }
 
 
-    override suspend fun deleteResult(result: UniFiveSgpaResultEntity) {
-        dao.deleteResult(result)
+    override suspend fun DeleteFiveSgpaResult(result: FiveSgpaResultEntity) {
+        dao.DeleteFiveCgpaResult(result)
     }
 
-    override suspend fun resultToBeDeleted(resultToBeDeleted: String) {
-        dao.resultToBeDeleted(resultToBeDeleted)
+    override suspend fun FiveSgpaResultToBeDeleted(resultToBeDeleted: String) {
+        dao.FiveSgpaResultToBeDeleted(resultToBeDeleted)
     }
 }

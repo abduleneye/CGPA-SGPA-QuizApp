@@ -25,14 +25,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomHomeBarItemAd
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.ConfirmClearCoursesEntryConfirmationDialogBox
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.FiveSgpaBaseEntryDialogBox
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.FiveSgpaCourseDetailsEntryDialogBox
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.FiveSgpaEditBaseEntryDialogBox
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.FiveSgpaTopAppBarDropDownMenu
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.FiveSgpaTopAppBarAndOptionsMenu
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.ResultBottomSheetContent
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaSaveResultDialogBox
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
@@ -47,7 +47,7 @@ fun FiveSgpaMainScreen(
     onEvent: (FiveSgpaUiEvents) -> Unit,
     state: FiveSgpaUiStates,
     stateTwo: ArrayList<GpData>,
-    calcViewModel: FiveSgpaViewModel,
+    calcViewModel: FiveGpaViewModel,
     navController: NavController,
     adId: String
 ) {
@@ -173,7 +173,7 @@ fun FiveSgpaMainScreen(
             },
             topBar = {
 
-                FiveSgpaTopAppBarDropDownMenu(
+                FiveSgpaTopAppBarAndOptionsMenu(
                     onEvent = onEvent,
                     calcViewModel = calcViewModel,
                     dbState = state,

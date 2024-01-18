@@ -10,6 +10,7 @@ import kotlinx.parcelize.RawValue
 @kotlinx.parcelize.Parcelize
 data class FiveCgpaUiStates(
 
+    var sgpaResultNames: ArrayList<String> = ArrayList(),
     var displayedResultForFiveCgpaCalculation: @RawValue ArrayList<SgpaResultDisplayFormatForFiveCgpaCalculation> = ArrayList<SgpaResultDisplayFormatForFiveCgpaCalculation>(),
     var sgpaListToBeCalculated: @RawValue ArrayList<ResultTracker> = arrayListOf(),
     var cgpaList: ArrayList<Float> = arrayListOf(),
@@ -26,5 +27,4 @@ data class FiveCgpaUiStates(
     val newHelperText: String = "hello"
 
 
-) : Parcelable {
-}
+) : Parcelable

@@ -34,8 +34,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.SgpaResultDisplayFormatForFiveCgpaCalculation
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.launch
 
@@ -58,7 +58,7 @@ fun Init() {
 fun UniFiveSgpaRecordedResultToBeSelectedFrom(
     navController: NavController,
     fiveCgpaUiStates: FiveCgpaUiStates,
-    fiveSgpaViewModel: FiveSgpaViewModel,
+    fiveGpaViewModel: FiveGpaViewModel,
     onEventFiveSgpa: (FiveSgpaUiEvents) -> Unit,
     sheetState: BottomSheetState
 
@@ -69,7 +69,7 @@ fun UniFiveSgpaRecordedResultToBeSelectedFrom(
     ResultRecordToDisplay(
         data = fiveCgpaUiStates,
         onEventFiveSgpa = onEventFiveSgpa,
-        fiveSgpaViewModel = fiveSgpaViewModel,
+        fiveGpaViewModel = fiveGpaViewModel,
         sheetState = sheetState
 
 
@@ -86,7 +86,7 @@ fun MyCardView(
     index: Int,
     uniFiveCgpaUiState: FiveCgpaUiStates,
     onEventFiveSgpaUiEvents: (FiveSgpaUiEvents) -> Unit,
-    fiveSgpaViewModel: FiveSgpaViewModel,
+    fiveGpaViewModel: FiveGpaViewModel,
     sheetState: BottomSheetState
 
 
@@ -194,7 +194,7 @@ fun MyCardView(
 fun ResultRecordToDisplay(
     data: FiveCgpaUiStates,
     onEventFiveSgpa: (FiveSgpaUiEvents) -> Unit,
-    fiveSgpaViewModel: FiveSgpaViewModel,
+    fiveGpaViewModel: FiveGpaViewModel,
     sheetState: BottomSheetState
 
 
@@ -228,7 +228,7 @@ fun ResultRecordToDisplay(
                 index = index,
                 uniFiveCgpaUiState = data,
                 onEventFiveSgpaUiEvents = onEventFiveSgpa,
-                fiveSgpaViewModel = fiveSgpaViewModel,
+                fiveGpaViewModel = fiveGpaViewModel,
                 sheetState = sheetState
 
             )

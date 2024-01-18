@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,6 +17,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
@@ -27,16 +29,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomHomeBarItemAd
-import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.launch
@@ -47,7 +49,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun FiveCgpaMainScreen(
     onEvent: (FiveSgpaUiEvents) -> Unit,
-    onMainEvent: (FiveCgpaUiEvents) -> Unit,
     fiveSgpaUiStates: FiveSgpaUiStates,
     fiveCgpaHelperRecordsState: FiveCgpaUiStates,
     fiveCgpaUiStatesFromSgpaViewModel: FiveCgpaUiStates,
@@ -57,7 +58,8 @@ fun FiveCgpaMainScreen(
     navController: NavController,
     adId: String,
     //uniFiveCgpaViewModel: FiveCgpaViewModel,
-    fiveSgpaViewModel: FiveSgpaViewModel,
+    fiveGpaViewModel: FiveGpaViewModel,
+
     // onEventFiveCgpa: (FiveCgpaUiEvents) -> Unit
 
 ) {
@@ -103,7 +105,7 @@ fun FiveCgpaMainScreen(
                 fiveSgpaUiStates = fiveSgpaUiStates,
                 fiveCgpaUiStates = fiveCgpaUiStatesFromSgpaViewModel,
                 sheetState = sheetState,
-                onEvent = onMainEvent,
+                onEvent = onEvent,
             )
 
         },
@@ -126,7 +128,7 @@ fun FiveCgpaMainScreen(
                 FloatingActionButton(
                     onClick = {
 
-                        onMainEvent(FiveCgpaUiEvents.help)
+                        onEvent(FiveSgpaUiEvents.helpFiveCgpa)
                         onEvent(FiveSgpaUiEvents.executeCgpaCalculation)
                         if (fiveCgpaUiStatesFromSgpaViewModel.sgpaListToBeCalculated.isNotEmpty()) {
                             scope.launch {
@@ -137,6 +139,12 @@ fun FiveCgpaMainScreen(
                                     sheetState.collapse()
                                 }
                             }
+                        } else if (fiveCgpaHelperRecordsState.displayedResultForFiveCgpaCalculation.isEmpty()) {
+                            Toast.makeText(
+                                context,
+                                "Please go back and saveFiveCgpaResult an sgpa result",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } else {
                             Toast.makeText(
                                 context,
@@ -162,10 +170,10 @@ fun FiveCgpaMainScreen(
             },
             topBar = {
 
-                FiveCgpaTopAppBarDropDownMenu(
+                FiveCgpaTopAppBarAndOptionsMenu(
                     onEvent = onEvent,
-                    calcViewModel = fiveSgpaViewModel,
-                    dbState = fiveSgpaUiStates,
+                    calcViewModel = fiveGpaViewModel,
+                    dbState = fiveCgpaUiStates,
                     navController = navController,
                     sheetState = sheetState
                 )
@@ -209,7 +217,7 @@ fun FiveCgpaMainScreen(
                     UniFiveSgpaRecordedResultToBeSelectedFrom(
                         navController = navController,
                         fiveCgpaUiStates = fiveCgpaHelperRecordsState,
-                        fiveSgpaViewModel = fiveSgpaViewModel,
+                        fiveGpaViewModel = fiveGpaViewModel,
                         onEventFiveSgpa = onEvent,
                         sheetState = sheetState
                     )
@@ -220,11 +228,22 @@ fun FiveCgpaMainScreen(
                 if (fiveCgpaUiStates.saveResultDBVisibilty == true) {
 
                     FiveCgpaSaveResultDialogBox(
-                        onEvent = onMainEvent,
+                        onEvent = onEvent,
                         fiveCgpaUiStates = fiveCgpaUiStates,
                         sheetState = sheetState
                     )
 
+                }
+                if (fiveCgpaHelperRecordsState.displayedResultForFiveCgpaCalculation.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+
+                        Text(text = "No Sgpa saved record(s) found")
+
+                    }
                 }
 
 
@@ -288,5 +307,4 @@ fun FiveCgpaMainScreen(
     }
 
 }
-
 

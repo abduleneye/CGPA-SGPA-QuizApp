@@ -17,9 +17,9 @@ import androidx.navigation.navArgument
 import com.engpacalculator.gpcalculator.HomeScreen.HomeScreen
 import com.engpacalculator.gpcalculator.about_screen_components.ui.theme.AboutScreen
 import com.engpacalculator.gpcalculator.core.AnimatedSplash
-import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_main_screen_components.FiveCgpaMainScreen
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component.FiveCgpaResultRecordScreen
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaFullResultScreen
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaResultRecordScreen
 import com.engpacalculator.gpcalculator.five_grading_system_top_level_components.Five_Grading_System_Mode_Screen
@@ -31,20 +31,20 @@ import com.engpacalculator.gpcalculator.quiz_top_level_components.Quiz_Mode_Scre
 @Composable
 fun SetUpNavGraph(
     navController: NavHostController,
-    fiveSgpaViewModel: FiveSgpaViewModel,
-    fiveCgpaViewModel: FiveCgpaViewModel
+    fiveGpaViewModel: FiveGpaViewModel,
 
 
-) {
+    ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    var fiveSgpaViewModel = fiveSgpaViewModel
+    var fiveSgpaViewModel = fiveGpaViewModel
     // var fiveCgpaViewModel = fiveCgpaViewModel
     val fiveSgpaUiStates by fiveSgpaViewModel.dbState.collectAsState()
-    val fiveCgpaUiStates by fiveCgpaViewModel.fiveCgpaUiStates.collectAsState()
+    val fiveCgpaUiStates by fiveSgpaViewModel.fiveCgpaUiState.collectAsState()
     val fiveSgpaCourseEntriesState by fiveSgpaViewModel.courseEntries.collectAsState()
-    val fiveSgpaResultFromDBStates by fiveSgpaViewModel.resultIntroDB.collectAsState()
+    val fiveSgpaResultFromDBStates by fiveSgpaViewModel.fiveSgparesultIntroDB.collectAsState()
+    val fiveCgpaResultFromDBStates by fiveSgpaViewModel.fiveCgpaResultIntroDB.collectAsState()
     val fiveSgpaRecordsToBeDisplayedForCgpa by fiveSgpaViewModel.fiveCgpaUiState.collectAsState()
-    // val fiveCgpaUiListStates by fiveSgpaViewModel.fiveCgpaUiStateList.collectAsState()
+    // val fiveCgpaUiListStates by fiveGpaViewModel.fiveCgpaUiStateList.collectAsState()
 
 
 //    for (i in 1..stateThree.resultItems.size) {
@@ -130,9 +130,8 @@ fun SetUpNavGraph(
                 stateTwo = fiveSgpaCourseEntriesState,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
-                fiveSgpaViewModel = fiveSgpaViewModel,
-                onMainEvent = fiveCgpaViewModel::onEvent,
-                fiveCgpaUiStates = fiveCgpaUiStates
+                fiveGpaViewModel = fiveSgpaViewModel,
+                fiveCgpaUiStates = fiveCgpaUiStates,
             )
         }
 
@@ -160,6 +159,18 @@ fun SetUpNavGraph(
             FiveSgpaResultRecordScreen(
                 navController = navController,
                 state = fiveSgpaResultFromDBStates,
+                viewModel = fiveSgpaViewModel,
+                onEvent = fiveSgpaViewModel::onEvent
+            )
+        }
+
+        composable(
+            route = Screen.Five_Cgpa_Records_Screen.route
+            //            + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}"
+        ) {
+            FiveCgpaResultRecordScreen(
+                navController = navController,
+                state = fiveCgpaResultFromDBStates,
                 viewModel = fiveSgpaViewModel,
                 onEvent = fiveSgpaViewModel::onEvent
             )

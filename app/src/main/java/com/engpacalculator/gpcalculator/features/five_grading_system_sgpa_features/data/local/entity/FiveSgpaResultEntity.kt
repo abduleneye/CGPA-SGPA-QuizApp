@@ -4,12 +4,12 @@ import GpCalculatorPrototype.Data.GpData
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.model.UniFiveSgpaResult
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.model.FiveSgpaResult
 import kotlinx.parcelize.Parcelize
 
 @Entity
 @Parcelize
-data class UniFiveSgpaResultEntity(
+data class FiveSgpaResultEntity(
 
     val resultEntries: ArrayList<GpData> = ArrayList(),
     val gp: String = "",
@@ -21,8 +21,8 @@ data class UniFiveSgpaResultEntity(
 //Mapper
     : Parcelable {
     //Mapper Function
-    fun toUniFiveSgpaResult(): UniFiveSgpaResult {
-        return UniFiveSgpaResult(
+    fun toUniFiveSgpaResult(): FiveSgpaResult {
+        return FiveSgpaResult(
             // resultEntries = resultEntries,
             remark = remark,
             gp = gp,
@@ -33,3 +33,9 @@ data class UniFiveSgpaResultEntity(
         )
     }
 }
+
+//data class UniFiveSgpaResultIntroEntity(
+//    val gp: String = "",
+//    val remark: String = "",
+//    val resultName: String = "",
+//)

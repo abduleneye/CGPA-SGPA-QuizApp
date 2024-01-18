@@ -1,7 +1,7 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation
 
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.SgpaResultDisplayFormatForFiveCgpaCalculation
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultEntity
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.FiveSgpaResultEntity
 
 sealed interface FiveSgpaUiEvents {
     object showUnitMenuDropDown : FiveSgpaUiEvents
@@ -75,7 +75,7 @@ sealed interface FiveSgpaUiEvents {
     object resetBackToDefaultValuesFromErrorsCG : FiveSgpaUiEvents
     object resetBackToDefaultValuesFromErrorsECC : FiveSgpaUiEvents
     object resetBackToDefaultValueFromErrorSRA : FiveSgpaUiEvents
-    object save : FiveSgpaUiEvents
+    object saveFiveSgpaResult : FiveSgpaUiEvents
     object loadResult : FiveSgpaUiEvents
     object hideSaveResultsFiveSgpa : FiveSgpaUiEvents
     object executeCgpaCalculation : FiveSgpaUiEvents
@@ -85,7 +85,7 @@ sealed interface FiveSgpaUiEvents {
 
     data class setSRA(val savedResultName: String) : FiveSgpaUiEvents
 
-    data class DeleteResult(var result: UniFiveSgpaResultEntity) : FiveSgpaUiEvents
+    data class DeleteResult(var result: FiveSgpaResultEntity) : FiveSgpaUiEvents
 
     data class DeleteResultByReference(var result: String) : FiveSgpaUiEvents
     data class onCheckChanged(
@@ -97,5 +97,16 @@ sealed interface FiveSgpaUiEvents {
     ) :
         FiveSgpaUiEvents
 
+
+    object showFiveCgpaSaveResultDB : FiveSgpaUiEvents
+    object hideFiveCgpaSaveResultDB : FiveSgpaUiEvents
+    object resetBackToDefaultValueFromErrorSRAFiveCgpa : FiveSgpaUiEvents
+    object saveFiveCgpaResult : FiveSgpaUiEvents
+
+    object helpFiveCgpa : FiveSgpaUiEvents
+    object loadFiveCgpaResult : FiveSgpaUiEvents
+
+
+    data class setFiveCgpaSRA(var saveResultAs: String) : FiveSgpaUiEvents
 
 }

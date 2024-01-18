@@ -37,17 +37,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun FiveCgpaTopAppBarDropDownMenu(
+fun FiveCgpaTopAppBarAndOptionsMenu(
     onEvent: (FiveSgpaUiEvents) -> Unit,
-    calcViewModel: FiveSgpaViewModel,
+    calcViewModel: FiveGpaViewModel,
     dbState: FiveCgpaUiStates,
     navController: NavController,
     sheetState: BottomSheetState

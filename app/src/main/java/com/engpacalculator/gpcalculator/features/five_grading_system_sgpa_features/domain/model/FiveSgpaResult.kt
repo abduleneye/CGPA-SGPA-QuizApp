@@ -2,7 +2,7 @@ package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featu
 
 import GpCalculatorPrototype.Data.GpData
 
-data class UniFiveSgpaResult(
+data class FiveSgpaResult(
     val resultEntries: ArrayList<GpData> = ArrayList(),
     val gp: String = "",
     val remark: String = "",

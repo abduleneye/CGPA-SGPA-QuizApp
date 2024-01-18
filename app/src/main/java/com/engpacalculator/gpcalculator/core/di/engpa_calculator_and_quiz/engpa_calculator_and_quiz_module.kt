@@ -2,7 +2,11 @@ package com.engpacalculator.gpcalculator.core.di.engpa_calculator_and_quiz
 
 import android.app.Application
 import androidx.room.Room
-import com.engpacalculator.gpcalculator.core.local_data_base.EnGpaCalculatorFiveSgpaLocalDataBase
+import com.engpacalculator.gpcalculator.core.local_data_base.EnGpaCalculatorAndQuizLocalDataBase
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.five_cgpa_util.FiveCgpaGsonParserFiveCgpa
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.local.FiveCgpaDBFieldConverter
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.repository.FiveCgpaResultRepositoryImplementation
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.domain.repository.FiveCgpaResultRepository
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.five_sgpa_util.FiveSgpaGsonParserFiveSgpa
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.FiveSgpaDBFieldConverter
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.repository.FiveSgpaResultRepositoryImplementation
@@ -17,30 +21,53 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object uni_five_sgpa_module {
+object engpa_calculator_and_quiz_module {
 
 
     @Provides
     @Singleton
-    fun providesUniFiveSgpaResultRepository(
-        db: EnGpaCalculatorFiveSgpaLocalDataBase
+    fun providesFiveSgpaResultRepository(
+        sgpaDb: EnGpaCalculatorAndQuizLocalDataBase
     ): FiveSgpaResultRepository {
-        return FiveSgpaResultRepositoryImplementation(db.dao)
+        return FiveSgpaResultRepositoryImplementation(sgpaDb.sgpaDao)
 
     }
 
 
     @Provides
     @Singleton
-    fun providesUniFiveResultsRecordDB(app: Application): EnGpaCalculatorFiveSgpaLocalDataBase {
+    fun providesGpaResultsRecordsAndQuizDB(app: Application): EnGpaCalculatorAndQuizLocalDataBase {
 
         return Room.databaseBuilder(
             context = app,
-            klass = EnGpaCalculatorFiveSgpaLocalDataBase::class.java,
-            name = "uni_five_sgpa_result_db"
+            klass = EnGpaCalculatorAndQuizLocalDataBase::class.java,
+            name = "gpa_quiz_result_db"
         ).addTypeConverter(FiveSgpaDBFieldConverter(FiveSgpaGsonParserFiveSgpa(Gson())))
+            .addTypeConverter(FiveCgpaDBFieldConverter(FiveCgpaGsonParserFiveCgpa(Gson())))
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun providesFiveCgpaResultRepository(
+        cgpaDb: EnGpaCalculatorAndQuizLocalDataBase
+    ): FiveCgpaResultRepository {
+        return FiveCgpaResultRepositoryImplementation(cgpaDb.cgpaDao)
+
+    }
+
+//
+//    @Provides
+//    @Singleton
+//    fun providesFiveCgpaResultsRecordDB(app: Application): EnGpaCalculatorAndQuizLocalDataBase {
+//
+//        return Room.databaseBuilder(
+//            context = app,
+//            klass = EnGpaCalculatorAndQuizLocalDataBase::class.java,
+//            name = "cgpa_result_db"
+//        ).addTypeConverter(FiveCgpaDBFieldConverter(FiveCgpaGsonParserFiveCgpa(Gson())))
+//            .build()
+//    }
 
 
 }

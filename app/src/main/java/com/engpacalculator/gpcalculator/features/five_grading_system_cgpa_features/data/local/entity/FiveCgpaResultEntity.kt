@@ -1,4 +1,4 @@
-package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.local
+package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.local.entity
 
 import android.os.Parcelable
 import androidx.room.Entity

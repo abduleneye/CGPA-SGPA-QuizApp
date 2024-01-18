@@ -1,8 +1,8 @@
-package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.util
+package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.five_sgpa_util
 
 import java.lang.reflect.Type
 
-interface JsonParser {
+interface FiveSgpaJsonParser {
 
     //get object from json string
     //generic function

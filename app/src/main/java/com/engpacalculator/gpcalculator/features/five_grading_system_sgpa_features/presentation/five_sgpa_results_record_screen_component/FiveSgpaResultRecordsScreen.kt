@@ -27,10 +27,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.navigation.Screen
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.UniFiveSgpaResultEntity
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.FiveSgpaResultEntity
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import com.google.gson.Gson
 
@@ -43,7 +43,7 @@ fun Init() {
         contentAlignment = Alignment.Center
     ) {
 
-        Text(text = "No saved record(s) yet")
+        Text(text = "No saved sgpa record(s) yet")
 
     }
 }
@@ -52,10 +52,10 @@ fun Init() {
 @Composable
 fun FiveSgpaResultRecordScreen(
     navController: NavController,
-    //state: List<UniFiveSgpaResultEntity>,
+    //state: List<FiveSgpaResultEntity>,
     state: FiveSgpaResultsRecordState,
 
-    viewModel: FiveSgpaViewModel,
+    viewModel: FiveGpaViewModel,
     onEvent: (FiveSgpaUiEvents) -> Unit
 
 ) {
@@ -95,13 +95,13 @@ fun FiveSgpaResultRecordScreen(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyCardView(
-    info: UniFiveSgpaResultEntity,
+    info: FiveSgpaResultEntity,
     navController: NavController,
     index: Int,
     modifier: Modifier = Modifier,
     state: FiveSgpaUiStates,
     onEvent: (FiveSgpaUiEvents) -> Unit,
-    viewModel: FiveSgpaViewModel,
+    viewModel: FiveGpaViewModel,
 
 
     ) {
@@ -190,11 +190,11 @@ fun MyCardView(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ResultRecordToDisplay(
-    //data: List<UniFiveSgpaResultEntity>,
+    //data: List<FiveSgpaResultEntity>,
     data: FiveSgpaResultsRecordState,
     navController: NavController,
     onEvent: (FiveSgpaUiEvents) -> Unit,
-    viewModel: FiveSgpaViewModel,
+    viewModel: FiveGpaViewModel,
 
     ) {
     val state = rememberLazyListState()
