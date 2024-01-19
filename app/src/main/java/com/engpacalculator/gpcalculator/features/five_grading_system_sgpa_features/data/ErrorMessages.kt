@@ -6,9 +6,11 @@ object ErrorMessages {
     const val errorLabelMessageForETNOC = "Edit with valid  number of semester courses!!!"
     const val textFieldErrorLabelColorHexCode = 0xFFFF0000
 
+
     const val errorMessageForCourseCode = "Enter valid  course code!!!"
     const val errorMessageForCourseUnit = "Unit?"
     const val errorMessageForCourseGrade = "Grade?"
     const val errorMessageForSRA = "Record Name can't be empty"
+    const val errorDuplicateNameForSRA = "Name already exists in record"
 
 }

@@ -68,8 +68,8 @@ fun FiveSgpaTotalCoursesListCardViewToDisplay(
             .fillMaxHeight(1f)
             .padding(
                 top = helperPaddingValues.calculateTopPadding(),
-                start = 16.dp,
-                end = 16.dp,
+//                start = 16.dp,
+//                end = 16.dp,
 
                 bottom = 164.dp
             ),
@@ -180,15 +180,18 @@ fun MyCardViewForCoursesList(
         elevation = CardDefaults.cardElevation(8.dp),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .height(90.dp)
+//            .height(90.dp)
+//            .fillMaxWidth()
+//            .padding(
+//                // horizontal = 16.dp, vertical = 8.dp
+//                top = 16.dp,
+//                bottom = 4.dp,
+//                start = 16.dp,
+//                end = 16.dp
+//            ),
+            .height(120.dp)
             .fillMaxWidth()
-            .padding(
-                // horizontal = 16.dp, vertical = 8.dp
-                top = 16.dp,
-                bottom = 4.dp,
-                start = 16.dp,
-                end = 16.dp
-            ),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         colors = CardDefaults.cardColors(
             containerColor = Cream
         )

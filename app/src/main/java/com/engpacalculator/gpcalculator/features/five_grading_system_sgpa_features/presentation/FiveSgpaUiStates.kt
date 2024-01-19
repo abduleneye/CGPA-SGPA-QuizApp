@@ -73,5 +73,7 @@ data class FiveSgpaUiStates(
     val allReadyInListForEditCourseEntries: Boolean = false,
     val saveResultAs: String = "",
     var saveResultAsDialogBoxVisibility: Boolean = false,
+    var fiveSgpaSRAToastNotifier: Boolean = false
 
-    ) : Parcelable
+
+) : Parcelable

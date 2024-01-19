@@ -105,6 +105,7 @@ fun FiveSgpaSaveResultDialogBox(
                     onValueChange = {
 
                         onEvent(FiveGpaUiEvents.setSRA(it))
+                        onEvent(FiveGpaUiEvents.resetBackToDefaultValueFromErrorSRA)
 
 
                     },
@@ -163,21 +164,26 @@ fun FiveSgpaSaveResultDialogBox(
                                 .width(16.dp)
                         )
 
+
+
                         Button(
                             onClick = {
 
-                                //if (dbState.saveResultAs.isNotEmpty()) {
+                                // if (dbState.saveResultAs.isNotEmpty()) {
 
-                                onEvent(FiveGpaUiEvents.saveFiveGpaResult)
-                                onEvent(FiveGpaUiEvents.hideFiveSgpaSaveResultDB)
+                                onEvent(FiveGpaUiEvents.saveFiveSgpaResult)
+                                //onEvent(FiveGpaUiEvents.hideFiveCgpaSaveResultDB)
 
 
-                                Toast.makeText(
-                                    context,
-                                    "${dbState.saveResultAs} saved successfully!!!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                //  }
+                                if (dbState.fiveSgpaSRAToastNotifier == true) {
+                                    Toast.makeText(
+                                        context,
+                                        "${dbState.saveResultAs} saved successfully!!!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                //}
 
                                 //Toast.makeText(context, "Saved", Toast.LENGTH_LONG).show()
                                 //onEvent(FiveGpaUiEvents.hideFiveSgpaSaveResultDB)

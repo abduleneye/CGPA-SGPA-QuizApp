@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
@@ -86,10 +87,24 @@ fun FiveCgpaFullResultScreen(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = AppBars
                 ),
+                navigationIcon = {
+                    androidx.compose.material3.IconButton(onClick = {
+                        //navController.navigate(Screen.Home.route)
+                        navController.popBackStack()
+                        //navController.popBackStack()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back Arrow"
+                        )
+
+                    }
+                },
 
 
                 )
         },
+
         bottomBar = {
 
             BottomAppBar(

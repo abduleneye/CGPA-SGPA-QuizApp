@@ -1,14 +1,17 @@
 package com.engpacalculator.gpcalculator.quiz_top_level_components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
@@ -23,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
@@ -58,10 +60,13 @@ fun Quiz_Mode_Screen(
                     containerColor = AppBars
                 ),
 
+
                 navigationIcon = {
                     IconButton(onClick = {
                         //navController.navigate(Screen.Home.route)
-                        //navController.popBackStack()
+                        if (navController != null) {
+                            navController.popBackStack()
+                        }
                         //navController.popBackStack()
                     }) {
                         Icon(
@@ -105,32 +110,55 @@ fun Quiz_Mode_Screen(
         }
     ) {
 
-        Column(
-            modifier = Modifier.fillMaxSize(),
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                // .verticalScroll(state = scrollState)
+                .background(color = Cream)
+                .padding(it),
+
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = it.calculateStartPadding(layoutDirection = LayoutDirection.Ltr)),
-            ) {
 
-                if (navController != null) {
-                    DefaultCardSample(
-                        textInCardBox = "Demo".uppercase(),
-                        navController = navController,
-                        Screen.Quiz_Demo_Screen.route
-                    )
-                }
-                if (navController != null) {
-                    DefaultCardSample(
-                        textInCardBox = "Legit".uppercase(),
-                        navController = navController,
-                        Screen.Quiz_Legit_Screen.route
-                    )
+            item {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(it)
+                ) {
+
+                    if (navController != null) {
+                        DefaultCardSample(
+                            textInCardBox = "Demo".uppercase(),
+                            navController = navController,
+                            Screen.Quiz_Demo_Screen.route,
+                            modifier = Modifier
+                                .height(164.dp)
+                                .weight(0.5f)
+                                .width(164.dp)
+                                .padding(start = 16.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(24.dp))
+
+
+                    if (navController != null) {
+                        DefaultCardSample(
+                            textInCardBox = "Legit".uppercase(),
+                            navController = navController,
+                            Screen.Quiz_Legit_Screen.route,
+                            modifier = Modifier
+                                .height(164.dp)
+                                .weight(0.5f)
+                                .width(164.dp)
+                                .padding(end = 16.dp)
+                        )
+                    }
+
                 }
 
             }

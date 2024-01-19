@@ -16,6 +16,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
@@ -84,6 +85,19 @@ fun FiveSgpaTopAppBarAndOptionsMenu(
                 fontSize = 20.sp,
 
                 )
+        },
+        navigationIcon = {
+            androidx.compose.material3.IconButton(onClick = {
+                //navController.navigate(Screen.Home.route)
+                navController.popBackStack()
+                //navController.popBackStack()
+            }) {
+                androidx.compose.material3.Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back Arrow"
+                )
+
+            }
         },
         actions = {
             IconButton(onClick = {

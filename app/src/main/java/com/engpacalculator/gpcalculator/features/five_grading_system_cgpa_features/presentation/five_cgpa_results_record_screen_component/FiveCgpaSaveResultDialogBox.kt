@@ -166,20 +166,21 @@ fun FiveCgpaSaveResultDialogBox(
                         Button(
                             onClick = {
 
-                                //if (dbState.saveResultAs.isNotEmpty()) {
+                                if (fiveCgpaUiStates.saveResultAs.isNotEmpty()) {
 
-                                onEvent(FiveGpaUiEvents.saveFiveCgpaResult)
+                                    onEvent(FiveGpaUiEvents.saveFiveCgpaResult)
+                                    onEvent(FiveGpaUiEvents.hideFiveCgpaSaveResultDB)
 
-                                Toast.makeText(
-                                    context,
-                                    "${fiveCgpaUiStates.saveResultAs} saved successfully!!!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                //  }
+
+                                    Toast.makeText(
+                                        context,
+                                        "${fiveCgpaUiStates.saveResultAs} saved successfully!!!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
 
                                 //Toast.makeText(context, "Saved", Toast.LENGTH_LONG).show()
-                                onEvent(FiveGpaUiEvents.hideFiveSgpaSaveResultDB)
-                                onEvent(FiveGpaUiEvents.hideFiveCgpaSaveResultDB)
+                                //onEvent(FiveGpaUiEvents.hideFiveSgpaSaveResultDB)
 
 
                             },

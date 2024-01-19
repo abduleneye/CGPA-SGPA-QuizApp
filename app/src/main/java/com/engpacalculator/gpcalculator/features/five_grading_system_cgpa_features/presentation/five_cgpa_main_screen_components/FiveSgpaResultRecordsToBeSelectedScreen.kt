@@ -1,7 +1,6 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_main_screen_components
 
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -110,11 +109,12 @@ fun MyCardView(
             .height(120.dp)
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable {
-                Toast
-                    .makeText(myContext, "Clicked from card view!!!", Toast.LENGTH_SHORT)
-                    .show()
-            },
+//            .clickable {
+//                Toast
+//                    .makeText(myContext, "Clicked from card view!!!", Toast.LENGTH_SHORT)
+//                    .show()
+//            }
+        ,
         colors = CardDefaults.cardColors(
             containerColor = Cream
         )
@@ -127,14 +127,15 @@ fun MyCardView(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .height(100.dp)
-                .clickable {
-
-                    Toast
-                        .makeText(myContext, "Clicked from column!!!", Toast.LENGTH_SHORT)
-                        .show()
-
-
-                },
+//                .clickable {
+//
+//                    Toast
+//                        .makeText(myContext, "Clicked from column!!!", Toast.LENGTH_SHORT)
+//                        .show()
+//
+//
+//                }
+            //              ,
         ) {
             val context = LocalContext.current
 
@@ -218,8 +219,8 @@ fun ResultRecordToDisplay(
             .height(1024.dp)
             .padding(
                 top = helperPaddingValues.calculateTopPadding(),
-                start = 16.dp,
-                end = 16.dp,
+//                start = 16.dp,
+//                end = 16.dp,
 
                 bottom = 164.dp
             ),

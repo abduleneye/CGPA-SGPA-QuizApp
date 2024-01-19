@@ -358,7 +358,9 @@ class FiveGpaViewModel @Inject constructor(
             is FiveGpaUiEvents.hideFiveSgpaSaveResultDB -> {
                 _dbState.update {
                     it.copy(
-                        saveResultAsDialogBoxVisibility = false
+                        saveResultAsDialogBoxVisibility = false,
+                        saveResultAs = ""
+
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
@@ -375,33 +377,11 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveGpaUiEvents.saveFiveGpaResult -> {
-
-                if (
-                    _dbState.value.saveResultAs.isEmpty()
-                ) {
-                    textFieldsErrorCheckSaveFiveSgpaResultAsDataEntry()
-
-                } else {
-                    viewModelScope.launch {
-                        myFiveSgpaRepository.InsertFiveSgpaResult(
-                            FiveSgpaResultEntity(
-                                resultEntries = _courseEntries.value,
-                                gp = _dbState.value.fiveSgpaFinalResult,
-                                resultName = _dbState.value.saveResultAs.uppercase(),
-                                remark = _dbState.value.remark
-                            )
-                        )
-                        _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
-                        _fiveCgpaUiState.value.cgpaList.clear()
-                        _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
-
-                    }
-
-                    resetFiveCgpaSRADBox()
+            is FiveGpaUiEvents.saveFiveSgpaResult -> {
 
 
-                }
+                textFieldsErrorCheckAndDuplicateEntrySaveFiveSgpaResultAsDataEntry(_dbState.value.saveResultAs)
+
 
             }
 
@@ -1368,7 +1348,7 @@ class FiveGpaViewModel @Inject constructor(
             it.copy(
                 defaultLabelSRA = ErrorPassedValues.labelForSRA,
                 defaultLabelColourSRA = ErrorPassedValues.errorPassedColour,
-                saveResultDBVisibilty = false,
+                // saveResultDBVisibilty = false,
                 saveResultAs = ""
 
 
@@ -1378,15 +1358,68 @@ class FiveGpaViewModel @Inject constructor(
     }
 
 
-    private fun textFieldsErrorCheckSaveFiveSgpaResultAsDataEntry() {
+    private fun textFieldsErrorCheckAndDuplicateEntrySaveFiveSgpaResultAsDataEntry(
+        resultNameForCheck: String
+    ) {
+        if (_dbState.value.saveResultAs.isEmpty()) {
+            _dbState.update {
+                it.copy(
+                    defaultLabelSRA = ErrorMessages.errorMessageForSRA,
+                    defaultLabelColourSRA = ErrorMessages.textFieldErrorLabelColorHexCode,
+                    saveResultAsDialogBoxVisibility = true
+                )
+            }
 
-        _dbState.update {
-            it.copy(
-                defaultLabelSRA = ErrorMessages.errorMessageForSRA,
-                defaultLabelColourSRA = ErrorMessages.textFieldErrorLabelColorHexCode,
-                saveResultAsDialogBoxVisibility = true
-            )
+        } else if (_dbState.value.saveResultAs.isNotEmpty()) {
+            for (i in 0 until _fiveSgparesultIntroDB.value.resultItems.size) {
+                if (_fiveSgparesultIntroDB.value.resultItems[i].resultName.uppercase() == resultNameForCheck.uppercase()) {
+                    Log.d(
+                        "duplicate name",
+                        "the  name ${_fiveSgparesultIntroDB.value.resultItems[i].resultName} is repeating"
+                    )
+                    _dbState.update {
+                        it.copy(
+                            defaultLabelSRA = ErrorMessages.errorDuplicateNameForSRA,
+                            defaultLabelColourSRA = ErrorMessages.textFieldErrorLabelColorHexCode,
+                            saveResultAsDialogBoxVisibility = true
+                        )
+                    }
+                    //
+
+                }
+
+
+            }
+
+
+        } else {
+            _dbState.update {
+                it.copy(
+                    fiveSgpaSRAToastNotifier = true
+                )
+            }
+            viewModelScope.launch {
+                myFiveSgpaRepository.InsertFiveSgpaResult(
+                    FiveSgpaResultEntity(
+                        resultEntries = _courseEntries.value,
+                        gp = _dbState.value.fiveSgpaFinalResult,
+                        resultName = _dbState.value.saveResultAs.uppercase(),
+                        remark = _dbState.value.remark
+                    )
+                )
+                _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+                _fiveCgpaUiState.value.cgpaList.clear()
+                _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
+
+            }
+            resetFiveSgpaSRADBox()
+
+
         }
+
+
+
+
         savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
@@ -1398,8 +1431,8 @@ class FiveGpaViewModel @Inject constructor(
             it.copy(
                 defaultLabelSRA = ErrorPassedValues.labelForSRA,
                 defaultLabelColourSRA = ErrorPassedValues.errorPassedColour,
-                saveResultAsDialogBoxVisibility = false,
-                saveResultAs = ""
+                //saveResultAsDialogBoxVisibility = false,
+                //saveResultAs = ""
 
 
             )

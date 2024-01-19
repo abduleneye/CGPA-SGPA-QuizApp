@@ -3,13 +3,15 @@ package com.engpacalculator.gpcalculator.five_grading_system_top_level_component
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
@@ -24,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
@@ -107,34 +108,56 @@ fun Five_Grading_System_Mode_Screen(
         }
     ) {
 
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Cream),
+                // .verticalScroll(state = scrollState)
+                .background(color = Cream)
+                .padding(it),
+
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = it.calculateStartPadding(layoutDirection = LayoutDirection.Ltr)),
-            ) {
 
-                if (navController != null) {
-                    DefaultCardSample(
-                        textInCardBox = "sgpa".uppercase(),
-                        navController = navController,
-                        Screen.Five_Sgpa_Screen.route
-                    )
-                }
-                if (navController != null) {
-                    DefaultCardSample(
-                        textInCardBox = "cgpa".uppercase(),
-                        navController = navController,
-                        Screen.Five_Cgpa_Screen.route
-                    )
+            item {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(it)
+                ) {
+
+                    if (navController != null) {
+                        DefaultCardSample(
+                            textInCardBox = "sgpa".uppercase(),
+                            navController = navController,
+                            Screen.Five_Sgpa_Screen.route,
+                            modifier = Modifier
+                                .height(164.dp)
+                                .weight(0.5f)
+                                .width(164.dp)
+                                .padding(start = 16.dp)
+                        )
+
+                    }
+
+                    Spacer(modifier = Modifier.width(24.dp))
+
+
+                    if (navController != null) {
+                        DefaultCardSample(
+                            textInCardBox = "cgpa".uppercase(),
+                            navController = navController,
+                            Screen.Five_Cgpa_Screen.route,
+                            modifier = Modifier
+                                .height(164.dp)
+                                .weight(0.5f)
+                                .width(164.dp)
+                                .padding(end = 16.dp)
+                        )
+                    }
+
                 }
 
             }

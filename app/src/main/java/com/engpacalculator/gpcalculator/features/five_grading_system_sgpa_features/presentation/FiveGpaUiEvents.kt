@@ -75,7 +75,7 @@ sealed interface FiveGpaUiEvents {
     object resetBackToDefaultValuesFromErrorsCG : FiveGpaUiEvents
     object resetBackToDefaultValuesFromErrorsECC : FiveGpaUiEvents
     object resetBackToDefaultValueFromErrorSRA : FiveGpaUiEvents
-    object saveFiveGpaResult : FiveGpaUiEvents
+    object saveFiveSgpaResult : FiveGpaUiEvents
     object loadResult : FiveGpaUiEvents
     object hideSaveResultsFiveGpa : FiveGpaUiEvents
     object executeCgpaCalculation : FiveGpaUiEvents
