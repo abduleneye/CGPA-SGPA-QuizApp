@@ -37,8 +37,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
@@ -46,7 +46,7 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FiveCgpaTopAppBarAndOptionsMenu(
-    onEvent: (FiveSgpaUiEvents) -> Unit,
+    onEvent: (FiveGpaUiEvents) -> Unit,
     calcViewModel: FiveGpaViewModel,
     dbState: FiveCgpaUiStates,
     navController: NavController,
@@ -111,7 +111,7 @@ fun FiveCgpaTopAppBarAndOptionsMenu(
 //
 //                        } else {
 //
-//                            onEvent(FiveSgpaUiEvents.showClearConfirmationDBox)
+//                            onEvent(FiveGpaUiEvents.showClearConfirmationDBox)
 //
 //                        }
 //
@@ -158,13 +158,13 @@ fun FiveCgpaTopAppBarAndOptionsMenu(
 //                            Toast.LENGTH_SHORT
 //                        ).show()
 //
-//                        // onEvent(FiveSgpaUiEvents.showEditBaseEntryDBox)
+//                        // onEvent(FiveGpaUiEvents.showEditBaseEntryDBox)
 //
 //
 //                    } else {
 //
 //
-//                        onEvent(FiveSgpaUiEvents.showEditBaseEntryDBox)
+//                        onEvent(FiveGpaUiEvents.showEditBaseEntryDBox)
 //                        scope.launch {
 //                            if (sheetState.isExpanded) {
 //                                sheetState.collapse()
@@ -227,7 +227,7 @@ fun FiveCgpaTopAppBarAndOptionsMenu(
 
                 DropdownMenuItem(onClick = {
                     navController.navigate(Screen.Five_Cgpa_Records_Screen.route)
-                    onEvent(FiveSgpaUiEvents.loadFiveCgpaResult)
+                    onEvent(FiveGpaUiEvents.loadFiveCgpaResult)
                     optionsMenuState = !optionsMenuState
 
                 }) {

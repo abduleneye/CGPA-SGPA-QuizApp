@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -73,7 +73,7 @@ fun ShimmerBottomAboutBarItemAd(
     contentAfterLoading: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     adId: String,
-    onEvent: (FiveSgpaUiEvents) -> Unit
+    onEvent: (FiveGpaUiEvents) -> Unit
 ) {
 
     AnchoredAdaptiveBannerAboutScreen(
@@ -109,7 +109,7 @@ fun ShimmerBottomHomeBarItemAd(
     contentAfterLoading: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     adId: String,
-    onEvent: (FiveSgpaUiEvents) -> Unit
+    onEvent: (FiveGpaUiEvents) -> Unit
 ) {
 
     AnchoredAdaptiveBannerHomeScreen(
@@ -149,7 +149,7 @@ fun AnchoredAdaptiveBannerHomeScreen(
     modifier: Modifier,
     adId: String,
     isLoading: FiveSgpaUiStates,
-    onEvent: (FiveSgpaUiEvents) -> Unit
+    onEvent: (FiveGpaUiEvents) -> Unit
 
 ) {
     val currentScreenWidth = LocalConfiguration.current.screenWidthDp
@@ -180,7 +180,7 @@ fun AnchoredAdaptiveBannerHomeScreen(
         it.adListener = object : AdListener() {
             override fun onAdFailedToLoad(p0: LoadAdError) {
 //                Toast.makeText(context, "Ad load failed", Toast.LENGTH_SHORT).show()
-                onEvent(FiveSgpaUiEvents.showHomeAdShimmerEffect)
+                onEvent(FiveGpaUiEvents.showHomeAdShimmerEffect)
                 super.onAdFailedToLoad(p0)
 
             }
@@ -188,7 +188,7 @@ fun AnchoredAdaptiveBannerHomeScreen(
             override fun onAdLoaded() {
 //                Toast.makeText(context, "Ad Loaded", Toast.LENGTH_SHORT).show()
 //                adLoaded = true
-                onEvent(FiveSgpaUiEvents.hideHomeAdShimmerEffect)
+                onEvent(FiveGpaUiEvents.hideHomeAdShimmerEffect)
                 super.onAdLoaded()
 
             }
@@ -203,7 +203,7 @@ fun AnchoredAdaptiveBannerAboutScreen(
     modifier: Modifier,
     adId: String,
     isLoading: FiveSgpaUiStates,
-    onEvent: (FiveSgpaUiEvents) -> Unit
+    onEvent: (FiveGpaUiEvents) -> Unit
 
 ) {
     val currentScreenWidth = LocalConfiguration.current.screenWidthDp
@@ -234,7 +234,7 @@ fun AnchoredAdaptiveBannerAboutScreen(
         it.adListener = object : AdListener() {
             override fun onAdFailedToLoad(p0: LoadAdError) {
 //                Toast.makeText(context, "Ad load failed", Toast.LENGTH_SHORT).show()
-                onEvent(FiveSgpaUiEvents.showAboutAdShimmerEffect)
+                onEvent(FiveGpaUiEvents.showAboutAdShimmerEffect)
                 super.onAdFailedToLoad(p0)
 
             }
@@ -242,7 +242,7 @@ fun AnchoredAdaptiveBannerAboutScreen(
             override fun onAdLoaded() {
 //                Toast.makeText(context, "Ad Loaded", Toast.LENGTH_SHORT).show()
 //                adLoaded = true
-                onEvent(FiveSgpaUiEvents.hideAboutAdShimmerEffect)
+                onEvent(FiveGpaUiEvents.hideAboutAdShimmerEffect)
                 super.onAdLoaded()
 
             }
@@ -258,7 +258,7 @@ fun AnchoredAdaptiveBannerAboutScreen(
 //    modifier: Modifier,
 //    adId: String,
 //    isLoading: FiveSgpaUiStates,
-//    onEvent: (FiveSgpaUiEvents) -> Unit
+//    onEvent: (FiveGpaUiEvents) -> Unit
 //
 //) {
 //    val currentScreenWidth = LocalConfiguration.current.screenWidthDp
@@ -296,7 +296,7 @@ fun AnchoredAdaptiveBannerAboutScreen(
 //            override fun onAdLoaded() {
 ////                Toast.makeText(context, "Ad Loaded", Toast.LENGTH_SHORT).show()
 ////                adLoaded = true
-//                onEvent(FiveSgpaUiEvents.hideAboutAdShimmerEffect)
+//                onEvent(FiveGpaUiEvents.hideAboutAdShimmerEffect)
 //                super.onAdLoaded()
 //
 //            }

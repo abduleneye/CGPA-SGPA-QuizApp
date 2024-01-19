@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomHomeBarItemAd
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.ConfirmClearCoursesEntryConfirmationDialogBox
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.FiveSgpaBaseEntryDialogBox
@@ -44,12 +44,12 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun FiveSgpaMainScreen(
-    onEvent: (FiveSgpaUiEvents) -> Unit,
+    onEvent: (FiveGpaUiEvents) -> Unit,
     state: FiveSgpaUiStates,
     stateTwo: ArrayList<GpData>,
     calcViewModel: FiveGpaViewModel,
     navController: NavController,
-    adId: String
+    adId: String,
 ) {
 
     val context = LocalContext.current
@@ -129,11 +129,11 @@ fun FiveSgpaMainScreen(
                         //|| state.totalCreditLoad == ""
                         ) {
 
-                            onEvent(FiveSgpaUiEvents.showBaseEntryDBox)
+                            onEvent(FiveGpaUiEvents.showBaseEntryDBox)
 
                         } else if (stateTwo.size < state.totalCourses.toInt()) {
 
-                            onEvent(FiveSgpaUiEvents.showDataEntryDBox)
+                            onEvent(FiveGpaUiEvents.showDataEntryDBox)
 //                            Toast.makeText(
 //                                context,
 //                                "list  size: ${stateTwo.size} TONOEC: ${state.totalCourses}",
@@ -142,12 +142,12 @@ fun FiveSgpaMainScreen(
 
 
 //                    } else if (state.totalCreditLoad == "" || state.totalCourses == "") {
-//                        onEvent(FiveSgpaUiEvents.showBaseEntryDBox)
+//                        onEvent(FiveGpaUiEvents.showBaseEntryDBox)
 
                         } else {
-                            onEvent(FiveSgpaUiEvents.executeCalculation)
+                            onEvent(FiveGpaUiEvents.executeCalculation)
 
-                            //onEvent(FiveSgpaUiEvents.showResultDBox)
+                            //onEvent(FiveGpaUiEvents.showResultDBox)
                             scope.launch {
                                 if (sheetState.isCollapsed) {
                                     sheetState.expand()
@@ -343,7 +343,9 @@ fun FiveSgpaMainScreen(
                     data = stateTwo,
                     onClickEvent = onEvent,
                     sheetState = sheetState,
-                    dbState = state
+                    dbState = state,
+                    helperPaddingValues = it
+
                 )
 
 

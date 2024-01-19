@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -37,7 +37,7 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 @Composable
 fun EditCourseEntryDialogBox(
 
-    onEvent: (FiveSgpaUiEvents) -> Unit,
+    onEvent: (FiveGpaUiEvents) -> Unit,
     dbState: FiveSgpaUiStates,
     title: String,
     properties: DialogProperties = DialogProperties()
@@ -48,11 +48,11 @@ fun EditCourseEntryDialogBox(
 
     Dialog(
         onDismissRequest = {
-            onEvent(FiveSgpaUiEvents.hideCourseEntryEditDBox)
-            onEvent(FiveSgpaUiEvents.resetResultField)
-            onEvent(FiveSgpaUiEvents.setSelectedCourseGrade(""))
-            onEvent(FiveSgpaUiEvents.setSelectedCourseUnit(""))
-            onEvent(FiveSgpaUiEvents.setCourseCode(""))
+            onEvent(FiveGpaUiEvents.hideCourseEntryEditDBox)
+            onEvent(FiveGpaUiEvents.resetResultField)
+            onEvent(FiveGpaUiEvents.setSelectedCourseGrade(""))
+            onEvent(FiveGpaUiEvents.setSelectedCourseUnit(""))
+            onEvent(FiveGpaUiEvents.setCourseCode(""))
         },
         properties = DialogProperties(
             dismissOnBackPress = true,
@@ -114,11 +114,11 @@ fun EditCourseEntryDialogBox(
                         OutlinedTextField(
                             value = dbState.courseCode,
                             onValueChange = {
-                                onEvent(FiveSgpaUiEvents.setCourseCode(it))
+                                onEvent(FiveGpaUiEvents.setCourseCode(it))
 
 
 
-                                onEvent(FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsECC)
+                                onEvent(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsECC)
                             },
                             singleLine = true,
                             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -164,10 +164,10 @@ fun EditCourseEntryDialogBox(
 
                             Button(
                                 onClick = {
-                                    onEvent(FiveSgpaUiEvents.hideCourseEntryEditDBox)
-                                    onEvent(FiveSgpaUiEvents.setSelectedCourseGrade(""))
-                                    onEvent(FiveSgpaUiEvents.setSelectedCourseUnit(""))
-                                    onEvent(FiveSgpaUiEvents.setCourseCode(""))
+                                    onEvent(FiveGpaUiEvents.hideCourseEntryEditDBox)
+                                    onEvent(FiveGpaUiEvents.setSelectedCourseGrade(""))
+                                    onEvent(FiveGpaUiEvents.setSelectedCourseUnit(""))
+                                    onEvent(FiveGpaUiEvents.setCourseCode(""))
 
 
                                 },
@@ -188,7 +188,7 @@ fun EditCourseEntryDialogBox(
 
                             Button(
                                 onClick = {
-                                    onEvent(FiveSgpaUiEvents.replaceEditedInEntriesToArrayList)
+                                    onEvent(FiveGpaUiEvents.replaceEditedInEntriesToArrayList)
 //                                    if (dbState.allReadyInListForEditCourseEntries) {
 //                                        Toast.makeText(
 //                                            context,

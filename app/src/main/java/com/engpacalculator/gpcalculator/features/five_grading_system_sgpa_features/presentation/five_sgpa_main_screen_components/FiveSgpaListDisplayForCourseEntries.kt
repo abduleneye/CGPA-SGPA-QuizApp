@@ -9,7 +9,9 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -39,7 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.CourseItemsModifierDropDownItems
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.launch
@@ -49,9 +51,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun FiveSgpaTotalCoursesListCardViewToDisplay(
     data: ArrayList<GpData>,
-    onClickEvent: (FiveSgpaUiEvents) -> Unit,
+    onClickEvent: (FiveGpaUiEvents) -> Unit,
     dbState: FiveSgpaUiStates,
-    sheetState: BottomSheetState
+    sheetState: BottomSheetState,
+    helperPaddingValues: PaddingValues
 ) {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
@@ -61,7 +64,15 @@ fun FiveSgpaTotalCoursesListCardViewToDisplay(
         state = state,
         modifier = Modifier
             .fillMaxWidth()
-            .height(550.dp),
+            // .height(550.dp)
+            .fillMaxHeight(1f)
+            .padding(
+                top = helperPaddingValues.calculateTopPadding(),
+                start = 16.dp,
+                end = 16.dp,
+
+                bottom = 164.dp
+            ),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         // contentPadding = PaddingValues(16.dp)
     ) {
@@ -86,7 +97,7 @@ fun FiveSgpaTotalCoursesListCardViewToDisplay(
 
                     if (it.text == "Delete") {
                         try {
-                            onClickEvent(FiveSgpaUiEvents.deleteCourseEntry(index))
+                            onClickEvent(FiveGpaUiEvents.deleteCourseEntry(index))
 
 
                         } catch (e: Exception) {
@@ -96,15 +107,15 @@ fun FiveSgpaTotalCoursesListCardViewToDisplay(
                         }
                     } else if (it.text == "Edit") {
 
-                        onClickEvent(FiveSgpaUiEvents.updateCourseIndexEntry(index.toString()))
+                        onClickEvent(FiveGpaUiEvents.updateCourseIndexEntry(index.toString()))
                         onClickEvent(
-                            FiveSgpaUiEvents.editItemsEntries(
+                            FiveGpaUiEvents.editItemsEntries(
                                 item.courseCode,
                                 item.courseGrade,
                                 item.courseUnit.toString()
                             )
                         )
-                        onClickEvent(FiveSgpaUiEvents.showCourseEntryEditDBox)
+                        onClickEvent(FiveGpaUiEvents.showCourseEntryEditDBox)
 
                     }
                 },
@@ -128,12 +139,12 @@ fun FiveSgpaTotalCoursesListCardViewToDisplay(
 fun MyCardViewForCoursesList(
     info: GpData,
     index: Int,
-    onEvent: (FiveSgpaUiEvents) -> Unit,
+    onEvent: (FiveGpaUiEvents) -> Unit,
 
     dropDownItems: List<CourseItemsModifierDropDownItems>,
     modifier: Modifier = Modifier,
     state: FiveSgpaUiStates,
-    onItemClick: (FiveSgpaUiEvents) -> Unit,
+    onItemClick: (FiveGpaUiEvents) -> Unit,
     onMenuItemClick: (CourseItemsModifierDropDownItems) -> Unit,
     sheetState: BottomSheetState
 
@@ -171,7 +182,13 @@ fun MyCardViewForCoursesList(
         modifier = Modifier
             .height(90.dp)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(
+                // horizontal = 16.dp, vertical = 8.dp
+                top = 16.dp,
+                bottom = 4.dp,
+                start = 16.dp,
+                end = 16.dp
+            ),
         colors = CardDefaults.cardColors(
             containerColor = Cream
         )
@@ -200,10 +217,10 @@ fun MyCardViewForCoursesList(
                 .pointerInput(true) {
                     detectTapGestures(
                         onLongPress = {
-                            //onItemClick(FiveSgpaUiEvents.showCourseDataEntriesContextmenu)
+                            //onItemClick(FiveGpaUiEvents.showCourseDataEntriesContextmenu)
 //                            isContextMenuVisible = true
 //                            pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
-//                            onItemClick(FiveSgpaUiEvents.showCourseDataEntriesContextmenu)
+//                            onItemClick(FiveGpaUiEvents.showCourseDataEntriesContextmenu)
 //                            scope.launch {
 //                                if (sheetState.isExpanded) {
 //                                    sheetState.collapse()
@@ -215,7 +232,7 @@ fun MyCardViewForCoursesList(
                         onPress = {
                             isContextMenuVisible = true
                             pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
-                            onItemClick(FiveSgpaUiEvents.showCourseDataEntriesContextmenu)
+                            onItemClick(FiveGpaUiEvents.showCourseDataEntriesContextmenu)
                             scope.launch {
                                 if (sheetState.isExpanded) {
                                     sheetState.collapse()
@@ -262,7 +279,7 @@ fun MyCardViewForCoursesList(
             expanded = isContextMenuVisible,
             onDismissRequest = {
                 isContextMenuVisible = false
-                onEvent(FiveSgpaUiEvents.hideCourseDataEntriesContextmenu)
+                onEvent(FiveGpaUiEvents.hideCourseDataEntriesContextmenu)
             },
             offset = pressOffset.copy(
                 y = pressOffset.y - itemHeight
@@ -275,7 +292,7 @@ fun MyCardViewForCoursesList(
                     onClick = {
                         onMenuItemClick(item)
                         isContextMenuVisible = false
-                        onEvent(FiveSgpaUiEvents.hideCourseDataEntriesContextmenu)
+                        onEvent(FiveGpaUiEvents.hideCourseDataEntriesContextmenu)
                     }) {
 
                     Text(text = item.text)

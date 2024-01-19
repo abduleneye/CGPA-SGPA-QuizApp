@@ -1,6 +1,7 @@
 package com.engpacalculator.gpcalculator.five_grading_system_top_level_components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,7 +30,7 @@ import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
 import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomAboutBarItemAd
 import com.engpacalculator.gpcalculator.core.navigation.Screen
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -42,13 +43,14 @@ fun Five_Grading_System_Mode_Screen(
     navController: NavController?,
     adId: String?,
     state: FiveSgpaUiStates?,
-    onEvent: ((FiveSgpaUiEvents) -> Unit)?
+    onEvent: ((FiveGpaUiEvents) -> Unit)?
 
 ) {
 
     Scaffold(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(color = Cream),
         topBar = {
             TopAppBar(
                 title = {
@@ -106,7 +108,9 @@ fun Five_Grading_System_Mode_Screen(
     ) {
 
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Cream),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

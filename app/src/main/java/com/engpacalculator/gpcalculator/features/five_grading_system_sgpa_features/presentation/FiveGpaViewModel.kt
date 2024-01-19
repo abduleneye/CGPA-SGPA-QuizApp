@@ -136,13 +136,13 @@ class FiveGpaViewModel @Inject constructor(
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onEvent(event: FiveSgpaUiEvents) {
+    fun onEvent(event: FiveGpaUiEvents) {
 
         when (event) {
             // var TAG: String = "list"
 
 
-            is FiveSgpaUiEvents.showFiveCgpaSaveResultDB -> {
+            is FiveGpaUiEvents.showFiveCgpaSaveResultDB -> {
                 _fiveCgpaUiState.update {
                     it.copy(
                         saveResultDBVisibilty = true
@@ -152,7 +152,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideFiveCgpaSaveResultDB -> {
+            is FiveGpaUiEvents.hideFiveCgpaSaveResultDB -> {
                 _fiveCgpaUiState.update {
                     it.copy(
                         saveResultDBVisibilty = false
@@ -160,7 +160,7 @@ class FiveGpaViewModel @Inject constructor(
                 }
             }
 
-            is FiveSgpaUiEvents.helpFiveCgpa -> {
+            is FiveGpaUiEvents.helpFiveCgpa -> {
 
                 _fiveCgpaUiState.update {
                     it.copy(
@@ -169,7 +169,7 @@ class FiveGpaViewModel @Inject constructor(
                 }
             }
 
-            is FiveSgpaUiEvents.setFiveCgpaSRA -> {
+            is FiveGpaUiEvents.setFiveCgpaSRA -> {
                 _fiveCgpaUiState.update {
                     it.copy(
                         saveResultAs = event.saveResultAs
@@ -178,7 +178,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.saveFiveCgpaResult -> {
+            is FiveGpaUiEvents.saveFiveCgpaResult -> {
 
                 if (
                     _fiveCgpaUiState.value.saveResultAs.isEmpty()
@@ -197,13 +197,16 @@ class FiveGpaViewModel @Inject constructor(
                         )
                     }
 
+                    Log.d("names", "${_fiveCgpaUiState.value.sgpaResultNames}")
+
+
                 }
 
 
             }
 
 
-            is FiveSgpaUiEvents.executeCgpaCalculation -> {
+            is FiveGpaUiEvents.executeCgpaCalculation -> {
                 if (_fiveCgpaUiState.value.sgpaListToBeCalculated.isNotEmpty()) {
                     for (i in 0.._fiveCgpaUiState.value.sgpaListToBeCalculated.size - 1) {
                         _fiveCgpaUiState.value.cgpaList.add(
@@ -238,7 +241,7 @@ class FiveGpaViewModel @Inject constructor(
                 //loadData()
             }
 
-            is FiveSgpaUiEvents.onCheckChanged -> {
+            is FiveGpaUiEvents.onCheckChanged -> {
 
 
                 _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.get(event.index).resultSelected =
@@ -300,12 +303,12 @@ class FiveGpaViewModel @Inject constructor(
                 Log.d("List of sgpa", "${_fiveCgpaUiState.value.sgpaListToBeCalculated}")
             }
 
-            is FiveSgpaUiEvents.DeleteResultByReference -> {
+            is FiveGpaUiEvents.DeleteFiveGpaResultByReference -> {
                 _fiveCgpaUiState.update {
                     it.copy(operatorIconState = false)
                 }
                 viewModelScope.launch {
-                    myFiveSgpaRepository.FiveSgpaResultToBeDeleted(event.result)
+                    myFiveSgpaRepository.FiveSgpaResultToBeDeleted(event.fiveSgpaResultName)
                     _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
                     _fiveCgpaUiState.value.cgpaList.clear()
                     _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
@@ -313,13 +316,26 @@ class FiveGpaViewModel @Inject constructor(
                 }
             }
 
-
-            is FiveSgpaUiEvents.DeleteResult -> {
+            is FiveGpaUiEvents.DeleteFiveCgpaResultByReference -> {
                 _fiveCgpaUiState.update {
                     it.copy(operatorIconState = false)
                 }
                 viewModelScope.launch {
-                    myFiveSgpaRepository.DeleteFiveSgpaResult(event.result)
+                    myFiveCgpaRepository.FiveCgpaResultToBeDeleted(event.fiveCgpaResultName)
+//                    _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+//                    _fiveCgpaUiState.value.cgpaList.clear()
+//                    _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
+
+                }
+            }
+
+
+            is FiveGpaUiEvents.DeleteResult -> {
+                _fiveCgpaUiState.update {
+                    it.copy(operatorIconState = false)
+                }
+                viewModelScope.launch {
+                    myFiveSgpaRepository.DeleteFiveSgpaResult(event.fiveSgpaResultName)
                     _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
                     _fiveCgpaUiState.value.cgpaList.clear()
                     _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
@@ -329,7 +345,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.showResultDBox -> {
+            is FiveGpaUiEvents.showResultDBox -> {
                 _dbState.update {
                     it.copy(
                         resultDialogBoxVisibility = true
@@ -339,7 +355,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideSaveResultDBox -> {
+            is FiveGpaUiEvents.hideFiveSgpaSaveResultDB -> {
                 _dbState.update {
                     it.copy(
                         saveResultAsDialogBoxVisibility = false
@@ -349,7 +365,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.setSRA -> {
+            is FiveGpaUiEvents.setSRA -> {
                 _dbState.update {
                     it.copy(
                         saveResultAs = event.savedResultName
@@ -359,7 +375,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.saveFiveSgpaResult -> {
+            is FiveGpaUiEvents.saveFiveGpaResult -> {
 
                 if (
                     _dbState.value.saveResultAs.isEmpty()
@@ -389,16 +405,16 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.resetBackToDefaultValueFromErrorSRA -> {
+            is FiveGpaUiEvents.resetBackToDefaultValueFromErrorSRA -> {
                 resetFiveSgpaSRADBox()
 
             }
 
-            is FiveSgpaUiEvents.replaceEditedInEntriesToArrayList -> {
+            is FiveGpaUiEvents.replaceEditedInEntriesToArrayList -> {
                 textFieldsErrorCheckEditedCourseDataEntry()
             }
 
-            is FiveSgpaUiEvents.editItemsEntries -> {
+            is FiveGpaUiEvents.editItemsEntries -> {
 
                 _dbState.update {
                     it.copy(
@@ -412,7 +428,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.updateCourseIndexEntry -> {
+            is FiveGpaUiEvents.updateCourseIndexEntry -> {
                 _dbState.update {
                     it.copy(
                         courseEntryIndex = event.entryIndex
@@ -422,7 +438,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.showCourseEntryEditDBox -> {
+            is FiveGpaUiEvents.showCourseEntryEditDBox -> {
                 _dbState.update {
                     it.copy(
                         courseEntryEditDialogBoxVisibility = true,
@@ -432,7 +448,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideCourseEntryEditDBox -> {
+            is FiveGpaUiEvents.hideCourseEntryEditDBox -> {
                 _dbState.update {
                     it.copy(
                         courseEntryEditDialogBoxVisibility = false
@@ -443,7 +459,7 @@ class FiveGpaViewModel @Inject constructor(
             }
 
 
-            is FiveSgpaUiEvents.resetResultField -> {
+            is FiveGpaUiEvents.resetResultField -> {
 
                 _dbState.update {
                     it.copy(
@@ -454,7 +470,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.showDataEntryDBox -> {
+            is FiveGpaUiEvents.showDataEntryDBox -> {
                 _dbState.update {
                     it.copy(
                         courseEntryDialogBoxVisibility = true
@@ -465,7 +481,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideDataEntryDBox -> {
+            is FiveGpaUiEvents.hideDataEntryDBox -> {
                 _dbState.update {
                     it.copy(
                         allReadyInList = false,
@@ -476,7 +492,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.showUnitMenuDropDown -> {
+            is FiveGpaUiEvents.showUnitMenuDropDown -> {
 
                 _dbState.update {
                     it.copy(
@@ -488,7 +504,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideUnitMenuDropDown -> {
+            is FiveGpaUiEvents.hideUnitMenuDropDown -> {
 
                 _dbState.update {
                     it.copy(
@@ -500,7 +516,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.showGradeMenuDropDown -> {
+            is FiveGpaUiEvents.showGradeMenuDropDown -> {
                 _dbState.update {
                     it.copy(
                         isGradeDropDownMenuExpanded = true
@@ -510,7 +526,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideGradeMenuDropDown -> {
+            is FiveGpaUiEvents.hideGradeMenuDropDown -> {
                 _dbState.update {
                     it.copy(
                         isGradeDropDownMenuExpanded = false
@@ -520,7 +536,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.setSelectedCourseGrade -> {
+            is FiveGpaUiEvents.setSelectedCourseGrade -> {
 
                 _dbState.update {
                     it.copy(
@@ -532,7 +548,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.setSelectedCourseUnit -> {
+            is FiveGpaUiEvents.setSelectedCourseUnit -> {
                 _dbState.update {
                     it.copy(
                         selectedCourseUnit = event.unit
@@ -542,7 +558,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.deleteCourseEntry -> {
+            is FiveGpaUiEvents.deleteCourseEntry -> {
 
                 _courseEntries.value.removeAt(event.itemToRemove)
                 savedStateHandle.set(COURSE_ENTRIES_KEY, _courseEntries.value)
@@ -556,7 +572,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.setCourseCode -> {
+            is FiveGpaUiEvents.setCourseCode -> {
 
                 if (_dbState.value.arrayOfAlreadyEnteredCourseslist.contains(event.courseCode.uppercase())) {
                     _dbState.update {
@@ -597,14 +613,14 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.addEntriesToArrayList -> {
+            is FiveGpaUiEvents.addEntriesToArrayList -> {
 
                 textFieldsErrorCheckCourseDataEntry()
 
 
             }
 
-            is FiveSgpaUiEvents.setTotalCreditLoad -> {
+            is FiveGpaUiEvents.setTotalCreditLoad -> {
                 _dbState.update {
                     it.copy(
                         totalCreditLoad = event.totalCreditLoad
@@ -614,7 +630,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.setTotalCourses -> {
+            is FiveGpaUiEvents.setTotalCourses -> {
 //                var use = event.totalCourses
 //                if (use[0] == '0') {
 //                    use = use.replace("0", "")
@@ -650,12 +666,12 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideBaseEntryDBox -> {
+            is FiveGpaUiEvents.hideBaseEntryDBox -> {
                 textFieldsErrorCheckBaseEntryDB()
 
             }
 
-            is FiveSgpaUiEvents.showSaveResultDBox -> {
+            is FiveGpaUiEvents.showSaveResultDBox -> {
                 _dbState.update {
                     it.copy(
                         saveResultAsDialogBoxVisibility = true
@@ -665,7 +681,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-//            is FiveSgpaUiEvents.hideSaveResultDBox -> {
+//            is FiveGpaUiEvents.hideFiveSgpaSaveResultDB -> {
 //                _dbState.update {
 //
 //                    it.copy(
@@ -676,7 +692,7 @@ class FiveGpaViewModel @Inject constructor(
 //
 //            }
 
-            is FiveSgpaUiEvents.resetAlreadyInList -> {
+            is FiveGpaUiEvents.resetAlreadyInList -> {
                 _dbState.update {
                     it.copy(
                         allReadyInList = false
@@ -688,7 +704,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.showCourseDataEntriesContextmenu -> {
+            is FiveGpaUiEvents.showCourseDataEntriesContextmenu -> {
 
                 _dbState.update {
                     it.copy(
@@ -700,7 +716,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideCourseDataEntriesContextmenu -> {
+            is FiveGpaUiEvents.hideCourseDataEntriesContextmenu -> {
                 _dbState.update {
                     it.copy(
                         courseItemsDropDownVisibility = false
@@ -710,7 +726,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.resetTotalEntries -> {
+            is FiveGpaUiEvents.resetTotalEntries -> {
 
 
                 if (_dbState.value.totalCourses > 0.toString()) {
@@ -738,7 +754,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsTNOC -> {
+            is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsTNOC -> {
                 _dbState.update {
                     it.copy(
                         defaultLabelColourTNOC = ErrorPassedValues.errorPassedColour,
@@ -750,7 +766,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsCC -> {
+            is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCC -> {
                 _dbState.update {
                     it.copy(
                         defaultLabelColourCC = ErrorPassedValues.errorPassedColour,
@@ -761,7 +777,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsECC -> {
+            is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsECC -> {
                 _dbState.update {
                     it.copy(
                         defaultLabelColourECC = ErrorPassedValues.errorPassedColour,
@@ -773,7 +789,7 @@ class FiveGpaViewModel @Inject constructor(
             }
 
 
-            is FiveSgpaUiEvents.resetDefaultValuesFromErrorsTNOCL -> {
+            is FiveGpaUiEvents.resetDefaultValuesFromErrorsTNOCL -> {
                 _dbState.update {
                     it.copy(
                         defaultLabelTNOCL = ErrorPassedValues.labelForTNOCC,
@@ -785,7 +801,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.showEditBaseEntryDBox -> {
+            is FiveGpaUiEvents.showEditBaseEntryDBox -> {
                 _dbState.update {
                     it.copy(
                         editBaseEntryDialogBoxVisibility = true,
@@ -797,7 +813,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideEditBaseEntryDBox -> {
+            is FiveGpaUiEvents.hideEditBaseEntryDBox -> {
 
                 textFieldsErrorEditedCheckBaseEntryDB()
 
@@ -805,7 +821,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideEditBaseEntryRegardlessDBox -> {
+            is FiveGpaUiEvents.hideEditBaseEntryRegardlessDBox -> {
 
                 if (_dbState.value.enteredCourses == "0") {
 
@@ -837,7 +853,7 @@ class FiveGpaViewModel @Inject constructor(
             }
 
 
-            is FiveSgpaUiEvents.showBaseEntryDBox -> {
+            is FiveGpaUiEvents.showBaseEntryDBox -> {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     greetings()
@@ -853,7 +869,7 @@ class FiveGpaViewModel @Inject constructor(
             }
 
 
-            is FiveSgpaUiEvents.executeCalculation -> {
+            is FiveGpaUiEvents.executeCalculation -> {
 
                 _dbState.update {
                     it.copy(
@@ -896,7 +912,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideBaseEntryRegardlessDBox -> {
+            is FiveGpaUiEvents.hideBaseEntryRegardlessDBox -> {
                 _dbState.update {
                     it.copy(
                         baseEntryDialogBoxVisibility = false,
@@ -909,7 +925,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.setPrevTotalCourses -> {
+            is FiveGpaUiEvents.setPrevTotalCourses -> {
                 _dbState.update {
                     it.copy(
                         prevTotalNumberOfCourses = event.text
@@ -919,7 +935,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.showClearConfirmationDBox -> {
+            is FiveGpaUiEvents.showClearConfirmationDBox -> {
                 _dbState.update {
                     it.copy(
                         clearCoursesConfirmationDBoxVisibility = true
@@ -929,7 +945,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideClearConfirmationDBox -> {
+            is FiveGpaUiEvents.hideClearConfirmationDBox -> {
                 _dbState.update {
                     it.copy(
                         clearCoursesConfirmationDBoxVisibility = false
@@ -939,7 +955,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.showHomeAdShimmerEffect -> {
+            is FiveGpaUiEvents.showHomeAdShimmerEffect -> {
                 _dbState.update {
                     it.copy(
                         homeAdShimmerEffectVisibility = true
@@ -949,7 +965,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideHomeAdShimmerEffect -> {
+            is FiveGpaUiEvents.hideHomeAdShimmerEffect -> {
                 _dbState.update {
                     it.copy(
                         homeAdShimmerEffectVisibility = false
@@ -959,7 +975,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.showAboutAdShimmerEffect -> {
+            is FiveGpaUiEvents.showAboutAdShimmerEffect -> {
                 _dbState.update {
                     it.copy(
                         aboutAdShimmerEffectVisibility = true
@@ -969,7 +985,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.hideAboutAdShimmerEffect -> {
+            is FiveGpaUiEvents.hideAboutAdShimmerEffect -> {
                 _dbState.update {
                     it.copy(
                         aboutAdShimmerEffectVisibility = true
@@ -979,7 +995,7 @@ class FiveGpaViewModel @Inject constructor(
 
             }
 
-            is FiveSgpaUiEvents.setTotalNumberOfEditedCourses -> {
+            is FiveGpaUiEvents.setTotalNumberOfEditedCourses -> {
                 _dbState.update {
                     it.copy(
                         editedNumberOfCourses = event.noOfEditedTotalCourse
@@ -987,7 +1003,7 @@ class FiveGpaViewModel @Inject constructor(
                 }
             }
 
-            is FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsCU -> {
+            is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCU -> {
                 _dbState.update {
                     it.copy(
                         pickedCourseUnitDefaultLabel = ErrorPassedValues.enterCourseUnitLabel,
@@ -996,7 +1012,7 @@ class FiveGpaViewModel @Inject constructor(
                 }
             }
 
-            is FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsCG -> {
+            is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCG -> {
                 _dbState.update {
                     it.copy(
                         pickedCourseGradeDefaultLabel = ErrorPassedValues.enterCourseGradeLabel,

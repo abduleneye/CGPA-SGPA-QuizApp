@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,8 +35,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.SgpaResultDisplayFormatForFiveCgpaCalculation
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.launch
 
@@ -59,8 +60,9 @@ fun UniFiveSgpaRecordedResultToBeSelectedFrom(
     navController: NavController,
     fiveCgpaUiStates: FiveCgpaUiStates,
     fiveGpaViewModel: FiveGpaViewModel,
-    onEventFiveSgpa: (FiveSgpaUiEvents) -> Unit,
-    sheetState: BottomSheetState
+    onEventFiveSgpa: (FiveGpaUiEvents) -> Unit,
+    sheetState: BottomSheetState,
+    helperPaddingValues: PaddingValues
 
 
 ) {
@@ -70,7 +72,8 @@ fun UniFiveSgpaRecordedResultToBeSelectedFrom(
         data = fiveCgpaUiStates,
         onEventFiveSgpa = onEventFiveSgpa,
         fiveGpaViewModel = fiveGpaViewModel,
-        sheetState = sheetState
+        sheetState = sheetState,
+        helperPaddingValues = helperPaddingValues
 
 
     )
@@ -85,7 +88,7 @@ fun MyCardView(
     info: SgpaResultDisplayFormatForFiveCgpaCalculation,
     index: Int,
     uniFiveCgpaUiState: FiveCgpaUiStates,
-    onEventFiveSgpaUiEvents: (FiveSgpaUiEvents) -> Unit,
+    onEventFiveSgpaUiEvents: (FiveGpaUiEvents) -> Unit,
     fiveGpaViewModel: FiveGpaViewModel,
     sheetState: BottomSheetState
 
@@ -156,7 +159,7 @@ fun MyCardView(
                             }
                         }
                         onEventFiveSgpaUiEvents(
-                            FiveSgpaUiEvents.onCheckChanged(
+                            FiveGpaUiEvents.onCheckChanged(
                                 info = info,
                                 isChecked = it,
                                 index = index,
@@ -193,9 +196,10 @@ fun MyCardView(
 @Composable
 fun ResultRecordToDisplay(
     data: FiveCgpaUiStates,
-    onEventFiveSgpa: (FiveSgpaUiEvents) -> Unit,
+    onEventFiveSgpa: (FiveGpaUiEvents) -> Unit,
     fiveGpaViewModel: FiveGpaViewModel,
-    sheetState: BottomSheetState
+    sheetState: BottomSheetState,
+    helperPaddingValues: PaddingValues
 
 
 ) {
@@ -211,7 +215,14 @@ fun ResultRecordToDisplay(
         state = state,
         modifier = Modifier
             .fillMaxWidth()
-            .height(1024.dp),
+            .height(1024.dp)
+            .padding(
+                top = helperPaddingValues.calculateTopPadding(),
+                start = 16.dp,
+                end = 16.dp,
+
+                bottom = 164.dp
+            ),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         // contentPadding = PaddingValues(16.dp)
     ) {

@@ -41,8 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.navigation.Screen
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -52,7 +52,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FiveSgpaTopAppBarAndOptionsMenu(
-    onEvent: (FiveSgpaUiEvents) -> Unit,
+    onEvent: (FiveGpaUiEvents) -> Unit,
     calcViewModel: FiveGpaViewModel,
     dbState: FiveSgpaUiStates,
     navController: NavController,
@@ -118,7 +118,7 @@ fun FiveSgpaTopAppBarAndOptionsMenu(
 
                         } else {
 
-                            onEvent(FiveSgpaUiEvents.showClearConfirmationDBox)
+                            onEvent(FiveGpaUiEvents.showClearConfirmationDBox)
 
                         }
 
@@ -165,13 +165,13 @@ fun FiveSgpaTopAppBarAndOptionsMenu(
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        // onEvent(FiveSgpaUiEvents.showEditBaseEntryDBox)
+                        // onEvent(FiveGpaUiEvents.showEditBaseEntryDBox)
 
 
                     } else {
 
 
-                        onEvent(FiveSgpaUiEvents.showEditBaseEntryDBox)
+                        onEvent(FiveGpaUiEvents.showEditBaseEntryDBox)
                         scope.launch {
                             if (sheetState.isExpanded) {
                                 sheetState.collapse()
@@ -234,7 +234,7 @@ fun FiveSgpaTopAppBarAndOptionsMenu(
 
                 DropdownMenuItem(onClick = {
                     navController.navigate(Screen.Five_Sgpa_Records_Screen.route)
-                    onEvent(FiveSgpaUiEvents.loadResult)
+                    onEvent(FiveGpaUiEvents.loadResult)
                     optionsMenuState = !optionsMenuState
 
                 }) {

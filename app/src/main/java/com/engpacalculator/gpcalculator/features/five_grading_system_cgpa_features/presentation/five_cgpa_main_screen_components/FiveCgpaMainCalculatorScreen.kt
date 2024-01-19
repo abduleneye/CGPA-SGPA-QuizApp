@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomHomeBarItemAd
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -48,7 +48,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun FiveCgpaMainScreen(
-    onEvent: (FiveSgpaUiEvents) -> Unit,
+    onEvent: (FiveGpaUiEvents) -> Unit,
     fiveSgpaUiStates: FiveSgpaUiStates,
     fiveCgpaHelperRecordsState: FiveCgpaUiStates,
     fiveCgpaUiStatesFromSgpaViewModel: FiveCgpaUiStates,
@@ -128,8 +128,8 @@ fun FiveCgpaMainScreen(
                 FloatingActionButton(
                     onClick = {
 
-                        onEvent(FiveSgpaUiEvents.helpFiveCgpa)
-                        onEvent(FiveSgpaUiEvents.executeCgpaCalculation)
+                        onEvent(FiveGpaUiEvents.helpFiveCgpa)
+                        onEvent(FiveGpaUiEvents.executeCgpaCalculation)
                         if (fiveCgpaUiStatesFromSgpaViewModel.sgpaListToBeCalculated.isNotEmpty()) {
                             scope.launch {
                                 if (sheetState.isCollapsed
@@ -219,7 +219,8 @@ fun FiveCgpaMainScreen(
                         fiveCgpaUiStates = fiveCgpaHelperRecordsState,
                         fiveGpaViewModel = fiveGpaViewModel,
                         onEventFiveSgpa = onEvent,
-                        sheetState = sheetState
+                        sheetState = sheetState,
+                        helperPaddingValues = it
                     )
 
 

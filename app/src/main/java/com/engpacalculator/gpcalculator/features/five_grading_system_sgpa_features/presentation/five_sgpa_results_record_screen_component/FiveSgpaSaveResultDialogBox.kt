@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -39,7 +39,7 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun FiveSgpaSaveResultDialogBox(
-    onEvent: (FiveSgpaUiEvents) -> Unit,
+    onEvent: (FiveGpaUiEvents) -> Unit,
     dbState: FiveSgpaUiStates,
     sheetState: BottomSheetState
 
@@ -52,8 +52,8 @@ fun FiveSgpaSaveResultDialogBox(
 
     Dialog(
         onDismissRequest = {
-            onEvent(FiveSgpaUiEvents.resetBackToDefaultValueFromErrorSRA)
-            onEvent(FiveSgpaUiEvents.hideSaveResultDBox)
+            onEvent(FiveGpaUiEvents.resetBackToDefaultValueFromErrorSRA)
+            onEvent(FiveGpaUiEvents.hideFiveSgpaSaveResultDB)
         },
         properties = DialogProperties(
             dismissOnBackPress = true,
@@ -104,7 +104,7 @@ fun FiveSgpaSaveResultDialogBox(
                     value = dbState.saveResultAs,
                     onValueChange = {
 
-                        onEvent(FiveSgpaUiEvents.setSRA(it))
+                        onEvent(FiveGpaUiEvents.setSRA(it))
 
 
                     },
@@ -144,8 +144,8 @@ fun FiveSgpaSaveResultDialogBox(
 
                         Button(
                             onClick = {
-                                onEvent(FiveSgpaUiEvents.hideSaveResultDBox)
-                                onEvent(FiveSgpaUiEvents.resetBackToDefaultValueFromErrorSRA)
+                                onEvent(FiveGpaUiEvents.hideFiveSgpaSaveResultDB)
+                                onEvent(FiveGpaUiEvents.resetBackToDefaultValueFromErrorSRA)
 
                             },
                             colors = ButtonDefaults.buttonColors(
@@ -168,7 +168,9 @@ fun FiveSgpaSaveResultDialogBox(
 
                                 //if (dbState.saveResultAs.isNotEmpty()) {
 
-                                onEvent(FiveSgpaUiEvents.saveFiveSgpaResult)
+                                onEvent(FiveGpaUiEvents.saveFiveGpaResult)
+                                onEvent(FiveGpaUiEvents.hideFiveSgpaSaveResultDB)
+
 
                                 Toast.makeText(
                                     context,
@@ -178,7 +180,7 @@ fun FiveSgpaSaveResultDialogBox(
                                 //  }
 
                                 //Toast.makeText(context, "Saved", Toast.LENGTH_LONG).show()
-                                //onEvent(FiveSgpaUiEvents.hideSaveResultDBox)
+                                //onEvent(FiveGpaUiEvents.hideFiveSgpaSaveResultDB)
 
 
                             },

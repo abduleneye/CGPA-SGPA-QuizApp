@@ -1,6 +1,7 @@
 package com.engpacalculator.gpcalculator.HomeScreen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,7 +30,7 @@ import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
 import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomAboutBarItemAd
 import com.engpacalculator.gpcalculator.core.navigation.Screen
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -41,13 +42,15 @@ fun HomeScreen(
     navController: NavController?,
     adId: String?,
     state: FiveSgpaUiStates?,
-    onEvent: ((FiveSgpaUiEvents) -> Unit)?
+    onEvent: ((FiveGpaUiEvents) -> Unit)?
 
 ) {
 
     Scaffold(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(color = Cream),
+
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -97,7 +100,9 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(state = scrollState),
+                .verticalScroll(state = scrollState)
+                .background(color = Cream),
+
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

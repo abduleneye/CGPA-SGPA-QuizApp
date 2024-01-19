@@ -18,6 +18,7 @@ import com.engpacalculator.gpcalculator.HomeScreen.HomeScreen
 import com.engpacalculator.gpcalculator.about_screen_components.ui.theme.AboutScreen
 import com.engpacalculator.gpcalculator.core.AnimatedSplash
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_main_screen_components.FiveCgpaMainScreen
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component.FiveCgpaFullResultScreen
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component.FiveCgpaResultRecordScreen
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaFullResultScreen
@@ -158,9 +159,11 @@ fun SetUpNavGraph(
         ) {
             FiveSgpaResultRecordScreen(
                 navController = navController,
-                state = fiveSgpaResultFromDBStates,
+                fiveSgpaResultRecordState = fiveSgpaResultFromDBStates,
                 viewModel = fiveSgpaViewModel,
-                onEvent = fiveSgpaViewModel::onEvent
+                onEvent = fiveSgpaViewModel::onEvent,
+                state = fiveSgpaUiStates,
+                adId = "ca-app-pub-3940256099942544/6300978111"
             )
         }
 
@@ -170,9 +173,13 @@ fun SetUpNavGraph(
         ) {
             FiveCgpaResultRecordScreen(
                 navController = navController,
-                state = fiveCgpaResultFromDBStates,
+                fiveCgpaResultRecordState = fiveCgpaResultFromDBStates,
                 viewModel = fiveSgpaViewModel,
-                onEvent = fiveSgpaViewModel::onEvent
+                onEvent = fiveSgpaViewModel::onEvent,
+                state = fiveSgpaUiStates,
+                adId = "ca-app-pub-3940256099942544/6300978111"
+
+
             )
         }
 
@@ -207,7 +214,47 @@ fun SetUpNavGraph(
                 gP = entry.arguments?.getString("Gp"),
                 resultRemark = entry.arguments?.getString("ResultRemark"),
                 onEvent = fiveSgpaViewModel::onEvent,
-                navController = navController
+                navController = navController,
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                state = fiveSgpaUiStates
+
+            )
+        }
+
+        composable(
+            route = Screen.Five_Cgpa_Full_Records_Screen.route + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}",
+            arguments = listOf(
+                navArgument(name = "ResultName") {
+                    type = NavType.StringType
+                    defaultValue = "ResultName"
+
+                },
+                navArgument(name = "ListOfCourseDetails") {
+                    type = NavType.StringType
+                    defaultValue = "Results..."
+
+                },
+                navArgument(name = "Gp") {
+                    type = NavType.StringType
+                    defaultValue = "GradePoint"
+
+                },
+                navArgument(name = "ResultRemark") {
+                    type = NavType.StringType
+                    defaultValue = "Result remark"
+
+                }
+            )
+        ) { entry ->
+            FiveCgpaFullResultScreen(
+                resultName = entry.arguments?.getString("ResultName"),
+                actualResults = entry.arguments?.getString("ListOfCourseDetails"),
+                gP = entry.arguments?.getString("Gp"),
+                resultRemark = entry.arguments?.getString("ResultRemark"),
+                onEvent = fiveSgpaViewModel::onEvent,
+                navController = navController,
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                state = fiveSgpaUiStates
             )
         }
 

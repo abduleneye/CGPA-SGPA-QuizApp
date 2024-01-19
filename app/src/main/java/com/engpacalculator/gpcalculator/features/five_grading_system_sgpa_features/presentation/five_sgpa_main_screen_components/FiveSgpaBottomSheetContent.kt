@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.engpacalculator.gpcalculator.R
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import kotlinx.coroutines.launch
@@ -39,7 +39,7 @@ fun ResultBottomSheetContent(
 
     state: FiveSgpaUiStates,
     sheetState: BottomSheetState,
-    onEvent: (FiveSgpaUiEvents) -> Unit
+    onEvent: (FiveGpaUiEvents) -> Unit
 ) {
 
     val scope = rememberCoroutineScope()
@@ -79,7 +79,7 @@ fun ResultBottomSheetContent(
             )
 
 //            Button(onClick = {
-//                onEvent(FiveSgpaUiEvents.showSaveResultDBox)
+//                onEvent(FiveGpaUiEvents.showSaveResultDBox)
 //
 //            }) {
 //
@@ -108,7 +108,7 @@ fun ResultBottomSheetContent(
                             .padding(top = 0.dp)
                             .size(64.dp)
                             .clickable {
-                                onEvent(FiveSgpaUiEvents.showSaveResultDBox)
+                                onEvent(FiveGpaUiEvents.showSaveResultDBox)
                             },
                         tint = Color.DarkGray
 

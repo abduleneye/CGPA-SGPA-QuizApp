@@ -36,7 +36,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
@@ -46,7 +46,7 @@ fun DropDownMenu(
     labelTextOne: String,
     labelTextTwo: String,
     dBState: FiveSgpaUiStates,
-    onEvent: (FiveSgpaUiEvents) -> Unit,
+    onEvent: (FiveGpaUiEvents) -> Unit,
 
 
     ) {
@@ -126,10 +126,10 @@ fun DropDownMenu(
                                 .clickable {
 
                                     if (dBState.isUnitDropDownMenuExpanded) {
-                                        onEvent(FiveSgpaUiEvents.hideUnitMenuDropDown)
+                                        onEvent(FiveGpaUiEvents.hideUnitMenuDropDown)
 
                                     } else {
-                                        onEvent(FiveSgpaUiEvents.showUnitMenuDropDown)
+                                        onEvent(FiveGpaUiEvents.showUnitMenuDropDown)
 
 
                                     }
@@ -143,8 +143,8 @@ fun DropDownMenu(
                 DropdownMenu(
                     expanded = dBState.isUnitDropDownMenuExpanded,
                     onDismissRequest = {
-                        onEvent(FiveSgpaUiEvents.hideUnitMenuDropDown)
-                        onEvent(FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsCU)
+                        onEvent(FiveGpaUiEvents.hideUnitMenuDropDown)
+                        onEvent(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCU)
 
                     },
                     modifier = Modifier
@@ -161,9 +161,9 @@ fun DropDownMenu(
 
                         DropdownMenuItem(
                             onClick = {
-                                onEvent(FiveSgpaUiEvents.setSelectedCourseUnit(courseUnit))
-                                onEvent(FiveSgpaUiEvents.hideUnitMenuDropDown)
-                                onEvent(FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsCU)
+                                onEvent(FiveGpaUiEvents.setSelectedCourseUnit(courseUnit))
+                                onEvent(FiveGpaUiEvents.hideUnitMenuDropDown)
+                                onEvent(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCU)
                             },
                             modifier = Modifier
                                 .padding(bottom = 0.3.dp),
@@ -235,10 +235,10 @@ fun DropDownMenu(
                                 .clickable {
 
                                     if (dBState.isGradeDropDownMenuExpanded) {
-                                        onEvent(FiveSgpaUiEvents.hideGradeMenuDropDown)
+                                        onEvent(FiveGpaUiEvents.hideGradeMenuDropDown)
 
                                     } else {
-                                        onEvent(FiveSgpaUiEvents.showGradeMenuDropDown)
+                                        onEvent(FiveGpaUiEvents.showGradeMenuDropDown)
                                     }
 
                                 }
@@ -250,8 +250,8 @@ fun DropDownMenu(
                 DropdownMenu(
                     expanded = dBState.isGradeDropDownMenuExpanded,
                     onDismissRequest = {
-                        onEvent(FiveSgpaUiEvents.hideGradeMenuDropDown)
-                        onEvent(FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsCG)
+                        onEvent(FiveGpaUiEvents.hideGradeMenuDropDown)
+                        onEvent(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCG)
 
                     },
                     modifier = Modifier
@@ -265,9 +265,9 @@ fun DropDownMenu(
                     dataEntryObj.gradeList.forEach { courseGrade ->
 
                         DropdownMenuItem(onClick = {
-                            onEvent(FiveSgpaUiEvents.setSelectedCourseGrade(courseGrade))
-                            onEvent(FiveSgpaUiEvents.hideGradeMenuDropDown)
-                            onEvent(FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsCG)
+                            onEvent(FiveGpaUiEvents.setSelectedCourseGrade(courseGrade))
+                            onEvent(FiveGpaUiEvents.hideGradeMenuDropDown)
+                            onEvent(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCG)
 
                         }) {
 

@@ -32,7 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -43,14 +43,14 @@ import kotlinx.coroutines.android.awaitFrame
 fun FiveSgpaBaseEntryDialogBox(
     Desc: String,
     state: FiveSgpaUiStates,
-    events: (FiveSgpaUiEvents) -> Unit
+    events: (FiveGpaUiEvents) -> Unit
 ) {
     val context = LocalContext.current
 
 
     Dialog(onDismissRequest = {
-        events(FiveSgpaUiEvents.hideBaseEntryRegardlessDBox)
-        events(FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsTNOC)
+        events(FiveGpaUiEvents.hideBaseEntryRegardlessDBox)
+        events(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsTNOC)
 
     }) {
 
@@ -127,12 +127,12 @@ fun FiveSgpaBaseEntryDialogBox(
                         onValueChange = {
 
                             if (it.length <= state.maxNoOfCoursesLength) {
-                                events(FiveSgpaUiEvents.setPrevTotalCourses(it))
-                                events(FiveSgpaUiEvents.setTotalCourses(it))
+                                events(FiveGpaUiEvents.setPrevTotalCourses(it))
+                                events(FiveGpaUiEvents.setTotalCourses(it))
                             } else {
 
-                                events(FiveSgpaUiEvents.setPrevTotalCourses(""))
-                                events(FiveSgpaUiEvents.setTotalCourses(""))
+                                events(FiveGpaUiEvents.setPrevTotalCourses(""))
+                                events(FiveGpaUiEvents.setTotalCourses(""))
                                 Toast.makeText(
                                     context,
                                     "cannot be more  than two digits",
@@ -140,7 +140,7 @@ fun FiveSgpaBaseEntryDialogBox(
                                 ).show()
                             }
 
-                            events(FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsTNOC)
+                            events(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsTNOC)
                         },
                         label = {
                             Text(text = state.defaultLabelTNOC)
@@ -179,7 +179,7 @@ fun FiveSgpaBaseEntryDialogBox(
                                 .padding(bottom = 8.dp),
                             //colors = androidx.compose.material3.MaterialTheme.colorScheme,
                             onClick = {
-                                events(FiveSgpaUiEvents.hideBaseEntryDBox)
+                                events(FiveGpaUiEvents.hideBaseEntryDBox)
 //                                Toast.makeText(
 //                                    context,
 //                                    "${state.totalCourses} : ${state.prevTotalNumberOfCourses}",

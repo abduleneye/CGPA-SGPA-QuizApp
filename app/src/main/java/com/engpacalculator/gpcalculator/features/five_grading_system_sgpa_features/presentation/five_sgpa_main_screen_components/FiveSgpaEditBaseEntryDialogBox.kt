@@ -29,7 +29,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -38,12 +38,12 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 fun FiveSgpaEditBaseEntryDialogBox(
     Desc: String,
     state: FiveSgpaUiStates,
-    events: (FiveSgpaUiEvents) -> Unit
+    events: (FiveGpaUiEvents) -> Unit
 ) {
 
     val context = LocalContext.current
     Dialog(onDismissRequest = {
-        events(FiveSgpaUiEvents.hideEditBaseEntryRegardlessDBox)
+        events(FiveGpaUiEvents.hideEditBaseEntryRegardlessDBox)
 
     }) {
 
@@ -91,20 +91,20 @@ fun FiveSgpaEditBaseEntryDialogBox(
                         value = state.totalCourses,
                         onValueChange = {
                             if (it.length <= state.maxNoOfCoursesLength) {
-                                events(FiveSgpaUiEvents.setTotalNumberOfEditedCourses(it))
-                                events(FiveSgpaUiEvents.setTotalCourses(it))
+                                events(FiveGpaUiEvents.setTotalNumberOfEditedCourses(it))
+                                events(FiveGpaUiEvents.setTotalCourses(it))
                             } else {
                                 if (state.enteredCourses != "0") {
-                                    events(FiveSgpaUiEvents.setTotalNumberOfEditedCourses(state.enteredCourses))
-                                    events(FiveSgpaUiEvents.setTotalCourses(state.enteredCourses))
+                                    events(FiveGpaUiEvents.setTotalNumberOfEditedCourses(state.enteredCourses))
+                                    events(FiveGpaUiEvents.setTotalCourses(state.enteredCourses))
 
                                 } else if (state.enteredCourses == "0") {
-                                    events(FiveSgpaUiEvents.setTotalNumberOfEditedCourses(state.prevTotalNumberOfCourses))
-                                    events(FiveSgpaUiEvents.setTotalCourses(state.prevTotalNumberOfCourses))
+                                    events(FiveGpaUiEvents.setTotalNumberOfEditedCourses(state.prevTotalNumberOfCourses))
+                                    events(FiveGpaUiEvents.setTotalCourses(state.prevTotalNumberOfCourses))
 
                                 } else {
-                                    events(FiveSgpaUiEvents.setTotalNumberOfEditedCourses(state.totalCourses))
-                                    events(FiveSgpaUiEvents.setTotalCourses(state.totalCourses))
+                                    events(FiveGpaUiEvents.setTotalNumberOfEditedCourses(state.totalCourses))
+                                    events(FiveGpaUiEvents.setTotalCourses(state.totalCourses))
                                 }
 
                                 Toast.makeText(
@@ -112,7 +112,7 @@ fun FiveSgpaEditBaseEntryDialogBox(
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-//                            events(FiveSgpaUiEvents.resetBackToDefaultValuesFromErrorsETNOC)
+//                            events(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsETNOC)
                         },
                         label = {
                             Text(text = state.defaultLabelETNOC)
@@ -144,7 +144,7 @@ fun FiveSgpaEditBaseEntryDialogBox(
                             modifier = Modifier
                                 .padding(bottom = 8.dp), //colors = androidx.compose.material3.MaterialTheme.colorScheme,
                             onClick = {
-                                events(FiveSgpaUiEvents.hideEditBaseEntryDBox)
+                                events(FiveGpaUiEvents.hideEditBaseEntryDBox)
 
                             },
                             colors = ButtonDefaults.buttonColors(

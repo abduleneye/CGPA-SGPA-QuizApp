@@ -29,7 +29,7 @@ import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
 import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomAboutBarItemAd
 import com.engpacalculator.gpcalculator.core.navigation.Screen
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -42,7 +42,7 @@ fun Quiz_Mode_Screen(
     navController: NavController?,
     adId: String?,
     state: FiveSgpaUiStates?,
-    onEvent: ((FiveSgpaUiEvents) -> Unit)?
+    onEvent: ((FiveGpaUiEvents) -> Unit)?
 
 ) {
 

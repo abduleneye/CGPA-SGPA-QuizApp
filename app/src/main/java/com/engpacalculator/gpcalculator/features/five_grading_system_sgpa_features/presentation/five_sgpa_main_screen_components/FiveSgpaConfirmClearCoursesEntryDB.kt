@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiEvents
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -33,7 +33,7 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ConfirmClearCoursesEntryConfirmationDialogBox(
-    onEvent: (FiveSgpaUiEvents) -> Unit,
+    onEvent: (FiveGpaUiEvents) -> Unit,
     dbState: FiveSgpaUiStates,
     sheetState: BottomSheetState
 
@@ -45,7 +45,7 @@ fun ConfirmClearCoursesEntryConfirmationDialogBox(
 
     Dialog(
         onDismissRequest = {
-            onEvent(FiveSgpaUiEvents.hideClearConfirmationDBox)
+            onEvent(FiveGpaUiEvents.hideClearConfirmationDBox)
 
         },
         properties = DialogProperties(
@@ -113,7 +113,7 @@ fun ConfirmClearCoursesEntryConfirmationDialogBox(
 
                         Button(
                             onClick = {
-                                onEvent(FiveSgpaUiEvents.hideClearConfirmationDBox)
+                                onEvent(FiveGpaUiEvents.hideClearConfirmationDBox)
 
                             },
                             colors = ButtonDefaults.buttonColors(
@@ -134,8 +134,8 @@ fun ConfirmClearCoursesEntryConfirmationDialogBox(
                         Button(
                             onClick = {
 
-                                onEvent(FiveSgpaUiEvents.resetTotalEntries)
-                                onEvent(FiveSgpaUiEvents.hideClearConfirmationDBox)
+                                onEvent(FiveGpaUiEvents.resetTotalEntries)
+                                onEvent(FiveGpaUiEvents.hideClearConfirmationDBox)
 
 
                             },
