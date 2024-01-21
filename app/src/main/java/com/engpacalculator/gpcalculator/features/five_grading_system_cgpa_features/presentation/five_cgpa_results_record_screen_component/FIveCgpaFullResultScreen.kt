@@ -82,7 +82,7 @@ fun FiveCgpaFullResultScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "5.0 Sgpa Result Display")
+                    Text(text = "5.0 Cgpa Result Display")
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = AppBars
@@ -135,6 +135,10 @@ fun FiveCgpaFullResultScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
+                //.background(color = Color.Red),
+                .background(color = Cream),
+            verticalArrangement = Arrangement.Center
+
         ) {
 
             item {
@@ -219,7 +223,8 @@ fun FiveCgpaFullResultScreen(
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         navController.popBackStack()
-                                    }) {
+                                    }
+                                    ) {
                                         Icon(
                                             Icons.Default.Delete,
                                             contentDescription = "Delete Result"

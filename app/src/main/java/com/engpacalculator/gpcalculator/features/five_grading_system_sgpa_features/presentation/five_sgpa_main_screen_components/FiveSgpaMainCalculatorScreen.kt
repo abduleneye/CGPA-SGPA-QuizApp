@@ -120,9 +120,21 @@ fun FiveSgpaMainScreen(
         ) {
 
         Scaffold(
+
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
+
+//                        scope.launch {
+//
+//                            scaffoldState.snackbarHostState.showSnackbar(
+//                                "${state.saveResultAs} saved in sgpa records successfully",
+//                                null,
+//                                duration = SnackbarDuration.Indefinite
+//                            )
+//
+//
+//                        }
 
 
                         if (state.totalCourses == ""
@@ -279,7 +291,7 @@ fun FiveSgpaMainScreen(
 
 
             if (state.courseEntryDialogBoxVisibility) {
-                //CardViewToDisplay(data = CourseDataEntries().coursesDataEntry)
+                //CardViewToDisplay(data = FiveCourseDataEntries().coursesDataEntry)
 
                 Box(
                     contentAlignment = Alignment.Center,
@@ -338,6 +350,7 @@ fun FiveSgpaMainScreen(
                     sheetState = sheetState
                 )
             } else {
+
 
                 FiveSgpaTotalCoursesListCardViewToDisplay(
                     data = stateTwo,

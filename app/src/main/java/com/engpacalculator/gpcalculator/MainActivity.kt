@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.core.navigation.SetUpNavGraph
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
@@ -47,7 +48,7 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
             BackHandler(enabled = true, onBack = {
 
 
-                if (navBackStackEntry?.destination?.route == null) {
+                if (navBackStackEntry?.destination?.route == Screen.Home.route) {
 
                     if (doubleBackToExitPressedOnce) {
                         finish()

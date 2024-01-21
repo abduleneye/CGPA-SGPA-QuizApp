@@ -175,7 +175,7 @@ fun FiveSgpaSaveResultDialogBox(
                                 //onEvent(FiveGpaUiEvents.hideFiveCgpaSaveResultDB)
 
 
-                                if (dbState.fiveSgpaSRAToastNotifier == true) {
+                                if (dbState.saveResultAs.isNotEmpty()) {
                                     Toast.makeText(
                                         context,
                                         "${dbState.saveResultAs} saved successfully!!!",

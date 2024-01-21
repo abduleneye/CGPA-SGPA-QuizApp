@@ -68,7 +68,7 @@ fun Init() {
 @Composable
 fun FiveSgpaResultRecordScreen(
     navController: NavController,
-    //state: List<FiveSgpaResultEntity>,
+    //state: List<FourSgpaResultEntity>,
     state: FiveSgpaUiStates,
     fiveSgpaResultRecordState: FiveSgpaResultsRecordState,
     adId: String?,
@@ -263,7 +263,7 @@ fun MyCardView(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ResultRecordToDisplay(
-    //data: List<FiveSgpaResultEntity>,
+    //data: List<FourSgpaResultEntity>,
     data: FiveSgpaResultsRecordState,
     navController: NavController,
     onEvent: (FiveGpaUiEvents) -> Unit,

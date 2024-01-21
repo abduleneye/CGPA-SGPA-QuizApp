@@ -1,7 +1,7 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation
 
 import android.os.Parcelable
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.ErrorPassedValues
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.FiveErrorPassedValues
 
 
 @kotlinx.parcelize.Parcelize
@@ -22,13 +22,13 @@ data class FiveSgpaUiStates(
     var dayGreetingState: String = "Good Evening,",
 
 
-    var defaultLabelTNOC: String = ErrorPassedValues.labelForTNOC,
-    var defaultLabelTNOCL: String = ErrorPassedValues.labelForTNOCC,
-    var defaultLabelETNOC: String = ErrorPassedValues.labelForETNOC,
-    var defaultLabelETNOCL: String = ErrorPassedValues.labelForETNOCC,
-    var defaultEnteredCourseCodeLabel: String = ErrorPassedValues.enterCourseCodeLabel,
-    var defaultEditCourseCodeLabel: String = ErrorPassedValues.editCourseCodeLabel,
-    var defaultLabelSRA: String = ErrorPassedValues.labelForSRA,
+    var defaultLabelTNOC: String = FiveErrorPassedValues.labelForTNOC,
+    var defaultLabelTNOCL: String = FiveErrorPassedValues.labelForTNOCC,
+    var defaultLabelETNOC: String = FiveErrorPassedValues.labelForETNOC,
+    var defaultLabelETNOCL: String = FiveErrorPassedValues.labelForETNOCC,
+    var defaultEnteredCourseCodeLabel: String = FiveErrorPassedValues.enterCourseCodeLabel,
+    var defaultEditCourseCodeLabel: String = FiveErrorPassedValues.editCourseCodeLabel,
+    var defaultLabelSRA: String = FiveErrorPassedValues.labelForSRA,
 
 
     var defaultLabelColourETNOC: Long = 0xFFB6B07B,
@@ -42,8 +42,8 @@ data class FiveSgpaUiStates(
     val defaultLabelColourSRA: Long = 0xFFB6B07B,
 
 
-    var pickedCourseUnitDefaultLabel: String = ErrorPassedValues.enterCourseUnitLabel,
-    var pickedCourseGradeDefaultLabel: String = ErrorPassedValues.enterCourseGradeLabel,
+    var pickedCourseUnitDefaultLabel: String = FiveErrorPassedValues.enterCourseUnitLabel,
+    var pickedCourseGradeDefaultLabel: String = FiveErrorPassedValues.enterCourseGradeLabel,
     var courseItemsDropDownVisibility: Boolean = false,
     var courseCodeEdited: String = "",
     var selectedCourseUnitEdited: String = "",

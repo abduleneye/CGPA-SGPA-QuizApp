@@ -1,8 +1,8 @@
 package GpCalculatorPrototype
 
-import GpCalculatorPrototype.Data.CourseDataEntries
-import GpCalculatorPrototype.Data.CourseMaps
 import GpCalculatorPrototype.Data.CoursesUnitPointArrayList
+import GpCalculatorPrototype.Data.FiveCourseDataEntries
+import GpCalculatorPrototype.Data.FiveCourseMaps
 import GpCalculatorPrototype.Data.GpData
 import java.util.Locale
 
@@ -10,8 +10,8 @@ import java.util.Locale
 
 
 val coursePointObj = CoursesUnitPointArrayList()
-val courseMapObj = CourseMaps()
-val coursesDataEntryObj = CourseDataEntries()
+val courseMapObj = FiveCourseMaps()
+val coursesDataEntryObj = FiveCourseDataEntries()
 val totalCourses = 0
 
 

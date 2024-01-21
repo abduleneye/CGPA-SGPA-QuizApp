@@ -1,6 +1,6 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data
 
-object ErrorMessages {
+object FiveErrorMessages {
 
     const val errorLabelMessageForTNOC = "Enter valid  number of courses!!!"
     const val errorLabelMessageForETNOC = "Edit with valid  number of semester courses!!!"
@@ -11,6 +11,7 @@ object ErrorMessages {
     const val errorMessageForCourseUnit = "Unit?"
     const val errorMessageForCourseGrade = "Grade?"
     const val errorMessageForSRA = "Record Name can't be empty"
+    const val errorMessageForCgpaSRA = "Record Name can't be empty"
     const val errorDuplicateNameForSRA = "Name already exists in record"
 
 }

@@ -1,6 +1,6 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data
 
-object ErrorPassedValues {
+object FiveErrorPassedValues {
     const val labelForSRA: String = "Save result  as..."
     const val labelForTNOC = "Number of semester courses"
     const val labelForTNOCC = "Number  semester credit load"

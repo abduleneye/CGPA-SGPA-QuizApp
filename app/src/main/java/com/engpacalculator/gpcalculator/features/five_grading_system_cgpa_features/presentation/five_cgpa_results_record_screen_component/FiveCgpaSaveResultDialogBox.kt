@@ -105,6 +105,7 @@ fun FiveCgpaSaveResultDialogBox(
                     onValueChange = {
 
                         onEvent(FiveGpaUiEvents.setFiveCgpaSRA(it))
+                        onEvent(FiveGpaUiEvents.resetBackToDefaultValueFromErrorSRAFiveCgpa)
 
 
                     },
@@ -166,11 +167,10 @@ fun FiveCgpaSaveResultDialogBox(
                         Button(
                             onClick = {
 
+                                onEvent(FiveGpaUiEvents.saveFiveCgpaResult)
+                                // onEvent(FiveGpaUiEvents.hideFiveCgpaSaveResultDB)
+
                                 if (fiveCgpaUiStates.saveResultAs.isNotEmpty()) {
-
-                                    onEvent(FiveGpaUiEvents.saveFiveCgpaResult)
-                                    onEvent(FiveGpaUiEvents.hideFiveCgpaSaveResultDB)
-
 
                                     Toast.makeText(
                                         context,

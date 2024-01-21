@@ -266,7 +266,7 @@ fun MyCardView(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ResultRecordToDisplay(
-    //data: List<FiveSgpaResultEntity>,
+    //data: List<FourSgpaResultEntity>,
     data: FiveCgpaResultsRecordState,
     navController: NavController,
     onEvent: (FiveGpaUiEvents) -> Unit,

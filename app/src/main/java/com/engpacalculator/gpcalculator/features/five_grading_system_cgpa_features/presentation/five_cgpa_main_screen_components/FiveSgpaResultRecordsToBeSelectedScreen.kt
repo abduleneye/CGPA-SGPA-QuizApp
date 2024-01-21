@@ -6,11 +6,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -146,11 +146,26 @@ fun MyCardView(
                     .fillMaxWidth()
             ) {
 
+                Text(
+                    text = info.resultName,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .weight(0.9f)
+                        .wrapContentWidth()
+                        .align(Alignment.CenterVertically)
+                        .padding(start = 40.dp, top = 24.dp),
+                )
+
+
 
                 Checkbox(
                     colors = CheckboxDefaults.colors(
                         checkedColor = Color.Red
                     ),
+                    modifier = Modifier
+                        .weight(0.1f)
+                        .padding(top = 0.dp, bottom = 24.dp),
+
                     checked = info.resultSelected,
                     onCheckedChange = {
 
@@ -170,7 +185,7 @@ fun MyCardView(
                         )
                         Toast.makeText(
                             context,
-                            " Sgpa for ${index} ${info.resultName} is ${info.resultSgpa} ",
+                            " Sgpa for ${index}\n${info.resultName} is ${info.resultSgpa} ",
                             Toast.LENGTH_SHORT
                         ).show()
                         // Invalidate()
@@ -180,10 +195,12 @@ fun MyCardView(
             }
 
 
-
-            Text(text = info.resultName, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = info.resultSgpa, fontWeight = FontWeight.SemiBold)
+            // Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = info.resultSgpa,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(bottom = 0.dp)
+            )
 
         }
 

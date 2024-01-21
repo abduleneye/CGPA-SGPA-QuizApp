@@ -1,8 +1,8 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation
 
-import GpCalculatorPrototype.Data.CourseDataEntries
-import GpCalculatorPrototype.Data.CourseMaps
 import GpCalculatorPrototype.Data.CoursesUnitPointArrayList
+import GpCalculatorPrototype.Data.FiveCourseDataEntries
+import GpCalculatorPrototype.Data.FiveCourseMaps
 import GpCalculatorPrototype.Data.GpData
 import android.os.Build
 import android.util.Log
@@ -16,12 +16,13 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.domain.repository.FiveCgpaResultRepository
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component.FiveCgpaResultsRecordState
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.ErrorMessages
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.ErrorPassedValues
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.FiveErrorMessages
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.FiveErrorPassedValues
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.FiveSgpaResultEntity
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.repository.FiveSgpaResultRepository
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaResultsRecordState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -31,6 +32,7 @@ import java.time.format.DateTimeFormatter.ofPattern
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.random.Random
+import kotlin.system.measureTimeMillis
 
 @HiltViewModel
 class FiveGpaViewModel @Inject constructor(
@@ -47,15 +49,15 @@ class FiveGpaViewModel @Inject constructor(
     }
 
     private val coursePointObj = CoursesUnitPointArrayList()
-    private val courseMapObj = CourseMaps()
-    private val coursesDataEntryObj = CourseDataEntries()
+    private val courseMapObj = FiveCourseMaps()
+    private val coursesDataEntryObj = FiveCourseDataEntries()
     private val stateClassObject = FiveSgpaUiStates()
     private var result = ""
     var coursesUnitSubList = ArrayList<Int>()
 
 
     private var _courseEntries = MutableStateFlow(
-        savedStateHandle.get(COURSE_ENTRIES_KEY) ?: CourseDataEntries().coursesDataEntry
+        savedStateHandle.get(COURSE_ENTRIES_KEY) ?: FiveCourseDataEntries().coursesDataEntry
     )
     var courseEntries = _courseEntries.asStateFlow()
 
@@ -155,8 +157,12 @@ class FiveGpaViewModel @Inject constructor(
             is FiveGpaUiEvents.hideFiveCgpaSaveResultDB -> {
                 _fiveCgpaUiState.update {
                     it.copy(
-                        saveResultDBVisibilty = false
-                    )
+                        saveResultDBVisibilty = false,
+                        saveResultAs = "",
+                        defaultLabelColourSRA = FiveErrorPassedValues.errorPassedColour,
+                        defaultLabelSRA = FiveErrorPassedValues.labelForSRA,
+
+                        )
                 }
             }
 
@@ -180,27 +186,8 @@ class FiveGpaViewModel @Inject constructor(
 
             is FiveGpaUiEvents.saveFiveCgpaResult -> {
 
-                if (
-                    _fiveCgpaUiState.value.saveResultAs.isEmpty()
-                ) {
-                    textFieldsErrorCheckSaveFiveCgpaResultAsDataEntry()
 
-                } else {
-                    viewModelScope.launch {
-                        myFiveCgpaRepository.InsertFiveCgpaResult(
-                            FiveCgpaResultEntity(
-                                resultName = _fiveCgpaUiState.value.saveResultAs.uppercase(),
-                                gp = _fiveCgpaUiState.value.cgpa,
-                                remark = _fiveCgpaUiState.value.remark,
-                                resultEntries = _fiveCgpaUiState.value.sgpaResultNames
-                            )
-                        )
-                    }
-
-                    Log.d("names", "${_fiveCgpaUiState.value.sgpaResultNames}")
-
-
-                }
+                textFieldsErrorCheckSaveFiveCgpaResultAsDataEntry()
 
 
             }
@@ -247,29 +234,29 @@ class FiveGpaViewModel @Inject constructor(
                 _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.get(event.index).resultSelected =
                     event.isChecked
 
-                for (i in 0 until _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.size) {
+                for (i in 0.._fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.size - 1) {
                     if (_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation[i].resultSelected) {
                         _fiveCgpaUiState.update {
                             it.copy(operatorIconState = true)
-                        }
 
-                    } else {
+                        }
+                        Log.d(
+                            "StatusIconCheck",
+                            "Your status are ${_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation}"
+                        )
+
+                    } else if (_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation[i].resultSelected == false && event.isChecked == false) {
                         _fiveCgpaUiState.update {
                             it.copy(operatorIconState = false)
                         }
                     }
 
+                    "Your status are ${_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation}"
+
+
                 }
 
                 val randomNumber = Random.nextInt(1, 1000)
-//                val generatedNumbers = mutableSetOf<Int>()
-//                while (generatedNumbers.size < 500) {
-//                    if (randomNumber !in generatedNumbers) {
-//
-//                        generatedNumbers.add(randomNumber)
-//
-//                    }
-//                }
                 _fiveCgpaUiState.update {
                     it.copy(
                         helperText = randomNumber.toString()
@@ -379,7 +366,11 @@ class FiveGpaViewModel @Inject constructor(
 
             is FiveGpaUiEvents.saveFiveSgpaResult -> {
 
-
+//                _dbState.update {
+//                    it.copy(
+//                        fiveSgpaSRAToastNotifier = true
+//                    )
+//                }
                 textFieldsErrorCheckAndDuplicateEntrySaveFiveSgpaResultAsDataEntry(_dbState.value.saveResultAs)
 
 
@@ -387,6 +378,11 @@ class FiveGpaViewModel @Inject constructor(
 
             is FiveGpaUiEvents.resetBackToDefaultValueFromErrorSRA -> {
                 resetFiveSgpaSRADBox()
+
+            }
+
+            is FiveGpaUiEvents.resetBackToDefaultValueFromErrorSRAFiveCgpa -> {
+                resetFiveCgpaSRADBox()
 
             }
 
@@ -737,8 +733,8 @@ class FiveGpaViewModel @Inject constructor(
             is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsTNOC -> {
                 _dbState.update {
                     it.copy(
-                        defaultLabelColourTNOC = ErrorPassedValues.errorPassedColour,
-                        defaultLabelTNOC = ErrorPassedValues.labelForTNOC
+                        defaultLabelColourTNOC = FiveErrorPassedValues.errorPassedColour,
+                        defaultLabelTNOC = FiveErrorPassedValues.labelForTNOC
 
                     )
                 }
@@ -749,8 +745,8 @@ class FiveGpaViewModel @Inject constructor(
             is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCC -> {
                 _dbState.update {
                     it.copy(
-                        defaultLabelColourCC = ErrorPassedValues.errorPassedColour,
-                        defaultEnteredCourseCodeLabel = ErrorPassedValues.enterCourseCodeLabel
+                        defaultLabelColourCC = FiveErrorPassedValues.errorPassedColour,
+                        defaultEnteredCourseCodeLabel = FiveErrorPassedValues.enterCourseCodeLabel
 
                     )
                 }
@@ -760,8 +756,8 @@ class FiveGpaViewModel @Inject constructor(
             is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsECC -> {
                 _dbState.update {
                     it.copy(
-                        defaultLabelColourECC = ErrorPassedValues.errorPassedColour,
-                        defaultEditCourseCodeLabel = ErrorPassedValues.editCourseCodeLabel
+                        defaultLabelColourECC = FiveErrorPassedValues.errorPassedColour,
+                        defaultEditCourseCodeLabel = FiveErrorPassedValues.editCourseCodeLabel
 
                     )
                 }
@@ -772,8 +768,8 @@ class FiveGpaViewModel @Inject constructor(
             is FiveGpaUiEvents.resetDefaultValuesFromErrorsTNOCL -> {
                 _dbState.update {
                     it.copy(
-                        defaultLabelTNOCL = ErrorPassedValues.labelForTNOCC,
-                        //defaultLabelColourTNOCL = ErrorPassedValues.errorPassedColour
+                        defaultLabelTNOCL = FiveErrorPassedValues.labelForTNOCC,
+                        //defaultLabelColourTNOCL = FiveErrorPassedValues.errorPassedColour
 
                     )
                 }
@@ -986,8 +982,8 @@ class FiveGpaViewModel @Inject constructor(
             is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCU -> {
                 _dbState.update {
                     it.copy(
-                        pickedCourseUnitDefaultLabel = ErrorPassedValues.enterCourseUnitLabel,
-                        defaultLabelColourCU = ErrorPassedValues.dropDownErrorPassedColour
+                        pickedCourseUnitDefaultLabel = FiveErrorPassedValues.enterCourseUnitLabel,
+                        defaultLabelColourCU = FiveErrorPassedValues.dropDownErrorPassedColour
                     )
                 }
             }
@@ -995,8 +991,8 @@ class FiveGpaViewModel @Inject constructor(
             is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCG -> {
                 _dbState.update {
                     it.copy(
-                        pickedCourseGradeDefaultLabel = ErrorPassedValues.enterCourseGradeLabel,
-                        defaultLabelColourCG = ErrorPassedValues.dropDownErrorPassedColour
+                        pickedCourseGradeDefaultLabel = FiveErrorPassedValues.enterCourseGradeLabel,
+                        defaultLabelColourCG = FiveErrorPassedValues.dropDownErrorPassedColour
                     )
                 }
             }
@@ -1017,8 +1013,8 @@ class FiveGpaViewModel @Inject constructor(
 
             _dbState.update {
                 it.copy(
-                    defaultLabelTNOC = ErrorMessages.errorLabelMessageForTNOC,
-                    defaultLabelColourTNOC = ErrorMessages.textFieldErrorLabelColorHexCode
+                    defaultLabelTNOC = FiveErrorMessages.errorLabelMessageForTNOC,
+                    defaultLabelColourTNOC = FiveErrorMessages.textFieldErrorLabelColorHexCode
                 )
             }
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
@@ -1155,8 +1151,8 @@ class FiveGpaViewModel @Inject constructor(
 
             _dbState.update {
                 it.copy(
-                    defaultEditCourseCodeLabel = ErrorMessages.errorMessageForCourseCode,
-                    defaultLabelColourECC = ErrorMessages.textFieldErrorLabelColorHexCode
+                    defaultEditCourseCodeLabel = FiveErrorMessages.errorMessageForCourseCode,
+                    defaultLabelColourECC = FiveErrorMessages.textFieldErrorLabelColorHexCode
 
 
                 )
@@ -1221,8 +1217,8 @@ class FiveGpaViewModel @Inject constructor(
 
             _dbState.update {
                 it.copy(
-                    defaultEnteredCourseCodeLabel = ErrorMessages.errorMessageForCourseCode,
-                    defaultLabelColourCC = ErrorMessages.textFieldErrorLabelColorHexCode
+                    defaultEnteredCourseCodeLabel = FiveErrorMessages.errorMessageForCourseCode,
+                    defaultLabelColourCC = FiveErrorMessages.textFieldErrorLabelColorHexCode
                 )
             }
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
@@ -1231,8 +1227,8 @@ class FiveGpaViewModel @Inject constructor(
         } else if (_dbState.value.selectedCourseUnit.isEmpty()) {
             _dbState.update {
                 it.copy(
-                    pickedCourseUnitDefaultLabel = ErrorMessages.errorMessageForCourseUnit,
-                    defaultLabelColourCU = ErrorMessages.textFieldErrorLabelColorHexCode
+                    pickedCourseUnitDefaultLabel = FiveErrorMessages.errorMessageForCourseUnit,
+                    defaultLabelColourCU = FiveErrorMessages.textFieldErrorLabelColorHexCode
 
                 )
             }
@@ -1243,8 +1239,8 @@ class FiveGpaViewModel @Inject constructor(
 
             _dbState.update {
                 it.copy(
-                    pickedCourseGradeDefaultLabel = ErrorMessages.errorMessageForCourseGrade,
-                    defaultLabelColourCG = ErrorMessages.textFieldErrorLabelColorHexCode
+                    pickedCourseGradeDefaultLabel = FiveErrorMessages.errorMessageForCourseGrade,
+                    defaultLabelColourCG = FiveErrorMessages.textFieldErrorLabelColorHexCode
                 )
             }
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
@@ -1330,14 +1326,43 @@ class FiveGpaViewModel @Inject constructor(
 
 
     private fun textFieldsErrorCheckSaveFiveCgpaResultAsDataEntry() {
+        if (
+            _fiveCgpaUiState.value.saveResultAs.isEmpty()
+        ) {
+            _fiveCgpaUiState.update {
+                it.copy(
+                    defaultLabelSRA = FiveErrorMessages.errorMessageForCgpaSRA,
+                    defaultLabelColourSRA = FiveErrorMessages.textFieldErrorLabelColorHexCode,
+                    saveResultDBVisibilty = true
+                )
+            }
+        } else if (_fiveCgpaUiState.value.saveResultAs.isNotEmpty()) {
+            viewModelScope.launch {
+                myFiveCgpaRepository.InsertFiveCgpaResult(
+                    FiveCgpaResultEntity(
+                        resultName = _fiveCgpaUiState.value.saveResultAs.uppercase(),
+                        gp = _fiveCgpaUiState.value.cgpa,
+                        remark = _fiveCgpaUiState.value.remark,
+                        resultEntries = _fiveCgpaUiState.value.sgpaResultNames,
 
-        _fiveCgpaUiState.update {
-            it.copy(
-                defaultLabelSRA = ErrorMessages.errorMessageForSRA,
-                defaultLabelColourSRA = ErrorMessages.textFieldErrorLabelColorHexCode,
-                saveResultDBVisibilty = true
-            )
+                        )
+                )
+            }
+            _fiveCgpaUiState.update {
+                it.copy(
+                    defaultLabelColourSRA = FiveErrorPassedValues.errorPassedColour,
+                    defaultLabelSRA = FiveErrorPassedValues.labelForSRA,
+                    saveResultDBVisibilty = false,
+                    saveResultAs = ""
+                )
+            }
+
+            Log.d("names", "${_fiveCgpaUiState.value.sgpaResultNames}")
+
+
         }
+
+
         // savedStateHandle.set(FiveGpaViewModel.DB_STATE_KEY, _dbState.value)
 
 
@@ -1346,10 +1371,10 @@ class FiveGpaViewModel @Inject constructor(
     private fun resetFiveCgpaSRADBox() {
         _fiveCgpaUiState.update {
             it.copy(
-                defaultLabelSRA = ErrorPassedValues.labelForSRA,
-                defaultLabelColourSRA = ErrorPassedValues.errorPassedColour,
+                defaultLabelSRA = FiveErrorPassedValues.labelForSRA,
+                defaultLabelColourSRA = FiveErrorPassedValues.errorPassedColour,
                 // saveResultDBVisibilty = false,
-                saveResultAs = ""
+                //saveResultAs = ""
 
 
             )
@@ -1364,54 +1389,94 @@ class FiveGpaViewModel @Inject constructor(
         if (_dbState.value.saveResultAs.isEmpty()) {
             _dbState.update {
                 it.copy(
-                    defaultLabelSRA = ErrorMessages.errorMessageForSRA,
-                    defaultLabelColourSRA = ErrorMessages.textFieldErrorLabelColorHexCode,
+                    defaultLabelSRA = FiveErrorMessages.errorMessageForSRA,
+                    defaultLabelColourSRA = FiveErrorMessages.textFieldErrorLabelColorHexCode,
                     saveResultAsDialogBoxVisibility = true
                 )
             }
 
         } else if (_dbState.value.saveResultAs.isNotEmpty()) {
-            for (i in 0 until _fiveSgparesultIntroDB.value.resultItems.size) {
-                if (_fiveSgparesultIntroDB.value.resultItems[i].resultName.uppercase() == resultNameForCheck.uppercase()) {
-                    Log.d(
-                        "duplicate name",
-                        "the  name ${_fiveSgparesultIntroDB.value.resultItems[i].resultName} is repeating"
+//            for (i in 0 until _fiveSgparesultIntroDB.value.resultItems.size) {
+//                if (_fiveSgparesultIntroDB.value.resultItems[i].resultName.uppercase() == resultNameForCheck.uppercase()) {
+//                    Log.d(
+//                        "duplicate name",
+//                        "the  name ${_fiveSgparesultIntroDB.value.resultItems[i].resultName} is repeating"
+//                    )
+//                    _dbState.update {
+//                        it.copy(
+//                            defaultLabelSRA = FiveErrorMessages.errorDuplicateNameForSRA,
+//                            defaultLabelColourSRA = FiveErrorMessages.textFieldErrorLabelColorHexCode,
+//                            saveResultAsDialogBoxVisibility = true
+//                        )
+//                    }                 //
+//
+//                }
+//
+//
+//            }
+
+
+//            _dbState.update {
+//                it.copy(
+//                    fiveSgpaSRAToastNotifier = true
+//                )
+//
+//            }
+
+            //Toast.makeText(getActivity())
+            viewModelScope.launch {
+                val execTime = measureTimeMillis {
+                    myFiveSgpaRepository.InsertFiveSgpaResult(
+                        FiveSgpaResultEntity(
+                            resultEntries = _courseEntries.value,
+                            gp = _dbState.value.fiveSgpaFinalResult,
+                            resultName = _dbState.value.saveResultAs.uppercase(),
+                            remark = _dbState.value.remark,
+
+                            )
                     )
-                    _dbState.update {
-                        it.copy(
-                            defaultLabelSRA = ErrorMessages.errorDuplicateNameForSRA,
-                            defaultLabelColourSRA = ErrorMessages.textFieldErrorLabelColorHexCode,
-                            saveResultAsDialogBoxVisibility = true
-                        )
-                    }
-                    //
+                    _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+                    _fiveCgpaUiState.value.cgpaList.clear()
+                    _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
+                }
+                Log.d("ViewModel", "Exec time: ${execTime}")
+                delay(1000)
+                _dbState.update {
+                    it.copy(
+                        fiveSgpaSRAToastNotifier = true
+                    )
 
                 }
 
+                // delay(100)
+
+//                _dbState.update {
+//                    it.copy(
+//                        fiveSgpaSRAToastNotifier = false
+//                    )
+//
+//                }
 
             }
-
-
-        } else {
             _dbState.update {
                 it.copy(
-                    fiveSgpaSRAToastNotifier = true
+                    // fiveSgpaSRAToastNotifier = false,
+                    saveResultAsDialogBoxVisibility = false,
+                    saveResultAs = ""
                 )
             }
-            viewModelScope.launch {
-                myFiveSgpaRepository.InsertFiveSgpaResult(
-                    FiveSgpaResultEntity(
-                        resultEntries = _courseEntries.value,
-                        gp = _dbState.value.fiveSgpaFinalResult,
-                        resultName = _dbState.value.saveResultAs.uppercase(),
-                        remark = _dbState.value.remark
-                    )
-                )
-                _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
-                _fiveCgpaUiState.value.cgpaList.clear()
-                _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
 
-            }
+//            viewModelScope.launch {
+//
+//                delay(1000)
+//                _dbState.update {
+//                    it.copy(
+//                        fiveSgpaSRAToastNotifier = false,
+//                        // saveResultAsDialogBoxVisibility = false,
+//                    )
+//                }
+//
+//            }
             resetFiveSgpaSRADBox()
 
 
@@ -1429,8 +1494,8 @@ class FiveGpaViewModel @Inject constructor(
     private fun resetFiveSgpaSRADBox() {
         _dbState.update {
             it.copy(
-                defaultLabelSRA = ErrorPassedValues.labelForSRA,
-                defaultLabelColourSRA = ErrorPassedValues.errorPassedColour,
+                defaultLabelSRA = FiveErrorPassedValues.labelForSRA,
+                defaultLabelColourSRA = FiveErrorPassedValues.errorPassedColour,
                 //saveResultAsDialogBoxVisibility = false,
                 //saveResultAs = ""
 
@@ -1708,9 +1773,9 @@ class FiveGpaViewModel @Inject constructor(
                 courseCode = "",
                 selectedCourseUnit = "",
                 selectedCourseGrade = "",
-                pickedCourseGradeDefaultLabel = ErrorPassedValues.enterCourseGradeLabel,
-                pickedCourseUnitDefaultLabel = ErrorPassedValues.enterCourseUnitLabel,
-                //defaultEnteredCourseCodeLabel = ErrorPassedValues.enterCourseCodeLabel,
+                pickedCourseGradeDefaultLabel = FiveErrorPassedValues.enterCourseGradeLabel,
+                pickedCourseUnitDefaultLabel = FiveErrorPassedValues.enterCourseUnitLabel,
+                //defaultEnteredCourseCodeLabel = FiveErrorPassedValues.enterCourseCodeLabel,
 
             )
 

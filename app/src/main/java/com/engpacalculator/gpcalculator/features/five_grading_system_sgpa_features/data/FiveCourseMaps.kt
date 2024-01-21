@@ -1,6 +1,6 @@
 package GpCalculatorPrototype.Data
 
-data class CourseMaps(
+data class FiveCourseMaps(
 
     val sixUnit_GradeMap: Map<String, Int> = mapOf(
         "A" to 30,

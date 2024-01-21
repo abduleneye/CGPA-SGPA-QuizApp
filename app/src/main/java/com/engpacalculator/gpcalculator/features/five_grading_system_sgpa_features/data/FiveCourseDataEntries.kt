@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
 @Parcelize
-data class CourseDataEntries(
+data class FiveCourseDataEntries(
 
     val coursesDataEntry: @RawValue ArrayList<GpData> = ArrayList<GpData>(),
     var sixUnitCoursesPointSum: Int = 0,
@@ -16,7 +16,7 @@ data class CourseDataEntries(
     var totalCoursesPointSum: Double = 0.0,
 
     var gradeList: List<String> = listOf("A", "B", "C", "D", "E", "F"),
-    var unitList: List<String> = listOf("0", "1", "2", "3", "4", "6"),
+    var unitList: List<String> = listOf("1", "2", "3", "4", "6"),
 
     ) //: parc
     : Parcelable
