@@ -97,7 +97,7 @@ fun FourCgpaResultRecordScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    androidx.compose.material3.Text(text = "5.0 Cgpa Results Records")
+                    androidx.compose.material3.Text(text = "4.0 Cgpa Results Records")
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = AppBars

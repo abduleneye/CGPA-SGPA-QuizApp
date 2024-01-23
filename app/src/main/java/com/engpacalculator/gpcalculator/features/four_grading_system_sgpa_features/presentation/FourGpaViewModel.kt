@@ -68,15 +68,15 @@ class FourGpaViewModel @Inject constructor(
     var dbState = _dbState.asStateFlow()
 
 
-    private var _FourSgparesultIntroDB = MutableStateFlow(FourSgpaResultsRecordState())
-    val fourSgparesultIntroDB = _FourSgparesultIntroDB.asStateFlow()
+    private var _fourSgparesultIntroDB = MutableStateFlow(FourSgpaResultsRecordState())
+    val fourSgparesultIntroDB = _fourSgparesultIntroDB.asStateFlow()
 
-    private var _FourCgpaResultIntroDB = MutableStateFlow(FourCgpaResultsRecordState())
-    val fourCgpaResultIntroDB = _FourCgpaResultIntroDB.asStateFlow()
+    private var _fourCgpaResultIntroDB = MutableStateFlow(FourCgpaResultsRecordState())
+    val fourCgpaResultIntroDB = _fourCgpaResultIntroDB.asStateFlow()
 
-    private var _FourCgpaUiState =
+    private var _fourCgpaUiState =
         MutableStateFlow(FourCgpaUiStates())
-    var FourCgpaUiState = _FourCgpaUiState.asStateFlow()
+    var fourCgpaUiState = _fourCgpaUiState.asStateFlow()
 
 
     init {
@@ -90,7 +90,7 @@ class FourGpaViewModel @Inject constructor(
             myFourCgpaRepository.GetFourCgpaResultRecordDao()
                 .collect { result ->
 
-                    _FourCgpaResultIntroDB.update {
+                    _fourCgpaResultIntroDB.update {
                         it.copy(
                             resultItems = result
                         )
@@ -106,12 +106,12 @@ class FourGpaViewModel @Inject constructor(
 
     private fun loadFourSgpaData(chkBoxState: Boolean = false, pseudoIndex: Int = 0) {
         viewModelScope.launch {
-            _FourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
+            _fourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
 
             myFourSgpaRepository.GetFourSgpaResultRecordDao()
                 .collect { result ->
 
-                    _FourSgparesultIntroDB.update {
+                    _fourSgparesultIntroDB.update {
                         it.copy(
                             resultItems = result
                         )
@@ -119,7 +119,7 @@ class FourGpaViewModel @Inject constructor(
 
                     for (i in 0 until result.size) {
 
-                        _FourCgpaUiState.value.displayedResultForFourCgpaCalculation.add(
+                        _fourCgpaUiState.value.displayedResultForFourCgpaCalculation.add(
                             SgpaResultDisplayFormatForFourCgpaCalculation(
                                 resultSelected = false,
                                 resultName = result.get(i).resultName,
@@ -147,7 +147,7 @@ class FourGpaViewModel @Inject constructor(
 
 
             is FourGpaUiEvents.showFourCgpaSaveResultDB -> {
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(
                         saveResultDBVisibilty = true
                     )
@@ -157,7 +157,7 @@ class FourGpaViewModel @Inject constructor(
             }
 
             is FourGpaUiEvents.hideFourCgpaSaveResultDB -> {
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(
                         saveResultDBVisibilty = false,
                         saveResultAs = "",
@@ -170,7 +170,7 @@ class FourGpaViewModel @Inject constructor(
 
             is FourGpaUiEvents.helpFourCgpa -> {
 
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(
                         newHelperText = "Ahh..."
                     )
@@ -178,7 +178,7 @@ class FourGpaViewModel @Inject constructor(
             }
 
             is FourGpaUiEvents.setFourCgpaSRA -> {
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(
                         saveResultAs = event.saveResultAs
                     )
@@ -196,70 +196,70 @@ class FourGpaViewModel @Inject constructor(
 
 
             is FourGpaUiEvents.executeCgpaCalculation -> {
-                if (_FourCgpaUiState.value.sgpaListToBeCalculated.isNotEmpty()) {
-                    for (i in 0.._FourCgpaUiState.value.sgpaListToBeCalculated.size - 1) {
-                        _FourCgpaUiState.value.cgpaList.add(
-                            _FourCgpaUiState.value.sgpaListToBeCalculated.get(
+                if (_fourCgpaUiState.value.sgpaListToBeCalculated.isNotEmpty()) {
+                    for (i in 0.._fourCgpaUiState.value.sgpaListToBeCalculated.size - 1) {
+                        _fourCgpaUiState.value.cgpaList.add(
+                            _fourCgpaUiState.value.sgpaListToBeCalculated.get(
                                 i
                             ).sgpaResult.toDouble().toFloat()
                         )
                     }
 
-                    _FourCgpaUiState.update {
+                    _fourCgpaUiState.update {
                         it.copy(
                             cgpa = String.format(
                                 "%.2f",
-                                _FourCgpaUiState.value.cgpaList.sum() / _FourCgpaUiState.value.cgpaList.size
+                                _fourCgpaUiState.value.cgpaList.sum() / _fourCgpaUiState.value.cgpaList.size
                             )
                         )
                     }
 
-                    GpaDescriptor(_FourCgpaUiState.value.cgpa.toFloat(), "cgpa")
+                    GpaDescriptor(_fourCgpaUiState.value.cgpa.toFloat(), "cgpa")
 
                 }
 
                 Log.d(
                     "CGPA",
-                    "Your sum is ${_FourCgpaUiState.value.cgpaList.sum()} and size is ${_FourCgpaUiState.value.cgpaList.size}"
+                    "Your sum is ${_fourCgpaUiState.value.cgpaList.sum()} and size is ${_fourCgpaUiState.value.cgpaList.size}"
                 )
-                Log.d("CGPA", "Your cgpa is ${_FourCgpaUiState.value.cgpa}")
+                Log.d("CGPA", "Your cgpa is ${_fourCgpaUiState.value.cgpa}")
 
-                //_FourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
-                _FourCgpaUiState.value.cgpaList.clear()
-                //_FourCgpaUiState.value.sgpaListToBeCalculated.clear()
+                //_fourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
+                _fourCgpaUiState.value.cgpaList.clear()
+                //_fourCgpaUiState.value.sgpaListToBeCalculated.clear()
                 //loadData()
             }
 
             is FourGpaUiEvents.onCheckChanged -> {
 
 
-                _FourCgpaUiState.value.displayedResultForFourCgpaCalculation.get(event.index).resultSelected =
+                _fourCgpaUiState.value.displayedResultForFourCgpaCalculation.get(event.index).resultSelected =
                     event.isChecked
 
-                for (i in 0.._FourCgpaUiState.value.displayedResultForFourCgpaCalculation.size - 1) {
-                    if (_FourCgpaUiState.value.displayedResultForFourCgpaCalculation[i].resultSelected) {
-                        _FourCgpaUiState.update {
+                for (i in 0.._fourCgpaUiState.value.displayedResultForFourCgpaCalculation.size - 1) {
+                    if (_fourCgpaUiState.value.displayedResultForFourCgpaCalculation[i].resultSelected) {
+                        _fourCgpaUiState.update {
                             it.copy(operatorIconState = true)
 
                         }
                         Log.d(
                             "StatusIconCheck",
-                            "Your status are ${_FourCgpaUiState.value.displayedResultForFourCgpaCalculation}"
+                            "Your status are ${_fourCgpaUiState.value.displayedResultForFourCgpaCalculation}"
                         )
 
-                    } else if (_FourCgpaUiState.value.displayedResultForFourCgpaCalculation[i].resultSelected == false && event.isChecked == false) {
-                        _FourCgpaUiState.update {
+                    } else if (_fourCgpaUiState.value.displayedResultForFourCgpaCalculation[i].resultSelected == false && event.isChecked == false) {
+                        _fourCgpaUiState.update {
                             it.copy(operatorIconState = false)
                         }
                     }
 
-                    "Your status are ${_FourCgpaUiState.value.displayedResultForFourCgpaCalculation}"
+                    "Your status are ${_fourCgpaUiState.value.displayedResultForFourCgpaCalculation}"
 
 
                 }
 
                 val randomNumber = Random.nextInt(1, 1000)
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(
                         helperText = randomNumber.toString()
                     )
@@ -267,11 +267,11 @@ class FourGpaViewModel @Inject constructor(
 
 
                 if (event.isChecked == true) {
-                    _FourCgpaUiState.update {
+                    _fourCgpaUiState.update {
                         it.copy(operatorIconState = true)
                     }
 
-                    _FourCgpaUiState.value.sgpaListToBeCalculated.add(
+                    _fourCgpaUiState.value.sgpaListToBeCalculated.add(
                         //index = event.index,
                         ResultTracker(
                             id = event.index,
@@ -279,55 +279,55 @@ class FourGpaViewModel @Inject constructor(
                             resultName = event.resultNameRef
                         )
                     )
-                    _FourCgpaUiState.value.sgpaResultNames.add(event.resultNameRef)
+                    _fourCgpaUiState.value.sgpaResultNames.add(event.resultNameRef)
                 } else {
-                    _FourCgpaUiState.value.sgpaListToBeCalculated.removeIf {
+                    _fourCgpaUiState.value.sgpaListToBeCalculated.removeIf {
                         it.id == event.index
                     }
-                    _FourCgpaUiState.value.sgpaResultNames.remove(event.resultNameRef)
+                    _fourCgpaUiState.value.sgpaResultNames.remove(event.resultNameRef)
 
                 }
 
-                // println(_FourCgpaUiState.value.sgpaListToBeCalculated)
-                Log.d("List of sgpa", "${_FourCgpaUiState.value.sgpaListToBeCalculated}")
+                // println(_fourCgpaUiState.value.sgpaListToBeCalculated)
+                Log.d("List of sgpa", "${_fourCgpaUiState.value.sgpaListToBeCalculated}")
             }
 
             is FourGpaUiEvents.DeleteFourGpaResultByReference -> {
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(operatorIconState = false)
                 }
                 viewModelScope.launch {
                     myFourSgpaRepository.FourSgpaResultToBeDeleted(event.fourSgpaResultName)
-                    _FourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
-                    _FourCgpaUiState.value.cgpaList.clear()
-                    _FourCgpaUiState.value.sgpaListToBeCalculated.clear()
+                    _fourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
+                    _fourCgpaUiState.value.cgpaList.clear()
+                    _fourCgpaUiState.value.sgpaListToBeCalculated.clear()
 
                 }
             }
 
             is FourGpaUiEvents.DeleteFourCgpaResultByReference -> {
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(operatorIconState = false)
                 }
                 viewModelScope.launch {
                     myFourCgpaRepository.FourCgpaResultToBeDeleted(event.fourCgpaResultName)
-//                    _FourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
-//                    _FourCgpaUiState.value.cgpaList.clear()
-//                    _FourCgpaUiState.value.sgpaListToBeCalculated.clear()
+//                    _fourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
+//                    _fourCgpaUiState.value.cgpaList.clear()
+//                    _fourCgpaUiState.value.sgpaListToBeCalculated.clear()
 
                 }
             }
 
 
             is FourGpaUiEvents.DeleteResult -> {
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(operatorIconState = false)
                 }
                 viewModelScope.launch {
                     myFourSgpaRepository.DeleteFourSgpaResult(event.fourSgpaResultName)
-                    _FourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
-                    _FourCgpaUiState.value.cgpaList.clear()
-                    _FourCgpaUiState.value.sgpaListToBeCalculated.clear()
+                    _fourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
+                    _fourCgpaUiState.value.cgpaList.clear()
+                    _fourCgpaUiState.value.sgpaListToBeCalculated.clear()
 
 
                 }
@@ -1329,28 +1329,28 @@ class FourGpaViewModel @Inject constructor(
 
     private fun textFieldsErrorCheckSaveFourCgpaResultAsDataEntry() {
         if (
-            _FourCgpaUiState.value.saveResultAs.isEmpty()
+            _fourCgpaUiState.value.saveResultAs.isEmpty()
         ) {
-            _FourCgpaUiState.update {
+            _fourCgpaUiState.update {
                 it.copy(
                     defaultLabelSRA = FourErrorMessages.errorMessageForCgpaSRA,
                     defaultLabelColourSRA = FourErrorMessages.textFieldErrorLabelColorHexCode,
                     saveResultDBVisibilty = true
                 )
             }
-        } else if (_FourCgpaUiState.value.saveResultAs.isNotEmpty()) {
+        } else if (_fourCgpaUiState.value.saveResultAs.isNotEmpty()) {
             viewModelScope.launch {
                 myFourCgpaRepository.InsertFourCgpaResult(
                     FourCgpaResultEntity(
-                        resultName = _FourCgpaUiState.value.saveResultAs.uppercase(),
-                        gp = _FourCgpaUiState.value.cgpa,
-                        remark = _FourCgpaUiState.value.remark,
-                        resultEntries = _FourCgpaUiState.value.sgpaResultNames,
+                        resultName = _fourCgpaUiState.value.saveResultAs.uppercase(),
+                        gp = _fourCgpaUiState.value.cgpa,
+                        remark = _fourCgpaUiState.value.remark,
+                        resultEntries = _fourCgpaUiState.value.sgpaResultNames,
 
                         )
                 )
             }
-            _FourCgpaUiState.update {
+            _fourCgpaUiState.update {
                 it.copy(
                     defaultLabelColourSRA = FourErrorPassedValues.errorPassedColour,
                     defaultLabelSRA = FourErrorPassedValues.labelForSRA,
@@ -1359,7 +1359,7 @@ class FourGpaViewModel @Inject constructor(
                 )
             }
 
-            Log.d("names", "${_FourCgpaUiState.value.sgpaResultNames}")
+            Log.d("names", "${_fourCgpaUiState.value.sgpaResultNames}")
 
 
         }
@@ -1371,7 +1371,7 @@ class FourGpaViewModel @Inject constructor(
     }
 
     private fun resetFourCgpaSRADBox() {
-        _FourCgpaUiState.update {
+        _fourCgpaUiState.update {
             it.copy(
                 defaultLabelSRA = FourErrorPassedValues.labelForSRA,
                 defaultLabelColourSRA = FourErrorPassedValues.errorPassedColour,
@@ -1398,11 +1398,11 @@ class FourGpaViewModel @Inject constructor(
             }
 
         } else if (_dbState.value.saveResultAs.isNotEmpty()) {
-//            for (i in 0 until _FourSgparesultIntroDB.value.resultItems.size) {
-//                if (_FourSgparesultIntroDB.value.resultItems[i].resultName.uppercase() == resultNameForCheck.uppercase()) {
+//            for (i in 0 until _fourSgparesultIntroDB.value.resultItems.size) {
+//                if (_fourSgparesultIntroDB.value.resultItems[i].resultName.uppercase() == resultNameForCheck.uppercase()) {
 //                    Log.d(
 //                        "duplicate name",
-//                        "the  name ${_FourSgparesultIntroDB.value.resultItems[i].resultName} is repeating"
+//                        "the  name ${_fourSgparesultIntroDB.value.resultItems[i].resultName} is repeating"
 //                    )
 //                    _dbState.update {
 //                        it.copy(
@@ -1437,9 +1437,9 @@ class FourGpaViewModel @Inject constructor(
 
                             )
                     )
-                    _FourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
-                    _FourCgpaUiState.value.cgpaList.clear()
-                    _FourCgpaUiState.value.sgpaListToBeCalculated.clear()
+                    _fourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
+                    _fourCgpaUiState.value.cgpaList.clear()
+                    _fourCgpaUiState.value.sgpaListToBeCalculated.clear()
                 }
                 Log.d("ViewModel", "Exec time: ${execTime}")
                 delay(1000)
@@ -2069,7 +2069,7 @@ class FourGpaViewModel @Inject constructor(
         } else if (desc == "cgpa") {
 
             if (gpa in 4.50..5.00) {
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(
                         gpaDescriptor = "First Class",
                         remark = "You Performed Brilliantly"
@@ -2079,7 +2079,7 @@ class FourGpaViewModel @Inject constructor(
 
             } else if (gpa in 3.50..4.49) {
 
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(
                         gpaDescriptor = "Second Class Upper",
                         remark = "You Performed Amazing "
@@ -2090,7 +2090,7 @@ class FourGpaViewModel @Inject constructor(
 
             } else if (gpa in 2.40..3.49) {
 
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(
                         gpaDescriptor = "Second Class Lower",
                         remark = "You Performed Great"
@@ -2101,7 +2101,7 @@ class FourGpaViewModel @Inject constructor(
 
             } else if (gpa in 1.50..2.39) {
 
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(
                         gpaDescriptor = "Third Class",
                         remark = "You performed averagely"
@@ -2112,7 +2112,7 @@ class FourGpaViewModel @Inject constructor(
 
             } else if (gpa in 1.00..1.49) {
 
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(
                         gpaDescriptor = "Pass",
                         remark = "You passed"
@@ -2123,7 +2123,7 @@ class FourGpaViewModel @Inject constructor(
 
             } else if (gpa in 0.00..1.00) {
 
-                _FourCgpaUiState.update {
+                _fourCgpaUiState.update {
                     it.copy(
                         gpaDescriptor = "Failure",
                         remark = "You Failed"

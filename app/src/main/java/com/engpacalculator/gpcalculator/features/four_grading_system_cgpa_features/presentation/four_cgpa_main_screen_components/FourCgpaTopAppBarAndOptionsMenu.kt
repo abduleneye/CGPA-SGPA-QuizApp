@@ -74,7 +74,7 @@ fun FourCgpaTopAppBarAndOptionsMenu(
         title = {
 
             Text(
-                text = "5.0 Cgpa Calculator",
+                text = "4.0 Cgpa Calculator",
                 fontSize = 20.sp,
 
                 )

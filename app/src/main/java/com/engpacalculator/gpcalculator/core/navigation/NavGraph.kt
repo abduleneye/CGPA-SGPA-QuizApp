@@ -23,6 +23,9 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaFullResultScreen
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaResultRecordScreen
+import com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation.four_cgpa_main_screen_components.FourCgpaMainScreen
+import com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation.four_cgpa_results_record_screen_component.FourCgpaFullResultScreen
+import com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation.four_cgpa_results_record_screen_component.FourCgpaResultRecordScreen
 import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.four_sgpa_results_record_screen_component.FourSgpaFullResultScreen
 import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.four_sgpa_results_record_screen_component.FourSgpaResultRecordScreen
 import com.engpacalculator.gpcalculator.five_grading_system_top_level_components.Five_Grading_System_Mode_Screen
@@ -48,12 +51,16 @@ fun SetUpNavGraph(
     val fourSgpaUiStates by fourSgpaViewModel.dbState.collectAsState()
 
     val fiveCgpaUiStates by fiveSgpaViewModel.fiveCgpaUiState.collectAsState()
+    val fourCgpaUiStates by fourSgpaViewModel.fourCgpaUiState.collectAsState()
     val fiveSgpaCourseEntriesState by fiveSgpaViewModel.courseEntries.collectAsState()
     val fourSgpaCourseEntriesState by fourSgpaViewModel.courseEntries.collectAsState()
     val fiveSgpaResultFromDBStates by fiveSgpaViewModel.fiveSgparesultIntroDB.collectAsState()
     val fourSgpaResultFromDBStates by fourSgpaViewModel.fourSgparesultIntroDB.collectAsState()
+    val fourCgpaResultFromDBStates by fourSgpaViewModel.fourCgpaResultIntroDB.collectAsState()
     val fiveCgpaResultFromDBStates by fiveSgpaViewModel.fiveCgpaResultIntroDB.collectAsState()
     val fiveSgpaRecordsToBeDisplayedForCgpa by fiveSgpaViewModel.fiveCgpaUiState.collectAsState()
+    val fourSgpaRecordsToBeDisplayedForCgpa by fourSgpaViewModel.fourCgpaUiState.collectAsState()
+
     // val fiveCgpaUiListStates by fiveGpaViewModel.fiveCgpaUiStateList.collectAsState()
 
 
@@ -159,6 +166,20 @@ fun SetUpNavGraph(
             )
         }
 
+        composable(route = Screen.Four_Cgpa_Screen.route) {
+            FourCgpaMainScreen(
+                onEvent = fourSgpaViewModel::onEvent,
+                fourSgpaUiStates = fourSgpaUiStates,
+                fourCgpaHelperRecordsState = fourSgpaRecordsToBeDisplayedForCgpa,
+                fourCgpaUiStatesFromSgpaViewModel = fourSgpaRecordsToBeDisplayedForCgpa,
+                stateTwo = fourSgpaCourseEntriesState,
+                navController = navController,
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                fourGpaViewModel = fourSgpaViewModel,
+                fourCgpaUiStates = fourCgpaUiStates,
+            )
+        }
+
 
         composable(route = Screen.Quiz_Mode_Screen.route) {
             Quiz_Mode_Screen(
@@ -191,6 +212,8 @@ fun SetUpNavGraph(
             )
         }
 
+
+
         composable(
             route = Screen.Four_Sgpa_Records_Screen.route
             //            + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}"
@@ -204,6 +227,21 @@ fun SetUpNavGraph(
                 adId = "ca-app-pub-3940256099942544/6300978111"
             )
         }
+
+        composable(
+            route = Screen.Four_Cgpa_Records_Screen.route
+            //            + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}"
+        ) {
+            FourCgpaResultRecordScreen(
+                navController = navController,
+                fourCgpaResultRecordState = fourCgpaResultFromDBStates,
+                viewModel = fourSgpaViewModel,
+                onEvent = fourSgpaViewModel::onEvent,
+                state = fourSgpaUiStates,
+                adId = "ca-app-pub-3940256099942544/6300978111"
+            )
+        }
+
 
         composable(
             route = Screen.Five_Cgpa_Records_Screen.route
@@ -296,6 +334,45 @@ fun SetUpNavGraph(
 
             )
         }
+
+        composable(
+            route = Screen.Four_Cgpa_Full_Records_Screen.route + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}",
+            arguments = listOf(
+                navArgument(name = "ResultName") {
+                    type = NavType.StringType
+                    defaultValue = "ResultName"
+
+                },
+                navArgument(name = "ListOfCourseDetails") {
+                    type = NavType.StringType
+                    defaultValue = "Results..."
+
+                },
+                navArgument(name = "Gp") {
+                    type = NavType.StringType
+                    defaultValue = "GradePoint"
+
+                },
+                navArgument(name = "ResultRemark") {
+                    type = NavType.StringType
+                    defaultValue = "Result remark"
+
+                }
+            )
+        ) { entry ->
+            FourCgpaFullResultScreen(
+                resultName = entry.arguments?.getString("ResultName"),
+                actualResults = entry.arguments?.getString("ListOfCourseDetails"),
+                gP = entry.arguments?.getString("Gp"),
+                resultRemark = entry.arguments?.getString("ResultRemark"),
+                onEvent = fourSgpaViewModel::onEvent,
+                navController = navController,
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                state = fourSgpaUiStates
+
+            )
+        }
+
 
 
         composable(

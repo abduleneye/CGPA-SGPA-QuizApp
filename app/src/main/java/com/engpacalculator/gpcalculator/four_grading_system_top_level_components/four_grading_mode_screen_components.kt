@@ -145,7 +145,8 @@ fun Four_Grading_System_Mode_Screen(
                     if (navController != null) {
                         DefaultCardSample(
                             textInCardBox = "cgpa".uppercase(),
-                            navController = null, route = null,
+                            navController = navController,
+                            route = Screen.Four_Cgpa_Screen.route,
                             modifier = Modifier
                                 .height(164.dp)
                                 .weight(0.5f)

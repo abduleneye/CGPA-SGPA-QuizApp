@@ -26,7 +26,7 @@ sealed class Screen(val route: String) {
 
     object Four_Sgpa_Screen : Screen("four_sgpa_screen")
 
-    object Four_Cgpa_Screen : Screen("four_sgpa_screen")
+    object Four_Cgpa_Screen : Screen("four_cgpa_screen")
 
     object Quiz_Mode_Screen : Screen("quiz_mode_screen")
 
