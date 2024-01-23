@@ -37,7 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomAboutBarItemAd
+import com.engpacalculator.gpcalculator.core.ads_components.FiveScreensBottomBannerAd
 import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.local.entity.FiveCgpaResultEntity
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
@@ -129,7 +129,7 @@ fun FiveCgpaResultRecordScreen(
 
 
                 if (adId != null) {
-                    ShimmerBottomAboutBarItemAd(
+                    FiveScreensBottomBannerAd(
                         isLoading = state,
                         onEvent = onEvent,
                         contentAfterLoading = {

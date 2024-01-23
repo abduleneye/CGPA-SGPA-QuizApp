@@ -1,15 +1,15 @@
 package GpCalculatorPrototype
 
-import GpCalculatorPrototype.Data.CoursesUnitPointArrayList
 import GpCalculatorPrototype.Data.FiveCourseDataEntries
 import GpCalculatorPrototype.Data.FiveCourseMaps
-import GpCalculatorPrototype.Data.GpData
+import GpCalculatorPrototype.Data.FiveCoursesUnitPointArrayList
+import GpCalculatorPrototype.Data.FiveGpData
 import java.util.Locale
 
 //import kotlin.math.round
 
 
-val coursePointObj = CoursesUnitPointArrayList()
+val coursePointObj = FiveCoursesUnitPointArrayList()
 val courseMapObj = FiveCourseMaps()
 val coursesDataEntryObj = FiveCourseDataEntries()
 val totalCourses = 0
@@ -51,7 +51,7 @@ fun operations(totalCreditLoad: Int): String {
     return ("Your Gp is: ${coursesDataEntryObj.totalCoursesPointSum / totalCreditLoad}")
 }
 
-fun courseValueMapper(courseGrade: ArrayList<GpData>) {
+fun courseValueMapper(courseGrade: ArrayList<FiveGpData>) {
 
 
     courseGrade.forEach { courseData ->
@@ -60,37 +60,37 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             //For three unit Courses
 
-            GpData(courseCode = courseData.courseCode, courseGrade = "A", courseUnit = 3) -> {
+            FiveGpData(courseCode = courseData.courseCode, courseGrade = "A", courseUnit = 3) -> {
 
                 courseMapObj.threeUnit_GradeMap["A"]?.let { coursePointObj.threeUnitA.add(it) }
 
             }
 
-            GpData(courseCode = courseData.courseCode, courseGrade = "B", courseUnit = 3) -> {
+            FiveGpData(courseCode = courseData.courseCode, courseGrade = "B", courseUnit = 3) -> {
 
                 courseMapObj.threeUnit_GradeMap["B"]?.let { coursePointObj.threeUnitB.add(it) }
 
             }
 
-            GpData(courseCode = courseData.courseCode, courseGrade = "C", courseUnit = 3) -> {
+            FiveGpData(courseCode = courseData.courseCode, courseGrade = "C", courseUnit = 3) -> {
 
                 courseMapObj.threeUnit_GradeMap["C"]?.let { coursePointObj.threeUnitC.add(it) }
 
             }
 
-            GpData(courseCode = courseData.courseCode, courseGrade = "D", courseUnit = 3) -> {
+            FiveGpData(courseCode = courseData.courseCode, courseGrade = "D", courseUnit = 3) -> {
 
                 courseMapObj.threeUnit_GradeMap["D"]?.let { coursePointObj.threeUnitD.add(it) }
 
             }
 
-            GpData(courseCode = courseData.courseCode, courseGrade = "E", courseUnit = 3) -> {
+            FiveGpData(courseCode = courseData.courseCode, courseGrade = "E", courseUnit = 3) -> {
 
                 courseMapObj.threeUnit_GradeMap["E"]?.let { coursePointObj.threeUnitE.add(it) }
 
             }
 
-            GpData(courseCode = courseData.courseCode, courseGrade = "F", courseUnit = 3) -> {
+            FiveGpData(courseCode = courseData.courseCode, courseGrade = "F", courseUnit = 3) -> {
 
                 courseMapObj.threeUnit_GradeMap["F"]?.let { coursePointObj.threeUnitF.add(it) }
 
@@ -99,7 +99,7 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             //For two unit courses:
 
-            GpData(courseCode = courseData.courseCode, "A", 2) -> {
+            FiveGpData(courseCode = courseData.courseCode, "A", 2) -> {
 
                 courseMapObj.twoUnit_GradeMap["A"]?.let {
 
@@ -108,7 +108,7 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             }
 
-            GpData(courseCode = courseData.courseCode, "B", 2) -> {
+            FiveGpData(courseCode = courseData.courseCode, "B", 2) -> {
 
                 courseMapObj.twoUnit_GradeMap["B"]?.let {
 
@@ -117,7 +117,7 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             }
 
-            GpData(courseCode = courseData.courseCode, "C", 2) -> {
+            FiveGpData(courseCode = courseData.courseCode, "C", 2) -> {
 
                 courseMapObj.twoUnit_GradeMap["C"]?.let {
 
@@ -126,7 +126,7 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             }
 
-            GpData(courseCode = courseData.courseCode, "D", 2) -> {
+            FiveGpData(courseCode = courseData.courseCode, "D", 2) -> {
 
                 courseMapObj.twoUnit_GradeMap["D"]?.let {
 
@@ -135,7 +135,7 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             }
 
-            GpData(courseCode = courseData.courseCode, "E", 2) -> {
+            FiveGpData(courseCode = courseData.courseCode, "E", 2) -> {
 
                 courseMapObj.twoUnit_GradeMap["E"]?.let {
 
@@ -144,7 +144,7 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             }
 
-            GpData(courseCode = courseData.courseCode, "A", 2) -> {
+            FiveGpData(courseCode = courseData.courseCode, "A", 2) -> {
 
                 courseMapObj.twoUnit_GradeMap["F"]?.let {
 
@@ -155,7 +155,7 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             //For one unit Courses
 
-            GpData(courseCode = courseData.courseCode, courseGrade = "A", courseUnit = 1) -> {
+            FiveGpData(courseCode = courseData.courseCode, courseGrade = "A", courseUnit = 1) -> {
 
                 courseMapObj.oneUnit_GradeMap["A"]?.let {
                     coursePointObj.oneUnitA.add(it)
@@ -163,7 +163,7 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             }
 
-            GpData(courseCode = courseData.courseCode, courseGrade = "B", courseUnit = 1) -> {
+            FiveGpData(courseCode = courseData.courseCode, courseGrade = "B", courseUnit = 1) -> {
 
                 courseMapObj.oneUnit_GradeMap["B"]?.let {
                     coursePointObj.oneUnitB.add(it)
@@ -171,7 +171,7 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             }
 
-            GpData(courseCode = courseData.courseCode, courseGrade = "C", courseUnit = 1) -> {
+            FiveGpData(courseCode = courseData.courseCode, courseGrade = "C", courseUnit = 1) -> {
 
                 courseMapObj.oneUnit_GradeMap["C"]?.let {
                     coursePointObj.oneUnitC.add(it)
@@ -179,7 +179,7 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             }
 
-            GpData(courseCode = courseData.courseCode, courseGrade = "D", courseUnit = 1) -> {
+            FiveGpData(courseCode = courseData.courseCode, courseGrade = "D", courseUnit = 1) -> {
 
                 courseMapObj.oneUnit_GradeMap["D"]?.let {
                     coursePointObj.oneUnitD.add(it)
@@ -187,7 +187,7 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             }
 
-            GpData(courseCode = courseData.courseCode, courseGrade = "E", courseUnit = 1) -> {
+            FiveGpData(courseCode = courseData.courseCode, courseGrade = "E", courseUnit = 1) -> {
 
                 courseMapObj.oneUnit_GradeMap["E"]?.let {
                     coursePointObj.oneUnitE.add(it)
@@ -195,7 +195,7 @@ fun courseValueMapper(courseGrade: ArrayList<GpData>) {
 
             }
 
-            GpData(courseCode = courseData.courseCode, courseGrade = "F", courseUnit = 1) -> {
+            FiveGpData(courseCode = courseData.courseCode, courseGrade = "F", courseUnit = 1) -> {
 
                 courseMapObj.oneUnit_GradeMap["F"]?.let {
                     coursePointObj.oneUnitF.add(it)
@@ -226,7 +226,7 @@ fun enterYourCourses(noOfCourses: Int) {
         println("Enter the course unit:")
         val courseUnit = readlnOrNull().toString().toInt()
         coursesDataEntryObj.coursesDataEntry.add(
-            GpData(
+            FiveGpData(
                 courseCode = courseCode,
                 courseGrade = courseGrade,
                 courseUnit = courseUnit

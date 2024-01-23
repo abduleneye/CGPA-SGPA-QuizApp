@@ -42,7 +42,7 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownMenu(
+fun FiveSgpaDropDownMenu(
     labelTextOne: String,
     labelTextTwo: String,
     dBState: FiveSgpaUiStates,

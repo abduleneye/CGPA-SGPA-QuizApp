@@ -1,4 +1,4 @@
-package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component
+package com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation.four_cgpa_results_record_screen_component
 
 import android.annotation.SuppressLint
 import android.widget.Toast
@@ -42,9 +42,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomAboutBarItemAd
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
+import com.engpacalculator.gpcalculator.core.ads_components.FourScreensBottomBannerAd
+import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourGpaUiEvents
+import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import com.google.gson.Gson
@@ -54,14 +54,14 @@ import com.google.gson.reflect.TypeToken
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FiveCgpaFullResultScreen(
+fun FourCgpaFullResultScreen(
     resultName: String?,
     actualResults: String?,
     gP: String?,
     resultRemark: String?,
-    onEvent: (FiveGpaUiEvents) -> Unit,
+    onEvent: (FourGpaUiEvents) -> Unit,
     navController: NavController,
-    state: FiveSgpaUiStates,
+    state: FourSgpaUiStates,
     adId: String?,
 
     ) {
@@ -115,7 +115,7 @@ fun FiveCgpaFullResultScreen(
 
 
                 if (adId != null) {
-                    ShimmerBottomAboutBarItemAd(
+                    FourScreensBottomBannerAd(
                         isLoading = state,
                         onEvent = onEvent,
                         contentAfterLoading = {
@@ -207,16 +207,16 @@ fun FiveCgpaFullResultScreen(
 
 
                                         resultName?.let {
-                                            FiveGpaUiEvents.DeleteFiveCgpaResultByReference(
+                                            FourGpaUiEvents.DeleteFourCgpaResultByReference(
                                                 it
                                             )
                                         }
                                             ?.let {
                                                 onEvent(it)
-                                                helpName = it.fiveCgpaResultName
+                                                helpName = it.fourCgpaResultName
                                             }
                                         //viewModel.loadData()
-                                        //navController.navigate(Screen.Five_Sgpa_Records_Screen.route)
+                                        //navController.navigate(Screen.Four_Sgpa_Records_Screen.route)
                                         Toast.makeText(
                                             context,
                                             "$helpName deleted successfully",

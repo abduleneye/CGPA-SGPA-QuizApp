@@ -1,5 +1,6 @@
-package com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component
+package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,34 +26,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
+import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourGpaUiEvents
+import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourSgpaUiStates
+import com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component.FourSgpaDropDownMenu
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
 
 @Composable
-fun EditCourseEntryDialogBox(
+fun FourSgpaCourseDetailsEntryDialogBox(
 
-    onEvent: (FiveGpaUiEvents) -> Unit,
-    dbState: FiveSgpaUiStates,
+    onEvent: (FourGpaUiEvents) -> Unit,
+    dbState: FourSgpaUiStates,
     title: String,
     properties: DialogProperties = DialogProperties()
 ) {
     var scrollState = rememberScrollState()
-    var context = LocalContext.current
+    val context = LocalContext.current
+
 
 
     Dialog(
         onDismissRequest = {
-            onEvent(FiveGpaUiEvents.hideCourseEntryEditDBox)
-            onEvent(FiveGpaUiEvents.resetResultField)
-            onEvent(FiveGpaUiEvents.setSelectedCourseGrade(""))
-            onEvent(FiveGpaUiEvents.setSelectedCourseUnit(""))
-            onEvent(FiveGpaUiEvents.setCourseCode(""))
+            onEvent(FourGpaUiEvents.hideDataEntryDBox)
+            onEvent(FourGpaUiEvents.resetResultField)
+            onEvent(FourGpaUiEvents.resetAlreadyInList)
+            onEvent(FourGpaUiEvents.setSelectedCourseGrade(""))
+            onEvent(FourGpaUiEvents.setSelectedCourseUnit(""))
+            onEvent(FourGpaUiEvents.setCourseCode(""))
+            onEvent(FourGpaUiEvents.resetBackToDefaultValuesFromErrorsCC)
+            onEvent(FourGpaUiEvents.resetBackToDefaultValuesFromErrorsCU)
+            onEvent(FourGpaUiEvents.resetBackToDefaultValuesFromErrorsCG)
+
+
         },
         properties = DialogProperties(
             dismissOnBackPress = true,
@@ -71,7 +79,16 @@ fun EditCourseEntryDialogBox(
                     //300.dp
                     //dbState.dialogDefaultHeight.value.dp
                 )
-                .padding(start = 8.dp, end = 8.dp),
+                .padding(start = 8.dp, end = 8.dp)
+//                .clickable {
+//                    if (dbState.isUnitDropDownMenuExpanded) {
+//
+//                        onEvent(FourGpaUiEvents.hideUnitMenuDropDown)
+//
+//                    }
+//                }
+            ,
+
             backgroundColor = Cream
 
         ) {
@@ -94,19 +111,16 @@ fun EditCourseEntryDialogBox(
                     ) {
 
                         Text(
-                            text = title,
-                            fontSize = 16.sp,
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
+                            text = title, modifier = Modifier
+                                .align(Alignment.Start)
                                 .padding(start = 20.dp)
-
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             modifier = Modifier
                                 .align(Alignment.Start)
                                 .padding(start = 20.dp),
-                            text = "Entry: ${(dbState.courseEntryIndex.toInt() + 1)} of ${dbState.totalCourses}"
+                            text = "Entries: ${dbState.enteredCourses} of ${dbState.totalCourses}"
                         )
 
 
@@ -114,21 +128,20 @@ fun EditCourseEntryDialogBox(
                         OutlinedTextField(
                             value = dbState.courseCode,
                             onValueChange = {
-                                onEvent(FiveGpaUiEvents.setCourseCode(it))
-
-
-
-                                onEvent(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsECC)
+                                onEvent(FourGpaUiEvents.setCourseCode(it))
+                                onEvent(FourGpaUiEvents.resetBackToDefaultValuesFromErrorsCC)
                             },
-                            singleLine = true,
                             colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedLabelColor = Color(dbState.defaultLabelColourECC),
-                                focusedBorderColor = Color(dbState.defaultLabelColourECC)
+                                focusedLabelColor = Color(dbState.defaultLabelColourCC),
+                                focusedBorderColor = Color(dbState.defaultLabelColourCC),
+                                unfocusedBorderColor = Color(dbState.defaultLabelColourCC)
                             ),
                             label = {
-                                Text(text = dbState.defaultEditCourseCodeLabel)
-                            }
-                        )
+                                Text(text = dbState.defaultEnteredCourseCodeLabel)
+                            },
+                            singleLine = true,
+
+                            )
 
                         Spacer(
                             modifier = Modifier
@@ -137,7 +150,7 @@ fun EditCourseEntryDialogBox(
 
                         Row {
 
-                            DropDownMenu(
+                            FourSgpaDropDownMenu(
                                 labelTextOne = dbState.pickedCourseUnitDefaultLabel,
                                 labelTextTwo = dbState.pickedCourseGradeDefaultLabel,
                                 dBState = dbState,
@@ -164,10 +177,11 @@ fun EditCourseEntryDialogBox(
 
                             Button(
                                 onClick = {
-                                    onEvent(FiveGpaUiEvents.hideCourseEntryEditDBox)
-                                    onEvent(FiveGpaUiEvents.setSelectedCourseGrade(""))
-                                    onEvent(FiveGpaUiEvents.setSelectedCourseUnit(""))
-                                    onEvent(FiveGpaUiEvents.setCourseCode(""))
+                                    onEvent(FourGpaUiEvents.hideDataEntryDBox)
+                                    onEvent(FourGpaUiEvents.setSelectedCourseGrade(""))
+                                    onEvent(FourGpaUiEvents.setSelectedCourseUnit(""))
+                                    onEvent(FourGpaUiEvents.setCourseCode(""))
+                                    onEvent(FourGpaUiEvents.resetBackToDefaultValuesFromErrorsCC)
 
 
                                 },
@@ -188,23 +202,29 @@ fun EditCourseEntryDialogBox(
 
                             Button(
                                 onClick = {
-                                    onEvent(FiveGpaUiEvents.replaceEditedInEntriesToArrayList)
-//                                    if (dbState.allReadyInListForEditCourseEntries) {
-//                                        Toast.makeText(
-//                                            context,
-//                                            "entries already in list no changes made",
-//                                            Toast.LENGTH_SHORT
-//                                        ).show()
-//                                    }
 
+                                    onEvent(FourGpaUiEvents.addEntriesToArrayList)
+                                    if (dbState.allReadyInList) {
+                                        Toast.makeText(
+                                            context,
+                                            "${dbState.matchAlreadyInCourseEntry} already in list",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
 
+                                    //onEvent(FourGpaUiEvents.setSelectedCourseGrade(""))
+                                    //onEvent(FourGpaUiEvents.setSelectedCourseUnit(""))
+                                    //onEvent(FourGpaUiEvents.setCourseCode(""))
+                                    //onEvent(FourGpaUiEvents.hideDataEntryDBox)
                                 },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = AppBars
                                 ),
-                            ) {
 
-                                Text(text = "Done")
+
+                                ) {
+
+                                Text(text = "Add")
 
                             }
 
@@ -224,3 +244,4 @@ fun EditCourseEntryDialogBox(
     }
 
 }
+

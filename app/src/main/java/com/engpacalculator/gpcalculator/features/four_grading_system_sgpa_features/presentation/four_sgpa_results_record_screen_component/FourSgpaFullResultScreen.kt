@@ -1,6 +1,6 @@
-package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component
+package com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.four_sgpa_results_record_screen_component
 
-import GpCalculatorPrototype.Data.GpData
+import GpCalculatorPrototype.Data.FourGpData
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -40,13 +40,12 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomAboutBarItemAd
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
+import com.engpacalculator.gpcalculator.core.ads_components.FourScreensBottomBannerAd
+import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourGpaUiEvents
+import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import com.google.gson.Gson
@@ -56,13 +55,13 @@ import com.google.gson.reflect.TypeToken
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FiveSgpaFullResultScreen(
+fun FourSgpaFullResultScreen(
     resultName: String?,
     actualResults: String?,
     gP: String?,
     resultRemark: String?,
-    onEvent: (FiveGpaUiEvents) -> Unit,
-    state: FiveSgpaUiStates,
+    onEvent: (FourGpaUiEvents) -> Unit,
+    state: FourSgpaUiStates,
     navController: NavController,
     adId: String?,
 
@@ -71,8 +70,8 @@ fun FiveSgpaFullResultScreen(
     val context = LocalContext.current
 
 
-    val listType = object : TypeToken<ArrayList<GpData>>() {}.type
-    val deserializedList: ArrayList<GpData> =
+    val listType = object : TypeToken<ArrayList<FourGpData>>() {}.type
+    val deserializedList: ArrayList<FourGpData> =
         Gson().fromJson(actualResults, listType)
 
     val lazyListState = rememberLazyListState()
@@ -84,7 +83,7 @@ fun FiveSgpaFullResultScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "5.0 Sgpa Result Display")
+                    Text(text = "4.0 Sgpa Result Display")
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = AppBars
@@ -116,7 +115,7 @@ fun FiveSgpaFullResultScreen(
 
 
                 if (adId != null) {
-                    ShimmerBottomAboutBarItemAd(
+                    FourScreensBottomBannerAd(
                         isLoading = state,
                         onEvent = onEvent,
                         contentAfterLoading = {
@@ -207,17 +206,17 @@ fun FiveSgpaFullResultScreen(
                                             var helpName: String = ""
 
                                             resultName?.let {
-                                                FiveGpaUiEvents.DeleteFiveGpaResultByReference(
+                                                FourGpaUiEvents.DeleteFourGpaResultByReference(
                                                     it
                                                 )
                                             }
                                                 ?.let {
                                                     onEvent(it)
-                                                    helpName = it.fiveSgpaResultName
+                                                    helpName = it.fourSgpaResultName
 
                                                 }
                                             //viewModel.loadData()
-                                            //navController.navigate(Screen.Five_Sgpa_Records_Screen.route)
+                                            //navController.navigate(Screen.Four_Sgpa_Records_Screen.route)
                                             Toast.makeText(
                                                 context,
                                                 "$helpName deleted successfully",
@@ -417,8 +416,3 @@ fun FiveSgpaFullResultScreen(
 
 //}
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun ThisPreview() {
-    //FullResultScreen()
-}

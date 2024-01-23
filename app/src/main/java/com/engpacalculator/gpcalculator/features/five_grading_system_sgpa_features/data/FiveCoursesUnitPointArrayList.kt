@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class CoursesUnitPointArrayList(
+data class FiveCoursesUnitPointArrayList(
 
     val sixUnitA: ArrayList<Int> = ArrayList<Int>(),
     val sixUnitB: ArrayList<Int> = ArrayList<Int>(),

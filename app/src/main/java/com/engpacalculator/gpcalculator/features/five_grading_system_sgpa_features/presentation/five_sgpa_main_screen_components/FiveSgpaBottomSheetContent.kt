@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ResultBottomSheetContent(
+fun FiveSgpaResultBottomSheetContent(
 
     state: FiveSgpaUiStates,
     sheetState: BottomSheetState,

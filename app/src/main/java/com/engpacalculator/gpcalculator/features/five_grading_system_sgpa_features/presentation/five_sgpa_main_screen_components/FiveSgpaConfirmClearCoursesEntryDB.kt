@@ -32,7 +32,7 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ConfirmClearCoursesEntryConfirmationDialogBox(
+fun FiveSgpaConfirmClearCoursesEntryConfirmationDialogBox(
     onEvent: (FiveGpaUiEvents) -> Unit,
     dbState: FiveSgpaUiStates,
     sheetState: BottomSheetState

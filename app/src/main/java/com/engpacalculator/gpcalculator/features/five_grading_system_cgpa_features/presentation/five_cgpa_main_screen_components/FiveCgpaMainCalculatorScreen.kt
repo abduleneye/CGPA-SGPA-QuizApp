@@ -1,6 +1,6 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_main_screen_components
 
-import GpCalculatorPrototype.Data.GpData
+import GpCalculatorPrototype.Data.FiveGpData
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -34,7 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomHomeBarItemAd
+import com.engpacalculator.gpcalculator.core.ads_components.FiveShimmerBottomHomeBarItemAd
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component.FiveCgpaSaveResultDialogBox
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
@@ -55,7 +55,7 @@ fun FiveCgpaMainScreen(
     fiveCgpaUiStatesFromSgpaViewModel: FiveCgpaUiStates,
     fiveCgpaUiStates: FiveCgpaUiStates,
 
-    stateTwo: ArrayList<GpData>,
+    stateTwo: ArrayList<FiveGpData>,
     navController: NavController,
     adId: String,
     //uniFiveCgpaViewModel: FiveCgpaViewModel,
@@ -190,7 +190,7 @@ fun FiveCgpaMainScreen(
 
 
                 ) {
-                    ShimmerBottomHomeBarItemAd(
+                    FiveShimmerBottomHomeBarItemAd(
                         isLoading = fiveSgpaUiStates,
                         contentAfterLoading = {
                         },

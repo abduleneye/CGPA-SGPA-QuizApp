@@ -1,6 +1,6 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity
 
-import GpCalculatorPrototype.Data.GpData
+import GpCalculatorPrototype.Data.FiveGpData
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class FiveSgpaResultEntity(
 
-    val resultEntries: ArrayList<GpData> = ArrayList(),
+    val resultEntries: ArrayList<FiveGpData> = ArrayList(),
     val gp: String = "",
     val remark: String = "",
     val resultName: String = "",

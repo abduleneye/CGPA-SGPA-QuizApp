@@ -18,57 +18,11 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 
 
-//@Composable
-//fun MainScreenBannerAd(
-//    modifier: Modifier, adId: String
-//) {
-//    val newContext = LocalContext.current
-//    Column(
-//        modifier = modifier
-//            .fillMaxSize()
-//    ) {
-//
-//
-//        AndroidView(
-//            modifier = Modifier
-//                .fillMaxWidth(),
-//            factory = { context ->
-//                AdView(context).apply {
-//                    setAdSize(AdSize.BANNER)
-//                    adUnitId = adId
-//                    // Request an Ad
-//                    loadAd(AdRequest.Builder().build())
-//
-//                    adListener = object : AdListener() {
-//                        override fun onAdFailedToLoad(p0: LoadAdError) {
-//                            Toast.makeText(newContext, "AdFailedToLoad", Toast.LENGTH_SHORT)
-//                            super.onAdFailedToLoad(p0)
-//                            Toast.makeText(newContext, "AdFailedToLoad", Toast.LENGTH_SHORT)
-//
-//                        }
-//
-//                        override fun onAdLoaded() {
-//                            Toast.makeText(newContext, "Ad Loaded", Toast.LENGTH_SHORT)
-//                            super.onAdLoaded()
-//                            Toast.makeText(newContext, "Ad Loaded", Toast.LENGTH_SHORT)
-//
-//                        }
-//                    }
-//                }
-//
-//            }
-//
-//
-//        )
-//
-//    }
-//
-//}
 var adLoaded = false
 
 
 @Composable
-fun ShimmerBottomAboutBarItemAd(
+fun FiveScreensBottomBannerAd(
     isLoading: FiveSgpaUiStates,
     contentAfterLoading: @Composable () -> Unit,
     modifier: Modifier = Modifier,
@@ -76,7 +30,7 @@ fun ShimmerBottomAboutBarItemAd(
     onEvent: (FiveGpaUiEvents) -> Unit
 ) {
 
-    AnchoredAdaptiveBannerAboutScreen(
+    FiveAnchoredAdaptiveBannerAboutScreen(
         modifier = modifier,
         adId = adId,
         isLoading = FiveSgpaUiStates(),
@@ -104,7 +58,7 @@ fun ShimmerBottomAboutBarItemAd(
 
 
 @Composable
-fun ShimmerBottomHomeBarItemAd(
+fun FiveShimmerBottomHomeBarItemAd(
     isLoading: FiveSgpaUiStates,
     contentAfterLoading: @Composable () -> Unit,
     modifier: Modifier = Modifier,
@@ -112,7 +66,7 @@ fun ShimmerBottomHomeBarItemAd(
     onEvent: (FiveGpaUiEvents) -> Unit
 ) {
 
-    AnchoredAdaptiveBannerHomeScreen(
+    FiveAnchoredAdaptiveBannerHomeScreen(
         modifier = modifier,
         adId = adId,
         isLoading = FiveSgpaUiStates(),
@@ -145,7 +99,7 @@ fun TestText() {
 
 
 @Composable
-fun AnchoredAdaptiveBannerHomeScreen(
+fun FiveAnchoredAdaptiveBannerHomeScreen(
     modifier: Modifier,
     adId: String,
     isLoading: FiveSgpaUiStates,
@@ -199,7 +153,7 @@ fun AnchoredAdaptiveBannerHomeScreen(
 }
 
 @Composable
-fun AnchoredAdaptiveBannerAboutScreen(
+fun FiveAnchoredAdaptiveBannerAboutScreen(
     modifier: Modifier,
     adId: String,
     isLoading: FiveSgpaUiStates,
@@ -252,56 +206,3 @@ fun AnchoredAdaptiveBannerAboutScreen(
 
 }
 
-//
-//@Composable
-//fun AnchoredAdaptiveBannerAboutScreen(
-//    modifier: Modifier,
-//    adId: String,
-//    isLoading: FiveSgpaUiStates,
-//    onEvent: (FiveGpaUiEvents) -> Unit
-//
-//) {
-//    val currentScreenWidth = LocalConfiguration.current.screenWidthDp
-//    val context = LocalContext.current
-//
-//    AndroidView(
-//        modifier = modifier,
-//        factory = { context ->
-//            AdView(context).apply {
-//
-//                val adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-//                    context,
-//                    currentScreenWidth
-//                )
-//
-//                setAdSize(adSize)
-//
-//                adUnitId = adId
-//
-//                loadAd(AdRequest.Builder().build())
-//
-//
-//            }
-//        }
-//    ) {
-//
-//
-//        it.adListener = object : AdListener() {
-//            override fun onAdFailedToLoad(p0: LoadAdError) {
-////                Toast.makeText(context, "Ad load failed", Toast.LENGTH_SHORT).show()
-//                super.onAdFailedToLoad(p0)
-//
-//            }
-//
-//            override fun onAdLoaded() {
-////                Toast.makeText(context, "Ad Loaded", Toast.LENGTH_SHORT).show()
-////                adLoaded = true
-//                onEvent(FiveGpaUiEvents.hideAboutAdShimmerEffect)
-//                super.onAdLoaded()
-//
-//            }
-//        }
-//
-//    }
-//}
-//

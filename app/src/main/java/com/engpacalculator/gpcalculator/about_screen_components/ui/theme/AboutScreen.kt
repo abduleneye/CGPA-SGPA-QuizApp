@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.R
-import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomAboutBarItemAd
+import com.engpacalculator.gpcalculator.core.ads_components.FiveScreensBottomBannerAd
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
@@ -107,7 +107,7 @@ fun AboutScreen(
             ) {
 
 
-                ShimmerBottomAboutBarItemAd(
+                FiveScreensBottomBannerAd(
                     isLoading = state,
                     onEvent = onEvent,
                     contentAfterLoading = {

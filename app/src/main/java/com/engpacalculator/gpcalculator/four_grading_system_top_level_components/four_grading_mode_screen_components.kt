@@ -29,9 +29,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
-import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomAboutBarItemAd
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
+import com.engpacalculator.gpcalculator.core.ads_components.FourScreensBottomBannerAd
+import com.engpacalculator.gpcalculator.core.navigation.Screen
+import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourGpaUiEvents
+import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
@@ -43,8 +44,8 @@ fun Four_Grading_System_Mode_Screen(
 
     navController: NavController?,
     adId: String?,
-    state: FiveSgpaUiStates?,
-    onEvent: ((FiveGpaUiEvents) -> Unit)?
+    state: FourSgpaUiStates?,
+    onEvent: ((FourGpaUiEvents) -> Unit)?
 
 ) {
 
@@ -88,7 +89,7 @@ fun Four_Grading_System_Mode_Screen(
                 if (onEvent != null) {
                     if (state != null) {
                         if (adId != null) {
-                            ShimmerBottomAboutBarItemAd(
+                            FourScreensBottomBannerAd(
                                 isLoading = state,
                                 onEvent = onEvent,
                                 contentAfterLoading = {
@@ -130,8 +131,8 @@ fun Four_Grading_System_Mode_Screen(
                     if (navController != null) {
                         DefaultCardSample(
                             textInCardBox = "sgpa".uppercase(),
-                            navController = null,
-                            route = null,
+                            navController = navController,
+                            route = Screen.Four_Sgpa_Screen.route,
                             modifier = Modifier
                                 .height(164.dp)
                                 .weight(0.5f)

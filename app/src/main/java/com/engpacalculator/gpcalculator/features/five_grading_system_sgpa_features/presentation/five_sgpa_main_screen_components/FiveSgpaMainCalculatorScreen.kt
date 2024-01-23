@@ -1,6 +1,6 @@
 package com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component
 
-import GpCalculatorPrototype.Data.GpData
+import GpCalculatorPrototype.Data.FiveGpData
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -24,16 +24,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomHomeBarItemAd
+import com.engpacalculator.gpcalculator.core.ads_components.FiveShimmerBottomHomeBarItemAd
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.ConfirmClearCoursesEntryConfirmationDialogBox
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.FiveSgpaBaseEntryDialogBox
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.FiveSgpaConfirmClearCoursesEntryConfirmationDialogBox
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.FiveSgpaCourseDetailsEntryDialogBox
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.FiveSgpaEditBaseEntryDialogBox
+import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.FiveSgpaResultBottomSheetContent
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.FiveSgpaTopAppBarAndOptionsMenu
-import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components.ResultBottomSheetContent
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaSaveResultDialogBox
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
@@ -46,7 +46,7 @@ import kotlinx.coroutines.launch
 fun FiveSgpaMainScreen(
     onEvent: (FiveGpaUiEvents) -> Unit,
     state: FiveSgpaUiStates,
-    stateTwo: ArrayList<GpData>,
+    stateTwo: ArrayList<FiveGpData>,
     calcViewModel: FiveGpaViewModel,
     navController: NavController,
     adId: String,
@@ -103,7 +103,7 @@ fun FiveSgpaMainScreen(
 //        },
 
         scaffoldState = scaffoldState,
-        sheetContent = { ResultBottomSheetContent(state, sheetState, onEvent = onEvent) },
+        sheetContent = { FiveSgpaResultBottomSheetContent(state, sheetState, onEvent = onEvent) },
         sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
         modifier = Modifier
             .fillMaxWidth()
@@ -216,7 +216,7 @@ fun FiveSgpaMainScreen(
 //                        onEvent = onEvent
 //                    )
 
-                    ShimmerBottomHomeBarItemAd(
+                    FiveShimmerBottomHomeBarItemAd(
                         isLoading = state,
                         contentAfterLoading = {
                         },
@@ -332,11 +332,15 @@ fun FiveSgpaMainScreen(
 
             } else if (state.courseEntryEditDialogBoxVisibility) {
 
-                EditCourseEntryDialogBox(onEvent = onEvent, dbState = state, title = "Edit Entries")
+                FiveSgpaEditCourseEntryDialogBox(
+                    onEvent = onEvent,
+                    dbState = state,
+                    title = "Edit Entries"
+                )
 
             } else if (state.clearCoursesConfirmationDBoxVisibility) {
 
-                ConfirmClearCoursesEntryConfirmationDialogBox(
+                FiveSgpaConfirmClearCoursesEntryConfirmationDialogBox(
                     onEvent = onEvent,
                     dbState = state,
                     sheetState = sheetState

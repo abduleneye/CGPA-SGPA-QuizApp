@@ -7,9 +7,9 @@ interface FiveSgpaJsonParser {
     //get object from json string
     //generic function
 
-    fun <T> fromJson(json: String, type: Type): T?
+    fun <T> fromFiveSgpaResultJson(json: String, type: Type): T?
 
     //convert something to a json string
-    fun <T> toJson(obj: T, type: Type): String?
+    fun <T> toFiveSgpaResultJson(obj: T, type: Type): String?
 
 }

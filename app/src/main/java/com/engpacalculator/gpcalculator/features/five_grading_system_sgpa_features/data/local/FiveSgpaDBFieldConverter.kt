@@ -1,6 +1,6 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local
 
-import GpCalculatorPrototype.Data.GpData
+import GpCalculatorPrototype.Data.FiveGpData
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.five_sgpa_util.FiveSgpaJsonParser
@@ -12,18 +12,18 @@ class FiveSgpaDBFieldConverter(
 ) {
 
     @TypeConverter
-    fun fromResultJson(json: String): ArrayList<GpData> {
-        return fiveSgpaJsonParser.fromJson<ArrayList<GpData>>(
+    fun fromFiveSgpaResultJson(json: String): ArrayList<FiveGpData> {
+        return fiveSgpaJsonParser.fromFiveSgpaResultJson<ArrayList<FiveGpData>>(
             json,
-            object : TypeToken<ArrayList<GpData>>() {}.type
-        ) ?: ArrayList<GpData>()
+            object : TypeToken<ArrayList<FiveGpData>>() {}.type
+        ) ?: ArrayList<FiveGpData>()
     }
 
     @TypeConverter
-    fun toResultJson(results: ArrayList<GpData>): String {
-        return fiveSgpaJsonParser.toJson(
+    fun toFiveSgpaResultJson(results: ArrayList<FiveGpData>): String {
+        return fiveSgpaJsonParser.toFiveSgpaResultJson(
             results,
-            object : TypeToken<ArrayList<GpData>>() {}.type
+            object : TypeToken<ArrayList<FiveGpData>>() {}.type
         ) ?: "[]"
     }
 }

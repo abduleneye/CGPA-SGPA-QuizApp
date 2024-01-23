@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
-import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomAboutBarItemAd
+import com.engpacalculator.gpcalculator.core.ads_components.FiveScreensBottomBannerAd
 import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
@@ -89,7 +89,7 @@ fun Five_Grading_System_Mode_Screen(
                 if (onEvent != null) {
                     if (state != null) {
                         if (adId != null) {
-                            ShimmerBottomAboutBarItemAd(
+                            FiveScreensBottomBannerAd(
                                 isLoading = state,
                                 onEvent = onEvent,
                                 contentAfterLoading = {

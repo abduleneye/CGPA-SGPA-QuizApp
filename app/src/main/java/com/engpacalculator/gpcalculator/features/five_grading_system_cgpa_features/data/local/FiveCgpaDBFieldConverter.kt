@@ -12,16 +12,16 @@ class FiveCgpaDBFieldConverter(
 ) {
 
     @TypeConverter
-    fun fromResultJson(json: String): ArrayList<String> {
-        return fiveCgpaJsonParser.fromJson<ArrayList<String>>(
+    fun fromFiveCgpaResultJson(json: String): ArrayList<String> {
+        return fiveCgpaJsonParser.fromFiveCgpaResultJson<ArrayList<String>>(
             json,
             object : TypeToken<ArrayList<String>>() {}.type
         ) ?: ArrayList<String>()
     }
 
     @TypeConverter
-    fun toResultJson(results: ArrayList<String>): String {
-        return fiveCgpaJsonParser.toJson(
+    fun toFiveCgpaResultJson(results: ArrayList<String>): String {
+        return fiveCgpaJsonParser.toFiveCgpaResultJson(
             results,
             object : TypeToken<ArrayList<String>>() {}.type
         ) ?: "[]"

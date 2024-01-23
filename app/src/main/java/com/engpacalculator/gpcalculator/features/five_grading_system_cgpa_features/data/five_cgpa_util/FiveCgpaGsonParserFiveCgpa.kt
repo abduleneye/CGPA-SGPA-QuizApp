@@ -6,12 +6,12 @@ import java.lang.reflect.Type
 class FiveCgpaGsonParserFiveCgpa(
     private val gson: Gson
 ) : FiveCgpaJsonParser {
-    override fun <T> fromJson(json: String, type: Type): T? {
+    override fun <T> fromFiveCgpaResultJson(json: String, type: Type): T? {
 
         return gson.fromJson(json, type)
     }
 
-    override fun <T> toJson(obj: T, type: Type): String? {
+    override fun <T> toFiveCgpaResultJson(obj: T, type: Type): String? {
 
         return gson.toJson(obj, type)
     }

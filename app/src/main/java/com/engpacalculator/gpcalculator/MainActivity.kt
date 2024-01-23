@@ -21,6 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.core.navigation.SetUpNavGraph
+import com.engpacalculator.gpcalculator.features.Four_grading_system_sgpa_features.presentation.FourGpaViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.GpCalculatorTheme
@@ -40,6 +41,8 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
 
 
             val fiveGpaViewModel: FiveGpaViewModel = hiltViewModel()
+            val fourGpaViewModel: FourGpaViewModel = hiltViewModel()
+
 //            val state by fiveSgpaViewModel.dbState.collectAsState()
 //            val statetwo by fiveSgpaViewModel.courseEntries.collectAsState()
             val navController = rememberNavController()
@@ -91,6 +94,7 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
                         SetUpNavGraph(
                             navController = navController,
                             fiveGpaViewModel = fiveGpaViewModel,
+                            fourGpaViewModel = fourGpaViewModel
                         )
 
 

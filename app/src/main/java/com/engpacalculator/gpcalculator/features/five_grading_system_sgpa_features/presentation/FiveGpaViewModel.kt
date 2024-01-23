@@ -1,9 +1,9 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation
 
-import GpCalculatorPrototype.Data.CoursesUnitPointArrayList
 import GpCalculatorPrototype.Data.FiveCourseDataEntries
 import GpCalculatorPrototype.Data.FiveCourseMaps
-import GpCalculatorPrototype.Data.GpData
+import GpCalculatorPrototype.Data.FiveCoursesUnitPointArrayList
+import GpCalculatorPrototype.Data.FiveGpData
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -48,7 +48,7 @@ class FiveGpaViewModel @Inject constructor(
         private const val COURSE_ENTRIES_KEY = "my_course_entry_state"
     }
 
-    private val coursePointObj = CoursesUnitPointArrayList()
+    private val coursePointObj = FiveCoursesUnitPointArrayList()
     private val courseMapObj = FiveCourseMaps()
     private val coursesDataEntryObj = FiveCourseDataEntries()
     private val stateClassObject = FiveSgpaUiStates()
@@ -1164,7 +1164,7 @@ class FiveGpaViewModel @Inject constructor(
 
             if (
                 _courseEntries.value.contains(
-                    GpData(
+                    FiveGpData(
                         courseCode = _dbState.value.courseCode.uppercase(),
                         courseGrade = _dbState.value.selectedCourseGrade,
                         courseUnit = _dbState.value.selectedCourseUnit.toInt()
@@ -1182,7 +1182,7 @@ class FiveGpaViewModel @Inject constructor(
 
 
             } else {
-                _courseEntries.value[_dbState.value.courseEntryIndex.toInt()] = GpData(
+                _courseEntries.value[_dbState.value.courseEntryIndex.toInt()] = FiveGpData(
                     courseCode = _dbState.value.courseCode.uppercase(),
                     courseGrade = _dbState.value.selectedCourseGrade,
                     courseUnit = _dbState.value.selectedCourseUnit.toInt()
@@ -1277,7 +1277,7 @@ class FiveGpaViewModel @Inject constructor(
         } else {
 
             _courseEntries.value.add(
-                GpData(
+                FiveGpData(
                     _dbState.value.courseCode.uppercase(Locale.UK),
                     _dbState.value.selectedCourseGrade,
                     _dbState.value.selectedCourseUnit.toInt()
@@ -1529,7 +1529,7 @@ class FiveGpaViewModel @Inject constructor(
         return ("$final_result")
     }
 
-    private fun courseValueMapper(courseGrade: ArrayList<GpData>) {
+    private fun courseValueMapper(courseGrade: ArrayList<FiveGpData>) {
 
 
         courseGrade.forEach { courseData ->
@@ -1538,37 +1538,61 @@ class FiveGpaViewModel @Inject constructor(
 
                 //For six unit Courses
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "A", courseUnit = 6) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "A",
+                    courseUnit = 6
+                ) -> {
 
                     courseMapObj.sixUnit_GradeMap["A"]?.let { coursePointObj.sixUnitA.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "B", courseUnit = 6) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "B",
+                    courseUnit = 6
+                ) -> {
 
                     courseMapObj.sixUnit_GradeMap["B"]?.let { coursePointObj.sixUnitB.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "C", courseUnit = 6) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "C",
+                    courseUnit = 6
+                ) -> {
 
                     courseMapObj.sixUnit_GradeMap["C"]?.let { coursePointObj.sixUnitC.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "D", courseUnit = 6) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "D",
+                    courseUnit = 6
+                ) -> {
 
                     courseMapObj.sixUnit_GradeMap["D"]?.let { coursePointObj.sixUnitD.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "E", courseUnit = 6) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "E",
+                    courseUnit = 6
+                ) -> {
 
                     courseMapObj.sixUnit_GradeMap["E"]?.let { coursePointObj.sixUnitE.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "F", courseUnit = 6) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "F",
+                    courseUnit = 6
+                ) -> {
 
                     courseMapObj.sixUnit_GradeMap["F"]?.let { coursePointObj.sixUnitF.add(it) }
 
@@ -1577,37 +1601,61 @@ class FiveGpaViewModel @Inject constructor(
 
                 //For four unit Courses
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "A", courseUnit = 4) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "A",
+                    courseUnit = 4
+                ) -> {
 
                     courseMapObj.fourUnit_GradeMap["A"]?.let { coursePointObj.fourUnitA.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "B", courseUnit = 4) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "B",
+                    courseUnit = 4
+                ) -> {
 
                     courseMapObj.fourUnit_GradeMap["B"]?.let { coursePointObj.fourUnitB.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "C", courseUnit = 4) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "C",
+                    courseUnit = 4
+                ) -> {
 
                     courseMapObj.fourUnit_GradeMap["C"]?.let { coursePointObj.fourUnitC.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "D", courseUnit = 4) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "D",
+                    courseUnit = 4
+                ) -> {
 
                     courseMapObj.fourUnit_GradeMap["D"]?.let { coursePointObj.fourUnitD.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "E", courseUnit = 4) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "E",
+                    courseUnit = 4
+                ) -> {
 
                     courseMapObj.fourUnit_GradeMap["E"]?.let { coursePointObj.fourUnitE.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "F", courseUnit = 4) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "F",
+                    courseUnit = 4
+                ) -> {
 
                     courseMapObj.fourUnit_GradeMap["F"]?.let { coursePointObj.fourUnitF.add(it) }
 
@@ -1616,37 +1664,61 @@ class FiveGpaViewModel @Inject constructor(
 
                 //For three unit Courses
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "A", courseUnit = 3) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "A",
+                    courseUnit = 3
+                ) -> {
 
                     courseMapObj.threeUnit_GradeMap["A"]?.let { coursePointObj.threeUnitA.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "B", courseUnit = 3) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "B",
+                    courseUnit = 3
+                ) -> {
 
                     courseMapObj.threeUnit_GradeMap["B"]?.let { coursePointObj.threeUnitB.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "C", courseUnit = 3) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "C",
+                    courseUnit = 3
+                ) -> {
 
                     courseMapObj.threeUnit_GradeMap["C"]?.let { coursePointObj.threeUnitC.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "D", courseUnit = 3) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "D",
+                    courseUnit = 3
+                ) -> {
 
                     courseMapObj.threeUnit_GradeMap["D"]?.let { coursePointObj.threeUnitD.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "E", courseUnit = 3) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "E",
+                    courseUnit = 3
+                ) -> {
 
                     courseMapObj.threeUnit_GradeMap["E"]?.let { coursePointObj.threeUnitE.add(it) }
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "F", courseUnit = 3) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "F",
+                    courseUnit = 3
+                ) -> {
 
                     courseMapObj.threeUnit_GradeMap["F"]?.let { coursePointObj.threeUnitF.add(it) }
 
@@ -1655,7 +1727,7 @@ class FiveGpaViewModel @Inject constructor(
 
                 //For two unit courses:
 
-                GpData(courseCode = courseData.courseCode, "A", 2) -> {
+                FiveGpData(courseCode = courseData.courseCode, "A", 2) -> {
 
                     courseMapObj.twoUnit_GradeMap["A"]?.let {
 
@@ -1664,7 +1736,7 @@ class FiveGpaViewModel @Inject constructor(
 
                 }
 
-                GpData(courseCode = courseData.courseCode, "B", 2) -> {
+                FiveGpData(courseCode = courseData.courseCode, "B", 2) -> {
 
                     courseMapObj.twoUnit_GradeMap["B"]?.let {
 
@@ -1673,7 +1745,7 @@ class FiveGpaViewModel @Inject constructor(
 
                 }
 
-                GpData(courseCode = courseData.courseCode, "C", 2) -> {
+                FiveGpData(courseCode = courseData.courseCode, "C", 2) -> {
 
                     courseMapObj.twoUnit_GradeMap["C"]?.let {
 
@@ -1682,7 +1754,7 @@ class FiveGpaViewModel @Inject constructor(
 
                 }
 
-                GpData(courseCode = courseData.courseCode, "D", 2) -> {
+                FiveGpData(courseCode = courseData.courseCode, "D", 2) -> {
 
                     courseMapObj.twoUnit_GradeMap["D"]?.let {
 
@@ -1691,7 +1763,7 @@ class FiveGpaViewModel @Inject constructor(
 
                 }
 
-                GpData(courseCode = courseData.courseCode, "E", 2) -> {
+                FiveGpData(courseCode = courseData.courseCode, "E", 2) -> {
 
                     courseMapObj.twoUnit_GradeMap["E"]?.let {
 
@@ -1700,7 +1772,7 @@ class FiveGpaViewModel @Inject constructor(
 
                 }
 
-                GpData(courseCode = courseData.courseCode, "A", 2) -> {
+                FiveGpData(courseCode = courseData.courseCode, "A", 2) -> {
 
                     courseMapObj.twoUnit_GradeMap["F"]?.let {
 
@@ -1711,7 +1783,11 @@ class FiveGpaViewModel @Inject constructor(
 
                 //For one unit Courses
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "A", courseUnit = 1) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "A",
+                    courseUnit = 1
+                ) -> {
 
                     courseMapObj.oneUnit_GradeMap["A"]?.let {
                         coursePointObj.oneUnitA.add(it)
@@ -1719,7 +1795,11 @@ class FiveGpaViewModel @Inject constructor(
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "B", courseUnit = 1) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "B",
+                    courseUnit = 1
+                ) -> {
 
                     courseMapObj.oneUnit_GradeMap["B"]?.let {
                         coursePointObj.oneUnitB.add(it)
@@ -1727,7 +1807,11 @@ class FiveGpaViewModel @Inject constructor(
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "C", courseUnit = 1) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "C",
+                    courseUnit = 1
+                ) -> {
 
                     courseMapObj.oneUnit_GradeMap["C"]?.let {
                         coursePointObj.oneUnitC.add(it)
@@ -1735,7 +1819,11 @@ class FiveGpaViewModel @Inject constructor(
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "D", courseUnit = 1) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "D",
+                    courseUnit = 1
+                ) -> {
 
                     courseMapObj.oneUnit_GradeMap["D"]?.let {
                         coursePointObj.oneUnitD.add(it)
@@ -1743,7 +1831,11 @@ class FiveGpaViewModel @Inject constructor(
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "E", courseUnit = 1) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "E",
+                    courseUnit = 1
+                ) -> {
 
                     courseMapObj.oneUnit_GradeMap["E"]?.let {
                         coursePointObj.oneUnitE.add(it)
@@ -1751,7 +1843,11 @@ class FiveGpaViewModel @Inject constructor(
 
                 }
 
-                GpData(courseCode = courseData.courseCode, courseGrade = "F", courseUnit = 1) -> {
+                FiveGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "F",
+                    courseUnit = 1
+                ) -> {
 
                     courseMapObj.oneUnit_GradeMap["F"]?.let {
                         coursePointObj.oneUnitF.add(it)

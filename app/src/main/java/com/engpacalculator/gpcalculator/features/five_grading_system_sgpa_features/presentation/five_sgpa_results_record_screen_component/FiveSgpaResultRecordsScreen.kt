@@ -38,7 +38,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.engpacalculator.gpcalculator.core.ads_components.ShimmerBottomAboutBarItemAd
+import com.engpacalculator.gpcalculator.core.ads_components.FiveScreensBottomBannerAd
 import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.local.entity.FiveSgpaResultEntity
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
@@ -50,7 +50,7 @@ import com.google.gson.Gson
 
 
 @Composable
-fun Init() {
+fun FiveSgpaInit() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -117,7 +117,7 @@ fun FiveSgpaResultRecordScreen(
 
 
                 if (adId != null) {
-                    ShimmerBottomAboutBarItemAd(
+                    FiveScreensBottomBannerAd(
                         isLoading = state,
                         onEvent = onEvent,
                         contentAfterLoading = {
@@ -137,7 +137,7 @@ fun FiveSgpaResultRecordScreen(
 
         if (fiveSgpaResultRecordState.resultItems.isEmpty()) {
 
-            Init()
+            FiveSgpaInit()
 
 
         } else {

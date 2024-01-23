@@ -4,7 +4,7 @@ import android.os.Parcelable
 
 @kotlinx.parcelize.Parcelize
 
-data class GpData(
+data class FiveGpData(
 
     val courseCode: String = "",
     val courseGrade: String,

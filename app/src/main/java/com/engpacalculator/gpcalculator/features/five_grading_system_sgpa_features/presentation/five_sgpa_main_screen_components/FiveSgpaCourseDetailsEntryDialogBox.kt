@@ -30,7 +30,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
-import com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component.DropDownMenu
+import com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component.FiveSgpaDropDownMenu
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
@@ -150,7 +150,7 @@ fun FiveSgpaCourseDetailsEntryDialogBox(
 
                         Row {
 
-                            DropDownMenu(
+                            FiveSgpaDropDownMenu(
                                 labelTextOne = dbState.pickedCourseUnitDefaultLabel,
                                 labelTextTwo = dbState.pickedCourseGradeDefaultLabel,
                                 dBState = dbState,

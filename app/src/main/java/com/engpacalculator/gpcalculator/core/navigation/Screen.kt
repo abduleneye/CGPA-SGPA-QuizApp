@@ -1,6 +1,15 @@
 package com.engpacalculator.gpcalculator.core.navigation
 
 sealed class Screen(val route: String) {
+    object Four_Cgpa_Full_Records_Screen : Screen("four_cgpa_full_records_screen")
+
+    object Four_Cgpa_Records_Screen : Screen("four_cgpa_records_screen")
+
+    object Four_Sgpa_Full_Records_Screen : Screen("four_sgpa_full_records_screen")
+
+    object Four_Sgpa_Records_Screen : Screen("four_sgpa_records_screen")
+
+
     object Splash : Screen("splash_screen")
     object About : Screen("about_screen")
     object Home : Screen("home_screen")
@@ -8,6 +17,7 @@ sealed class Screen(val route: String) {
     object Five_Screen : Screen("five_screen")
 
     object Five_Sgpa_Screen : Screen("five_sgpa_screen")
+
 
     object Five_Cgpa_Screen : Screen("five_cgpa_screen")
 
@@ -30,7 +40,7 @@ sealed class Screen(val route: String) {
 
 
     object Five_Sgpa_Full_Records_Screen :
-        Screen("full_sgpa_full_records_screen")
+        Screen("five_sgpa_full_records_screen")
 
     object Five_Cgpa_Records_Screen :
     //Screen("records_screen/ResultName/ListOfCourseDetails/Gp/ResultRemark")

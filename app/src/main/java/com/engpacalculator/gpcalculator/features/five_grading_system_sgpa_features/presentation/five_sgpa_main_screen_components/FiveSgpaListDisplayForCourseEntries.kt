@@ -1,6 +1,6 @@
 package com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component
 
-import GpCalculatorPrototype.Data.GpData
+import GpCalculatorPrototype.Data.FiveGpData
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -54,7 +54,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun FiveSgpaTotalCoursesListCardViewToDisplay(
-    data: ArrayList<GpData>,
+    data: ArrayList<FiveGpData>,
     onClickEvent: (FiveGpaUiEvents) -> Unit,
     dbState: FiveSgpaUiStates,
     sheetState: BottomSheetState,
@@ -87,7 +87,7 @@ fun FiveSgpaTotalCoursesListCardViewToDisplay(
 
             val context = LocalContext.current
 
-            MyCardViewForCoursesList(
+            FiveSgpaMyCardViewForCoursesList(
                 info = item,
                 index = index,
                 onEvent = onClickEvent,
@@ -141,8 +141,8 @@ fun FiveSgpaTotalCoursesListCardViewToDisplay(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MyCardViewForCoursesList(
-    info: GpData,
+fun FiveSgpaMyCardViewForCoursesList(
+    info: FiveGpData,
     index: Int,
     onEvent: (FiveGpaUiEvents) -> Unit,
 
