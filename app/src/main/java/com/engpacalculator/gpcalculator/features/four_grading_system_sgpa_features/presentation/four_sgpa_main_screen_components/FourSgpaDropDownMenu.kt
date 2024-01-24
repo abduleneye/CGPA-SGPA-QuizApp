@@ -1,6 +1,6 @@
 package com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component
 
-import GpCalculatorPrototype.Data.FiveCourseDataEntries
+import GpCalculatorPrototype.Data.FourCourseDataEntries
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -53,7 +53,7 @@ fun FourSgpaDropDownMenu(
 
     val context = LocalContext.current
 
-    var dataEntryObj = FiveCourseDataEntries()
+    var dataEntryObj = FourCourseDataEntries()
 
     var textFilledSize by remember {
         mutableStateOf(Size.Zero)

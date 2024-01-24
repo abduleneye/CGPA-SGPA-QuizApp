@@ -1510,15 +1510,71 @@ class FourGpaViewModel @Inject constructor(
     private fun operations(totalCreditLoad: Int): String {
 
         coursesDataEntryObj.sixUnitCoursesPointSum =
-            coursePointObj.sixUnitA.sum() + coursePointObj.sixUnitB.sum() + coursePointObj.sixUnitC.sum() + coursePointObj.sixUnitD.sum() + coursePointObj.sixUnitE.sum() + coursePointObj.sixUnitF.sum()
+            coursePointObj.sixUnitA.sum().toDouble() +
+                    coursePointObj.sixUnitAB.sum()
+                        .toDouble() + coursePointObj.sixUnitB.sum().toDouble()
+                .toDouble() + coursePointObj.sixUnitBC.sum().toDouble()
+                .toDouble() + coursePointObj.sixUnitC.sum().toDouble()
+                .toDouble() + coursePointObj.sixUnitCD.sum().toDouble() +
+                    coursePointObj.sixUnitE.sum().toDouble() +
+                    coursePointObj.sixUnitF.sum().toDouble()
+
+        coursesDataEntryObj.fiveUnitCoursesPointSum =
+            coursePointObj.fiveUnitA.sum().toDouble() +
+                    coursePointObj.fiveUnitAB.sum()
+                        .toDouble() + coursePointObj.fiveUnitB.sum().toDouble()
+                .toDouble() + coursePointObj.fiveUnitBC.sum().toDouble()
+                .toDouble() + coursePointObj.fiveUnitC.sum().toDouble()
+                .toDouble() + coursePointObj.fiveUnitCD.sum().toDouble() +
+                    coursePointObj.fiveUnitE.sum().toDouble() +
+                    coursePointObj.fiveUnitF.sum().toDouble()
+
+
+
+
         coursesDataEntryObj.fourUnitCoursesPointSum =
-            coursePointObj.fourUnitA.sum() + coursePointObj.fourUnitB.sum() + coursePointObj.fourUnitC.sum() + coursePointObj.fourUnitD.sum() + coursePointObj.fourUnitE.sum() + coursePointObj.fourUnitF.sum()
+            coursePointObj.fourUnitA.sum().toDouble() +
+                    coursePointObj.fourUnitAB.sum()
+                        .toDouble() + coursePointObj.fourUnitB.sum().toDouble()
+                .toDouble() + coursePointObj.fourUnitBC.sum().toDouble()
+                .toDouble() + coursePointObj.fourUnitC.sum().toDouble()
+                .toDouble() + coursePointObj.fourUnitCD.sum().toDouble() +
+                    coursePointObj.fourUnitE.sum().toDouble() +
+                    coursePointObj.fourUnitF.sum().toDouble()
+
+
         coursesDataEntryObj.threeUnitCoursesPointSum =
-            coursePointObj.threeUnitA.sum() + coursePointObj.threeUnitB.sum() + coursePointObj.threeUnitC.sum() + coursePointObj.threeUnitD.sum() + coursePointObj.threeUnitE.sum() + coursePointObj.threeUnitF.sum()
+            coursePointObj.threeUnitA.sum().toDouble() +
+                    coursePointObj.threeUnitAB.sum()
+                        .toDouble() + coursePointObj.threeUnitB.sum().toDouble()
+                .toDouble() + coursePointObj.threeUnitBC.sum().toDouble()
+                .toDouble() + coursePointObj.threeUnitC.sum().toDouble()
+                .toDouble() + coursePointObj.threeUnitCD.sum().toDouble() +
+                    coursePointObj.threeUnitE.sum().toDouble() +
+                    coursePointObj.threeUnitF.sum().toDouble()
+
+
         coursesDataEntryObj.twoUnitCoursesPointSum =
-            coursePointObj.twoUnitA.sum() + coursePointObj.twoUnitB.sum() + coursePointObj.twoUnitC.sum() + coursePointObj.twoUnitD.sum() + coursePointObj.twoUnitE.sum() + coursePointObj.twoUnitF.sum()
+            coursePointObj.twoUnitA.sum().toDouble() +
+                    coursePointObj.twoUnitAB.sum()
+                        .toDouble() + coursePointObj.twoUnitB.sum().toDouble()
+                .toDouble() + coursePointObj.twoUnitBC.sum().toDouble()
+                .toDouble() + coursePointObj.twoUnitC.sum().toDouble()
+                .toDouble() + coursePointObj.twoUnitCD.sum().toDouble() +
+                    coursePointObj.twoUnitE.sum().toDouble() +
+                    coursePointObj.twoUnitF.sum().toDouble()
+
+
         coursesDataEntryObj.oneUnitCoursesPointSum =
-            coursePointObj.oneUnitA.sum() + coursePointObj.oneUnitB.sum() + coursePointObj.oneUnitC.sum() + coursePointObj.oneUnitD.sum() + coursePointObj.oneUnitE.sum() + coursePointObj.oneUnitF.sum()
+            coursePointObj.oneUnitA.sum().toDouble() +
+                    coursePointObj.oneUnitAB.sum()
+                        .toDouble() + coursePointObj.oneUnitB.sum().toDouble()
+                .toDouble() + coursePointObj.oneUnitBC.sum().toDouble()
+                .toDouble() + coursePointObj.oneUnitC.sum().toDouble()
+                .toDouble() + coursePointObj.oneUnitCD.sum().toDouble() +
+                    coursePointObj.oneUnitE.sum().toDouble() +
+                    coursePointObj.oneUnitF.sum().toDouble()
+
         coursesDataEntryObj.totalCoursesPointSum =
             (coursesDataEntryObj.sixUnitCoursesPointSum + coursesDataEntryObj.fourUnitCoursesPointSum + coursesDataEntryObj.threeUnitCoursesPointSum + coursesDataEntryObj.twoUnitCoursesPointSum + coursesDataEntryObj.oneUnitCoursesPointSum).toDouble()
 
@@ -1552,6 +1608,16 @@ class FourGpaViewModel @Inject constructor(
 
                 FourGpData(
                     courseCode = courseData.courseCode,
+                    courseGrade = "AB",
+                    courseUnit = 6
+                ) -> {
+
+                    courseMapObj.sixUnit_GradeMap["AB"]?.let { coursePointObj.sixUnitAB.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
                     courseGrade = "B",
                     courseUnit = 6
                 ) -> {
@@ -1562,11 +1628,31 @@ class FourGpaViewModel @Inject constructor(
 
                 FourGpData(
                     courseCode = courseData.courseCode,
+                    courseGrade = "BC",
+                    courseUnit = 6
+                ) -> {
+
+                    courseMapObj.sixUnit_GradeMap["BC"]?.let { coursePointObj.sixUnitBC.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
                     courseGrade = "C",
                     courseUnit = 6
                 ) -> {
 
                     courseMapObj.sixUnit_GradeMap["C"]?.let { coursePointObj.sixUnitC.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "CD",
+                    courseUnit = 6
+                ) -> {
+
+                    courseMapObj.sixUnit_GradeMap["CD"]?.let { coursePointObj.sixUnitCD.add(it) }
 
                 }
 
@@ -1600,6 +1686,97 @@ class FourGpaViewModel @Inject constructor(
 
                 }
 
+                //For five unit courses
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "A",
+                    courseUnit = 5
+                ) -> {
+
+                    courseMapObj.fiveUnit_GradeMap["A"]?.let { coursePointObj.fiveUnitA.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "AB",
+                    courseUnit = 5
+                ) -> {
+
+                    courseMapObj.fiveUnit_GradeMap["AB"]?.let { coursePointObj.fiveUnitA.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "B",
+                    courseUnit = 5
+                ) -> {
+
+                    courseMapObj.fiveUnit_GradeMap["B"]?.let { coursePointObj.fiveUnitB.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "BC",
+                    courseUnit = 5
+                ) -> {
+
+                    courseMapObj.fiveUnit_GradeMap["BC"]?.let { coursePointObj.fiveUnitB.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "C",
+                    courseUnit = 5
+                ) -> {
+
+                    courseMapObj.fiveUnit_GradeMap["C"]?.let { coursePointObj.fiveUnitC.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "CD",
+                    courseUnit = 5
+                ) -> {
+
+                    courseMapObj.fiveUnit_GradeMap["CD"]?.let { coursePointObj.fiveUnitC.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "D",
+                    courseUnit = 5
+                ) -> {
+
+                    courseMapObj.fiveUnit_GradeMap["D"]?.let { coursePointObj.fiveUnitD.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "E",
+                    courseUnit = 5
+                ) -> {
+
+                    courseMapObj.fiveUnit_GradeMap["E"]?.let { coursePointObj.fiveUnitE.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "F",
+                    courseUnit = 5
+                ) -> {
+
+                    courseMapObj.fiveUnit_GradeMap["F"]?.let { coursePointObj.fiveUnitF.add(it) }
+
+                }
+
 
                 //For four unit Courses
 
@@ -1615,6 +1792,16 @@ class FourGpaViewModel @Inject constructor(
 
                 FourGpData(
                     courseCode = courseData.courseCode,
+                    courseGrade = "AB",
+                    courseUnit = 4
+                ) -> {
+
+                    courseMapObj.fourUnit_GradeMap["AB"]?.let { coursePointObj.fourUnitAB.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
                     courseGrade = "B",
                     courseUnit = 4
                 ) -> {
@@ -1625,11 +1812,31 @@ class FourGpaViewModel @Inject constructor(
 
                 FourGpData(
                     courseCode = courseData.courseCode,
+                    courseGrade = "BC",
+                    courseUnit = 4
+                ) -> {
+
+                    courseMapObj.fourUnit_GradeMap["BC"]?.let { coursePointObj.fourUnitBC.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
                     courseGrade = "C",
                     courseUnit = 4
                 ) -> {
 
                     courseMapObj.fourUnit_GradeMap["C"]?.let { coursePointObj.fourUnitC.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "CD",
+                    courseUnit = 4
+                ) -> {
+
+                    courseMapObj.fourUnit_GradeMap["CD"]?.let { coursePointObj.fourUnitCD.add(it) }
 
                 }
 
@@ -1678,6 +1885,16 @@ class FourGpaViewModel @Inject constructor(
 
                 FourGpData(
                     courseCode = courseData.courseCode,
+                    courseGrade = "AB",
+                    courseUnit = 3
+                ) -> {
+
+                    courseMapObj.threeUnit_GradeMap["BA"]?.let { coursePointObj.threeUnitAB.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
                     courseGrade = "B",
                     courseUnit = 3
                 ) -> {
@@ -1688,11 +1905,31 @@ class FourGpaViewModel @Inject constructor(
 
                 FourGpData(
                     courseCode = courseData.courseCode,
+                    courseGrade = "BC",
+                    courseUnit = 3
+                ) -> {
+
+                    courseMapObj.threeUnit_GradeMap["BC"]?.let { coursePointObj.threeUnitBC.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
                     courseGrade = "C",
                     courseUnit = 3
                 ) -> {
 
                     courseMapObj.threeUnit_GradeMap["C"]?.let { coursePointObj.threeUnitC.add(it) }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "CD",
+                    courseUnit = 3
+                ) -> {
+
+                    courseMapObj.threeUnit_GradeMap["CD"]?.let { coursePointObj.threeUnitCD.add(it) }
 
                 }
 
@@ -1738,6 +1975,15 @@ class FourGpaViewModel @Inject constructor(
 
                 }
 
+                FourGpData(courseCode = courseData.courseCode, "AB", 2) -> {
+
+                    courseMapObj.twoUnit_GradeMap["AB"]?.let {
+
+                        coursePointObj.twoUnitAB.add(it)
+                    }
+
+                }
+
                 FourGpData(courseCode = courseData.courseCode, "B", 2) -> {
 
                     courseMapObj.twoUnit_GradeMap["B"]?.let {
@@ -1747,11 +1993,30 @@ class FourGpaViewModel @Inject constructor(
 
                 }
 
+                FourGpData(courseCode = courseData.courseCode, "BC", 2) -> {
+
+                    courseMapObj.twoUnit_GradeMap["BC"]?.let {
+
+                        coursePointObj.twoUnitBC.add(it)
+                    }
+
+                }
+
+
                 FourGpData(courseCode = courseData.courseCode, "C", 2) -> {
 
                     courseMapObj.twoUnit_GradeMap["C"]?.let {
 
                         coursePointObj.twoUnitC.add(it)
+                    }
+
+                }
+
+                FourGpData(courseCode = courseData.courseCode, "CD", 2) -> {
+
+                    courseMapObj.twoUnit_GradeMap["CD"]?.let {
+
+                        coursePointObj.twoUnitCD.add(it)
                     }
 
                 }
@@ -1799,6 +2064,18 @@ class FourGpaViewModel @Inject constructor(
 
                 FourGpData(
                     courseCode = courseData.courseCode,
+                    courseGrade = "AB",
+                    courseUnit = 1
+                ) -> {
+
+                    courseMapObj.oneUnit_GradeMap["AB"]?.let {
+                        coursePointObj.oneUnitAB.add(it)
+                    }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
                     courseGrade = "B",
                     courseUnit = 1
                 ) -> {
@@ -1811,12 +2088,36 @@ class FourGpaViewModel @Inject constructor(
 
                 FourGpData(
                     courseCode = courseData.courseCode,
+                    courseGrade = "BC",
+                    courseUnit = 1
+                ) -> {
+
+                    courseMapObj.oneUnit_GradeMap["BC"]?.let {
+                        coursePointObj.oneUnitBC.add(it)
+                    }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
                     courseGrade = "C",
                     courseUnit = 1
                 ) -> {
 
                     courseMapObj.oneUnit_GradeMap["C"]?.let {
                         coursePointObj.oneUnitC.add(it)
+                    }
+
+                }
+
+                FourGpData(
+                    courseCode = courseData.courseCode,
+                    courseGrade = "CD",
+                    courseUnit = 1
+                ) -> {
+
+                    courseMapObj.oneUnit_GradeMap["CD"]?.let {
+                        coursePointObj.oneUnitCD.add(it)
                     }
 
                 }
@@ -1885,37 +2186,62 @@ class FourGpaViewModel @Inject constructor(
     private fun onReExecuteCalculationClearArrayField() {
 
         coursePointObj.sixUnitA.clear()
+        coursePointObj.sixUnitAB.clear()
         coursePointObj.sixUnitB.clear()
+        coursePointObj.sixUnitBC.clear()
         coursePointObj.sixUnitC.clear()
+        coursePointObj.sixUnitCD.clear()
         coursePointObj.sixUnitD.clear()
         coursePointObj.sixUnitE.clear()
         coursePointObj.sixUnitF.clear()
 
+        coursePointObj.fiveUnitA.clear()
+        coursePointObj.fiveUnitAB.clear()
+        coursePointObj.fiveUnitB.clear()
+        coursePointObj.fiveUnitBC.clear()
+        coursePointObj.fiveUnitC.clear()
+        coursePointObj.fiveUnitCD.clear()
+        coursePointObj.fiveUnitD.clear()
+        coursePointObj.fiveUnitE.clear()
+        coursePointObj.fiveUnitF.clear()
+
         coursePointObj.fourUnitA.clear()
+        coursePointObj.fourUnitAB.clear()
         coursePointObj.fourUnitB.clear()
+        coursePointObj.fourUnitBC.clear()
         coursePointObj.fourUnitC.clear()
+        coursePointObj.fourUnitCD.clear()
         coursePointObj.fourUnitD.clear()
         coursePointObj.fourUnitE.clear()
         coursePointObj.fourUnitF.clear()
 
         coursePointObj.threeUnitA.clear()
+        coursePointObj.threeUnitAB.clear()
         coursePointObj.threeUnitB.clear()
+        coursePointObj.threeUnitBC.clear()
         coursePointObj.threeUnitC.clear()
+        coursePointObj.threeUnitCD.clear()
         coursePointObj.threeUnitD.clear()
         coursePointObj.threeUnitE.clear()
         coursePointObj.threeUnitF.clear()
 
 
         coursePointObj.twoUnitA.clear()
+        coursePointObj.twoUnitAB.clear()
         coursePointObj.twoUnitB.clear()
+        coursePointObj.twoUnitBC.clear()
         coursePointObj.twoUnitC.clear()
+        coursePointObj.twoUnitCD.clear()
         coursePointObj.twoUnitD.clear()
         coursePointObj.twoUnitE.clear()
         coursePointObj.twoUnitF.clear()
 
         coursePointObj.oneUnitA.clear()
+        coursePointObj.oneUnitAB.clear()
         coursePointObj.oneUnitB.clear()
+        coursePointObj.oneUnitBC.clear()
         coursePointObj.oneUnitC.clear()
+        coursePointObj.oneUnitCD.clear()
         coursePointObj.oneUnitD.clear()
         coursePointObj.oneUnitE.clear()
         coursePointObj.oneUnitF.clear()

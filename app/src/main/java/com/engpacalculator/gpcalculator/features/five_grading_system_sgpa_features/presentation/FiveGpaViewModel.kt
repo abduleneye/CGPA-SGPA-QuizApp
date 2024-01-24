@@ -207,7 +207,9 @@ class FiveGpaViewModel @Inject constructor(
                         it.copy(
                             cgpa = String.format(
                                 "%.2f",
-                                _fiveCgpaUiState.value.cgpaList.sum() / _fiveCgpaUiState.value.cgpaList.size
+                                (_fiveCgpaUiState.value.cgpaList.sum()
+                                    .toDouble() / _fiveCgpaUiState.value.cgpaList.size.toDouble())
+
                             )
                         )
                     }
