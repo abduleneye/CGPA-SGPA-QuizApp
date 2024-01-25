@@ -1,8 +1,12 @@
 package com.engpacalculator.gpcalculator.HomeScreen
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,19 +17,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.Icon
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
+import com.engpacalculator.gpcalculator.R
 import com.engpacalculator.gpcalculator.core.ads_components.FiveScreensBottomBannerAd
 import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
@@ -44,6 +54,9 @@ fun HomeScreen(
 
 ) {
 
+    val context = LocalContext.current
+
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -54,13 +67,54 @@ fun HomeScreen(
                 title = {
                     Text(text = "Home ")
                 },
+
+                actions = {
+                    IconButton(
+                        onClick = {
+                            val packageName = "com.engpacalculator.gpcalculator"
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("market://details?id=$packageName")
+                            )
+
+                            try {
+                                context.startActivity(intent)
+                            } catch (e: ActivityNotFoundException) {
+                                val intentWeb = Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                                )
+                                context.startActivity(intentWeb)
+                            }
+
+                        },
+
+
+                        ) {
+                        Column {
+                            Icon(
+                                painter = painterResource(id = R.drawable.app_update_icon),
+                                contentDescription = "Update App"
+                            )
+                            Text(text = "Update App", fontSize = 6.sp)
+
+                        }
+
+
+                    }
+
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = AppBars
                 ),
 
 
                 )
+
+
         },
+
+
         bottomBar = {
 
             BottomAppBar(

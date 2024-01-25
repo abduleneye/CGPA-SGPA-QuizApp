@@ -47,6 +47,8 @@ fun DefaultCardSample(
                 .clickable {
                     if (route != null) {
                         navController?.navigate(route)
+                    } else {
+
                     }
                 },
         ) {

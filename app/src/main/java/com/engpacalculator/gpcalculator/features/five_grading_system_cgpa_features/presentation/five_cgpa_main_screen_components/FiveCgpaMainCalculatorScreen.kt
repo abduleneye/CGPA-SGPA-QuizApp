@@ -19,7 +19,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
@@ -82,15 +81,7 @@ fun FiveCgpaMainScreen(
     val sheetWidth = remember {
         mutableStateOf(60.dp)
     }
-    var initial_working_StatusIcon =
-        if (fiveCgpaUiStatesFromSgpaViewModel.operatorIconState == true) {
-            Icons.Default.Done
-
-        } else {
-            Icons.Default.Add
-
-
-        }
+    var initial_working_StatusIcon = Icons.Default.Done
 
 
     var finalStatusIcon = Icons.Filled.Done

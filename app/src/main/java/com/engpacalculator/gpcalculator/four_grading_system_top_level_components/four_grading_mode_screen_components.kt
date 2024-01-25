@@ -64,7 +64,7 @@ fun Four_Grading_System_Mode_Screen(
                 navigationIcon = {
                     IconButton(onClick = {
                         //navController.navigate(Screen.Home.route)
-                        //navController.popBackStack()
+                        navController?.popBackStack()
                         //navController.popBackStack()
                     }) {
                         Icon(

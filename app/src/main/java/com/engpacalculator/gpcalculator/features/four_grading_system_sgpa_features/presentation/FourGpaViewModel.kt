@@ -1510,78 +1510,45 @@ class FourGpaViewModel @Inject constructor(
     private fun operations(totalCreditLoad: Int): String {
 
         coursesDataEntryObj.sixUnitCoursesPointSum =
-            coursePointObj.sixUnitA.sum().toDouble() +
-                    coursePointObj.sixUnitAB.sum()
-                        .toDouble() + coursePointObj.sixUnitB.sum().toDouble()
-                .toDouble() + coursePointObj.sixUnitBC.sum().toDouble()
-                .toDouble() + coursePointObj.sixUnitC.sum().toDouble()
-                .toDouble() + coursePointObj.sixUnitCD.sum().toDouble() +
-                    coursePointObj.sixUnitE.sum().toDouble() +
-                    coursePointObj.sixUnitF.sum().toDouble()
+            (coursePointObj.sixUnitA.sum() + coursePointObj.sixUnitAB.sum() + coursePointObj.sixUnitB.sum() + coursePointObj.sixUnitBC.sum() + coursePointObj.sixUnitC.sum() + coursePointObj.sixUnitCD.sum() + coursePointObj.sixUnitD.sum() + coursePointObj.sixUnitE.sum() + coursePointObj.sixUnitF.sum())
+
 
         coursesDataEntryObj.fiveUnitCoursesPointSum =
-            coursePointObj.fiveUnitA.sum().toDouble() +
-                    coursePointObj.fiveUnitAB.sum()
-                        .toDouble() + coursePointObj.fiveUnitB.sum().toDouble()
-                .toDouble() + coursePointObj.fiveUnitBC.sum().toDouble()
-                .toDouble() + coursePointObj.fiveUnitC.sum().toDouble()
-                .toDouble() + coursePointObj.fiveUnitCD.sum().toDouble() +
-                    coursePointObj.fiveUnitE.sum().toDouble() +
-                    coursePointObj.fiveUnitF.sum().toDouble()
+            (coursePointObj.fiveUnitA.sum() + coursePointObj.fiveUnitAB.sum() + coursePointObj.fiveUnitB.sum() + coursePointObj.fiveUnitBC.sum() + coursePointObj.fiveUnitC.sum() + coursePointObj.fiveUnitCD.sum() + coursePointObj.fiveUnitD.sum() + coursePointObj.fiveUnitE.sum() + coursePointObj.fiveUnitF.sum())
+
 
 
 
 
         coursesDataEntryObj.fourUnitCoursesPointSum =
-            coursePointObj.fourUnitA.sum().toDouble() +
-                    coursePointObj.fourUnitAB.sum()
-                        .toDouble() + coursePointObj.fourUnitB.sum().toDouble()
-                .toDouble() + coursePointObj.fourUnitBC.sum().toDouble()
-                .toDouble() + coursePointObj.fourUnitC.sum().toDouble()
-                .toDouble() + coursePointObj.fourUnitCD.sum().toDouble() +
-                    coursePointObj.fourUnitE.sum().toDouble() +
-                    coursePointObj.fourUnitF.sum().toDouble()
+            (coursePointObj.fourUnitA.sum() + coursePointObj.fourUnitAB.sum() + coursePointObj.fourUnitB.sum() + coursePointObj.fourUnitBC.sum() + coursePointObj.fourUnitC.sum() + coursePointObj.fourUnitCD.sum() + coursePointObj.fourUnitD.sum() + coursePointObj.fourUnitE.sum() + coursePointObj.fourUnitF.sum())
+
 
 
         coursesDataEntryObj.threeUnitCoursesPointSum =
-            coursePointObj.threeUnitA.sum().toDouble() +
-                    coursePointObj.threeUnitAB.sum()
-                        .toDouble() + coursePointObj.threeUnitB.sum().toDouble()
-                .toDouble() + coursePointObj.threeUnitBC.sum().toDouble()
-                .toDouble() + coursePointObj.threeUnitC.sum().toDouble()
-                .toDouble() + coursePointObj.threeUnitCD.sum().toDouble() +
-                    coursePointObj.threeUnitE.sum().toDouble() +
-                    coursePointObj.threeUnitF.sum().toDouble()
+            (coursePointObj.threeUnitA.sum() + coursePointObj.threeUnitAB.sum() + coursePointObj.threeUnitB.sum() + coursePointObj.threeUnitBC.sum() + coursePointObj.threeUnitC.sum() + coursePointObj.threeUnitCD.sum() + coursePointObj.threeUnitD.sum() + coursePointObj.threeUnitE.sum() + coursePointObj.threeUnitF.sum())
+
 
 
         coursesDataEntryObj.twoUnitCoursesPointSum =
-            coursePointObj.twoUnitA.sum().toDouble() +
-                    coursePointObj.twoUnitAB.sum()
-                        .toDouble() + coursePointObj.twoUnitB.sum().toDouble()
-                .toDouble() + coursePointObj.twoUnitBC.sum().toDouble()
-                .toDouble() + coursePointObj.twoUnitC.sum().toDouble()
-                .toDouble() + coursePointObj.twoUnitCD.sum().toDouble() +
-                    coursePointObj.twoUnitE.sum().toDouble() +
-                    coursePointObj.twoUnitF.sum().toDouble()
+            (coursePointObj.twoUnitA.sum() + coursePointObj.twoUnitAB.sum() + coursePointObj.twoUnitB.sum() + coursePointObj.twoUnitBC.sum() + coursePointObj.twoUnitC.sum() + coursePointObj.twoUnitCD.sum() + coursePointObj.twoUnitD.sum() + coursePointObj.twoUnitE.sum() + coursePointObj.twoUnitF.sum())
 
 
         coursesDataEntryObj.oneUnitCoursesPointSum =
-            coursePointObj.oneUnitA.sum().toDouble() +
-                    coursePointObj.oneUnitAB.sum()
-                        .toDouble() + coursePointObj.oneUnitB.sum().toDouble()
-                .toDouble() + coursePointObj.oneUnitBC.sum().toDouble()
-                .toDouble() + coursePointObj.oneUnitC.sum().toDouble()
-                .toDouble() + coursePointObj.oneUnitCD.sum().toDouble() +
-                    coursePointObj.oneUnitE.sum().toDouble() +
-                    coursePointObj.oneUnitF.sum().toDouble()
+            (coursePointObj.oneUnitA.sum() + coursePointObj.oneUnitAB.sum() + coursePointObj.oneUnitB.sum() + coursePointObj.oneUnitBC.sum() + coursePointObj.oneUnitC.sum() + coursePointObj.oneUnitCD.sum() + coursePointObj.oneUnitD.sum() + coursePointObj.oneUnitE.sum() + coursePointObj.oneUnitF.sum())
 
         coursesDataEntryObj.totalCoursesPointSum =
-            (coursesDataEntryObj.sixUnitCoursesPointSum + coursesDataEntryObj.fourUnitCoursesPointSum + coursesDataEntryObj.threeUnitCoursesPointSum + coursesDataEntryObj.twoUnitCoursesPointSum + coursesDataEntryObj.oneUnitCoursesPointSum).toDouble()
+            (coursesDataEntryObj.sixUnitCoursesPointSum + coursesDataEntryObj.fiveUnitCoursesPointSum + coursesDataEntryObj.fourUnitCoursesPointSum + coursesDataEntryObj.threeUnitCoursesPointSum + coursesDataEntryObj.twoUnitCoursesPointSum + coursesDataEntryObj.oneUnitCoursesPointSum)
 
 
         var finalAns = (coursesDataEntryObj.totalCoursesPointSum / totalCreditLoad)
         //var decimalFormat = DecimalFormat("#.##")
         var final_result = String.format("%.2f", finalAns)
+
+        Log.d(
+            "Ahh!!!",
+            "${coursePointObj.oneUnitD.sum()}...${coursesDataEntryObj.oneUnitCoursesPointSum}...${coursesDataEntryObj.totalCoursesPointSum}...${totalCreditLoad}...${finalAns}"
+        )
 
 
         return ("$final_result")
@@ -2326,65 +2293,54 @@ class FourGpaViewModel @Inject constructor(
 
     private fun GpaDescriptor(gpa: Float, desc: String) {
         if (desc == "sgpa") {
-            if (gpa in 4.50..5.00) {
+            if (gpa in 3.50..4.00) {
                 _dbState.update {
                     it.copy(
-                        gpaDescriptor = "First Class",
+                        gpaDescriptor = "Distinction",
                         remark = "You Performed Brilliantly"
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
-            } else if (gpa in 3.50..4.49) {
+            } else if (gpa in 3.00..3.49) {
 
                 _dbState.update {
                     it.copy(
-                        gpaDescriptor = "Second Class Upper",
+                        gpaDescriptor = "Upper Credit",
                         remark = "You Performed Amazing "
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-            } else if (gpa in 2.40..3.49) {
+            } else if (gpa in 2.50..2.99) {
 
                 _dbState.update {
                     it.copy(
-                        gpaDescriptor = "Second Class Lower",
+                        gpaDescriptor = "Lower Credit",
                         remark = "You Performed Great"
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-            } else if (gpa in 1.50..2.39) {
+            } else if (gpa in 2.00..2.49) {
 
                 _dbState.update {
                     it.copy(
-                        gpaDescriptor = "Third Class",
+                        gpaDescriptor = "Pass",
                         remark = "You performed averagely"
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-            } else if (gpa in 1.00..1.49) {
+            } else if (gpa in 0.00..1.99) {
 
                 _dbState.update {
                     it.copy(
-                        gpaDescriptor = "Pass",
-                        remark = "You passed"
-                    )
-                }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
-
-
-            } else if (gpa in 0.00..1.00) {
-
-                _dbState.update {
-                    it.copy(
-                        gpaDescriptor = "Failure",
-                        remark = "You Failed"
+                        gpaDescriptor = "Fail",
+                        remark = "You failed"
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
@@ -2394,65 +2350,54 @@ class FourGpaViewModel @Inject constructor(
 
         } else if (desc == "cgpa") {
 
-            if (gpa in 4.50..5.00) {
+            if (gpa in 3.50..4.00) {
                 _fourCgpaUiState.update {
                     it.copy(
-                        gpaDescriptor = "First Class",
+                        gpaDescriptor = "Distinction",
                         remark = "You Performed Brilliantly"
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
-            } else if (gpa in 3.50..4.49) {
+            } else if (gpa in 3.00..3.49) {
 
                 _fourCgpaUiState.update {
                     it.copy(
-                        gpaDescriptor = "Second Class Upper",
+                        gpaDescriptor = "Upper Credit",
                         remark = "You Performed Amazing "
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-            } else if (gpa in 2.40..3.49) {
+            } else if (gpa in 2.50..2.99) {
 
                 _fourCgpaUiState.update {
                     it.copy(
-                        gpaDescriptor = "Second Class Lower",
+                        gpaDescriptor = "Lower Credit",
                         remark = "You Performed Great"
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-            } else if (gpa in 1.50..2.39) {
+            } else if (gpa in 2.00..2.49) {
 
                 _fourCgpaUiState.update {
                     it.copy(
-                        gpaDescriptor = "Third Class",
+                        gpaDescriptor = "Pass",
                         remark = "You performed averagely"
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
 
 
-            } else if (gpa in 1.00..1.49) {
+            } else if (gpa in 0.00..1.99) {
 
                 _fourCgpaUiState.update {
                     it.copy(
-                        gpaDescriptor = "Pass",
-                        remark = "You passed"
-                    )
-                }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
-
-
-            } else if (gpa in 0.00..1.00) {
-
-                _fourCgpaUiState.update {
-                    it.copy(
-                        gpaDescriptor = "Failure",
-                        remark = "You Failed"
+                        gpaDescriptor = "Fail",
+                        remark = "You failed"
                     )
                 }
                 savedStateHandle.set(DB_STATE_KEY, _dbState.value)
@@ -2463,7 +2408,7 @@ class FourGpaViewModel @Inject constructor(
 
         }
 
-    }
 
+    }
 
 }

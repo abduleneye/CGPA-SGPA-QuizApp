@@ -19,7 +19,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
@@ -83,14 +82,14 @@ fun FourCgpaMainScreen(
         mutableStateOf(60.dp)
     }
     var initial_working_StatusIcon =
-        if (fourCgpaUiStatesFromSgpaViewModel.operatorIconState == true) {
-            Icons.Default.Done
+        // if (fourCgpaUiStatesFromSgpaViewModel.operatorIconState == true) {
+        Icons.Default.Done
 
-        } else {
-            Icons.Default.Add
-
-
-        }
+//        } else {
+//            Icons.Default.Add
+//
+//
+//        }
 
 
     var finalStatusIcon = Icons.Filled.Done
@@ -307,6 +306,5 @@ fun FourCgpaMainScreen(
 
 
     }
-
 }
 
