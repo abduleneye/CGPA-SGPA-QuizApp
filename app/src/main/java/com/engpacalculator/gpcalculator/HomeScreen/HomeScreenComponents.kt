@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,8 +28,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +50,10 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.Firebase
+import com.google.firebase.messaging.messaging
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -55,6 +67,13 @@ fun HomeScreen(
 ) {
 
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val clipboardManager = LocalClipboardManager
+
+    var res by remember {
+        mutableStateOf("")
+    }
+
 
 
     Scaffold(
@@ -71,6 +90,22 @@ fun HomeScreen(
                 actions = {
                     IconButton(
                         onClick = {
+
+                            scope.launch {
+                                val localToken = Firebase.messaging.token.await()
+                                res = localToken
+                                // clipboardManager.current.setText(AnnotatedString(localToken))
+                                Toast.makeText(context, localToken, Toast.LENGTH_LONG).show()
+                                Log.d("Token", localToken)
+                            }
+
+
+//                            var notice = MyNotification(
+//                                context = context,
+//                                title = "FCM: AppUpdate",
+//                                msg = "AppUpdate Available"
+//                            )
+//                            notice.FireNotification()
                             val packageName = "com.engpacalculator.gpcalculator"
                             val intent = Intent(
                                 Intent.ACTION_VIEW,
@@ -249,6 +284,7 @@ fun HomeScreen(
 
                         )
                     }
+
 
                 }
 

@@ -1,6 +1,8 @@
 package com.engpacalculator.gpcalculator.core.navigation
 
 sealed class Screen(val route: String) {
+    object Demo_Quiz : Screen("demo_quiz_screen")
+
     object Four_Cgpa_Full_Records_Screen : Screen("four_cgpa_full_records_screen")
 
     object Four_Cgpa_Records_Screen : Screen("four_cgpa_records_screen")
@@ -30,7 +32,7 @@ sealed class Screen(val route: String) {
 
     object Quiz_Mode_Screen : Screen("quiz_mode_screen")
 
-    object Quiz_Demo_Screen : Screen("quiz_demo_screen")
+    object Quiz_Demo_Screen_Categories : Screen("quiz_demo_screen_categories")
     object Quiz_Legit_Screen : Screen("quiz_legit_screen")
 
 

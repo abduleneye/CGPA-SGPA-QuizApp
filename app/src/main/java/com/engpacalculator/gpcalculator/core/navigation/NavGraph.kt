@@ -17,6 +17,9 @@ import com.engpacalculator.gpcalculator.HomeScreen.HomeScreen
 import com.engpacalculator.gpcalculator.about_screen_components.ui.theme.AboutScreen
 import com.engpacalculator.gpcalculator.core.AnimatedSplash
 import com.engpacalculator.gpcalculator.features.Four_grading_system_sgpa_features.presentation.FourGpaViewModel
+import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation.DemoQuizCategoriesScreen
+import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation.DemoQuizScreen
+import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation.DemoQuizViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_main_screen_components.FiveCgpaMainScreen
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component.FiveCgpaFullResultScreen
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component.FiveCgpaResultRecordScreen
@@ -40,15 +43,18 @@ fun SetUpNavGraph(
     navController: NavHostController,
     fiveGpaViewModel: FiveGpaViewModel,
     fourGpaViewModel: FourGpaViewModel,
+    demoQuizViewModel: DemoQuizViewModel
 
 
-    ) {
+) {
     //val navBackStackEntry by navController.currentBackStackEntryAsState()
     val fiveSgpaViewModel = fiveGpaViewModel
     val fourSgpaViewModel = fourGpaViewModel
+    val demoQuizViewModel = demoQuizViewModel
     // var fiveCgpaViewModel = fiveCgpaViewModel
     val fiveSgpaUiStates by fiveSgpaViewModel.dbState.collectAsState()
     val fourSgpaUiStates by fourSgpaViewModel.dbState.collectAsState()
+    val demoQuizUiStates by demoQuizViewModel.demoQuizUiState.collectAsState()
 
     val fiveCgpaUiStates by fiveSgpaViewModel.fiveCgpaUiState.collectAsState()
     val fourCgpaUiStates by fourSgpaViewModel.fourCgpaUiState.collectAsState()
@@ -185,7 +191,8 @@ fun SetUpNavGraph(
             Quiz_Mode_Screen(
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
-                state = fiveSgpaUiStates, onEvent = fiveSgpaViewModel::onEvent
+                state = fiveSgpaUiStates,
+                onEvent = fiveSgpaViewModel::onEvent
             )
         }
 
@@ -409,6 +416,44 @@ fun SetUpNavGraph(
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
                 state = fiveSgpaUiStates
+            )
+        }
+
+        ///QUIZ
+
+        composable(
+            route = Screen.Quiz_Demo_Screen_Categories.route
+            //            + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}"
+        ) {
+            DemoQuizCategoriesScreen(
+                navController = navController,
+                onEvent = fiveSgpaViewModel::onEvent,
+                state = fiveSgpaUiStates,
+                adId = "ca-app-pub-3940256099942544/6300978111"
+
+
+            )
+        }
+
+
+        composable(
+            route = Screen.Demo_Quiz.route + "/{QuestionCategory}",
+            arguments = listOf(
+                navArgument(name = "QuestionCategory") {
+                    type = NavType.StringType
+                    defaultValue = "QuestionCategory"
+
+                },
+            )
+        ) { entry ->
+            DemoQuizScreen(
+                category = entry.arguments?.getString("QuestionCategory"),
+                navController = navController,
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                state = fiveSgpaUiStates,
+                onEvent = fiveSgpaViewModel::onEvent,
+                quizUiState = demoQuizUiStates
+
             )
         }
 

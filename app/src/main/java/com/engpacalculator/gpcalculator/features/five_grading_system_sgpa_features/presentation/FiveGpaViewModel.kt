@@ -42,7 +42,6 @@ class FiveGpaViewModel @Inject constructor(
 
 
     ) : ViewModel() {
-
     companion object {
         private const val DB_STATE_KEY = "my_db_state"
         private const val COURSE_ENTRIES_KEY = "my_course_entry_state"

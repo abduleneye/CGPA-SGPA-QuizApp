@@ -169,6 +169,9 @@ fun MyCardView(
                     checked = info.resultSelected,
                     onCheckedChange = {
 
+//                        info.copy(
+//                            resultSelected = it
+//                        )
                         scope.launch {
                             if (sheetState.isExpanded) {
                                 sheetState.collapse()

@@ -1,4 +1,4 @@
-package com.engpacalculator.gpcalculator.quiz_top_level_components
+package com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -12,19 +12,23 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -36,11 +40,10 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun Quiz_Mode_Screen(
+fun DemoQuizCategoriesScreen(
     navController: NavController?,
     adId: String?,
     state: FiveSgpaUiStates?,
@@ -48,37 +51,38 @@ fun Quiz_Mode_Screen(
 
 ) {
 
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val clipboardManager = LocalClipboardManager
+
+    var res by remember {
+        mutableStateOf("")
+    }
+
+
+
     Scaffold(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(color = Cream),
+
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "Quiz mode")
+                    Text(text = "Demo Categories")
                 },
+
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = AppBars
                 ),
 
 
-                navigationIcon = {
-                    IconButton(onClick = {
-                        //navController.navigate(Screen.Home.route)
-                        if (navController != null) {
-                            navController.popBackStack()
-                        }
-                        //navController.popBackStack()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back Arrow"
-                        )
-
-                    }
-                },
-
                 )
+
+
         },
+
+
         bottomBar = {
 
             BottomAppBar(
@@ -110,6 +114,9 @@ fun Quiz_Mode_Screen(
         }
     ) {
 
+        var scrollState = rememberScrollState()
+
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -127,14 +134,70 @@ fun Quiz_Mode_Screen(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(it)
+                        .padding(top = it.calculateTopPadding())
+                    //  .padding(start = it.calculateStartPadding(layoutDirection = LayoutDirection.Ltr)),
+
                 ) {
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "Demo".uppercase(),
+                            textInCardBox = "Sciences".uppercase(),
                             navController = navController,
-                            Screen.Quiz_Demo_Screen_Categories.route,
+                            route = Screen.Demo_Quiz.withArgs(
+                                "Sciences"
+                            ),
+                            modifier = Modifier
+                                .height(164.dp)
+                                .weight(0.5f)
+                                .width(164.dp)
+                                .padding(start = 16.dp)
+
+
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(24.dp))
+
+
+                    if (navController != null) {
+                        DefaultCardSample(
+                            textInCardBox = "Art".uppercase(),
+                            navController = navController,
+                            route = Screen.Demo_Quiz.withArgs(
+                                "Art"
+                            ), modifier = Modifier
+                                .height(164.dp)
+                                .weight(0.5f)
+                                .width(164.dp)
+                                .padding(end = 16.dp)
+                        )
+                    }
+
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = it.calculateBottomPadding())
+
+                    // .weight(0.5f)
+
+                    //.padding(start = it.calculateStartPadding(layoutDirection = LayoutDirection.Ltr)),
+
+                ) {
+
+                    if (navController != null) {
+                        DefaultCardSample(
+                            textInCardBox = "Commerce".uppercase(),
+                            navController = navController,
+                            route = Screen.Demo_Quiz.withArgs(
+                                "Commerce"
+                            ),
                             modifier = Modifier
                                 .height(164.dp)
                                 .weight(0.5f)
@@ -148,34 +211,37 @@ fun Quiz_Mode_Screen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "Legit".uppercase(),
-                            navController = navController,
-                            Screen.Quiz_Legit_Screen.route,
+                            textInCardBox = "History".uppercase(),
+                            navController,
+                            route = Screen.Demo_Quiz.withArgs(
+                                "History"
+                            ),
                             modifier = Modifier
                                 .height(164.dp)
                                 .weight(0.5f)
                                 .width(164.dp)
                                 .padding(end = 16.dp)
+
                         )
                     }
 
+
                 }
+
 
             }
 
 
         }
     }
-
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
-fun Quiz_Mode_Preview(
+fun HomeScreenPreview(
 
 ) {
-    Quiz_Mode_Screen(navController = null, null, null, null)
+    //HomeScreen(navController = null, null, state = null, onEvent = null)
 }

@@ -3,6 +3,7 @@ package com.engpacalculator.gpcalculator
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedDispatcherOwner
@@ -22,15 +23,19 @@ import androidx.navigation.compose.rememberNavController
 import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.core.navigation.SetUpNavGraph
 import com.engpacalculator.gpcalculator.features.Four_grading_system_sgpa_features.presentation.FourGpaViewModel
+import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation.DemoQuizViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.GpCalculatorTheme
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
+    @OptIn(DelicateCoroutinesApi::class)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +45,14 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
             FirebaseAnalytics.getInstance(this)
 
 
+            val token = FirebaseMessaging.getInstance().token
+
+            Log.d(" MyToken", token.toString())
+
+
             val fiveGpaViewModel: FiveGpaViewModel = hiltViewModel()
             val fourGpaViewModel: FourGpaViewModel = hiltViewModel()
+            val demoQuizViewModel: DemoQuizViewModel = hiltViewModel()
 
 //            val state by fiveSgpaViewModel.dbState.collectAsState()
 //            val statetwo by fiveSgpaViewModel.courseEntries.collectAsState()
@@ -94,7 +105,8 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
                         SetUpNavGraph(
                             navController = navController,
                             fiveGpaViewModel = fiveGpaViewModel,
-                            fourGpaViewModel = fourGpaViewModel
+                            fourGpaViewModel = fourGpaViewModel,
+                            demoQuizViewModel = demoQuizViewModel
                         )
 
 
