@@ -4,7 +4,7 @@ import com.engpacalculator.gpcalculator.features.demo_quiz_features.data.remote.
 import retrofit2.http.GET
 
 interface QuestionApi {
-    @GET("/api.php?amount=10&category=23&difficulty=easy&type=multiple")
+    @GET("/api.php?amount=100&category=23&difficulty=easy&type=multiple")
     suspend fun getQuestions(): QuestionsDetailsDto
 
     companion object {

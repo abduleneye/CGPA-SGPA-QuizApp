@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,7 +36,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -79,48 +80,6 @@ fun DemoQuizScreen(
 
 
 ) {
-
-    ///
-
-
-    questions.add(
-        QuizFormat(
-            question = "What is a verb?",
-            optionA = "An acion word",
-            optionB = "A doing word",
-            optionC = " a speech",
-            optionD = "I dont know",
-            correctAnswer = "An Action Word"
-        )
-    )
-
-    questions.add(
-        QuizFormat(
-            question = "What is a verb?",
-            optionA = "An acion word",
-            optionB = "A doing word",
-            optionC = " a speech",
-            optionD = "I dont know",
-            correctAnswer = "An Action Word"
-        )
-    )
-
-    questions.add(
-        QuizFormat(
-            question = "What is a verb?",
-            optionA = "An acion word",
-            optionB = "A doing word",
-            optionC = " a speech",
-            optionD = "I dont know",
-            correctAnswer = "An Action Word"
-        )
-    )
-//    for(i in 0.. questions.size){
-//
-//        println(questions)
-//    }
-
-    println("Fromclass ${physics.physicsQuestions()}")
 
     ///
 
@@ -238,6 +197,10 @@ fun DemoQuizScreen(
                     .padding(it)
                     .background(color = Cream)
             ) {
+
+                var currentIndex by remember {
+                    mutableIntStateOf(0)
+                }
                 Column(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -288,7 +251,7 @@ fun DemoQuizScreen(
 
                                 ) {
                                     Text(
-                                        text = "${quizUiState.questions[0].question}",
+                                        text = "${quizUiState.questions[currentIndex].question}",
                                         modifier = Modifier
                                             //.weight(0.9f)
                                             .padding(all = 4.dp)
@@ -310,7 +273,111 @@ fun DemoQuizScreen(
 
                             ) {
 
-                                RadioButtons(onNewEvent = onNewEvent, quizUiState = quizUiState)
+                                var selectedOption by remember {
+                                    mutableStateOf("")
+                                }
+
+                                var context = LocalContext.current
+
+
+                                LazyColumn(
+                                    verticalArrangement = Arrangement.SpaceBetween,
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp)
+                                ) {
+                                    item {
+                                        quizUiState.questions.get(currentIndex).answers.forEachIndexed { index, info ->
+                                            Spacer(modifier = Modifier.height(24.dp))
+                                            Card(
+                                                elevation = CardDefaults.cardElevation(8.dp),
+                                                shape = RoundedCornerShape(10.dp),
+                                                modifier = Modifier
+                                                    .height(64.dp)
+                                                    .fillMaxWidth(0.9f)
+                                                //.background(color = Cream)
+                                            ) {
+                                                Row(
+                                                    verticalAlignment = Alignment.CenterVertically,
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .clickable {
+
+                                                        }
+                                                ) {
+
+                                                    Text(
+                                                        text = info,
+                                                        modifier = Modifier
+                                                            .weight(0.9f)
+                                                            .padding(start = 8.dp)
+                                                    )
+                                                    RadioButton(
+
+                                                        selected = selectedOption == info,
+                                                        onClick = {
+                                                            selectedOption = info
+                                                            if (selectedOption == quizUiState.questions.get(
+                                                                    currentIndex
+                                                                ).correct_answer
+                                                            ) {
+                                                                Toast.makeText(
+                                                                    context,
+                                                                    "Correct!!!",
+                                                                    Toast.LENGTH_LONG
+                                                                ).show()
+                                                            } else {
+
+                                                                Toast.makeText(
+                                                                    context,
+                                                                    "Wrong!!! the correct answer is ${
+                                                                        quizUiState.questions.get(
+                                                                            currentIndex
+                                                                        ).correct_answer
+                                                                    }",
+                                                                    Toast.LENGTH_LONG
+                                                                ).show()
+
+
+                                                            }
+
+                                                        },
+                                                        modifier = Modifier.weight(0.1f)
+                                                    )
+
+
+                                                }
+                                            }
+
+                                        }
+                                        Spacer(modifier = Modifier.height(2.dp))
+
+                                        Button(onClick = {
+
+                                            currentIndex++
+
+                                        }) {
+
+                                            Text(text = "next")
+
+                                        }
+                                    }
+
+
+                                }
+
+                                // Spacer(modifier = Modifier.height(4.dp))
+
+                                Button(onClick = {
+
+                                    currentIndex++
+
+                                }) {
+
+                                    Text(text = "next bel")
+
+                                }
+
                             }
 
 
@@ -331,109 +398,6 @@ fun DemoQuizScreen(
 }
 
 
-@RequiresApi(Build.VERSION_CODES.N)
-@Composable
-private fun RadioButtons(
-    onNewEvent: ((DemoQuizUiEventClass) -> Unit),
-    quizUiState: DemoQuizUiState,
 
-
-    ) {
-
-    var selectedOption by remember {
-        mutableStateOf("")
-    }
-
-    var context = LocalContext.current
-
-    val radioButtons = remember {
-        mutableStateListOf(
-            TogglableInfo(
-                isChecked = false,
-                text = "Yuri gagrin"
-            ),
-            TogglableInfo(
-                isChecked = false,
-                text = "Mr Ibu"
-            ),
-
-            TogglableInfo(
-                isChecked = false,
-                text = "Niel Armstrong"
-            ),
-            TogglableInfo(
-                isChecked = false,
-                text = "Elon musk"
-            )
-        )
-
-    }
-
-    LazyColumn(
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp)
-    ) {
-        item {
-            quizUiState.questions.get(0).answers.forEachIndexed { index, info ->
-                Spacer(modifier = Modifier.height(24.dp))
-                Card(
-                    elevation = CardDefaults.cardElevation(8.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier
-                        .height(64.dp)
-                        .fillMaxWidth(0.9f)
-                    //.background(color = Cream)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-
-                            }
-                    ) {
-
-                        Text(
-                            text = info,
-                            modifier = Modifier
-                                .weight(0.9f)
-                                .padding(start = 8.dp)
-                        )
-                        RadioButton(
-
-                            selected = selectedOption == info,
-                            onClick = {
-                                selectedOption = info
-                                if (selectedOption == quizUiState.questions.get(0).correct_answer) {
-                                    Toast.makeText(context, "Correct!!!", Toast.LENGTH_LONG).show()
-                                } else {
-
-                                    Toast.makeText(
-                                        context,
-                                        "Wrong!!! the correct answer is ${
-                                            quizUiState.questions.get(0).correct_answer
-                                        }",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-
-
-                                }
-
-                            },
-                            modifier = Modifier.weight(0.1f)
-                        )
-
-
-                    }
-                }
-
-            }
-        }
-
-
-    }
-}
 
 
