@@ -101,6 +101,7 @@ class FiveGpaViewModel @Inject constructor(
 
     }
 
+
     private fun loadFiveSgpaData(chkBoxState: Boolean = false, pseudoIndex: Int = 0) {
         viewModelScope.launch {
             _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
@@ -226,7 +227,7 @@ class FiveGpaViewModel @Inject constructor(
                 //_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
                 _fiveCgpaUiState.value.cgpaList.clear()
                 //_fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
-                //loadData()
+                // loadFiveSgpaData()
             }
 
             is FiveGpaUiEvents.onCheckChanged -> {

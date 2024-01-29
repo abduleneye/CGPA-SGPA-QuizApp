@@ -452,7 +452,8 @@ fun SetUpNavGraph(
                 adId = "ca-app-pub-3940256099942544/6300978111",
                 state = fiveSgpaUiStates,
                 onEvent = fiveSgpaViewModel::onEvent,
-                quizUiState = demoQuizUiStates
+                quizUiState = demoQuizUiStates,
+                onNewEvent = demoQuizViewModel::onEvent
 
             )
         }

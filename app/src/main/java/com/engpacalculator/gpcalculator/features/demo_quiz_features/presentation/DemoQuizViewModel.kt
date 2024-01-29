@@ -3,11 +3,13 @@ package com.engpacalculator.gpcalculator.features.demo_quiz_features.presentatio
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.engpacalculator.gpcalculator.core.util.Resource
 import com.engpacalculator.gpcalculator.features.demo_quiz_features.domain.repository.QuestionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,15 +28,51 @@ class DemoQuizViewModel @Inject constructor(
         LoadQuestions()
     }
 
-    private fun LoadQuestions() {
+    fun onEvent(event: DemoQuizUiEventClass) {
+        when (event) {
+            is DemoQuizUiEventClass.loadData -> {
+
+                LoadQuestions()
+
+
+            }
+        }
+    }
+
+
+    fun LoadQuestions() {
 
         viewModelScope.launch {
-            val questions = myDemoQuizRepository.getQuestions()
-            _demoQuizUiState.update {
-                it.copy(
-                    questions = questions.results
-                )
-            }
+            // val questions = myDemoQuizRepository.getQuestions()
+            myDemoQuizRepository.getQuestions().onEach { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _demoQuizUiState.value = demoQuizUiState.value.copy(
+                            questions = result.data!!.results,
+                            isLoading = true
+                        )
+                    }
+
+                    is Resource.Loading -> {
+
+                        _demoQuizUiState.value = demoQuizUiState.value.copy(
+                            // questions = result.data!!.results,
+                            isLoading = false
+                        )
+
+                    }
+
+                    is Resource.Error -> {
+
+                        _demoQuizUiState.value = demoQuizUiState.value.copy(
+                            //questions = result.data!!.results,
+                            isLoading = false
+                        )
+                    }
+                }
+
+            }.launchIn(this)
+
             Log.d("MyQuestions", "${questions}")
 
         }
@@ -42,3 +80,5 @@ class DemoQuizViewModel @Inject constructor(
 
     }
 }
+
+

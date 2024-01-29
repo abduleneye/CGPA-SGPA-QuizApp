@@ -37,8 +37,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.engpacalculator.gpcalculator.R
 import com.engpacalculator.gpcalculator.core.ads_components.FiveScreensBottomBannerAd
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
@@ -66,8 +68,10 @@ fun DemoQuizScreen(
     navController: NavController?,
     adId: String?,
     state: FiveSgpaUiStates?,
-    onEvent: ((FiveGpaUiEvents) -> Unit)?,
-    quizUiState: DemoQuizUiState
+    quizUiState: DemoQuizUiState,
+    onEvent: ((FiveGpaUiEvents) -> Unit),
+    onNewEvent: ((DemoQuizUiEventClass) -> Unit)
+
 
 ) {
 
@@ -145,6 +149,30 @@ fun DemoQuizScreen(
                     }
                 },
 
+                actions = {
+                    IconButton(
+                        onClick = {
+
+                            onNewEvent(DemoQuizUiEventClass.loadData)
+
+
+                        },
+
+
+                        ) {
+                        Column {
+                            androidx.compose.material.Icon(
+                                painter = painterResource(id = R.drawable.app_update_icon),
+                                contentDescription = "Update App"
+                            )
+
+                        }
+
+
+                    }
+
+                },
+
                 )
         },
         bottomBar = {
@@ -157,18 +185,16 @@ fun DemoQuizScreen(
 
 
                 if (state != null) {
-                    if (onEvent != null) {
-                        if (adId != null) {
-                            FiveScreensBottomBannerAd(
-                                isLoading = state,
-                                onEvent = onEvent,
-                                contentAfterLoading = {
+                    if (adId != null) {
+                        FiveScreensBottomBannerAd(
+                            isLoading = state,
+                            onEvent = onEvent,
+                            contentAfterLoading = {
 
-                                },
-                                modifier = Modifier,
-                                adId = adId
-                            )
-                        }
+                            },
+                            modifier = Modifier,
+                            adId = adId
+                        )
                     }
                 }
 
@@ -178,85 +204,111 @@ fun DemoQuizScreen(
         }
     ) {
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-                .background(color = Cream)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+        if (quizUiState.isLoading == false) {
+            Box(
+                modifier =
+                Modifier
+                    .fillMaxSize()
             ) {
 
-                Card(
-                    elevation = CardDefaults.cardElevation(8.dp),
-                    shape = RoundedCornerShape(16.dp),
+                Column(
                     modifier = Modifier
-                        .fillMaxSize(0.9f)
-                        .background(color = Cream),
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    Text(text = "An Error Occured")
 
 
-                    ) {
+                }
 
+            }
 
-                    Column(
+        } else {
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it)
+                    .background(color = Cream)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    Card(
+                        elevation = CardDefaults.cardElevation(8.dp),
+                        shape = RoundedCornerShape(16.dp),
                         modifier = Modifier
-                            .fillMaxSize()
-                        //.background(color = Color.Red)
-                        ,
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-
-                        if (category != null) {
-                            Text(text = category)
-                        }
-
-                        Card(
-                            elevation = CardDefaults.cardElevation(8.dp),
-                            //shape = RoundedCornerShape(16.dp),
-                            modifier = Modifier
-                                .height(100.dp)
-                                .fillMaxWidth(0.9f)
-                                .padding(top = 8.dp),
-                            //.background(color = Cream)
+                            .fillMaxSize(0.9f)
+                            .background(color = Cream),
 
 
                         ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                verticalArrangement = Arrangement.Top,
-                                horizontalAlignment = Alignment.CenterHorizontally
-
-                            ) {
-                                Text(
-                                    text = "${quizUiState.questions}",
-                                    modifier = Modifier
-                                        //.weight(0.9f)
-                                        .padding(top = 4.dp)
-                                )
-
-                            }
-
-
-                        }
-
-                        Spacer(modifier = Modifier.height(24.dp))
 
 
                         Column(
                             modifier = Modifier
-                                .fillMaxWidth(),
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.Start
-
+                                .fillMaxSize()
+                            //.background(color = Color.Red)
+                            ,
+                            verticalArrangement = Arrangement.Top,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
 
-                            RadioButtons()
+                            if (category != null) {
+                                Text(text = category)
+                            }
+
+                            Card(
+                                elevation = CardDefaults.cardElevation(8.dp),
+                                //shape = RoundedCornerShape(16.dp),
+                                modifier = Modifier
+                                    .height(100.dp)
+                                    .fillMaxWidth(0.9f)
+                                    .padding(top = 8.dp),
+                                //.background(color = Cream)
+
+
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    verticalArrangement = Arrangement.Top,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+
+                                ) {
+                                    Text(
+                                        text = "${quizUiState.questions[0].question}",
+                                        modifier = Modifier
+                                            //.weight(0.9f)
+                                            .padding(all = 4.dp)
+                                    )
+
+                                }
+
+
+                            }
+
+                            Spacer(modifier = Modifier.height(24.dp))
+
+
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                verticalArrangement = Arrangement.SpaceBetween,
+                                horizontalAlignment = Alignment.Start
+
+                            ) {
+
+                                RadioButtons(onNewEvent = onNewEvent, quizUiState = quizUiState)
+                            }
+
+
                         }
 
 
@@ -264,7 +316,6 @@ fun DemoQuizScreen(
 
 
                 }
-
 
             }
 
@@ -277,7 +328,12 @@ fun DemoQuizScreen(
 
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
-private fun RadioButtons() {
+private fun RadioButtons(
+    onNewEvent: ((DemoQuizUiEventClass) -> Unit),
+    quizUiState: DemoQuizUiState,
+
+
+    ) {
     val radioButtons = remember {
         mutableStateListOf(
             TogglableInfo(
@@ -308,55 +364,204 @@ private fun RadioButtons() {
         contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp)
     ) {
         item {
-            radioButtons.forEachIndexed { index, info ->
+            //  quizUiState.questions.get(0).answers.forEachIndexed() { index, info ->
 
 
-                Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-                Card(
-                    elevation = CardDefaults.cardElevation(8.dp),
-                    shape = RoundedCornerShape(10.dp),
+            Card(
+                elevation = CardDefaults.cardElevation(8.dp),
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .height(64.dp)
+                    .fillMaxWidth(0.9f)
+                //.background(color = Cream)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .height(64.dp)
-                        .fillMaxWidth(0.9f)
-                    //.background(color = Cream)
+                        .fillMaxWidth()
+                        .clickable {
+//                                radioButtons.replaceAll {
+//                                    it.copy(
+//                                        isChecked = it.text == info.text
+//                                    )
+//                                }
+                        }
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
+
+                    Text(
+                        text = quizUiState.questions.get(0).answers.get(0),
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                radioButtons.replaceAll {
-                                    it.copy(
-                                        isChecked = it.text == info.text
-                                    )
-                                }
-                            }
-                    ) {
+                            .weight(0.9f)
+                            .padding(start = 8.dp)
+                    )
+                    RadioButton(
 
-                        Text(
-                            text = info.text, modifier = Modifier
-                                .weight(0.9f)
-                                .padding(start = 8.dp)
-                        )
-                        RadioButton(
-                            selected = info.isChecked,
-                            onClick = {
-                                radioButtons.replaceAll {
-                                    it.copy(
-                                        isChecked = it.text == info.text
-                                    )
-                                }
-                            },
-                            modifier = Modifier.weight(0.1f)
-                        )
+                        selected = false,
+                        onClick = {
 
 
-                    }
+//                                radioButtons.replaceAll {
+//                                    it.copy(
+//                                        isChecked = it.text == info.text
+//                                    )
+//                                }
+                        },
+                        modifier = Modifier.weight(0.1f)
+                    )
+
+
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Card(
+                elevation = CardDefaults.cardElevation(8.dp),
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .height(64.dp)
+                    .fillMaxWidth(0.9f)
+                //.background(color = Cream)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+//                                radioButtons.replaceAll {
+//                                    it.copy(
+//                                        isChecked = it.text == info.text
+//                                    )
+//                                }
+                        }
+                ) {
+
+                    Text(
+                        text = quizUiState.questions.get(0).answers.get(1),
+                        modifier = Modifier
+                            .weight(0.9f)
+                            .padding(start = 8.dp)
+                    )
+                    RadioButton(
+
+                        selected = false,
+                        onClick = {
+
+
+//                                radioButtons.replaceAll {
+//                                    it.copy(
+//                                        isChecked = it.text == info.text
+//                                    )
+//                                }
+                        },
+                        modifier = Modifier.weight(0.1f)
+                    )
+
+
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+
+            Card(
+                elevation = CardDefaults.cardElevation(8.dp),
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .height(64.dp)
+                    .fillMaxWidth(0.9f)
+                //.background(color = Cream)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+//                                radioButtons.replaceAll {
+//                                    it.copy(
+//                                        isChecked = it.text == info.text
+//                                    )
+//                                }
+                        }
+                ) {
+
+                    Text(
+                        text = quizUiState.questions.get(0).answers.get(2),
+                        modifier = Modifier
+                            .weight(0.9f)
+                            .padding(start = 8.dp)
+                    )
+                    RadioButton(
+
+                        selected = false,
+                        onClick = {
+
+
+//                                radioButtons.replaceAll {
+//                                    it.copy(
+//                                        isChecked = it.text == info.text
+//                                    )
+//                                }
+                        },
+                        modifier = Modifier.weight(0.1f)
+                    )
+
+
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Card(
+                elevation = CardDefaults.cardElevation(8.dp),
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .height(64.dp)
+                    .fillMaxWidth(0.9f)
+                //.background(color = Cream)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+//                                radioButtons.replaceAll {
+//                                    it.copy(
+//                                        isChecked = it.text == info.text
+//                                    )
+//                                }
+                        }
+                ) {
+
+                    Text(
+                        text = quizUiState.questions.get(0).answers.get(3),
+                        modifier = Modifier
+                            .weight(0.9f)
+                            .padding(start = 8.dp)
+                    )
+                    RadioButton(
+
+                        selected = false,
+                        onClick = {
+
+
+//                                radioButtons.replaceAll {
+//                                    it.copy(
+//                                        isChecked = it.text == info.text
+//                                    )
+//                                }
+                        },
+                        modifier = Modifier.weight(0.1f)
+                    )
+
+
                 }
             }
         }
-
-
     }
+
+
 }
+//}

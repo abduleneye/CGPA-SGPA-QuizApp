@@ -3,5 +3,7 @@ package com.engpacalculator.gpcalculator.features.demo_quiz_features.presentatio
 import com.engpacalculator.gpcalculator.features.demo_quiz_features.domain.model.Results
 
 data class DemoQuizUiState(
-    var questions: List<Results> = ArrayList()
+    val questions: List<Results> = emptyList(),
+    val isLoading: Boolean = false,
+    val errorMessage: String = ""
 )
