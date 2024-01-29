@@ -4,6 +4,7 @@ import Quiz.Data.Presentation.Domain.Questions
 import Quiz.Data.Presentation.Domain.QuizFormat
 import android.annotation.SuppressLint
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,10 +34,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -334,6 +339,13 @@ private fun RadioButtons(
 
 
     ) {
+
+    var selectedOption by remember {
+        mutableStateOf("")
+    }
+
+    var context = LocalContext.current
+
     val radioButtons = remember {
         mutableStateListOf(
             TogglableInfo(
@@ -364,204 +376,64 @@ private fun RadioButtons(
         contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp)
     ) {
         item {
-            //  quizUiState.questions.get(0).answers.forEachIndexed() { index, info ->
-
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Card(
-                elevation = CardDefaults.cardElevation(8.dp),
-                shape = RoundedCornerShape(10.dp),
-                modifier = Modifier
-                    .height(64.dp)
-                    .fillMaxWidth(0.9f)
-                //.background(color = Cream)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
+            quizUiState.questions.get(0).answers.forEachIndexed { index, info ->
+                Spacer(modifier = Modifier.height(24.dp))
+                Card(
+                    elevation = CardDefaults.cardElevation(8.dp),
+                    shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-//                                radioButtons.replaceAll {
-//                                    it.copy(
-//                                        isChecked = it.text == info.text
-//                                    )
-//                                }
-                        }
+                        .height(64.dp)
+                        .fillMaxWidth(0.9f)
+                    //.background(color = Cream)
                 ) {
-
-                    Text(
-                        text = quizUiState.questions.get(0).answers.get(0),
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .weight(0.9f)
-                            .padding(start = 8.dp)
-                    )
-                    RadioButton(
+                            .fillMaxWidth()
+                            .clickable {
 
-                        selected = false,
-                        onClick = {
+                            }
+                    ) {
+
+                        Text(
+                            text = info,
+                            modifier = Modifier
+                                .weight(0.9f)
+                                .padding(start = 8.dp)
+                        )
+                        RadioButton(
+
+                            selected = selectedOption == info,
+                            onClick = {
+                                selectedOption = info
+                                if (selectedOption == quizUiState.questions.get(0).correct_answer) {
+                                    Toast.makeText(context, "Correct!!!", Toast.LENGTH_LONG).show()
+                                } else {
+
+                                    Toast.makeText(
+                                        context,
+                                        "Wrong!!! the correct answer is ${
+                                            quizUiState.questions.get(0).correct_answer
+                                        }",
+                                        Toast.LENGTH_LONG
+                                    ).show()
 
 
-//                                radioButtons.replaceAll {
-//                                    it.copy(
-//                                        isChecked = it.text == info.text
-//                                    )
-//                                }
-                        },
-                        modifier = Modifier.weight(0.1f)
-                    )
+                                }
+
+                            },
+                            modifier = Modifier.weight(0.1f)
+                        )
 
 
+                    }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Card(
-                elevation = CardDefaults.cardElevation(8.dp),
-                shape = RoundedCornerShape(10.dp),
-                modifier = Modifier
-                    .height(64.dp)
-                    .fillMaxWidth(0.9f)
-                //.background(color = Cream)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-//                                radioButtons.replaceAll {
-//                                    it.copy(
-//                                        isChecked = it.text == info.text
-//                                    )
-//                                }
-                        }
-                ) {
-
-                    Text(
-                        text = quizUiState.questions.get(0).answers.get(1),
-                        modifier = Modifier
-                            .weight(0.9f)
-                            .padding(start = 8.dp)
-                    )
-                    RadioButton(
-
-                        selected = false,
-                        onClick = {
-
-
-//                                radioButtons.replaceAll {
-//                                    it.copy(
-//                                        isChecked = it.text == info.text
-//                                    )
-//                                }
-                        },
-                        modifier = Modifier.weight(0.1f)
-                    )
-
-
-                }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-
-            Card(
-                elevation = CardDefaults.cardElevation(8.dp),
-                shape = RoundedCornerShape(10.dp),
-                modifier = Modifier
-                    .height(64.dp)
-                    .fillMaxWidth(0.9f)
-                //.background(color = Cream)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-//                                radioButtons.replaceAll {
-//                                    it.copy(
-//                                        isChecked = it.text == info.text
-//                                    )
-//                                }
-                        }
-                ) {
-
-                    Text(
-                        text = quizUiState.questions.get(0).answers.get(2),
-                        modifier = Modifier
-                            .weight(0.9f)
-                            .padding(start = 8.dp)
-                    )
-                    RadioButton(
-
-                        selected = false,
-                        onClick = {
-
-
-//                                radioButtons.replaceAll {
-//                                    it.copy(
-//                                        isChecked = it.text == info.text
-//                                    )
-//                                }
-                        },
-                        modifier = Modifier.weight(0.1f)
-                    )
-
-
-                }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Card(
-                elevation = CardDefaults.cardElevation(8.dp),
-                shape = RoundedCornerShape(10.dp),
-                modifier = Modifier
-                    .height(64.dp)
-                    .fillMaxWidth(0.9f)
-                //.background(color = Cream)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-//                                radioButtons.replaceAll {
-//                                    it.copy(
-//                                        isChecked = it.text == info.text
-//                                    )
-//                                }
-                        }
-                ) {
-
-                    Text(
-                        text = quizUiState.questions.get(0).answers.get(3),
-                        modifier = Modifier
-                            .weight(0.9f)
-                            .padding(start = 8.dp)
-                    )
-                    RadioButton(
-
-                        selected = false,
-                        onClick = {
-
-
-//                                radioButtons.replaceAll {
-//                                    it.copy(
-//                                        isChecked = it.text == info.text
-//                                    )
-//                                }
-                        },
-                        modifier = Modifier.weight(0.1f)
-                    )
-
-
-                }
             }
         }
+
+
     }
-
-
 }
-//}
+
+
