@@ -287,69 +287,71 @@ fun DemoQuizScreen(
                                     contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp)
                                 ) {
                                     item {
-                                        quizUiState.questions.get(currentIndex).answers.forEachIndexed { index, info ->
-                                            Spacer(modifier = Modifier.height(24.dp))
-                                            Card(
-                                                elevation = CardDefaults.cardElevation(8.dp),
-                                                shape = RoundedCornerShape(10.dp),
-                                                modifier = Modifier
-                                                    .height(64.dp)
-                                                    .fillMaxWidth(0.9f)
-                                                //.background(color = Cream)
-                                            ) {
-                                                Row(
-                                                    verticalAlignment = Alignment.CenterVertically,
+                                        quizUiState.questions.get(currentIndex).answers.shuffled(
+                                        )
+                                            .forEachIndexed { index, info ->
+                                                Spacer(modifier = Modifier.height(24.dp))
+                                                Card(
+                                                    elevation = CardDefaults.cardElevation(8.dp),
+                                                    shape = RoundedCornerShape(10.dp),
                                                     modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .clickable {
-
-                                                        }
+                                                        .height(64.dp)
+                                                        .fillMaxWidth(0.9f)
+                                                    //.background(color = Cream)
                                                 ) {
-
-                                                    Text(
-                                                        text = info,
+                                                    Row(
+                                                        verticalAlignment = Alignment.CenterVertically,
                                                         modifier = Modifier
-                                                            .weight(0.9f)
-                                                            .padding(start = 8.dp)
-                                                    )
-                                                    RadioButton(
-
-                                                        selected = selectedOption == info,
-                                                        onClick = {
-                                                            selectedOption = info
-                                                            if (selectedOption == quizUiState.questions.get(
-                                                                    currentIndex
-                                                                ).correct_answer
-                                                            ) {
-                                                                Toast.makeText(
-                                                                    context,
-                                                                    "Correct!!!",
-                                                                    Toast.LENGTH_LONG
-                                                                ).show()
-                                                            } else {
-
-                                                                Toast.makeText(
-                                                                    context,
-                                                                    "Wrong!!! the correct answer is ${
-                                                                        quizUiState.questions.get(
-                                                                            currentIndex
-                                                                        ).correct_answer
-                                                                    }",
-                                                                    Toast.LENGTH_LONG
-                                                                ).show()
-
+                                                            .fillMaxWidth()
+                                                            .clickable {
 
                                                             }
+                                                    ) {
 
-                                                        },
-                                                        modifier = Modifier.weight(0.1f)
-                                                    )
+                                                        Text(
+                                                            text = info,
+                                                            modifier = Modifier
+                                                                .weight(0.9f)
+                                                                .padding(start = 8.dp)
+                                                        )
+                                                        RadioButton(
+
+                                                            selected = selectedOption == info,
+                                                            onClick = {
+                                                                selectedOption = info
+                                                                if (selectedOption == quizUiState.questions.get(
+                                                                        currentIndex
+                                                                    ).correct_answer
+                                                                ) {
+                                                                    Toast.makeText(
+                                                                        context,
+                                                                        "Correct!!!",
+                                                                        Toast.LENGTH_LONG
+                                                                    ).show()
+                                                                } else {
+
+                                                                    Toast.makeText(
+                                                                        context,
+                                                                        "Wrong!!! the correct answer is ${
+                                                                            quizUiState.questions.get(
+                                                                                currentIndex
+                                                                            ).correct_answer
+                                                                        }",
+                                                                        Toast.LENGTH_LONG
+                                                                    ).show()
 
 
+                                                                }
+
+                                                            },
+                                                            modifier = Modifier.weight(0.1f)
+                                                        )
+
+
+                                                    }
                                                 }
-                                            }
 
-                                        }
+                                            }
                                         Spacer(modifier = Modifier.height(2.dp))
 
                                         Button(onClick = {
