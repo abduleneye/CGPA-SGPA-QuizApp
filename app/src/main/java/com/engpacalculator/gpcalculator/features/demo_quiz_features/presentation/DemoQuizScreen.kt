@@ -35,6 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -70,7 +71,7 @@ var questions: ArrayList<QuizFormat> = ArrayList()
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DemoQuizScreen(
-    category: String?,
+    category: String,
     navController: NavController?,
     adId: String?,
     state: FiveSgpaUiStates?,
@@ -81,7 +82,8 @@ fun DemoQuizScreen(
 
 ) {
 
-    ///
+    val context = LocalContext.current
+
 
 
     Scaffold(
@@ -117,7 +119,7 @@ fun DemoQuizScreen(
                     IconButton(
                         onClick = {
 
-                            onNewEvent(DemoQuizUiEventClass.loadData)
+                            onNewEvent(DemoQuizUiEventClass.loadData("23"))
 
 
                         },
@@ -168,6 +170,29 @@ fun DemoQuizScreen(
         }
     ) {
 
+        LaunchedEffect(key1 = true) {
+            if (category == "Sciences") {
+                onNewEvent(DemoQuizUiEventClass.loadData("18"))
+            } else if (category == "History") {
+
+                onNewEvent(DemoQuizUiEventClass.loadData("23"))
+
+            } else if (category == "Art") {
+
+                onNewEvent(DemoQuizUiEventClass.loadData("25"))
+
+            } else if (category == "Commerce") {
+
+                onNewEvent(DemoQuizUiEventClass.loadData("20"))
+
+            }
+            Toast.makeText(context, category, Toast.LENGTH_SHORT).show()
+        }
+
+
+
+
+
         if (quizUiState.isLoading == false) {
             Box(
                 modifier =
@@ -183,6 +208,7 @@ fun DemoQuizScreen(
                 ) {
 
                     Text(text = "An Error Occured")
+                    // Toast.makeText(context, "Science", Toast.LENGTH_LONG).show()
 
 
                 }
@@ -229,7 +255,7 @@ fun DemoQuizScreen(
                         ) {
 
                             if (category != null) {
-                                Text(text = category)
+                                Text(text = category + "${quizUiState.questions.size}")
                             }
 
                             Card(

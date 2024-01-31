@@ -2,5 +2,6 @@ package com.engpacalculator.gpcalculator.features.demo_quiz_features.presentatio
 
 sealed interface DemoQuizUiEventClass {
 
-    object loadData : DemoQuizUiEventClass
+    data class loadData(var category: String) : DemoQuizUiEventClass
+    data class setQuizQuestionCategoryOnNavigate(var category: String) : DemoQuizUiEventClass
 }

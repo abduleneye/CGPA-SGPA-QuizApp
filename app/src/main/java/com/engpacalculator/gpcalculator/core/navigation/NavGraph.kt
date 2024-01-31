@@ -446,16 +446,18 @@ fun SetUpNavGraph(
                 },
             )
         ) { entry ->
-            DemoQuizScreen(
-                category = entry.arguments?.getString("QuestionCategory"),
-                navController = navController,
-                adId = "ca-app-pub-3940256099942544/6300978111",
-                state = fiveSgpaUiStates,
-                onEvent = fiveSgpaViewModel::onEvent,
-                quizUiState = demoQuizUiStates,
-                onNewEvent = demoQuizViewModel::onEvent
+            entry.arguments!!.getString("QuestionCategory")?.let {
+                DemoQuizScreen(
+                    category = it,
+                    navController = navController,
+                    adId = "ca-app-pub-3940256099942544/6300978111",
+                    state = fiveSgpaUiStates,
+                    onEvent = fiveSgpaViewModel::onEvent,
+                    quizUiState = demoQuizUiStates,
+                    onNewEvent = demoQuizViewModel::onEvent
 
-            )
+                )
+            }
         }
 
 

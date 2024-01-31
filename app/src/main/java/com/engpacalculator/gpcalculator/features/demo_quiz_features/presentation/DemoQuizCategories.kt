@@ -47,9 +47,10 @@ fun DemoQuizCategoriesScreen(
     navController: NavController?,
     adId: String?,
     state: FiveSgpaUiStates?,
-    onEvent: ((FiveGpaUiEvents) -> Unit)?
+    onEvent: ((FiveGpaUiEvents) -> Unit)?,
 
-) {
+
+    ) {
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()

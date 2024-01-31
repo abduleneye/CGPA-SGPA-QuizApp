@@ -16,10 +16,10 @@ class QuestionsRepositoryImplementation(
 ) : QuestionRepository {
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
-    override fun getQuestions(): Flow<Resource<QuestionDetails>> = flow {
+    override fun getQuestions(category: String): Flow<Resource<QuestionDetails>> = flow {
         emit(Resource.Loading())
         try {
-            val results = api.getQuestions()
+            val results = api.getQuestions(category = category)
             emit(Resource.Success(data = results.toQuestionDetails()))
 
         } catch (e: HttpException) {

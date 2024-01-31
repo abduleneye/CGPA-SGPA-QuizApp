@@ -44,9 +44,10 @@ fun Quiz_Mode_Screen(
     navController: NavController?,
     adId: String?,
     state: FiveSgpaUiStates?,
-    onEvent: ((FiveGpaUiEvents) -> Unit)?
+    onEvent: ((FiveGpaUiEvents) -> Unit)?,
 
-) {
+
+    ) {
 
     Scaffold(
         modifier = Modifier
