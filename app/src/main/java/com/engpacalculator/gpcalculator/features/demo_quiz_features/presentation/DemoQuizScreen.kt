@@ -255,7 +255,7 @@ fun DemoQuizScreen(
                         ) {
 
                             if (category != null) {
-                                Text(text = category + "${quizUiState.questions.size}")
+                                Text(text = category + " ${quizUiState.questions.size}")
                             }
 
                             Card(
