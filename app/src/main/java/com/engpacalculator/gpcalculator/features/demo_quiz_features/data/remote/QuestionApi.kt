@@ -5,8 +5,11 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface QuestionApi {
-    @GET("/api.php?amount=10&category=category&difficulty=easy&type=multiple")
-    suspend fun getQuestions(@Query("category") category: String): QuestionsDetailsDto
+    @GET("/api.php?amount=amount&category=category&difficulty=easy&type=multiple")
+    suspend fun getQuestions(
+        @Query("category") category: String,
+        @Query("amount") amount: String
+    ): QuestionsDetailsDto
 
     companion object {
         const val BASE_URL = "https://opentdb.com/"

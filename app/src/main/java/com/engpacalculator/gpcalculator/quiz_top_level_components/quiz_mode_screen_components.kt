@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -23,14 +24,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
 import com.engpacalculator.gpcalculator.core.ads_components.FiveScreensBottomBannerAd
+import com.engpacalculator.gpcalculator.core.data_store.data_store_repo.DataStoreRepo
 import com.engpacalculator.gpcalculator.core.navigation.Screen
+import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation.DemoQuizUiEventClass
+import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation.DemoQuizUiState
+import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation.QuizIntroDialogBox
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
@@ -45,9 +53,17 @@ fun Quiz_Mode_Screen(
     adId: String?,
     state: FiveSgpaUiStates?,
     onEvent: ((FiveGpaUiEvents) -> Unit)?,
+    onQuizModeEvent: (DemoQuizUiEventClass) -> Unit,
+    quizIntroDBState: DemoQuizUiState,
 
 
     ) {
+
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val dataStore = DataStoreRepo(context = context)
+    val status = dataStore.getVisibilityStatus.collectAsState(initial = false).value
+
 
     Scaffold(
         modifier = Modifier
@@ -76,6 +92,25 @@ fun Quiz_Mode_Screen(
                         )
 
                     }
+                },
+
+                actions = {
+                    IconButton(
+                        onClick = {
+                            onQuizModeEvent(DemoQuizUiEventClass.showIntroDialogBoxVisibilty)
+
+                        },
+
+
+                        ) {
+                        androidx.compose.material.Icon(
+                            imageVector = Icons.Default.Info,
+                            contentDescription = "Info"
+                        )
+
+
+                    }
+
                 },
 
                 )
@@ -123,6 +158,8 @@ fun Quiz_Mode_Screen(
         ) {
 
             item {
+
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly,
@@ -130,6 +167,17 @@ fun Quiz_Mode_Screen(
                         .fillMaxWidth()
                         .padding(it)
                 ) {
+
+                    if (
+                        status || quizIntroDBState.quizIntroDialogBoxVisibility
+                    ) {
+                        QuizIntroDialogBox(
+                            quizIntroDBState = quizIntroDBState,
+                            demoQuizOnEvent = onQuizModeEvent
+                        )
+
+                    }
+
 
                     if (navController != null) {
                         DefaultCardSample(
@@ -178,5 +226,5 @@ fun Quiz_Mode_Screen(
 fun Quiz_Mode_Preview(
 
 ) {
-    Quiz_Mode_Screen(navController = null, null, null, null)
+    //Quiz_Mode_Screen(navController = null, null, null, null)
 }

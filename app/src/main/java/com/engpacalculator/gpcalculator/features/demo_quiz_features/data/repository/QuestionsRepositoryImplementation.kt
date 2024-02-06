@@ -16,31 +16,32 @@ class QuestionsRepositoryImplementation(
 ) : QuestionRepository {
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
-    override fun getQuestions(category: String): Flow<Resource<QuestionDetails>> = flow {
-        emit(Resource.Loading())
-        try {
-            val results = api.getQuestions(category = category)
-            emit(Resource.Success(data = results.toQuestionDetails()))
+    override fun getQuestions(category: String, amount: String): Flow<Resource<QuestionDetails>> =
+        flow {
+            emit(Resource.Loading())
+            try {
+                val results = api.getQuestions(category = category, amount = amount)
+                emit(Resource.Success(data = results.toQuestionDetails()))
 
-        } catch (e: HttpException) {
-            emit(
-                Resource.Error(
-                    message = "Couldn't reach server an error occurred",
-                    data = null
+            } catch (e: HttpException) {
+                emit(
+                    Resource.Error(
+                        message = "Couldn't reach server an error occurred",
+                        data = null
+                    )
                 )
-            )
 
-        } catch (e: IOException) {
-            emit(
-                Resource.Error(
-                    message = "Oops, something went wrong!!!",
-                    data = null
+            } catch (e: IOException) {
+                emit(
+                    Resource.Error(
+                        message = "Oops, something went wrong!!!",
+                        data = null
+                    )
                 )
-            )
 
+
+            }
 
         }
-
-    }
 }
 

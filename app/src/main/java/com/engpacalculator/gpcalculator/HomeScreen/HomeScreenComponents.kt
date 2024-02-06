@@ -1,9 +1,11 @@
 package com.engpacalculator.gpcalculator.HomeScreen
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -28,6 +30,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,10 +40,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
 import com.engpacalculator.gpcalculator.R
@@ -48,14 +54,17 @@ import com.engpacalculator.gpcalculator.core.ads_components.FiveScreensBottomBan
 import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
+import com.engpacalculator.gpcalculator.isPermanentlyDenied
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.firebase.Firebase
 import com.google.firebase.messaging.messaging
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
@@ -65,6 +74,30 @@ fun HomeScreen(
     onEvent: ((FiveGpaUiEvents) -> Unit)?
 
 ) {
+
+    val permissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        rememberMultiplePermissionsState(
+            permissions = listOf(
+                Manifest.permission.POST_NOTIFICATIONS,
+                //  Manifest.permission.ACCESS_NETWORK_STATE
+            )
+
+        )
+    } else {
+        //TODO("VERSION.SDK_INT < TIRAMISU")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            rememberMultiplePermissionsState(
+                permissions = listOf(
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                )
+
+            )
+        } else {
+            TODO("VERSION.SDK_INT < Q")
+        }
+    }
+
+    val lifeCycleOwner = LocalLifecycleOwner.current
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -181,6 +214,7 @@ fun HomeScreen(
         }
     ) {
 
+
         var scrollState = rememberScrollState()
 
 
@@ -196,6 +230,92 @@ fun HomeScreen(
         ) {
 
             item {
+
+                //PermissionRequest Need to put in a function
+
+
+                DisposableEffect(
+                    key1 = lifeCycleOwner,
+                    effect = {
+                        val observer = LifecycleEventObserver { _, event ->
+
+                            if (event == Lifecycle.Event.ON_START) {
+                                permissionState.launchMultiplePermissionRequest()
+                            }
+                        }
+                        lifeCycleOwner.lifecycle.addObserver(observer)
+
+                        onDispose {
+                            lifeCycleOwner.lifecycle.removeObserver(observer)
+                        }
+                    }
+                )
+
+                permissionState.permissions.forEach { perm ->
+
+                    when (perm.permission) {
+                        Manifest.permission.POST_NOTIFICATIONS -> {
+                            when {
+                                perm.hasPermission -> {
+
+                                    //   Text(text = "Notification Permission Accepted")
+                                }
+
+                                perm.shouldShowRationale -> {
+//                                    Text(
+//                                        text = "Notification Permissio n is needed to receive app" +
+//                                                "update notification"
+//                                    )
+
+                                }
+
+                                !perm.isPermanentlyDenied() -> {
+
+//                                    Text(
+//                                        text = "Notification Permission was permanently" +
+//                                                " denied you can enable it in the app Setting"
+//                                    )
+
+
+                                }
+                            }
+
+                        }
+
+//                        Manifest.permission.ACCESS_BACKGROUND_LOCATION -> {
+//
+//                            when {
+//                                perm.hasPermission -> {
+//
+//                                    Text(text = "NetworkAccessState Permission Accepted")
+//                                }
+//
+//                                perm.shouldShowRationale -> {
+//                                    Text(
+//                                        text = "NetworkAccessState Permission is needed to receive app" +
+//                                                "update NetworkAccessState"
+//                                    )
+//
+//                                }
+//
+//                                !perm.isPermanentlyDenied() -> {
+//
+//                                    Text(
+//                                        text = "NetworkAccessState Permission was permanently" +
+//                                                " denied you can enable it in the app Setting"
+//                                    )
+//
+//
+//                                }
+//                            }
+//
+//                        }
+                    }
+
+                }
+
+
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly,

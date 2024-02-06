@@ -32,7 +32,7 @@ class DemoQuizViewModel @Inject constructor(
     fun onEvent(event: DemoQuizUiEventClass) {
         when (event) {
             is DemoQuizUiEventClass.loadData -> {
-                LoadQuestions(event.category)
+                LoadQuestions(event.category, event.amount)
 
 
             }
@@ -46,17 +46,34 @@ class DemoQuizViewModel @Inject constructor(
                 }
 
             }
+
+            is DemoQuizUiEventClass.hideIntroDialogBoxVisibilty -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        quizIntroDialogBoxVisibility = false
+                    )
+                }
+            }
+
+            is DemoQuizUiEventClass.showIntroDialogBoxVisibilty -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        quizIntroDialogBoxVisibility = true
+                    )
+                }
+            }
         }
     }
 
 
-    private fun LoadQuestions(category: String) {
+    private fun LoadQuestions(category: String, amount: String) {
 
         viewModelScope.launch {
             // val questions = myDemoQuizRepository.getQuestions()
             myDemoQuizRepository.getQuestions(
                 // _demoQuizUiState.value.demoQuizQuestionCategory
-                category = category
+                category = category,
+                amount = amount
             )
                 .onEach { result ->
                     when (result) {

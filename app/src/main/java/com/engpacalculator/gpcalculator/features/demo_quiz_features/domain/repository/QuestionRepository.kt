@@ -5,6 +5,6 @@ import com.engpacalculator.gpcalculator.features.demo_quiz_features.domain.model
 import kotlinx.coroutines.flow.Flow
 
 interface QuestionRepository {
-    fun getQuestions(category: String): //QuestionDetails
+    fun getQuestions(category: String, amount: String): //QuestionDetails
             Flow<Resource<QuestionDetails>>
 }

@@ -20,17 +20,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -40,6 +41,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +55,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import kotlinx.coroutines.launch
 
 
 data class TogglableInfo(
@@ -83,6 +86,7 @@ fun DemoQuizScreen(
 ) {
 
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
 
 
@@ -119,7 +123,7 @@ fun DemoQuizScreen(
                     IconButton(
                         onClick = {
 
-                            onNewEvent(DemoQuizUiEventClass.loadData("23"))
+                            onNewEvent(DemoQuizUiEventClass.loadData("23", "10"))
 
 
                         },
@@ -169,27 +173,35 @@ fun DemoQuizScreen(
 
         }
     ) {
-
         LaunchedEffect(key1 = true) {
-            if (category == "Sciences") {
-                onNewEvent(DemoQuizUiEventClass.loadData("18"))
-            } else if (category == "History") {
+            scope.launch {
+                when (category) {
+                    "Sciences" -> {
+                        onNewEvent(DemoQuizUiEventClass.loadData("17", "50"))
+                    }
 
-                onNewEvent(DemoQuizUiEventClass.loadData("23"))
+                    "History" -> {
 
-            } else if (category == "Art") {
+                        onNewEvent(DemoQuizUiEventClass.loadData("23", "10"))
 
-                onNewEvent(DemoQuizUiEventClass.loadData("25"))
+                    }
 
-            } else if (category == "Commerce") {
+                    "Art" -> {
 
-                onNewEvent(DemoQuizUiEventClass.loadData("20"))
+                        onNewEvent(DemoQuizUiEventClass.loadData("25", "10"))
 
+                    }
+
+                    "Commerce" -> {
+
+                        onNewEvent(DemoQuizUiEventClass.loadData("20", "10"))
+
+                    }
+                }
+                Toast.makeText(context, category, Toast.LENGTH_SHORT).show()
             }
-            Toast.makeText(context, category, Toast.LENGTH_SHORT).show()
+
         }
-
-
 
 
 
@@ -207,9 +219,7 @@ fun DemoQuizScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    Text(text = "An Error Occured")
-                    // Toast.makeText(context, "Science", Toast.LENGTH_LONG).show()
-
+                    CircularProgressIndicator()
 
                 }
 
@@ -303,6 +313,13 @@ fun DemoQuizScreen(
                                     mutableStateOf("")
                                 }
 
+                                var isRadioButtonIsEnabled by remember {
+                                    mutableStateOf(true)
+                                }
+                                var isNextButtonIsEnabled by remember {
+                                    mutableStateOf(false)
+                                }
+
                                 var context = LocalContext.current
 
 
@@ -342,8 +359,11 @@ fun DemoQuizScreen(
                                                         )
                                                         RadioButton(
 
+                                                            // enabled = isRadioButtonIsEnabled,
                                                             selected = selectedOption == info,
                                                             onClick = {
+                                                                isRadioButtonIsEnabled = false
+                                                                isNextButtonIsEnabled = true
                                                                 selectedOption = info
                                                                 if (selectedOption == quizUiState.questions.get(
                                                                         currentIndex
@@ -380,11 +400,15 @@ fun DemoQuizScreen(
                                             }
                                         Spacer(modifier = Modifier.height(2.dp))
 
-                                        Button(onClick = {
+                                        Button(
+                                            onClick = {
+                                                isRadioButtonIsEnabled = true
+                                                isNextButtonIsEnabled = false
+                                                currentIndex++
 
-                                            currentIndex++
-
-                                        }) {
+                                            },
+                                            enabled = isNextButtonIsEnabled
+                                        ) {
 
                                             Text(text = "next")
 
@@ -396,15 +420,6 @@ fun DemoQuizScreen(
 
                                 // Spacer(modifier = Modifier.height(4.dp))
 
-                                Button(onClick = {
-
-                                    currentIndex++
-
-                                }) {
-
-                                    Text(text = "next bel")
-
-                                }
 
                             }
 

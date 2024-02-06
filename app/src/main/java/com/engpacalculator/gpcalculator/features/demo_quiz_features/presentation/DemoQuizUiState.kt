@@ -6,5 +6,6 @@ data class DemoQuizUiState(
     val questions: List<Results> = emptyList(),
     val isLoading: Boolean = false,
     val errorMessage: String = "",
-    val demoQuizQuestionCategory: String = ""
+    val demoQuizQuestionCategory: String = "",
+    val quizIntroDialogBoxVisibility: Boolean = false
 )

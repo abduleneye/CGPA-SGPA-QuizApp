@@ -192,7 +192,9 @@ fun SetUpNavGraph(
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
                 state = fiveSgpaUiStates,
-                onEvent = fiveSgpaViewModel::onEvent
+                onEvent = fiveSgpaViewModel::onEvent,
+                quizIntroDBState = demoQuizUiStates,
+                onQuizModeEvent = demoQuizViewModel::onEvent
             )
         }
 

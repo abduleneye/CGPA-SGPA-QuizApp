@@ -27,6 +27,7 @@ import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.GpCalculatorTheme
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
@@ -35,12 +36,14 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
-    @OptIn(DelicateCoroutinesApi::class)
+    @OptIn(DelicateCoroutinesApi::class, ExperimentalPermissionsApi::class)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
+
+
             MobileAds.initialize(this)
             FirebaseAnalytics.getInstance(this)
 
@@ -53,11 +56,9 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
             val fiveGpaViewModel: FiveGpaViewModel = hiltViewModel()
             val fourGpaViewModel: FourGpaViewModel = hiltViewModel()
             val demoQuizViewModel: DemoQuizViewModel = hiltViewModel()
-
-//            val state by fiveSgpaViewModel.dbState.collectAsState()
-//            val statetwo by fiveSgpaViewModel.courseEntries.collectAsState()
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
+
 
             BackHandler(enabled = true, onBack = {
 
