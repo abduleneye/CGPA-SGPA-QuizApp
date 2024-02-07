@@ -8,4 +8,12 @@ sealed interface DemoQuizUiEventClass {
     object showIntroDialogBoxVisibilty : DemoQuizUiEventClass
     object hideIntroDialogBoxVisibilty : DemoQuizUiEventClass
 
+    object incrementQuestionIndex : DemoQuizUiEventClass
+
+    // object resetQuestionIndex : DemoQuizUiEventClass
+
+    data class setQuestionDetailsForReload(var category: String, var amount: String) :
+        DemoQuizUiEventClass
+
+
 }

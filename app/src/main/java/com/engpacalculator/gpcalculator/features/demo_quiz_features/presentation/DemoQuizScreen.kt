@@ -1,6 +1,5 @@
 package com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation
 
-import Quiz.Data.Presentation.Domain.Questions
 import Quiz.Data.Presentation.Domain.QuizFormat
 import android.annotation.SuppressLint
 import android.os.Build
@@ -38,10 +37,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,15 +56,6 @@ import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.launch
 
-
-data class TogglableInfo(
-    val isChecked: Boolean,
-    val text: String,
-
-
-    )
-
-var physics: Questions = Questions()
 
 var questions: ArrayList<QuizFormat> = ArrayList()
 
@@ -87,7 +77,13 @@ fun DemoQuizScreen(
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val helpCategory by remember {
+        mutableStateOf(category)
+    }
 
+    var initialApiCalled by rememberSaveable {
+        mutableStateOf(false)
+    }
 
 
     Scaffold(
@@ -123,7 +119,14 @@ fun DemoQuizScreen(
                     IconButton(
                         onClick = {
 
-                            onNewEvent(DemoQuizUiEventClass.loadData("23", "10"))
+                            onNewEvent(
+                                DemoQuizUiEventClass.loadData(
+                                    category = quizUiState.questionCategory,
+                                    amount = quizUiState.amountOfQuestions
+                                ),
+                            )
+
+                            // onNewEvent(DemoQuizUiEventClass.resetQuestionIndex)
 
 
                         },
@@ -173,36 +176,47 @@ fun DemoQuizScreen(
 
         }
     ) {
-        LaunchedEffect(key1 = true) {
-            scope.launch {
-                when (category) {
-                    "Sciences" -> {
-                        onNewEvent(DemoQuizUiEventClass.loadData("17", "50"))
-                    }
 
-                    "History" -> {
+        if (!initialApiCalled) {
+            LaunchedEffect(key1 = true) {
+                scope.launch {
+                    when (helpCategory) {
+                        "Sciences" -> {
+                            onNewEvent(DemoQuizUiEventClass.setQuestionDetailsForReload("17", "50"))
+                            onNewEvent(DemoQuizUiEventClass.loadData("17", "50"))
+                        }
 
-                        onNewEvent(DemoQuizUiEventClass.loadData("23", "10"))
+                        "History" -> {
 
-                    }
+                            onNewEvent(DemoQuizUiEventClass.setQuestionDetailsForReload("23", "10"))
+                            onNewEvent(DemoQuizUiEventClass.loadData("23", "10"))
 
-                    "Art" -> {
 
-                        onNewEvent(DemoQuizUiEventClass.loadData("25", "10"))
+                        }
 
-                    }
+                        "Art" -> {
+                            onNewEvent(DemoQuizUiEventClass.setQuestionDetailsForReload("25", "10"))
+                            onNewEvent(DemoQuizUiEventClass.loadData("25", "10"))
 
-                    "Commerce" -> {
 
-                        onNewEvent(DemoQuizUiEventClass.loadData("20", "10"))
+                        }
 
+                        "Commerce" -> {
+
+                            onNewEvent(DemoQuizUiEventClass.setQuestionDetailsForReload("20", "10"))
+                            onNewEvent(DemoQuizUiEventClass.loadData("20", "10"))
+
+
+                        }
                     }
                 }
-                Toast.makeText(context, category, Toast.LENGTH_SHORT).show()
+                initialApiCalled = true
+
+
             }
 
-        }
 
+        }
 
 
         if (quizUiState.isLoading == false) {
@@ -234,9 +248,9 @@ fun DemoQuizScreen(
                     .background(color = Cream)
             ) {
 
-                var currentIndex by remember {
-                    mutableIntStateOf(0)
-                }
+//                var quizUiState.questionIndex by remember {
+//                    mutableIntStateOf(0)
+//                }
                 Column(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -287,7 +301,7 @@ fun DemoQuizScreen(
 
                                 ) {
                                     Text(
-                                        text = "${quizUiState.questions[currentIndex].question}",
+                                        text = "${quizUiState.questions[quizUiState.questionIndex].question}",
                                         modifier = Modifier
                                             //.weight(0.9f)
                                             .padding(all = 4.dp)
@@ -330,7 +344,7 @@ fun DemoQuizScreen(
                                     contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp)
                                 ) {
                                     item {
-                                        quizUiState.questions.get(currentIndex).answers.shuffled(
+                                        quizUiState.questions.get(quizUiState.questionIndex).answers.shuffled(
                                         )
                                             .forEachIndexed { index, info ->
                                                 Spacer(modifier = Modifier.height(24.dp))
@@ -362,11 +376,11 @@ fun DemoQuizScreen(
                                                             // enabled = isRadioButtonIsEnabled,
                                                             selected = selectedOption == info,
                                                             onClick = {
-                                                                isRadioButtonIsEnabled = false
-                                                                isNextButtonIsEnabled = true
+//                                                                isRadioButtonIsEnabled = false
+//                                                                isNextButtonIsEnabled = true
                                                                 selectedOption = info
                                                                 if (selectedOption == quizUiState.questions.get(
-                                                                        currentIndex
+                                                                        quizUiState.questionIndex
                                                                     ).correct_answer
                                                                 ) {
                                                                     Toast.makeText(
@@ -380,7 +394,7 @@ fun DemoQuizScreen(
                                                                         context,
                                                                         "Wrong!!! the correct answer is ${
                                                                             quizUiState.questions.get(
-                                                                                currentIndex
+                                                                                quizUiState.questionIndex
                                                                             ).correct_answer
                                                                         }",
                                                                         Toast.LENGTH_LONG
@@ -402,12 +416,12 @@ fun DemoQuizScreen(
 
                                         Button(
                                             onClick = {
-                                                isRadioButtonIsEnabled = true
-                                                isNextButtonIsEnabled = false
-                                                currentIndex++
+//                                                isRadioButtonIsEnabled = true
+//                                                isNextButtonIsEnabled = false
+                                                onNewEvent(DemoQuizUiEventClass.incrementQuestionIndex)
 
                                             },
-                                            enabled = isNextButtonIsEnabled
+                                            // enabled = isNextButtonIsEnabled
                                         ) {
 
                                             Text(text = "next")
@@ -439,6 +453,8 @@ fun DemoQuizScreen(
 
     }
 }
+
+
 
 
 

@@ -27,6 +27,7 @@ class DemoQuizViewModel @Inject constructor(
     init {
 
         // LoadQuestions()
+        //LoadQuestions("17", "3")
     }
 
     fun onEvent(event: DemoQuizUiEventClass) {
@@ -62,12 +63,50 @@ class DemoQuizViewModel @Inject constructor(
                     )
                 }
             }
+
+            is DemoQuizUiEventClass.setQuestionDetailsForReload -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        questionCategory = event.category,
+                        amountOfQuestions = event.amount
+                    )
+                }
+            }
+
+            is DemoQuizUiEventClass.incrementQuestionIndex -> {
+                val iterator = _demoQuizUiState.value.questions
+                if (_demoQuizUiState.value.questionIndex < iterator.size - 1) {
+                    _demoQuizUiState.update {
+                        it.copy(
+                            questionIndex = _demoQuizUiState.value.questionIndex + 1
+                        )
+
+                    }
+
+                }
+            }
+
+//            is DemoQuizUiEventClass.resetQuestionIndex -> {
+//                _demoQuizUiState.update {
+//                    it.copy(
+//                        questionIndex = 0
+//                    )
+//                }
+//            }
+
+            else -> {}
         }
     }
 
 
     private fun LoadQuestions(category: String, amount: String) {
-
+        _demoQuizUiState.value.questions.clear()
+        _demoQuizUiState.update {
+            it.copy(
+                isLoading = false,
+                questionIndex = 0
+            )
+        }
         viewModelScope.launch {
             // val questions = myDemoQuizRepository.getQuestions()
             myDemoQuizRepository.getQuestions(
@@ -79,26 +118,29 @@ class DemoQuizViewModel @Inject constructor(
                     when (result) {
                         is Resource.Success -> {
                             _demoQuizUiState.value = demoQuizUiState.value.copy(
-                                questions = result.data!!.results,
+                                questions = result.data!!.results.toMutableList(),
                                 isLoading = true
                             )
                         }
 
-                        is Resource.Loading -> {
+//                        is Resource.Loading -> {
+//
+//                            _demoQuizUiState.value = demoQuizUiState.value.copy(
+//                                // questions = result.data!!.results,
+//                                isLoading = false
+//                            )
+//
+//                        }
+//
+//                        is Resource.Error -> {
+//
+//                            _demoQuizUiState.value = demoQuizUiState.value.copy(
+//                                //questions = result.data!!.results,
+//                                isLoading = false
+//                            )
+//                        }
+                        else -> {
 
-                            _demoQuizUiState.value = demoQuizUiState.value.copy(
-                                // questions = result.data!!.results,
-                                isLoading = false
-                            )
-
-                        }
-
-                        is Resource.Error -> {
-
-                            _demoQuizUiState.value = demoQuizUiState.value.copy(
-                                //questions = result.data!!.results,
-                                isLoading = false
-                            )
                         }
                     }
 
