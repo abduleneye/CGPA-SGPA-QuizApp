@@ -135,6 +135,7 @@ class DemoQuizViewModel @Inject constructor(
                         selectedOption = event.selectedOption
                     )
                 }
+                Log.d("CURRENT_OPTION", _demoQuizUiState.value.selectedOption)
             }
 
 //            is DemoQuizUiEventClass.resetQuestionIndex -> {
@@ -155,7 +156,9 @@ class DemoQuizViewModel @Inject constructor(
         _demoQuizUiState.update {
             it.copy(
                 isLoading = false,
-                questionIndex = 0
+                questionIndex = 0,
+                isRadiobuttonEnabled = true,
+                isNextButtonEnabled = false
             )
         }
         viewModelScope.launch {
@@ -172,7 +175,7 @@ class DemoQuizViewModel @Inject constructor(
                                 questions = result.data!!.results.toMutableList(),
                                 optionsList = result.data.results.get(_demoQuizUiState.value.questionIndex).answers.shuffled()
                                     .toMutableList(),
-                                isLoading = true
+                                isLoading = true,
                             )
                         }
 

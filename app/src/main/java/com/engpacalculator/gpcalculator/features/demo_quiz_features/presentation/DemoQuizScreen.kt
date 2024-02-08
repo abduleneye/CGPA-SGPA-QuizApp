@@ -46,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.R
@@ -272,8 +273,7 @@ fun DemoQuizScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                            //.background(color = Color.Red)
-                            ,
+                                .background(color = AppBars),
                             verticalArrangement = Arrangement.Top,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -288,14 +288,15 @@ fun DemoQuizScreen(
                                 modifier = Modifier
                                     .height(100.dp)
                                     .fillMaxWidth(0.9f)
-                                    .padding(top = 8.dp),
-                                //.background(color = Cream)
+                                    .padding(top = 8.dp)
+                                    .background(color = AppBars),
 
 
-                            ) {
+                                ) {
                                 Column(
                                     modifier = Modifier
-                                        .fillMaxWidth(),
+                                        .fillMaxSize()
+                                        .background(color = AppBars),
                                     verticalArrangement = Arrangement.Top,
                                     horizontalAlignment = Alignment.CenterHorizontally
 
@@ -304,7 +305,9 @@ fun DemoQuizScreen(
                                         text = "${quizUiState.questions[quizUiState.questionIndex].question}",
                                         modifier = Modifier
                                             //.weight(0.9f)
-                                            .padding(all = 4.dp)
+                                            .padding(all = 4.dp),
+                                        fontWeight = FontWeight.Bold
+
                                     )
 
                                 }
@@ -325,6 +328,11 @@ fun DemoQuizScreen(
 
 
                                 var context = LocalContext.current
+                                var scope = rememberCoroutineScope()
+
+                                var selectedOption = rememberSaveable {
+                                    mutableStateOf("")
+                                }
 
 
                                 LazyColumn(
@@ -343,12 +351,14 @@ fun DemoQuizScreen(
                                                     modifier = Modifier
                                                         .height(64.dp)
                                                         .fillMaxWidth(0.9f)
-                                                    //.background(color = Cream)
+                                                        .background(color = AppBars)
                                                 ) {
                                                     Row(
                                                         verticalAlignment = Alignment.CenterVertically,
                                                         modifier = Modifier
-                                                            .fillMaxWidth()
+                                                            .fillMaxSize()
+                                                            .background(color = AppBars)
+
 
                                                     ) {
 
@@ -356,40 +366,62 @@ fun DemoQuizScreen(
                                                             text = info,
                                                             modifier = Modifier
                                                                 .weight(0.9f)
-                                                                .padding(start = 8.dp)
+                                                                .padding(start = 8.dp),
+                                                            fontWeight = FontWeight.Bold,
                                                         )
                                                         RadioButton(
-
                                                             enabled = quizUiState.isRadiobuttonEnabled,
-                                                            selected = quizUiState.selectedOption == info,
+                                                            selected = selectedOption.value == info,
                                                             onClick = {
+
+                                                                selectedOption.value = info
                                                                 onNewEvent(
                                                                     DemoQuizUiEventClass.setSelectedOption(
-                                                                        info
+                                                                        selectedOption.value
                                                                     )
                                                                 )
+
                                                                 onNewEvent(DemoQuizUiEventClass.disableRadioButton)
                                                                 onNewEvent(DemoQuizUiEventClass.enableNextButton)
 
                                                                 Log.d(
-                                                                    "QUESTION_TAG",
-                                                                    "SelectedAns: ${quizUiState.selectedOption}\n" +
+                                                                    "BEFORE_IF_QUESTION_TAG",
+                                                                    "SelectedAns: ${selectedOption.value}\n" +
                                                                             "CorrectAns: ${
                                                                                 quizUiState.questions.get(
                                                                                     quizUiState.questionIndex
                                                                                 ).correct_answer
                                                                             }"
                                                                 )
-                                                                if (quizUiState.selectedOption == quizUiState.questions.get(
+                                                                if (selectedOption.value == quizUiState.questions.get(
                                                                         quizUiState.questionIndex
                                                                     ).correct_answer
                                                                 ) {
+                                                                    Log.d(
+                                                                        "IN_IF_QUESTION_TAG",
+                                                                        "SelectedAns: ${quizUiState.selectedOption}\n" +
+                                                                                "CorrectAns: ${
+                                                                                    quizUiState.questions.get(
+                                                                                        quizUiState.questionIndex
+                                                                                    ).correct_answer
+                                                                                }"
+                                                                    )
                                                                     Toast.makeText(
                                                                         context,
                                                                         "Correct!!!",
                                                                         Toast.LENGTH_LONG
                                                                     ).show()
                                                                 } else {
+
+                                                                    Log.d(
+                                                                        "ELSE_QUESTION_TAG",
+                                                                        "SelectedAns: ${quizUiState.selectedOption}\n" +
+                                                                                "CorrectAns: ${
+                                                                                    quizUiState.questions.get(
+                                                                                        quizUiState.questionIndex
+                                                                                    ).correct_answer
+                                                                                }"
+                                                                    )
 
                                                                     Toast.makeText(
                                                                         context,
@@ -421,9 +453,20 @@ fun DemoQuizScreen(
                                                 onNewEvent(DemoQuizUiEventClass.enableRadioButton)
                                                 onNewEvent(DemoQuizUiEventClass.disableNextButton)
                                                 onNewEvent(DemoQuizUiEventClass.incrementQuestionIndex)
+                                                selectedOption.value = ""
 
+                                                if (quizUiState.questionIndex - 1 == quizUiState.questions.size) {
+                                                    Toast.makeText(
+                                                        context,
+                                                        "End of questions",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+
+                                                }
 
                                             },
+                                            modifier = Modifier
+                                                .background(color = AppBars),
                                             enabled = quizUiState.isNextButtonEnabled
                                         ) {
 
