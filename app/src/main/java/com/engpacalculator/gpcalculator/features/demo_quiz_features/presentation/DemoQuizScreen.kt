@@ -3,10 +3,10 @@ package com.engpacalculator.gpcalculator.features.demo_quiz_features.presentatio
 import Quiz.Data.Presentation.Domain.QuizFormat
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -323,16 +323,6 @@ fun DemoQuizScreen(
 
                             ) {
 
-                                var selectedOption by remember {
-                                    mutableStateOf("")
-                                }
-
-                                var isRadioButtonIsEnabled by remember {
-                                    mutableStateOf(true)
-                                }
-                                var isNextButtonIsEnabled by remember {
-                                    mutableStateOf(false)
-                                }
 
                                 var context = LocalContext.current
 
@@ -344,8 +334,7 @@ fun DemoQuizScreen(
                                     contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp)
                                 ) {
                                     item {
-                                        quizUiState.questions.get(quizUiState.questionIndex).answers.shuffled(
-                                        )
+                                        quizUiState.optionsList
                                             .forEachIndexed { index, info ->
                                                 Spacer(modifier = Modifier.height(24.dp))
                                                 Card(
@@ -360,9 +349,7 @@ fun DemoQuizScreen(
                                                         verticalAlignment = Alignment.CenterVertically,
                                                         modifier = Modifier
                                                             .fillMaxWidth()
-                                                            .clickable {
 
-                                                            }
                                                     ) {
 
                                                         Text(
@@ -373,13 +360,27 @@ fun DemoQuizScreen(
                                                         )
                                                         RadioButton(
 
-                                                            // enabled = isRadioButtonIsEnabled,
-                                                            selected = selectedOption == info,
+                                                            enabled = quizUiState.isRadiobuttonEnabled,
+                                                            selected = quizUiState.selectedOption == info,
                                                             onClick = {
-//                                                                isRadioButtonIsEnabled = false
-//                                                                isNextButtonIsEnabled = true
-                                                                selectedOption = info
-                                                                if (selectedOption == quizUiState.questions.get(
+                                                                onNewEvent(
+                                                                    DemoQuizUiEventClass.setSelectedOption(
+                                                                        info
+                                                                    )
+                                                                )
+                                                                onNewEvent(DemoQuizUiEventClass.disableRadioButton)
+                                                                onNewEvent(DemoQuizUiEventClass.enableNextButton)
+
+                                                                Log.d(
+                                                                    "QUESTION_TAG",
+                                                                    "SelectedAns: ${quizUiState.selectedOption}\n" +
+                                                                            "CorrectAns: ${
+                                                                                quizUiState.questions.get(
+                                                                                    quizUiState.questionIndex
+                                                                                ).correct_answer
+                                                                            }"
+                                                                )
+                                                                if (quizUiState.selectedOption == quizUiState.questions.get(
                                                                         quizUiState.questionIndex
                                                                     ).correct_answer
                                                                 ) {
@@ -416,12 +417,14 @@ fun DemoQuizScreen(
 
                                         Button(
                                             onClick = {
-//                                                isRadioButtonIsEnabled = true
-//                                                isNextButtonIsEnabled = false
+
+                                                onNewEvent(DemoQuizUiEventClass.enableRadioButton)
+                                                onNewEvent(DemoQuizUiEventClass.disableNextButton)
                                                 onNewEvent(DemoQuizUiEventClass.incrementQuestionIndex)
 
+
                                             },
-                                            // enabled = isNextButtonIsEnabled
+                                            enabled = quizUiState.isNextButtonEnabled
                                         ) {
 
                                             Text(text = "next")
@@ -453,6 +456,14 @@ fun DemoQuizScreen(
 
     }
 }
+
+fun optionShuffler(
+    quizUiState: DemoQuizUiState
+): List<String> {
+    val shuffledOptions = quizUiState.questions.get(quizUiState.questionIndex).answers.shuffled()
+    return shuffledOptions
+}
+
 
 
 

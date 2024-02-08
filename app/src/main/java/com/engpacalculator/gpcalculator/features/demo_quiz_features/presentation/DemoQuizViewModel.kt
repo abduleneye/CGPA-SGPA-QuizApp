@@ -74,6 +74,9 @@ class DemoQuizViewModel @Inject constructor(
             }
 
             is DemoQuizUiEventClass.incrementQuestionIndex -> {
+//                val reShuffledOptions =
+//                    _demoQuizUiState.value.questions.get(_demoQuizUiState.value.questionIndex).answers.shuffled()
+//                        .toMutableList()
                 val iterator = _demoQuizUiState.value.questions
                 if (_demoQuizUiState.value.questionIndex < iterator.size - 1) {
                     _demoQuizUiState.update {
@@ -82,7 +85,55 @@ class DemoQuizViewModel @Inject constructor(
                         )
 
                     }
+                    _demoQuizUiState.update {
+                        it.copy(
+                            optionsList =
+                            _demoQuizUiState.value.questions.get(_demoQuizUiState.value.questionIndex).answers.shuffled()
+                                .toMutableList()
+                        )
 
+                    }
+
+                }
+            }
+
+            is DemoQuizUiEventClass.enableRadioButton -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        isRadiobuttonEnabled = true
+                    )
+                }
+            }
+
+            is DemoQuizUiEventClass.disableRadioButton -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        isRadiobuttonEnabled = false
+                    )
+                }
+            }
+
+            is DemoQuizUiEventClass.enableNextButton -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        isNextButtonEnabled = true
+                    )
+                }
+            }
+
+            is DemoQuizUiEventClass.disableNextButton -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        isNextButtonEnabled = false
+                    )
+                }
+            }
+
+            is DemoQuizUiEventClass.setSelectedOption -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        selectedOption = event.selectedOption
+                    )
                 }
             }
 
@@ -119,6 +170,8 @@ class DemoQuizViewModel @Inject constructor(
                         is Resource.Success -> {
                             _demoQuizUiState.value = demoQuizUiState.value.copy(
                                 questions = result.data!!.results.toMutableList(),
+                                optionsList = result.data.results.get(_demoQuizUiState.value.questionIndex).answers.shuffled()
+                                    .toMutableList(),
                                 isLoading = true
                             )
                         }

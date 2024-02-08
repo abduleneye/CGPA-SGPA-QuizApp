@@ -11,5 +11,10 @@ data class DemoQuizUiState(
     val questionCategory: String = "",
     val amountOfQuestions: String = "",
     val testLoad: Boolean = true,
-    var questionIndex: Int = 0
+    var questionIndex: Int = 0,
+    var optionsList: MutableList<String> = mutableListOf(),
+    var selectedOption: String = "",
+    var isRadiobuttonEnabled: Boolean = true,
+    var isNextButtonEnabled: Boolean = false
+
 )

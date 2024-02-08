@@ -10,6 +10,15 @@ sealed interface DemoQuizUiEventClass {
 
     object incrementQuestionIndex : DemoQuizUiEventClass
 
+    object enableRadioButton : DemoQuizUiEventClass
+    object disableRadioButton : DemoQuizUiEventClass
+
+    object enableNextButton : DemoQuizUiEventClass
+    object disableNextButton : DemoQuizUiEventClass
+
+    data class setSelectedOption(var selectedOption: String) : DemoQuizUiEventClass
+
+
     // object resetQuestionIndex : DemoQuizUiEventClass
 
     data class setQuestionDetailsForReload(var category: String, var amount: String) :
