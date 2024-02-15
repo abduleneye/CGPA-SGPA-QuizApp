@@ -9,6 +9,7 @@ sealed interface DemoQuizUiEventClass {
     object hideIntroDialogBoxVisibilty : DemoQuizUiEventClass
 
     object incrementQuestionIndex : DemoQuizUiEventClass
+    object currentScore : DemoQuizUiEventClass
 
     object enableRadioButton : DemoQuizUiEventClass
     object disableRadioButton : DemoQuizUiEventClass

@@ -138,6 +138,14 @@ class DemoQuizViewModel @Inject constructor(
                 Log.d("CURRENT_OPTION", _demoQuizUiState.value.selectedOption)
             }
 
+            is DemoQuizUiEventClass.currentScore -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        currentScore = _demoQuizUiState.value.currentScore + 1
+                    )
+                }
+            }
+
 //            is DemoQuizUiEventClass.resetQuestionIndex -> {
 //                _demoQuizUiState.update {
 //                    it.copy(
@@ -158,7 +166,8 @@ class DemoQuizViewModel @Inject constructor(
                 isLoading = false,
                 questionIndex = 0,
                 isRadiobuttonEnabled = true,
-                isNextButtonEnabled = false
+                isNextButtonEnabled = false,
+                currentScore = 0
             )
         }
         viewModelScope.launch {
@@ -169,6 +178,7 @@ class DemoQuizViewModel @Inject constructor(
                 amount = amount
             )
                 .onEach { result ->
+                    val loadingStatus: String = "LoadingStatus"
                     when (result) {
                         is Resource.Success -> {
                             _demoQuizUiState.value = demoQuizUiState.value.copy(
@@ -177,24 +187,45 @@ class DemoQuizViewModel @Inject constructor(
                                     .toMutableList(),
                                 isLoading = true,
                             )
+                            Log.d(loadingStatus, "LoadedSuccessfully")
+                            _demoQuizUiState.update {
+                                it.copy(
+                                    screenStatus = "Loaded Successfully"
+                                )
+                            }
                         }
 
-//                        is Resource.Loading -> {
-//
+                        is Resource.Loading -> {
+
 //                            _demoQuizUiState.value = demoQuizUiState.value.copy(
 //                                // questions = result.data!!.results,
 //                                isLoading = false
 //                            )
-//
-//                        }
-//
-//                        is Resource.Error -> {
-//
+                            Log.d(loadingStatus, "IsLoading")
+                            _demoQuizUiState.update {
+                                it.copy(
+                                    screenStatus = "Is Loading"
+                                )
+                            }
+
+
+                        }
+
+                        is Resource.Error -> {
+                            Log.d(loadingStatus, "An Error occurred")
+                            _demoQuizUiState.update {
+                                it.copy(
+                                    screenStatus = "An Error occurred"
+                                )
+                            }
+
+
 //                            _demoQuizUiState.value = demoQuizUiState.value.copy(
 //                                //questions = result.data!!.results,
 //                                isLoading = false
 //                            )
-//                        }
+                        }
+
                         else -> {
 
                         }

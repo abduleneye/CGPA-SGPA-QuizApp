@@ -220,11 +220,12 @@ fun DemoQuizScreen(
         }
 
 
-        if (quizUiState.isLoading == false) {
+        if (quizUiState.screenStatus == "Is Loading") {
             Box(
                 modifier =
                 Modifier
                     .fillMaxSize()
+                    .background(color = Cream)
             ) {
 
                 Column(
@@ -234,13 +235,13 @@ fun DemoQuizScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(color = AppBars)
 
                 }
 
             }
 
-        } else {
+        } else if (quizUiState.screenStatus == "Loaded Successfully") {
 
             Box(
                 modifier = Modifier
@@ -273,13 +274,31 @@ fun DemoQuizScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .background(color = AppBars),
+                                .background(color = Cream),
                             verticalArrangement = Arrangement.Top,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
+                            Text(
+                                text = category,
+                                fontWeight = FontWeight.Bold
+                            )
+
 
                             if (category != null) {
-                                Text(text = category + " ${quizUiState.questions.size}")
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceAround,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                ) {
+                                    Text(
+                                        text = "Total questions:  ${quizUiState.questions.size}",
+                                    )
+                                    Text(
+                                        text = "Score: " + " ${quizUiState.currentScore}",
+                                    )
+
+
+                                }
                             }
 
                             Card(
@@ -289,14 +308,14 @@ fun DemoQuizScreen(
                                     .height(100.dp)
                                     .fillMaxWidth(0.9f)
                                     .padding(top = 8.dp)
-                                    .background(color = AppBars),
+                                    .background(color = Cream),
 
 
                                 ) {
                                 Column(
                                     modifier = Modifier
                                         .fillMaxSize()
-                                        .background(color = AppBars),
+                                        .background(color = Cream),
                                     verticalArrangement = Arrangement.Top,
                                     horizontalAlignment = Alignment.CenterHorizontally
 
@@ -351,13 +370,13 @@ fun DemoQuizScreen(
                                                     modifier = Modifier
                                                         .height(64.dp)
                                                         .fillMaxWidth(0.9f)
-                                                        .background(color = AppBars)
+                                                        .background(color = Cream)
                                                 ) {
                                                     Row(
                                                         verticalAlignment = Alignment.CenterVertically,
                                                         modifier = Modifier
                                                             .fillMaxSize()
-                                                            .background(color = AppBars)
+                                                            .background(color = Cream)
 
 
                                                     ) {
@@ -411,6 +430,7 @@ fun DemoQuizScreen(
                                                                         "Correct!!!",
                                                                         Toast.LENGTH_LONG
                                                                     ).show()
+                                                                    onNewEvent(DemoQuizUiEventClass.currentScore)
                                                                 } else {
 
                                                                     Log.d(
@@ -445,9 +465,13 @@ fun DemoQuizScreen(
                                                 }
 
                                             }
-                                        Spacer(modifier = Modifier.height(2.dp))
+                                        Spacer(modifier = Modifier.height(4.dp))
 
                                         Button(
+
+                                            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                                containerColor = AppBars
+                                            ),
                                             onClick = {
 
                                                 onNewEvent(DemoQuizUiEventClass.enableRadioButton)
@@ -465,8 +489,6 @@ fun DemoQuizScreen(
                                                 }
 
                                             },
-                                            modifier = Modifier
-                                                .background(color = AppBars),
                                             enabled = quizUiState.isNextButtonEnabled
                                         ) {
 
@@ -495,10 +517,56 @@ fun DemoQuizScreen(
             }
 
 
+        } else if (quizUiState.screenStatus == "An Error occurred") {
+
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Cream)
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    Text("An error occurred please check your network!!!")
+                    Spacer(
+                        modifier = Modifier
+                            .height(24.dp)
+                    )
+
+                    Button(
+
+                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                            containerColor = AppBars
+                        ),
+
+                        onClick = {
+                            onNewEvent(
+                                DemoQuizUiEventClass.loadData(
+                                    category = quizUiState.questionCategory,
+                                    amount = quizUiState.amountOfQuestions
+                                ),
+                            )
+
+                        }) {
+
+                        Text(text = "Retry")
+
+                    }
+
+
+                }
+
+            }
         }
 
     }
+
 }
+
 
 fun optionShuffler(
     quizUiState: DemoQuizUiState
@@ -506,6 +574,8 @@ fun optionShuffler(
     val shuffledOptions = quizUiState.questions.get(quizUiState.questionIndex).answers.shuffled()
     return shuffledOptions
 }
+
+
 
 
 
