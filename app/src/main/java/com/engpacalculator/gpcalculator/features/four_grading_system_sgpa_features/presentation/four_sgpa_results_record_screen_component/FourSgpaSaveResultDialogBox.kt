@@ -178,7 +178,7 @@ fun FourSgpaSaveResultDialogBox(
                                 if (dbState.saveResultAs.isNotEmpty()) {
                                     Toast.makeText(
                                         context,
-                                        "${dbState.saveResultAs} saved successfully!!!",
+                                        "${dbState.saveResultAs} saved in records successfully!!!",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }

@@ -1,5 +1,6 @@
 package com.engpacalculator.gpcalculator
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,18 +14,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 
 @Composable
 fun DefaultCardSample(
-    textInCardBox: String,
+    textOneInCardBox: String,
+    textTwoInCardBox: String,
     navController: NavController?,
     route: String?,
     modifier: Modifier
 ) {
+
+    val context = LocalContext.current
 
     Card(
         elevation = CardDefaults.cardElevation(8.dp),
@@ -46,18 +53,36 @@ fun DefaultCardSample(
                 .background(color = Cream)
                 .clickable {
                     if (route != null) {
-                        navController?.navigate(route)
-                    } else {
+                        if (route == Screen.Quiz_Legit_Screen.route) {
+                            Toast
+                                .makeText(
+                                    context,
+                                    "Under Development," +
+                                            "Still Cooking...",
+                                    Toast.LENGTH_LONG
+                                )
+                                .show()
 
+                        } else {
+                            navController?.navigate(route)
+
+                        }
                     }
                 },
         ) {
 
             Text(
-                text = textInCardBox,
+                text = textOneInCardBox,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 modifier = Modifier.padding(4.dp)
+            )
+            Text(
+                text = textTwoInCardBox,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                modifier = Modifier.padding(4.dp),
+                fontSize = 12.sp
             )
         }
 

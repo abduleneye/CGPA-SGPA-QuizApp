@@ -18,5 +18,8 @@ data class DemoQuizUiState(
     var isRadiobuttonEnabled: Boolean = true,
     var isNextButtonEnabled: Boolean = false,
     var currentScore: Int = 0,
+    var correctnessDialogBoxVisibility: Boolean = false,
+    var endOfQuestionsDialogBoxVisibility: Boolean = false,
+    var questionStatus: String = ""
 
-    )
+)

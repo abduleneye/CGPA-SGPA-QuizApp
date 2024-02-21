@@ -97,134 +97,8 @@ fun FiveCgpaTopAppBarAndOptionsMenu(
                     .background(Cream),
                 offset = DpOffset(0.0.dp, 2.0.dp)
             ) {
-//Clear Courses Option Menu Item
-//                DropdownMenuItem(
-//                    onClick = {
-//                        if (
-//                            dbState.enteredCourses.toInt() == 0
-//                        ) {
-//
-//                            Toast.makeText(
-//                                context,
-//                                "No course(s) to clear yet",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//
-//                        } else {
-//
-//                            onEvent(FiveGpaUiEvents.showClearConfirmationDBox)
-//
-//                        }
-//
-//
-//                        optionsMenuState = !optionsMenuState
-//                        scope.launch {
-//                            if (sheetState.isExpanded) {
-//                                sheetState.collapse()
-//                            }
-//                        }
-//
-//                    },
-//                    modifier = Modifier
-//                        .background(Cream)
-//                        .height(35.dp),
-//
-//
-//                    ) {
-//                    Row(
-//                        horizontalArrangement = Arrangement.SpaceBetween,
-//                        verticalAlignment = Alignment.CenterVertically,
-//                        modifier = Modifier.fillMaxWidth()
-//                    ) {
-//
-//                        Text(
-//                            text = "Clear courses",
-//                            fontSize = 16.sp,
-//                            style = TextStyle(baselineShift = BaselineShift(0.199f))
-//                        )
-//                        Spacer(modifier = Modifier.width(10.dp))
-//                        Icon(Icons.Default.Clear, contentDescription = "clear courses")
-//                    }
-//                }
-////Edit Base entry DialogBox Item
-//                DropdownMenuItem(onClick = {
-//
-//                    if (
-//                        dbState.totalCourses.isBlank()
-//                    ) {
-//
-//                        Toast.makeText(
-//                            context,
-//                            "Nothing to edit yet tst",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//
-//                        // onEvent(FiveGpaUiEvents.showEditBaseEntryDBox)
-//
-//
-//                    } else {
-//
-//
-//                        onEvent(FiveGpaUiEvents.showEditBaseEntryDBox)
-//                        scope.launch {
-//                            if (sheetState.isExpanded) {
-//                                sheetState.collapse()
-//                            }
-//                        }
-//
-//                    }
-//
-//
-//
-//                    optionsMenuState = !optionsMenuState
-//                    scope.launch {
-//                        if (sheetState.isExpanded) {
-//                            sheetState.collapse()
-//                        }
-//                    }
-//                }) {
-//                    Row(
-//                        horizontalArrangement = Arrangement.SpaceBetween,
-//                        verticalAlignment = Alignment.CenterVertically,
-//                        modifier = Modifier.fillMaxWidth()
-//                    ) {
-//
-//                        Text(
-//                            text = "Edit numbers",
-//                            fontSize = 16.sp,
-//                            style = TextStyle(baselineShift = BaselineShift(0.199f))
-//                        )
-//                        Spacer(modifier = Modifier.width(10.dp))
-//                        Icon(Icons.Default.Edit, contentDescription = "Edit")
-//                    }
-//
-//
-//                }
-//About Item
 
-                DropdownMenuItem(onClick = {
-                    navController.navigate(Screen.About.route)
-                    optionsMenuState = !optionsMenuState
-
-                }) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-
-                        Text(
-                            text = "About",
-                            fontSize = 16.sp,
-                            style = TextStyle(baselineShift = BaselineShift(0.199f))
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Icon(Icons.Default.Info, contentDescription = "About")
-                    }
-
-
-                }
-//Records
+                //Records
 
                 DropdownMenuItem(onClick = {
                     navController.navigate(Screen.Five_Cgpa_Records_Screen.route)
@@ -245,6 +119,32 @@ fun FiveCgpaTopAppBarAndOptionsMenu(
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                         Icon(Icons.Default.List, contentDescription = "About")
+                    }
+
+
+                }
+
+
+//About Item
+
+                DropdownMenuItem(onClick = {
+                    onEvent(FiveGpaUiEvents.showFiveCgpaIntroDialogBox)
+                    optionsMenuState = !optionsMenuState
+
+                }) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+
+                        Text(
+                            text = "About",
+                            fontSize = 16.sp,
+                            style = TextStyle(baselineShift = BaselineShift(0.199f))
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Icon(Icons.Default.Info, contentDescription = "About")
                     }
 
 

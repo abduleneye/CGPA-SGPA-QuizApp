@@ -59,6 +59,7 @@ fun FourCgpaFullResultScreen(
     actualResults: String?,
     gP: String?,
     resultRemark: String?,
+    resultGpaDescriptor: String?,
     onEvent: (FourGpaUiEvents) -> Unit,
     navController: NavController,
     state: FourSgpaUiStates,
@@ -367,6 +368,15 @@ fun FourCgpaFullResultScreen(
                                         },
                                     )
                                 }
+                                if (resultGpaDescriptor != null) {
+
+                                    Text(
+                                        text = resultGpaDescriptor.uppercase(),
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+
+                                }
                                 if (resultRemark != null) {
                                     Text(
                                         text = buildAnnotatedString {
@@ -386,7 +396,7 @@ fun FourCgpaFullResultScreen(
 
                                                 )
                                             ) {
-                                                append(resultRemark)
+                                                append(resultRemark.uppercase())
                                             }
 
                                         },

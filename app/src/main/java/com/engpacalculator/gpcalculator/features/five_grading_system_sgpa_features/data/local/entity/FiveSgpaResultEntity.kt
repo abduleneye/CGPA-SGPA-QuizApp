@@ -15,6 +15,7 @@ data class FiveSgpaResultEntity(
     val gp: String = "",
     val remark: String = "",
     val resultName: String = "",
+    val resultGpaDescriptor: String = "",
     @PrimaryKey val id: Int? = null
 )
 
@@ -27,10 +28,10 @@ data class FiveSgpaResultEntity(
             remark = remark,
             gp = gp,
             resultEntries = resultEntries,
-            resultName = resultName
+            resultName = resultName,
 
 
-        )
+            )
     }
 }
 

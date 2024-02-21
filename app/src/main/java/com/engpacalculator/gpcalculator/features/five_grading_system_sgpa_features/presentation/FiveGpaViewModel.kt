@@ -999,6 +999,24 @@ class FiveGpaViewModel @Inject constructor(
                 }
             }
 
+            is FiveGpaUiEvents.showFiveCgpaIntroDialogBox -> {
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        fiveCgpaIntroDialogBoxVisibility = true
+
+                    )
+                }
+            }
+
+            is FiveGpaUiEvents.hideFiveCgpaIntroDialogBox -> {
+                _fiveCgpaUiState.update {
+                    it.copy(
+                        fiveCgpaIntroDialogBoxVisibility = false
+
+                    )
+                }
+            }
+
 
             else -> {}
         }
@@ -1025,7 +1043,9 @@ class FiveGpaViewModel @Inject constructor(
         } else if (_dbState.value.totalCreditLoad.isNotEmpty()) {
             _dbState.update {
                 it.copy(
-                    baseEntryDialogBoxVisibility = false
+                    baseEntryDialogBoxVisibility = false,
+                    courseEntryDialogBoxVisibility = true
+
                 )
             }
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
@@ -1346,8 +1366,9 @@ class FiveGpaViewModel @Inject constructor(
                         gp = _fiveCgpaUiState.value.cgpa,
                         remark = _fiveCgpaUiState.value.remark,
                         resultEntries = _fiveCgpaUiState.value.sgpaResultNames,
+                        resultGpaDescriptor = _fiveCgpaUiState.value.gpaDescriptor
 
-                        )
+                    )
                 )
             }
             _fiveCgpaUiState.update {
@@ -1434,8 +1455,9 @@ class FiveGpaViewModel @Inject constructor(
                             gp = _dbState.value.fiveSgpaFinalResult,
                             resultName = _dbState.value.saveResultAs.uppercase(),
                             remark = _dbState.value.remark,
+                            resultGpaDescriptor = _dbState.value.gpaDescriptor
 
-                            )
+                        )
                     )
                     _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
                     _fiveCgpaUiState.value.cgpaList.clear()

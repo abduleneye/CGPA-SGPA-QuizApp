@@ -17,14 +17,15 @@ data class FiveCgpaUiStates(
     var cgpa: String = "",
     var helperText: String = "",
     var operatorIconState: Boolean = false,
-    val remark: String = "",
+    var remark: String = "",
     var fiveCgpaFinalResult: String = "",
     var gpaDescriptor: String = "",
     var saveResultDBVisibilty: Boolean = false,
     var saveResultAs: String = "",
     var defaultLabelSRA: String = FiveErrorPassedValues.labelForSRA,
     var defaultLabelColourSRA: Long = 0xFFB6B07B,
-    var newHelperText: String = "hello"
+    var newHelperText: String = "hello",
+    var fiveCgpaIntroDialogBoxVisibility: Boolean = false
 
 
 ) : Parcelable

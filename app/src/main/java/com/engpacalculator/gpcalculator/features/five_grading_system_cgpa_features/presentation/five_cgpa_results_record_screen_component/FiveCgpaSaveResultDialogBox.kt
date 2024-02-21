@@ -174,7 +174,7 @@ fun FiveCgpaSaveResultDialogBox(
 
                                     Toast.makeText(
                                         context,
-                                        "${fiveCgpaUiStates.saveResultAs} saved successfully!!!",
+                                        "${fiveCgpaUiStates.saveResultAs} saved in records successfully!!!",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }

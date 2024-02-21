@@ -220,7 +220,8 @@ fun FourSgpaMyCardView(
                             info.resultName,
                             json,
                             info.gp,
-                            info.remark
+                            info.remark,
+                            info.resultGpaDescriptor
                         )
                     )
                     Toast

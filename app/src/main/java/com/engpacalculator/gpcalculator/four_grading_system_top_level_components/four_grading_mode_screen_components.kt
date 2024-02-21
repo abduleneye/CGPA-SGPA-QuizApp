@@ -130,7 +130,8 @@ fun Four_Grading_System_Mode_Screen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "sgpa".uppercase(),
+                            textOneInCardBox = "sgpa".uppercase(),
+                            textTwoInCardBox = "(semesterial gpa)".uppercase(),
                             navController = navController,
                             route = Screen.Four_Sgpa_Screen.route,
                             modifier = Modifier
@@ -144,7 +145,8 @@ fun Four_Grading_System_Mode_Screen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "cgpa".uppercase(),
+                            textOneInCardBox = "cgpa".uppercase(),
+                            textTwoInCardBox = "(Cumulative  gpa)".uppercase(),
                             navController = navController,
                             route = Screen.Four_Cgpa_Screen.route,
                             modifier = Modifier

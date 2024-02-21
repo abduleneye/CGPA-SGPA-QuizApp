@@ -269,7 +269,7 @@ fun SetUpNavGraph(
         }
 
         composable(
-            route = Screen.Five_Sgpa_Full_Records_Screen.route + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}",
+            route = Screen.Five_Sgpa_Full_Records_Screen.route + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}/{ResultGpaDescriptor}",
             arguments = listOf(
                 navArgument(name = "ResultName") {
                     type = NavType.StringType
@@ -289,6 +289,11 @@ fun SetUpNavGraph(
                 navArgument(name = "ResultRemark") {
                     type = NavType.StringType
                     defaultValue = "Result remark"
+
+                },
+                navArgument(name = "ResultGpaDescriptor") {
+                    type = NavType.StringType
+                    defaultValue = "Result GpaDescriptor"
 
                 }
             )
@@ -301,13 +306,15 @@ fun SetUpNavGraph(
                 onEvent = fiveSgpaViewModel::onEvent,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
-                state = fiveSgpaUiStates
+                state = fiveSgpaUiStates,
+                resultGpaDescriptor = entry.arguments?.getString("ResultGpaDescriptor")
+
 
             )
         }
 
         composable(
-            route = Screen.Four_Sgpa_Full_Records_Screen.route + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}",
+            route = Screen.Four_Sgpa_Full_Records_Screen.route + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}/{ResultGpaDescriptor}",
             arguments = listOf(
                 navArgument(name = "ResultName") {
                     type = NavType.StringType
@@ -328,6 +335,10 @@ fun SetUpNavGraph(
                     type = NavType.StringType
                     defaultValue = "Result remark"
 
+                },
+                navArgument(name = "ResultGpaDescriptor") {
+                    type = NavType.StringType
+                    defaultValue = "Result GpaDescriptor"
                 }
             )
         ) { entry ->
@@ -339,13 +350,14 @@ fun SetUpNavGraph(
                 onEvent = fourSgpaViewModel::onEvent,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
-                state = fourSgpaUiStates
+                state = fourSgpaUiStates,
+                resultGpaDescriptor = entry.arguments?.getString("ResultGpaDescriptor")
 
             )
         }
 
         composable(
-            route = Screen.Four_Cgpa_Full_Records_Screen.route + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}",
+            route = Screen.Four_Cgpa_Full_Records_Screen.route + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}/{ResultGpaDescriptor}",
             arguments = listOf(
                 navArgument(name = "ResultName") {
                     type = NavType.StringType
@@ -366,6 +378,10 @@ fun SetUpNavGraph(
                     type = NavType.StringType
                     defaultValue = "Result remark"
 
+                },
+                navArgument(name = "ResultGpaDescriptor") {
+                    type = NavType.StringType
+                    defaultValue = "Result GpaDescriptor"
                 }
             )
         ) { entry ->
@@ -377,7 +393,8 @@ fun SetUpNavGraph(
                 onEvent = fourSgpaViewModel::onEvent,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
-                state = fourSgpaUiStates
+                state = fourSgpaUiStates,
+                resultGpaDescriptor = entry.arguments?.getString("ResultGpaDescriptor")
 
             )
         }
@@ -385,7 +402,7 @@ fun SetUpNavGraph(
 
 
         composable(
-            route = Screen.Five_Cgpa_Full_Records_Screen.route + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}",
+            route = Screen.Five_Cgpa_Full_Records_Screen.route + "/{ResultName}/{ListOfCourseDetails}/{Gp}/{ResultRemark}/{ResultGpaDescriptor}",
             arguments = listOf(
                 navArgument(name = "ResultName") {
                     type = NavType.StringType
@@ -405,6 +422,11 @@ fun SetUpNavGraph(
                 navArgument(name = "ResultRemark") {
                     type = NavType.StringType
                     defaultValue = "Result remark"
+
+                },
+                navArgument(name = "ResultGpaDescriptor") {
+                    type = NavType.StringType
+                    defaultValue = "Result GpaDescriptor"
 
                 }
             )
@@ -417,7 +439,8 @@ fun SetUpNavGraph(
                 onEvent = fiveSgpaViewModel::onEvent,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
-                state = fiveSgpaUiStates
+                state = fiveSgpaUiStates,
+                resultGpaDescriptor = entry.arguments?.getString("ResultGpaDescriptor")
             )
         }
 

@@ -146,13 +146,46 @@ class DemoQuizViewModel @Inject constructor(
                 }
             }
 
-//            is DemoQuizUiEventClass.resetQuestionIndex -> {
-//                _demoQuizUiState.update {
-//                    it.copy(
-//                        questionIndex = 0
-//                    )
-//                }
-//            }
+            is DemoQuizUiEventClass.showCorrectnessDiaogBox -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        correctnessDialogBoxVisibility = true
+                    )
+                }
+            }
+
+            is DemoQuizUiEventClass.hideCorrectnessDialogBox -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        correctnessDialogBoxVisibility = false
+                    )
+                }
+            }
+
+            is DemoQuizUiEventClass.showEndOfQuestionsDialogBox -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        endOfQuestionsDialogBoxVisibility = true
+                    )
+                }
+            }
+
+            is DemoQuizUiEventClass.hideEndOfQuestionsDialogBox -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        endOfQuestionsDialogBoxVisibility = false
+                    )
+                }
+            }
+
+            is DemoQuizUiEventClass.setQuestionAnsweredStatus -> {
+                _demoQuizUiState.update {
+                    it.copy(
+                        questionStatus = event.status
+                    )
+                }
+            }
+
 
             else -> {}
         }

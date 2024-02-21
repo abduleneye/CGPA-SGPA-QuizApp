@@ -25,6 +25,7 @@ import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -34,6 +35,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.ads_components.FiveShimmerBottomHomeBarItemAd
+import com.engpacalculator.gpcalculator.core.data_store.data_store_repo.FiveCgpaIntroDataStoreRepoVisibility
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaIntroDialogBoxFromDatatStore
+import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaIntroDialogBoxFromViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component.FiveCgpaSaveResultDialogBox
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
@@ -82,9 +86,9 @@ fun FiveCgpaMainScreen(
         mutableStateOf(60.dp)
     }
     var initial_working_StatusIcon = Icons.Default.Done
-
-
-    var finalStatusIcon = Icons.Filled.Done
+    val dataStore = FiveCgpaIntroDataStoreRepoVisibility(context = context)
+    val status =
+        dataStore.getFiveCgpaIntroDialogBoxVisibilityStatus.collectAsState(initial = false).value
 
 
 
@@ -132,11 +136,12 @@ fun FiveCgpaMainScreen(
                                 }
                             }
                         } else if (fiveCgpaHelperRecordsState.displayedResultForFiveCgpaCalculation.isEmpty()) {
-                            Toast.makeText(
-                                context,
-                                "Please go back and saveFiveCgpaResult an sgpa result",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            onEvent(FiveGpaUiEvents.showFiveCgpaIntroDialogBox)
+//                            Toast.makeText(
+//                                context,
+//                                "Please go back and save an sgpa result",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
                         } else {
                             Toast.makeText(
                                 context,
@@ -203,6 +208,20 @@ fun FiveCgpaMainScreen(
                 mutableStateOf(false)
             }
 
+            if (status) {
+
+                FiveCgpaIntroDialogBoxFromDatatStore()
+
+            }
+
+            if (fiveCgpaUiStates.fiveCgpaIntroDialogBoxVisibility == true) {
+                FiveCgpaIntroDialogBoxFromViewModel(
+                    fiveCgpaUiEvents = onEvent,
+                    fiveCgpaUiStates = fiveCgpaUiStates
+                )
+
+            }
+
 
             Box {
                 Column {
@@ -234,7 +253,7 @@ fun FiveCgpaMainScreen(
                         contentAlignment = Alignment.Center
                     ) {
 
-                        Text(text = "No Sgpa saved record(s) found")
+                        Text(text = "No saved SGPA record(s) found")
 
                     }
                 }

@@ -328,7 +328,8 @@ fun HomeScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "5.0 grading system".uppercase(),
+                            textOneInCardBox = "5.0 grading system".uppercase(),
+                            textTwoInCardBox = "(Universities)".uppercase(),
                             navController = navController,
                             Screen.Five_Screen.route,
                             modifier = Modifier
@@ -346,7 +347,8 @@ fun HomeScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "4.0 grading system".uppercase(),
+                            textOneInCardBox = "4.0 grading system".uppercase(),
+                            textTwoInCardBox = "(polytechnics)".uppercase(),
                             navController = navController,
                             Screen.Four_Screen.route,
                             modifier = Modifier
@@ -377,7 +379,8 @@ fun HomeScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "quiz".uppercase(),
+                            textOneInCardBox = "quiz".uppercase(),
+                            textTwoInCardBox = "(Section)".uppercase(),
                             navController = navController,
                             Screen.Quiz_Mode_Screen.route,
                             modifier = Modifier
@@ -393,7 +396,8 @@ fun HomeScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "About".uppercase(),
+                            textOneInCardBox = "About".uppercase(),
+                            textTwoInCardBox = "(App and developer)".uppercase(),
                             navController,
                             Screen.About.route,
                             modifier = Modifier

@@ -130,7 +130,8 @@ fun Five_Grading_System_Mode_Screen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "sgpa".uppercase(),
+                            textOneInCardBox = "sgpa".uppercase(),
+                            textTwoInCardBox = "(semesterial gpa)".uppercase(),
                             navController = navController,
                             Screen.Five_Sgpa_Screen.route,
                             modifier = Modifier
@@ -147,7 +148,8 @@ fun Five_Grading_System_Mode_Screen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "cgpa".uppercase(),
+                            textOneInCardBox = "cgpa".uppercase(),
+                            textTwoInCardBox = "(Cumulative gpa)".uppercase(),
                             navController = navController,
                             Screen.Five_Cgpa_Screen.route,
                             modifier = Modifier

@@ -13,5 +13,6 @@ data class FourCgpaResultEntity(
     val gp: String = "",
     val remark: String = "",
     val resultName: String = "",
+    val resultGpaDescriptor: String = "",
     @PrimaryKey val id: Int? = null
 ) : Parcelable

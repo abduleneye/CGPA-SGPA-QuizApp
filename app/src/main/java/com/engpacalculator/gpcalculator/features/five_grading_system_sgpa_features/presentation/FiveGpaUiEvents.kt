@@ -105,10 +105,14 @@ sealed interface FiveGpaUiEvents {
 
     object helpFiveCgpa : FiveGpaUiEvents
     object loadFiveCgpaResult : FiveGpaUiEvents
+    object hideIntroDialogBoxVisibilty : FiveGpaUiEvents
 
 
     data class setFiveCgpaSRA(var saveResultAs: String) : FiveGpaUiEvents
     data class DeleteFiveCgpaResultByReference(var fiveCgpaResultName: String) : FiveGpaUiEvents
+
+    object showFiveCgpaIntroDialogBox : FiveGpaUiEvents
+    object hideFiveCgpaIntroDialogBox : FiveGpaUiEvents
 
 
 }

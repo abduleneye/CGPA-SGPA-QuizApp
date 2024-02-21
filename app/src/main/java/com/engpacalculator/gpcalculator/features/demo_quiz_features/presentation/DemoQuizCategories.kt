@@ -142,7 +142,8 @@ fun DemoQuizCategoriesScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "Sciences".uppercase(),
+                            textOneInCardBox = "Sciences".uppercase(),
+                            textTwoInCardBox = "(Demo)".uppercase(),
                             navController = navController,
                             route = Screen.Demo_Quiz.withArgs(
                                 "Sciences"
@@ -162,7 +163,8 @@ fun DemoQuizCategoriesScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "Art".uppercase(),
+                            textOneInCardBox = "Art".uppercase(),
+                            textTwoInCardBox = "(Demo)".uppercase(),
                             navController = navController,
                             route = Screen.Demo_Quiz.withArgs(
                                 "Art"
@@ -194,10 +196,11 @@ fun DemoQuizCategoriesScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "Commerce".uppercase(),
+                            textOneInCardBox = "Mythology".uppercase(),
+                            textTwoInCardBox = "(Demo)".uppercase(),
                             navController = navController,
                             route = Screen.Demo_Quiz.withArgs(
-                                "Commerce"
+                                "Mythology"
                             ),
                             modifier = Modifier
                                 .height(164.dp)
@@ -212,7 +215,8 @@ fun DemoQuizCategoriesScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "History".uppercase(),
+                            textOneInCardBox = "History".uppercase(),
+                            textTwoInCardBox = "(Demo)".uppercase(),
                             navController,
                             route = Screen.Demo_Quiz.withArgs(
                                 "History"

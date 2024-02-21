@@ -24,7 +24,8 @@ data class FourCgpaUiStates(
     var saveResultAs: String = "",
     var defaultLabelSRA: String = FiveErrorPassedValues.labelForSRA,
     var defaultLabelColourSRA: Long = 0xFFB6B07B,
-    var newHelperText: String = "hello"
+    var newHelperText: String = "hello",
+    var fourCgpaIntroDialogBoxVisibility: Boolean = false
 
 
 ) : Parcelable

@@ -9,50 +9,91 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-const val PREFERENCE_NAME = "my_preference"
-
-class DataStoreRepo(private val context: Context) {
+class QuizIntroDataStoreRepoVisibility(private val context: Context) {
 
     //To make sure there is only one instance
     companion object {
-        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("QuizIntroDialogBoxVisibility")
-        val DIALOG_BOX_VISIBILITY_KEY = booleanPreferencesKey("db_visibility")
-        val DONT_SHOW_AGAIN_BUTTON_STATUS_KEY =
-            booleanPreferencesKey("don't_show_again_button_status")
+        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("QuizIntroDataStoreRepoVisibility")
+        val QUIZ_INTRO_DIALOG_BOX_VISIBILITY_KEY = booleanPreferencesKey("quiz_intro_db_visibility")
 
     }
 
+
     //To get the intro dialog box visibility status
-    val getVisibilityStatus: Flow<Boolean> = context.dataStore.data
+    val getQuizIntroDialogBoxVisibilityStatus: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[DIALOG_BOX_VISIBILITY_KEY] ?: true
+            preferences[QUIZ_INTRO_DIALOG_BOX_VISIBILITY_KEY] ?: true
 
         }
 
 
     //To save the intro dialog box visibility status
 
-    suspend fun saveVisibilityStatus(visibilityStatus: Boolean) {
+    suspend fun saveQuizIntroDialogBoxVisibilityStatus(visibilityStatus: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[DIALOG_BOX_VISIBILITY_KEY] = visibilityStatus
+            preferences[QUIZ_INTRO_DIALOG_BOX_VISIBILITY_KEY] = visibilityStatus
 
         }
     }
 
-    //To get the button  status
-    val getButtonStatus: Flow<Boolean> = context.dataStore.data
+}
+
+class FiveCgpaIntroDataStoreRepoVisibility(private val context: Context) {
+
+    companion object {
+        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("FiveCgpaIntroDataStoreRepoVisibility")
+        val FIVE_CGPA_INTRO_DIALOG_BOX_VISIBILITY =
+            booleanPreferencesKey("five_cgpa_intro_db_visibility")
+
+    }
+
+    //To get the five cgpa intro dialog box visibility status
+    val getFiveCgpaIntroDialogBoxVisibilityStatus: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[DONT_SHOW_AGAIN_BUTTON_STATUS_KEY] ?: true
+            preferences[FIVE_CGPA_INTRO_DIALOG_BOX_VISIBILITY]
+                ?: true
 
         }
 
 
-    //To save the button  status
+    //To save the five cgpa intro dialog box visibility status
 
-    suspend fun saveButtonStatus(visibilityStatus: Boolean) {
+    suspend fun saveFiveCgpaIntroDialogBoxVisibilityStatus(visibilityStatus: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[DONT_SHOW_AGAIN_BUTTON_STATUS_KEY] = visibilityStatus
+            preferences[FIVE_CGPA_INTRO_DIALOG_BOX_VISIBILITY] =
+                visibilityStatus
+
+        }
+    }
+
+}
+
+class FourCgpaIntroDataStoreRepoVisibility(private val context: Context) {
+    companion object {
+        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("FourCgpaIntroDataStoreRepoVisibility")
+        val FOUR_CGPA_INTRO_DIALOG_BOX_VISIBILITY =
+            booleanPreferencesKey("five_cgpa_intro_db_visibility")
+
+    }
+
+    //To get the five cgpa intro dialog box visibility status
+    val getFourCgpaIntroDialogBoxVisibilityStatus: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[FOUR_CGPA_INTRO_DIALOG_BOX_VISIBILITY]
+                ?: true
+
+        }
+
+
+    //To save the five cgpa intro dialog box visibility status
+
+    suspend fun saveFourCgpaIntroDialogBoxVisibilityStatus(visibilityStatus: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[FOUR_CGPA_INTRO_DIALOG_BOX_VISIBILITY] =
+                visibilityStatus
 
         }
     }
 }
+
+

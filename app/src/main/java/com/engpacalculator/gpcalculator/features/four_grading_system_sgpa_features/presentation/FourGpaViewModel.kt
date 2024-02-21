@@ -999,6 +999,22 @@ class FourGpaViewModel @Inject constructor(
                 }
             }
 
+            is FourGpaUiEvents.showFourCgpaIntroDialogBox -> {
+                _fourCgpaUiState.update {
+                    it.copy(
+                        fourCgpaIntroDialogBoxVisibility = true
+                    )
+                }
+            }
+
+            is FourGpaUiEvents.hideFourCgpaIntroDialogBox -> {
+                _fourCgpaUiState.update {
+                    it.copy(
+                        fourCgpaIntroDialogBoxVisibility = false
+                    )
+                }
+            }
+
 
             else -> {}
         }
@@ -1025,7 +1041,9 @@ class FourGpaViewModel @Inject constructor(
         } else if (_dbState.value.totalCreditLoad.isNotEmpty()) {
             _dbState.update {
                 it.copy(
-                    baseEntryDialogBoxVisibility = false
+                    baseEntryDialogBoxVisibility = false,
+                    courseEntryDialogBoxVisibility = true
+
                 )
             }
             savedStateHandle.set(DB_STATE_KEY, _dbState.value)
@@ -1346,8 +1364,9 @@ class FourGpaViewModel @Inject constructor(
                         gp = _fourCgpaUiState.value.cgpa,
                         remark = _fourCgpaUiState.value.remark,
                         resultEntries = _fourCgpaUiState.value.sgpaResultNames,
+                        resultGpaDescriptor = _fourCgpaUiState.value.gpaDescriptor
 
-                        )
+                    )
                 )
             }
             _fourCgpaUiState.update {
@@ -1434,8 +1453,9 @@ class FourGpaViewModel @Inject constructor(
                             gp = _dbState.value.fourSgpaFinalResult,
                             resultName = _dbState.value.saveResultAs.uppercase(),
                             remark = _dbState.value.remark,
+                            resultGpaDescriptor = _dbState.value.gpaDescriptor
 
-                            )
+                        )
                     )
                     _fourCgpaUiState.value.displayedResultForFourCgpaCalculation.clear()
                     _fourCgpaUiState.value.cgpaList.clear()

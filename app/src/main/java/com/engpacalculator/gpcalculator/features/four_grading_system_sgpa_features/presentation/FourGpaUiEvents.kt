@@ -105,6 +105,8 @@ sealed interface FourGpaUiEvents {
 
     object helpFourCgpa : FourGpaUiEvents
     object loadFourCgpaResult : FourGpaUiEvents
+    object hideFourCgpaIntroDialogBox : FourGpaUiEvents
+    object showFourCgpaIntroDialogBox : FourGpaUiEvents
 
 
     data class setFourCgpaSRA(var saveResultAs: String) : FourGpaUiEvents

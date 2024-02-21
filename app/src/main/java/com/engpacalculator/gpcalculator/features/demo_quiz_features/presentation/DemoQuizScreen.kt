@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,6 +56,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -202,7 +204,7 @@ fun DemoQuizScreen(
 
                         }
 
-                        "Commerce" -> {
+                        "Mythology" -> {
 
                             onNewEvent(DemoQuizUiEventClass.setQuestionDetailsForReload("20", "10"))
                             onNewEvent(DemoQuizUiEventClass.loadData("20", "10"))
@@ -377,6 +379,74 @@ fun DemoQuizScreen(
                                                         modifier = Modifier
                                                             .fillMaxSize()
                                                             .background(color = Cream)
+                                                            .clickable(enabled = quizUiState.isRadiobuttonEnabled) {
+                                                                selectedOption.value = info
+                                                                onNewEvent(
+                                                                    DemoQuizUiEventClass.setSelectedOption(
+                                                                        selectedOption.value
+                                                                    )
+                                                                )
+
+                                                                onNewEvent(DemoQuizUiEventClass.disableRadioButton)
+                                                                onNewEvent(DemoQuizUiEventClass.enableNextButton)
+
+                                                                Log.d(
+                                                                    "BEFORE_IF_QUESTION_TAG",
+                                                                    "SelectedAns: ${selectedOption.value}\n" +
+                                                                            "CorrectAns: ${
+                                                                                quizUiState.questions.get(
+                                                                                    quizUiState.questionIndex
+                                                                                ).correct_answer
+                                                                            }"
+                                                                )
+                                                                if (selectedOption.value == quizUiState.questions.get(
+                                                                        quizUiState.questionIndex
+                                                                    ).correct_answer
+                                                                ) {
+                                                                    Log.d(
+                                                                        "IN_IF_QUESTION_TAG",
+                                                                        "SelectedAns: ${quizUiState.selectedOption}\n" +
+                                                                                "CorrectAns: ${
+                                                                                    quizUiState.questions.get(
+                                                                                        quizUiState.questionIndex
+                                                                                    ).correct_answer
+                                                                                }"
+                                                                    )
+
+                                                                    onNewEvent(DemoQuizUiEventClass.currentScore)
+                                                                    onNewEvent(
+                                                                        DemoQuizUiEventClass.setQuestionAnsweredStatus(
+                                                                            "correct"
+                                                                        )
+                                                                    )
+                                                                } else {
+
+                                                                    Log.d(
+                                                                        "ELSE_QUESTION_TAG",
+                                                                        "SelectedAns: ${quizUiState.selectedOption}\n" +
+                                                                                "CorrectAns: ${
+                                                                                    quizUiState.questions.get(
+                                                                                        quizUiState.questionIndex
+                                                                                    ).correct_answer
+                                                                                }"
+                                                                    )
+
+
+                                                                    onNewEvent(
+                                                                        DemoQuizUiEventClass.setQuestionAnsweredStatus(
+                                                                            "wrong"
+                                                                        )
+                                                                    )
+
+
+                                                                }
+
+                                                                scope.launch {
+                                                                    delay(1000)
+                                                                    onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
+                                                                }
+
+                                                            }
 
 
                                                     ) {
@@ -431,6 +501,11 @@ fun DemoQuizScreen(
                                                                         Toast.LENGTH_LONG
                                                                     ).show()
                                                                     onNewEvent(DemoQuizUiEventClass.currentScore)
+                                                                    onNewEvent(
+                                                                        DemoQuizUiEventClass.setQuestionAnsweredStatus(
+                                                                            "correct"
+                                                                        )
+                                                                    )
                                                                 } else {
 
                                                                     Log.d(
@@ -453,8 +528,21 @@ fun DemoQuizScreen(
                                                                         Toast.LENGTH_LONG
                                                                     ).show()
 
+                                                                    onNewEvent(
+                                                                        DemoQuizUiEventClass.setQuestionAnsweredStatus(
+                                                                            "wrong"
+                                                                        )
+                                                                    )
+
 
                                                                 }
+
+                                                                scope.launch {
+                                                                    delay(1000)
+                                                                    onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
+
+                                                                }
+
 
                                                             },
                                                             modifier = Modifier.weight(0.1f)
@@ -561,6 +649,12 @@ fun DemoQuizScreen(
                 }
 
             }
+        }
+
+        if (quizUiState.correctnessDialogBoxVisibility == true) {
+
+            DemoQuizCorrectnessDialogBox(onEvent = onNewEvent, demoQuizUiState = quizUiState)
+
         }
 
     }

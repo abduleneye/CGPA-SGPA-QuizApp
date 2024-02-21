@@ -1,4 +1,4 @@
-package com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation
+package com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,8 +18,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,30 +26,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.engpacalculator.gpcalculator.core.data_store.data_store_repo.DataStoreRepo
+import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourGpaUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun QuizIntroDialogBox(
-    demoQuizOnEvent: (DemoQuizUiEventClass) -> Unit,
-    quizIntroDBState: DemoQuizUiState,
+fun FourCgpaIntroDialogBoxFromViewModel(
+    FourCgpaUiEvents: (FourGpaUiEvents) -> Unit,
+    FourCgpaUiStates: FourCgpaUiStates,
 
 
     ) {
 
-    val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val dataStore = DataStoreRepo(context = context)
-    val buttonStatus = dataStore.getButtonStatus.collectAsState(initial = false).value
-
-
 
     Dialog(
         onDismissRequest = {
-            demoQuizOnEvent(DemoQuizUiEventClass.hideIntroDialogBoxVisibilty)
+            // FourCgpaUiEvents(FourGpaUiEvents.hideFourCgpaIntroDialogBox)
 
         },
 //        properties = DialogProperties(
@@ -66,7 +58,7 @@ fun QuizIntroDialogBox(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .fillMaxHeight(0.7f),
+                .fillMaxHeight(0.9f),
 
             backgroundColor = Cream
 
@@ -75,7 +67,8 @@ fun QuizIntroDialogBox(
                 //horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceAround,
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.9f)
             ) {
 
 
@@ -83,30 +76,32 @@ fun QuizIntroDialogBox(
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Top,
                     modifier = Modifier
-                        .fillMaxHeight(0.6f)
-                        .fillMaxWidth()
+                        .fillMaxSize()
+                        .weight(0.5f)
                 ) {
 
                     item {
                         Text(
-                            text = "Welcome! to the quiz section of this app, " +
-                                    "you can participate and stand a chance to win  airtime or data give away  at the end of every week," +
-                                    " if you happen to be the highest winner in any of the categories" +
-                                    "along side  expanding and testing your knowledge base on a variety of topics," +
-                                    "Although it's only the demo mode that is active for now" +
-                                    " which would have repetition of questions since it's just the demo mode, " +
-                                    "once the rewarding version is active you will be" +
-                                    "notified with a push notification to update your app" +
-                                    " directly from the home screen of this app or from play store " +
-                                    "for now just  play and enjoy!!! ",
+                            text = "Welcome! to the 4.0 CGPA " +
+                                    "section of this app " +
+                                    "it completely relies on your previously calculated and saved " +
+                                    "4.0 SGPA(semesterial GPA) results. " +
+                                    "in order to calculate your CGPA you need to " +
+                                    "have at least two(2) of your current level SGPA " +
+                                    "or previous level SGPA  result saved since it's cumulative. " +
+                                    "if you haven't saved any please go back and do so " +
+                                    "if you have done so you can simply select the " +
+                                    "SGPA results you want to calculate your CGPA for by checking the boxes " +
+                                    "and clicking the mark button below to calculate you can also save the CGPA " +
+                                    "result if you wish to.",
                             modifier = Modifier
                                 .align(Alignment.Start)
                                 .fillMaxWidth()
-                                .padding(start = 20.dp)
+                                .padding(start = 20.dp, top = 24.dp, end = 8.dp)
                                 .weight(1f),
-                            fontSize = 18.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.W400,
-                            //lineHeight = 1.sp
+                            lineHeight = 29.sp
                         )
                     }
 
@@ -121,7 +116,7 @@ fun QuizIntroDialogBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         //  .fillMaxHeight()
-                        .padding(bottom = 16.dp),
+                        .padding(bottom = 24.dp),
                     contentAlignment = Alignment.BottomCenter,
 
                     ) {
@@ -139,7 +134,7 @@ fun QuizIntroDialogBox(
 
                         Button(
                             onClick = {
-                                demoQuizOnEvent(DemoQuizUiEventClass.hideIntroDialogBoxVisibilty)
+                                FourCgpaUiEvents(FourGpaUiEvents.hideFourCgpaIntroDialogBox)
 
                             },
                             colors = ButtonDefaults.buttonColors(
@@ -158,27 +153,6 @@ fun QuizIntroDialogBox(
 //                            modifier = Modifier
 //                                .width(16.dp)
 //                        )
-
-                        Button(
-                            enabled = buttonStatus,
-                            onClick = {
-                                demoQuizOnEvent(DemoQuizUiEventClass.hideIntroDialogBoxVisibilty)
-                                scope.launch {
-                                    dataStore.saveVisibilityStatus(false)
-                                    dataStore.saveButtonStatus(false)
-
-                                }
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = AppBars
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth(0.9f)
-                        ) {
-
-                            Text(text = "Don't show again on start up")
-
-                        }
 
 
                     }
@@ -199,7 +173,7 @@ fun QuizIntroDialogBox(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
-fun QuizIntoDialogBox(
+fun QuizIntroDialogBoxFromViewModel(
 
 ) {
     //QuizIntroDialogBox()

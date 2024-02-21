@@ -220,30 +220,7 @@ fun FiveSgpaTopAppBarAndOptionsMenu(
 
 
                 }
-//About Item
 
-                DropdownMenuItem(onClick = {
-                    navController.navigate(Screen.About.route)
-                    optionsMenuState = !optionsMenuState
-
-                }) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-
-                        Text(
-                            text = "About",
-                            fontSize = 16.sp,
-                            style = TextStyle(baselineShift = BaselineShift(0.199f))
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Icon(Icons.Default.Info, contentDescription = "About")
-                    }
-
-
-                }
 //Records
 
                 DropdownMenuItem(onClick = {
@@ -265,6 +242,30 @@ fun FiveSgpaTopAppBarAndOptionsMenu(
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                         Icon(Icons.Default.List, contentDescription = "About")
+                    }
+
+
+                }
+                //About Item
+
+                DropdownMenuItem(onClick = {
+                    navController.navigate(Screen.About.route)
+                    optionsMenuState = !optionsMenuState
+
+                }) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+
+                        Text(
+                            text = "About",
+                            fontSize = 16.sp,
+                            style = TextStyle(baselineShift = BaselineShift(0.199f))
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Icon(Icons.Default.Info, contentDescription = "About")
                     }
 
 

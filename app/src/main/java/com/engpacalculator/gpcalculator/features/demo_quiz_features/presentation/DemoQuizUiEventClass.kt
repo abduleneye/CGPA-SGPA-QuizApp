@@ -18,12 +18,15 @@ sealed interface DemoQuizUiEventClass {
     object disableNextButton : DemoQuizUiEventClass
 
     data class setSelectedOption(var selectedOption: String) : DemoQuizUiEventClass
-
-
-    // object resetQuestionIndex : DemoQuizUiEventClass
-
     data class setQuestionDetailsForReload(var category: String, var amount: String) :
         DemoQuizUiEventClass
+
+    object showCorrectnessDiaogBox : DemoQuizUiEventClass
+    object hideCorrectnessDialogBox : DemoQuizUiEventClass
+    object showEndOfQuestionsDialogBox : DemoQuizUiEventClass
+    object hideEndOfQuestionsDialogBox : DemoQuizUiEventClass
+
+    data class setQuestionAnsweredStatus(var status: String) : DemoQuizUiEventClass
 
 
 }

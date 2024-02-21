@@ -1,6 +1,5 @@
 package com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation.four_cgpa_results_record_screen_component
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -200,9 +199,9 @@ fun MyCardView(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clickable {
-                Toast
-                    .makeText(myContext, "Clicked from card view!!!", Toast.LENGTH_SHORT)
-                    .show()
+//                Toast
+//                    .makeText(myContext, "Clicked from card view!!!", Toast.LENGTH_SHORT)
+//                    .show()
             },
         colors = CardDefaults.cardColors(
             containerColor = Cream
@@ -222,12 +221,13 @@ fun MyCardView(
                             info.resultName,
                             json,
                             info.gp,
-                            info.remark
+                            info.remark,
+                            info.resultGpaDescriptor
                         )
                     )
-                    Toast
-                        .makeText(myContext, "Clicked from column!!!", Toast.LENGTH_SHORT)
-                        .show()
+//                    Toast
+//                        .makeText(myContext, "Clicked from column!!!", Toast.LENGTH_SHORT)
+//                        .show()
 
 
                 },

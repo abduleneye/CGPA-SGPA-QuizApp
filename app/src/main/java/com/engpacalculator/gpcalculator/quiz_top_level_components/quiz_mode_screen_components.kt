@@ -34,11 +34,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.DefaultCardSample
 import com.engpacalculator.gpcalculator.core.ads_components.FiveScreensBottomBannerAd
-import com.engpacalculator.gpcalculator.core.data_store.data_store_repo.DataStoreRepo
+import com.engpacalculator.gpcalculator.core.data_store.data_store_repo.QuizIntroDataStoreRepoVisibility
 import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation.DemoQuizUiEventClass
 import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation.DemoQuizUiState
-import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation.QuizIntroDialogBox
+import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation.QuizIntroDialogBoxFromDatatStore
+import com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation.QuizIntroDialogBoxFromViewModel
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
@@ -61,8 +62,9 @@ fun Quiz_Mode_Screen(
 
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val dataStore = DataStoreRepo(context = context)
-    val status = dataStore.getVisibilityStatus.collectAsState(initial = false).value
+    val dataStore = QuizIntroDataStoreRepoVisibility(context = context)
+    val status =
+        dataStore.getQuizIntroDialogBoxVisibilityStatus.collectAsState(initial = false).value
 
 
     Scaffold(
@@ -169,9 +171,19 @@ fun Quiz_Mode_Screen(
                 ) {
 
                     if (
-                        status || quizIntroDBState.quizIntroDialogBoxVisibility
+                        status
                     ) {
-                        QuizIntroDialogBox(
+                        QuizIntroDialogBoxFromDatatStore(
+                            quizIntroDBState = quizIntroDBState,
+                            demoQuizOnEvent = onQuizModeEvent
+                        )
+
+                    }
+
+                    if (
+                        quizIntroDBState.quizIntroDialogBoxVisibility
+                    ) {
+                        QuizIntroDialogBoxFromViewModel(
                             quizIntroDBState = quizIntroDBState,
                             demoQuizOnEvent = onQuizModeEvent
                         )
@@ -181,7 +193,8 @@ fun Quiz_Mode_Screen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "Demo".uppercase(),
+                            textOneInCardBox = "Demo".uppercase(),
+                            textTwoInCardBox = "(Mode)".uppercase(),
                             navController = navController,
                             Screen.Quiz_Demo_Screen_Categories.route,
                             modifier = Modifier
@@ -197,7 +210,8 @@ fun Quiz_Mode_Screen(
 
                     if (navController != null) {
                         DefaultCardSample(
-                            textInCardBox = "Legit".uppercase(),
+                            textOneInCardBox = "Legit".uppercase(),
+                            textTwoInCardBox = "(Mode)".uppercase(),
                             navController = navController,
                             Screen.Quiz_Legit_Screen.route,
                             modifier = Modifier

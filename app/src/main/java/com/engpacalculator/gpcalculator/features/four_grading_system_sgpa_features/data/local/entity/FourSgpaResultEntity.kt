@@ -15,6 +15,7 @@ data class FourSgpaResultEntity(
     val gp: String = "",
     val remark: String = "",
     val resultName: String = "",
+    val resultGpaDescriptor: String = "",
     @PrimaryKey val id: Int? = null
 )
 

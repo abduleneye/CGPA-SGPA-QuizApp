@@ -59,6 +59,7 @@ fun FiveCgpaFullResultScreen(
     actualResults: String?,
     gP: String?,
     resultRemark: String?,
+    resultGpaDescriptor: String?,
     onEvent: (FiveGpaUiEvents) -> Unit,
     navController: NavController,
     state: FiveSgpaUiStates,
@@ -367,6 +368,15 @@ fun FiveCgpaFullResultScreen(
                                         },
                                     )
                                 }
+                                if (resultGpaDescriptor != null) {
+
+                                    Text(
+                                        text = resultGpaDescriptor.uppercase(),
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+
+                                }
                                 if (resultRemark != null) {
                                     Text(
                                         text = buildAnnotatedString {
@@ -386,7 +396,7 @@ fun FiveCgpaFullResultScreen(
 
                                                 )
                                             ) {
-                                                append(resultRemark)
+                                                append(resultRemark.uppercase())
                                             }
 
                                         },

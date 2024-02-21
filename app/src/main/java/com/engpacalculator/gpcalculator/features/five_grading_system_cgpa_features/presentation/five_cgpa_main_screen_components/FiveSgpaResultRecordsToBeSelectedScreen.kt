@@ -1,6 +1,5 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_main_screen_components
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,6 +34,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.FiveCgpaUiStates
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
+import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.launch
 
@@ -48,7 +47,7 @@ fun Init() {
         contentAlignment = Alignment.Center
     ) {
 
-        Text(text = "No saved record(s) yet")
+        Text(text = "No saved SGPA record(s) yet")
 
     }
 }
@@ -160,7 +159,7 @@ fun MyCardView(
 
                 Checkbox(
                     colors = CheckboxDefaults.colors(
-                        checkedColor = Color.Red
+                        checkedColor = AppBars
                     ),
                     modifier = Modifier
                         .weight(0.1f)
@@ -183,11 +182,11 @@ fun MyCardView(
                                 resultNameRef = info.resultName
                             )
                         )
-                        Toast.makeText(
-                            context,
-                            " Sgpa for ${index}\n${info.resultName} is ${info.resultSgpa} ",
-                            Toast.LENGTH_SHORT
-                        ).show()
+//                        Toast.makeText(
+//                            context,
+//                            " Sgpa for ${index}\n${info.resultName} is ${info.resultSgpa} ",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
                         // Invalidate()
                     },
 

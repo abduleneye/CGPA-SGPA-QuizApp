@@ -97,133 +97,8 @@ fun FourCgpaTopAppBarAndOptionsMenu(
                     .background(Cream),
                 offset = DpOffset(0.0.dp, 2.0.dp)
             ) {
-//Clear Courses Option Menu Item
-//                DropdownMenuItem(
-//                    onClick = {
-//                        if (
-//                            dbState.enteredCourses.toInt() == 0
-//                        ) {
-//
-//                            Toast.makeText(
-//                                context,
-//                                "No course(s) to clear yet",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//
-//                        } else {
-//
-//                            onEvent(FourGpaUiEvents.showClearConfirmationDBox)
-//
-//                        }
-//
-//
-//                        optionsMenuState = !optionsMenuState
-//                        scope.launch {
-//                            if (sheetState.isExpanded) {
-//                                sheetState.collapse()
-//                            }
-//                        }
-//
-//                    },
-//                    modifier = Modifier
-//                        .background(Cream)
-//                        .height(35.dp),
-//
-//
-//                    ) {
-//                    Row(
-//                        horizontalArrangement = Arrangement.SpaceBetween,
-//                        verticalAlignment = Alignment.CenterVertically,
-//                        modifier = Modifier.fillMaxWidth()
-//                    ) {
-//
-//                        Text(
-//                            text = "Clear courses",
-//                            fontSize = 16.sp,
-//                            style = TextStyle(baselineShift = BaselineShift(0.199f))
-//                        )
-//                        Spacer(modifier = Modifier.width(10.dp))
-//                        Icon(Icons.Default.Clear, contentDescription = "clear courses")
-//                    }
-//                }
-////Edit Base entry DialogBox Item
-//                DropdownMenuItem(onClick = {
-//
-//                    if (
-//                        dbState.totalCourses.isBlank()
-//                    ) {
-//
-//                        Toast.makeText(
-//                            context,
-//                            "Nothing to edit yet tst",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//
-//                        // onEvent(FourGpaUiEvents.showEditBaseEntryDBox)
-//
-//
-//                    } else {
-//
-//
-//                        onEvent(FourGpaUiEvents.showEditBaseEntryDBox)
-//                        scope.launch {
-//                            if (sheetState.isExpanded) {
-//                                sheetState.collapse()
-//                            }
-//                        }
-//
-//                    }
-//
-//
-//
-//                    optionsMenuState = !optionsMenuState
-//                    scope.launch {
-//                        if (sheetState.isExpanded) {
-//                            sheetState.collapse()
-//                        }
-//                    }
-//                }) {
-//                    Row(
-//                        horizontalArrangement = Arrangement.SpaceBetween,
-//                        verticalAlignment = Alignment.CenterVertically,
-//                        modifier = Modifier.fillMaxWidth()
-//                    ) {
-//
-//                        Text(
-//                            text = "Edit numbers",
-//                            fontSize = 16.sp,
-//                            style = TextStyle(baselineShift = BaselineShift(0.199f))
-//                        )
-//                        Spacer(modifier = Modifier.width(10.dp))
-//                        Icon(Icons.Default.Edit, contentDescription = "Edit")
-//                    }
-//
-//
-//                }
-//About Item
-
-                DropdownMenuItem(onClick = {
-                    navController.navigate(Screen.About.route)
-                    optionsMenuState = !optionsMenuState
-
-                }) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-
-                        Text(
-                            text = "About",
-                            fontSize = 16.sp,
-                            style = TextStyle(baselineShift = BaselineShift(0.199f))
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Icon(Icons.Default.Info, contentDescription = "About")
-                    }
 
 
-                }
 //Records
 
                 DropdownMenuItem(onClick = {
@@ -245,6 +120,31 @@ fun FourCgpaTopAppBarAndOptionsMenu(
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                         Icon(Icons.Default.List, contentDescription = "About")
+                    }
+
+
+                }
+
+                //About Item
+
+                DropdownMenuItem(onClick = {
+                    onEvent(FourGpaUiEvents.showFourCgpaIntroDialogBox)
+                    optionsMenuState = !optionsMenuState
+
+                }) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+
+                        Text(
+                            text = "About",
+                            fontSize = 16.sp,
+                            style = TextStyle(baselineShift = BaselineShift(0.199f))
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Icon(Icons.Default.Info, contentDescription = "About")
                     }
 
 

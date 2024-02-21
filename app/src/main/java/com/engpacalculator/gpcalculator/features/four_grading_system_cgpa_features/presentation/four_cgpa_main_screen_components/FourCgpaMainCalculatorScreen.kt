@@ -25,6 +25,7 @@ import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -34,7 +35,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.ads_components.FourShimmerBottomHomeBarItemAd
+import com.engpacalculator.gpcalculator.core.data_store.data_store_repo.FourCgpaIntroDataStoreRepoVisibility
 import com.engpacalculator.gpcalculator.features.Four_grading_system_sgpa_features.presentation.FourGpaViewModel
+import com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation.FourCgpaIntroDialogBoxFromDatatStore
+import com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation.FourCgpaIntroDialogBoxFromViewModel
 import com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation.FourCgpaUiStates
 import com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation.four_cgpa_results_record_screen_component.FourCgpaSaveResultDialogBox
 import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourGpaUiEvents
@@ -140,11 +144,12 @@ fun FourCgpaMainScreen(
                                 }
                             }
                         } else if (fourCgpaHelperRecordsState.displayedResultForFourCgpaCalculation.isEmpty()) {
-                            Toast.makeText(
-                                context,
-                                "Please go back and saveFourCgpaResult an sgpa result",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            onEvent(FourGpaUiEvents.showFourCgpaIntroDialogBox)
+//                            Toast.makeText(
+//                                context,
+//                                "Please go back and saveFourCgpaResult an sgpa result",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
                         } else {
                             Toast.makeText(
                                 context,
@@ -211,6 +216,10 @@ fun FourCgpaMainScreen(
                 mutableStateOf(false)
             }
 
+            val dataStore = FourCgpaIntroDataStoreRepoVisibility(context = context)
+            val status =
+                dataStore.getFourCgpaIntroDialogBoxVisibilityStatus.collectAsState(initial = false).value
+
 
             Box {
                 Column {
@@ -226,7 +235,7 @@ fun FourCgpaMainScreen(
 
                 }
 
-                if (fourCgpaUiStates.saveResultDBVisibilty == true) {
+                if (fourCgpaUiStates.saveResultDBVisibilty) {
 
                     FourCgpaSaveResultDialogBox(
                         onEvent = onEvent,
@@ -242,64 +251,24 @@ fun FourCgpaMainScreen(
                         contentAlignment = Alignment.Center
                     ) {
 
-                        Text(text = "No Sgpa saved record(s) found")
+                        Text(text = "No saved SGPA record(s) found")
 
                     }
                 }
 
+                if (fourCgpaUiStates.fourCgpaIntroDialogBoxVisibility) {
+                    FourCgpaIntroDialogBoxFromViewModel(
+                        FourCgpaUiEvents = onEvent,
+                        FourCgpaUiStates = fourCgpaUiStates
+                    )
+                }
+
+                if (status) {
+                    FourCgpaIntroDialogBoxFromDatatStore()
+                }
+
 
             }
-
-
-//            var style = TextStyle(fontSize = 35.sp)
-//
-//            var resizedTextStyle by remember {
-//                mutableStateOf(style)
-//
-//            }
-//
-//
-//            if (state.enteredCourses == "0") {
-//
-//                Box(
-//                    modifier = Modifier
-//                        .fillMaxSize(),
-//                    contentAlignment = Alignment.Center
-//                ) {
-//
-//
-//                    Box(
-//                        modifier = Modifier
-//                            .fillMaxWidth(0.9f),
-//                        contentAlignment = Alignment.Center
-//
-//                    ) {
-//                        Text(
-//                            // modifier = Modifier.fillMaxSize(),
-//                            text = "Click the plus button!!!",
-//                            //fontSize = 35.sp,
-//                            color = Color.Gray,
-//                            maxLines = 1,
-//                            lineHeight = 1000.sp,
-//                            softWrap = false,
-//                            onTextLayout = { result ->
-//                                if (result.didOverflowWidth) {
-//                                    resizedTextStyle = resizedTextStyle.copy(
-//                                        fontSize = resizedTextStyle.fontSize * 0.95
-//                                    )
-//
-//                                }
-//
-//                            },
-//                            style = resizedTextStyle,
-//                            //  textAlign = Alignment.CenterVertically
-//
-//
-//                        )
-//                    }
-//                }
-//
-//            }
 
 
         }
