@@ -311,7 +311,7 @@ class DemoQuizViewModel @Inject constructor(
 
                 }.launchIn(this)
 
-            Log.d("MyQuestions", "${questions}")
+            Log.d("myQuestions", "${questions}")
 
         }
 
