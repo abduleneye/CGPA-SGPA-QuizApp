@@ -1,5 +1,10 @@
 package com.engpacalculator.gpcalculator.features.demo_quiz_features.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+
 data class Results(
     val correct_answer: String,
     // val difficulty: String,
@@ -7,4 +12,4 @@ data class Results(
     val question: String,
     //val type: String,
     val answers: List<String>
-)
+) : Parcelable

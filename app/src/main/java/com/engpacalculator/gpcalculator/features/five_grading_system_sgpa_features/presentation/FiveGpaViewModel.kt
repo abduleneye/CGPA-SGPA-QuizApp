@@ -43,37 +43,50 @@ class FiveGpaViewModel @Inject constructor(
 
     ) : ViewModel() {
     companion object {
-        private const val DB_STATE_KEY = "my_db_state"
-        private const val COURSE_ENTRIES_KEY = "my_course_entry_state"
+        private const val FIVE_SGPA_COURSE_ENTRIES_KEY =
+            "my_five_sgpa_course_entry_state"
+        private const val FIVE_SGPA_UI_STATE_KEY = "my_five_sgpa_ui_state"
+        private const val FIVE_SGPA_RESULT_INTRO_DBASE = "my_five_sgpa_result_intro_data_base"
+        private const val FIVE_CGPA_UI_STATE_KEY = "my_five_cgpa_ui_state"
+        private const val FIVE_CGPA_RESULT_INTRO_DBASE = "my_five_Cgpa_result_intro_data_base"
+
     }
 
     private val coursePointObj = FiveCoursesUnitPointArrayList()
     private val courseMapObj = FiveCourseMaps()
     private val coursesDataEntryObj = FiveCourseDataEntries()
-    private val stateClassObject = FiveSgpaUiStates()
     private var result = ""
     var coursesUnitSubList = ArrayList<Int>()
 
 
     private var _courseEntries = MutableStateFlow(
-        savedStateHandle.get(COURSE_ENTRIES_KEY) ?: FiveCourseDataEntries().coursesDataEntry
+        savedStateHandle.get(FIVE_SGPA_COURSE_ENTRIES_KEY)
+            ?: FiveCourseDataEntries().coursesDataEntry
     )
     var courseEntries = _courseEntries.asStateFlow()
 
-    private var _dbState =
-        MutableStateFlow(savedStateHandle.get(DB_STATE_KEY) ?: FiveSgpaUiStates())
-    var dbState = _dbState.asStateFlow()
-
-
-    private var _fiveSgparesultIntroDB = MutableStateFlow(FiveSgpaResultsRecordState())
-    val fiveSgparesultIntroDB = _fiveSgparesultIntroDB.asStateFlow()
-
-    private var _fiveCgpaResultIntroDB = MutableStateFlow(FiveCgpaResultsRecordState())
-    val fiveCgpaResultIntroDB = _fiveCgpaResultIntroDB.asStateFlow()
+    private var _fiveSgpaUiState =
+        MutableStateFlow(savedStateHandle.get(FIVE_SGPA_UI_STATE_KEY) ?: FiveSgpaUiStates())
+    var fiveSgpaUiState = _fiveSgpaUiState.asStateFlow()
 
     private var _fiveCgpaUiState =
-        MutableStateFlow(FiveCgpaUiStates())
+        MutableStateFlow(savedStateHandle.get(FIVE_CGPA_UI_STATE_KEY) ?: FiveCgpaUiStates())
     var fiveCgpaUiState = _fiveCgpaUiState.asStateFlow()
+
+
+    private var _fiveSgparesultIntroDB = MutableStateFlow(
+        savedStateHandle.get(
+            FIVE_SGPA_RESULT_INTRO_DBASE
+        ) ?: FiveSgpaResultsRecordState()
+    )
+    val fiveSgparesultIntroDB = _fiveSgparesultIntroDB.asStateFlow()
+
+    private var _fiveCgpaResultIntroDB = MutableStateFlow(
+        savedStateHandle.get(
+            FIVE_CGPA_RESULT_INTRO_DBASE
+        ) ?: FiveCgpaResultsRecordState()
+    )
+    val fiveCgpaResultIntroDB = _fiveCgpaResultIntroDB.asStateFlow()
 
 
     init {
@@ -92,19 +105,20 @@ class FiveGpaViewModel @Inject constructor(
                             resultItems = result
                         )
                     }
+                    savedStateHandle.set(FIVE_CGPA_RESULT_INTRO_DBASE, _fiveCgpaResultIntroDB.value)
+
                     //  _resultIntroDB.value.resultItems = result
 
                 }
-
-
         }
-
     }
 
 
     private fun loadFiveSgpaData(chkBoxState: Boolean = false, pseudoIndex: Int = 0) {
         viewModelScope.launch {
             _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+            savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
 
             myFiveSgpaRepository.GetFiveSgpaResultRecordDao()
                 .collect { result ->
@@ -114,6 +128,8 @@ class FiveGpaViewModel @Inject constructor(
                             resultItems = result
                         )
                     }
+                    savedStateHandle.set(FIVE_SGPA_RESULT_INTRO_DBASE, _fiveSgparesultIntroDB.value)
+
 
                     for (i in 0 until result.size) {
 
@@ -124,6 +140,7 @@ class FiveGpaViewModel @Inject constructor(
                                 resultSgpa = result.get(i).gp
                             )
                         )
+                        savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
 
 
                     }
@@ -150,6 +167,7 @@ class FiveGpaViewModel @Inject constructor(
                         saveResultDBVisibilty = true
                     )
                 }
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
 
 
             }
@@ -164,6 +182,8 @@ class FiveGpaViewModel @Inject constructor(
 
                         )
                 }
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
             }
 
             is FiveGpaUiEvents.helpFiveCgpa -> {
@@ -173,6 +193,8 @@ class FiveGpaViewModel @Inject constructor(
                         newHelperText = "Ahh..."
                     )
                 }
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
             }
 
             is FiveGpaUiEvents.setFiveCgpaSRA -> {
@@ -181,6 +203,8 @@ class FiveGpaViewModel @Inject constructor(
                         saveResultAs = event.saveResultAs
                     )
                 }
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
 
             }
 
@@ -201,6 +225,8 @@ class FiveGpaViewModel @Inject constructor(
                                 i
                             ).sgpaResult.toDouble().toFloat()
                         )
+                        savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
                     }
 
                     _fiveCgpaUiState.update {
@@ -213,8 +239,9 @@ class FiveGpaViewModel @Inject constructor(
                             )
                         )
                     }
-
                     GpaDescriptor(_fiveCgpaUiState.value.cgpa.toFloat(), "cgpa")
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
 
                 }
 
@@ -226,6 +253,8 @@ class FiveGpaViewModel @Inject constructor(
 
                 //_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
                 _fiveCgpaUiState.value.cgpaList.clear()
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
                 //_fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
                 // loadFiveSgpaData()
             }
@@ -235,6 +264,8 @@ class FiveGpaViewModel @Inject constructor(
 
                 _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.get(event.index).resultSelected =
                     event.isChecked
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
 
                 for (i in 0.._fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.size - 1) {
                     if (_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation[i].resultSelected) {
@@ -242,6 +273,8 @@ class FiveGpaViewModel @Inject constructor(
                             it.copy(operatorIconState = true)
 
                         }
+                        savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
                         Log.d(
                             "StatusIconCheck",
                             "Your status are ${_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation}"
@@ -251,6 +284,8 @@ class FiveGpaViewModel @Inject constructor(
                         _fiveCgpaUiState.update {
                             it.copy(operatorIconState = false)
                         }
+                        savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
                     }
 
                     "Your status are ${_fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation}"
@@ -264,12 +299,16 @@ class FiveGpaViewModel @Inject constructor(
                         helperText = randomNumber.toString()
                     )
                 }
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
 
 
                 if (event.isChecked == true) {
                     _fiveCgpaUiState.update {
                         it.copy(operatorIconState = true)
                     }
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
 
                     _fiveCgpaUiState.value.sgpaListToBeCalculated.add(
                         //index = event.index,
@@ -284,7 +323,10 @@ class FiveGpaViewModel @Inject constructor(
                     _fiveCgpaUiState.value.sgpaListToBeCalculated.removeIf {
                         it.id == event.index
                     }
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
                     _fiveCgpaUiState.value.sgpaResultNames.remove(event.resultNameRef)
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
 
                 }
 
@@ -296,11 +338,16 @@ class FiveGpaViewModel @Inject constructor(
                 _fiveCgpaUiState.update {
                     it.copy(operatorIconState = false)
                 }
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
                 viewModelScope.launch {
                     myFiveSgpaRepository.FiveSgpaResultToBeDeleted(event.fiveSgpaResultName)
                     _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
                     _fiveCgpaUiState.value.cgpaList.clear()
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
                     _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
 
                 }
             }
@@ -309,6 +356,8 @@ class FiveGpaViewModel @Inject constructor(
                 _fiveCgpaUiState.update {
                     it.copy(operatorIconState = false)
                 }
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
                 viewModelScope.launch {
                     myFiveCgpaRepository.FiveCgpaResultToBeDeleted(event.fiveCgpaResultName)
 //                    _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
@@ -323,11 +372,15 @@ class FiveGpaViewModel @Inject constructor(
                 _fiveCgpaUiState.update {
                     it.copy(operatorIconState = false)
                 }
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
                 viewModelScope.launch {
                     myFiveSgpaRepository.DeleteFiveSgpaResult(event.fiveSgpaResultName)
                     _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
                     _fiveCgpaUiState.value.cgpaList.clear()
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
                     _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
 
 
                 }
@@ -335,29 +388,29 @@ class FiveGpaViewModel @Inject constructor(
             }
 
             is FiveGpaUiEvents.showResultDBox -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         resultDialogBoxVisibility = true
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.hideFiveSgpaSaveResultDB -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         saveResultAsDialogBoxVisibility = false,
                         saveResultAs = ""
 
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.setSRA -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         saveResultAs = event.savedResultName
 
@@ -368,12 +421,12 @@ class FiveGpaViewModel @Inject constructor(
 
             is FiveGpaUiEvents.saveFiveSgpaResult -> {
 
-//                _dbState.update {
+//                _fiveSgpaUiState.update {
 //                    it.copy(
 //                        fiveSgpaSRAToastNotifier = true
 //                    )
 //                }
-                textFieldsErrorCheckAndDuplicateEntrySaveFiveSgpaResultAsDataEntry(_dbState.value.saveResultAs)
+                textFieldsErrorCheckAndDuplicateEntrySaveFiveSgpaResultAsDataEntry(_fiveSgpaUiState.value.saveResultAs)
 
 
             }
@@ -394,7 +447,7 @@ class FiveGpaViewModel @Inject constructor(
 
             is FiveGpaUiEvents.editItemsEntries -> {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         courseCode = event.courseCodeEdit,
                         selectedCourseUnit = event.unitEdit,
@@ -402,165 +455,168 @@ class FiveGpaViewModel @Inject constructor(
 
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.updateCourseIndexEntry -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         courseEntryIndex = event.entryIndex
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.showCourseEntryEditDBox -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         courseEntryEditDialogBoxVisibility = true,
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.hideCourseEntryEditDBox -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         courseEntryEditDialogBoxVisibility = false
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
 
             is FiveGpaUiEvents.resetResultField -> {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         fiveSgpaFinalResult = "new val"
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.showDataEntryDBox -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         courseEntryDialogBoxVisibility = true
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             }
 
             is FiveGpaUiEvents.hideDataEntryDBox -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         allReadyInList = false,
                         courseEntryDialogBoxVisibility = false
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.showUnitMenuDropDown -> {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         isUnitDropDownMenuExpanded = true
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             }
 
             is FiveGpaUiEvents.hideUnitMenuDropDown -> {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         isUnitDropDownMenuExpanded = false
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             }
 
             is FiveGpaUiEvents.showGradeMenuDropDown -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         isGradeDropDownMenuExpanded = true
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.hideGradeMenuDropDown -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         isGradeDropDownMenuExpanded = false
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.setSelectedCourseGrade -> {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         selectedCourseGrade = event.grade
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             }
 
             is FiveGpaUiEvents.setSelectedCourseUnit -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         selectedCourseUnit = event.unit
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.deleteCourseEntry -> {
 
                 _courseEntries.value.removeAt(event.itemToRemove)
-                savedStateHandle.set(COURSE_ENTRIES_KEY, _courseEntries.value)
-                _dbState.value.arrayOfAlreadyEnteredCourseslist.removeAt(event.itemToRemove)
-                _dbState.update {
+                savedStateHandle.set(
+                    FIVE_SGPA_COURSE_ENTRIES_KEY,
+                    _courseEntries.value
+                )
+                _fiveSgpaUiState.value.arrayOfAlreadyEnteredCourseslist.removeAt(event.itemToRemove)
+                _fiveSgpaUiState.update {
                     it.copy(
                         enteredCourses = _courseEntries.value.size.toString()
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.setCourseCode -> {
 
-                if (_dbState.value.arrayOfAlreadyEnteredCourseslist.contains(event.courseCode.uppercase())) {
-                    _dbState.update {
+                if (_fiveSgpaUiState.value.arrayOfAlreadyEnteredCourseslist.contains(event.courseCode.uppercase())) {
+                    _fiveSgpaUiState.update {
                         it.copy(
                             allReadyInList = true,
                             matchAlreadyInCourseEntry = event.courseCode.uppercase()
                         )
                     }
                 } else {
-                    _dbState.update {
+                    _fiveSgpaUiState.update {
                         it.copy(
                             allReadyInList = false,
                             matchAlreadyInCourseEntry = ""
@@ -569,17 +625,17 @@ class FiveGpaViewModel @Inject constructor(
                     }
 
                 }
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         courseCode = event.courseCode.replace(" ", "")
                     )
 
 
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 //                } else {
-//                    _dbState.update {
+//                    _fiveSgpaUiState.update {
 //                        it.copy(
 //                            courseCode = event.courseCode
 //                        )
@@ -599,12 +655,12 @@ class FiveGpaViewModel @Inject constructor(
             }
 
             is FiveGpaUiEvents.setTotalCreditLoad -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         totalCreditLoad = event.totalCreditLoad
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
@@ -612,31 +668,31 @@ class FiveGpaViewModel @Inject constructor(
 //                var use = event.totalCourses
 //                if (use[0] == '0') {
 //                    use = use.replace("0", "")
-//                    _dbState.update {
+//                    _fiveSgpaUiState.update {
 //                        it.copy(
 //                            totalCourses = use
 //                        )
 //                    }
-//                    savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+//                    savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 //
 //
 //                } else if (use[0] == '0' && use[1] == '0') {
 //                    use = use.replace("0", "")
-//                    _dbState.update {
+//                    _fiveSgpaUiState.update {
 //                        it.copy(
 //                            totalCourses = use
 //                        )
 //                    }
-//                    savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+//                    savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 //
 //
 //                } else {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         totalCourses = event.totalCourses
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
                 // }
@@ -650,69 +706,69 @@ class FiveGpaViewModel @Inject constructor(
             }
 
             is FiveGpaUiEvents.showSaveResultDBox -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         saveResultAsDialogBoxVisibility = true
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
 //            is FiveGpaUiEvents.hideFiveSgpaSaveResultDB -> {
-//                _dbState.update {
+//                _fiveSgpaUiState.update {
 //
 //                    it.copy(
 //                        saveResultAsDialogBoxVisibility = false,
 //                    )
 //                }
-//                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+//                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 //
 //            }
 
             is FiveGpaUiEvents.resetAlreadyInList -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         allReadyInList = false
                     )
 
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             }
 
             is FiveGpaUiEvents.showCourseDataEntriesContextmenu -> {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         courseItemsDropDownVisibility = true
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             }
 
             is FiveGpaUiEvents.hideCourseDataEntriesContextmenu -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         courseItemsDropDownVisibility = false
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.resetTotalEntries -> {
 
 
-                if (_dbState.value.totalCourses > 0.toString()) {
+                if (_fiveSgpaUiState.value.totalCourses > 0.toString()) {
 
 
-                    _dbState.value.arrayOfAlreadyEnteredCourseslist.clear()
+                    _fiveSgpaUiState.value.arrayOfAlreadyEnteredCourseslist.clear()
                     _courseEntries.value.clear()
-                    _dbState.update {
+                    _fiveSgpaUiState.update {
                         it.copy(
                             //totalCourses = "",
                             totalCreditLoad = "",
@@ -721,7 +777,7 @@ class FiveGpaViewModel @Inject constructor(
                             //baseEntryDialogBoxVisibility = true
                         )
                     }
-                    savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                    savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
                 } else {
@@ -733,19 +789,19 @@ class FiveGpaViewModel @Inject constructor(
             }
 
             is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsTNOC -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         defaultLabelColourTNOC = FiveErrorPassedValues.errorPassedColour,
                         defaultLabelTNOC = FiveErrorPassedValues.labelForTNOC
 
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCC -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         defaultLabelColourCC = FiveErrorPassedValues.errorPassedColour,
                         defaultEnteredCourseCodeLabel = FiveErrorPassedValues.enterCourseCodeLabel
@@ -756,7 +812,7 @@ class FiveGpaViewModel @Inject constructor(
             }
 
             is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsECC -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         defaultLabelColourECC = FiveErrorPassedValues.errorPassedColour,
                         defaultEditCourseCodeLabel = FiveErrorPassedValues.editCourseCodeLabel
@@ -768,26 +824,26 @@ class FiveGpaViewModel @Inject constructor(
 
 
             is FiveGpaUiEvents.resetDefaultValuesFromErrorsTNOCL -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         defaultLabelTNOCL = FiveErrorPassedValues.labelForTNOCC,
                         //defaultLabelColourTNOCL = FiveErrorPassedValues.errorPassedColour
 
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.showEditBaseEntryDBox -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         editBaseEntryDialogBoxVisibility = true,
                         errorToastMessageVisibilityETNOCDB = true
 
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
@@ -795,34 +851,34 @@ class FiveGpaViewModel @Inject constructor(
 
                 textFieldsErrorEditedCheckBaseEntryDB()
 
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.hideEditBaseEntryRegardlessDBox -> {
 
-                if (_dbState.value.enteredCourses == "0") {
+                if (_fiveSgpaUiState.value.enteredCourses == "0") {
 
-                    _dbState.update {
+                    _fiveSgpaUiState.update {
                         it.copy(
                             editBaseEntryDialogBoxVisibility = false,
-                            totalCourses = _dbState.value.prevTotalNumberOfCourses
+                            totalCourses = _fiveSgpaUiState.value.prevTotalNumberOfCourses
                         )
                     }
 
-                    savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                    savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
-                } else if (_dbState.value.enteredCourses != "0") {
+                } else if (_fiveSgpaUiState.value.enteredCourses != "0") {
 
-                    _dbState.update {
+                    _fiveSgpaUiState.update {
                         it.copy(
                             editBaseEntryDialogBoxVisibility = false,
-                            totalCourses = _dbState.value.enteredCourses
+                            totalCourses = _fiveSgpaUiState.value.enteredCourses
 
                         )
                     }
 
-                    savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                    savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
                 }
@@ -837,19 +893,19 @@ class FiveGpaViewModel @Inject constructor(
                     greetings()
                 }
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         baseEntryDialogBoxVisibility = true
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
 
             is FiveGpaUiEvents.executeCalculation -> {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         changeDoneIcon = true
                     )
@@ -858,32 +914,35 @@ class FiveGpaViewModel @Inject constructor(
                 var execTotalUnit: Int = 0
 
 
-                for (i in 1.._dbState.value.totalCourses.toInt()) {
+                for (i in 1.._fiveSgpaUiState.value.totalCourses.toInt()) {
                     coursesUnitSubList.add(_courseEntries.value[i - 1].courseUnit)
-                    savedStateHandle.set(COURSE_ENTRIES_KEY, _courseEntries.value)
+                    savedStateHandle.set(
+                        FIVE_SGPA_COURSE_ENTRIES_KEY,
+                        _courseEntries.value
+                    )
 
                 }
                 execTotalUnit = coursesUnitSubList.sum()
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         totalCreditLoad = execTotalUnit.toString()
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
 
                 courseValueMapper(_courseEntries.value)
-                result = operations(_dbState.value.totalCreditLoad.toInt())
-                _dbState.update {
+                result = operations(_fiveSgpaUiState.value.totalCreditLoad.toInt())
+                _fiveSgpaUiState.update {
                     it.copy(
                         fiveSgpaFinalResult = result
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
-                GpaDescriptor(_dbState.value.fiveSgpaFinalResult.toFloat(), "sgpa")
+                GpaDescriptor(_fiveSgpaUiState.value.fiveSgpaFinalResult.toFloat(), "sgpa")
 
                 onReExecuteCalculationClearArrayField()
 
@@ -891,7 +950,7 @@ class FiveGpaViewModel @Inject constructor(
             }
 
             is FiveGpaUiEvents.hideBaseEntryRegardlessDBox -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         baseEntryDialogBoxVisibility = false,
                         totalCourses = "",
@@ -899,82 +958,82 @@ class FiveGpaViewModel @Inject constructor(
 
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.setPrevTotalCourses -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         prevTotalNumberOfCourses = event.text
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.showClearConfirmationDBox -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         clearCoursesConfirmationDBoxVisibility = true
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.hideClearConfirmationDBox -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         clearCoursesConfirmationDBoxVisibility = false
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.showHomeAdShimmerEffect -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         homeAdShimmerEffectVisibility = true
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.hideHomeAdShimmerEffect -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         homeAdShimmerEffectVisibility = false
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.showAboutAdShimmerEffect -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         aboutAdShimmerEffectVisibility = true
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.hideAboutAdShimmerEffect -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         aboutAdShimmerEffectVisibility = true
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             }
 
             is FiveGpaUiEvents.setTotalNumberOfEditedCourses -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         editedNumberOfCourses = event.noOfEditedTotalCourse
                     )
@@ -982,7 +1041,7 @@ class FiveGpaViewModel @Inject constructor(
             }
 
             is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCU -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         pickedCourseUnitDefaultLabel = FiveErrorPassedValues.enterCourseUnitLabel,
                         defaultLabelColourCU = FiveErrorPassedValues.dropDownErrorPassedColour
@@ -991,7 +1050,7 @@ class FiveGpaViewModel @Inject constructor(
             }
 
             is FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCG -> {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         pickedCourseGradeDefaultLabel = FiveErrorPassedValues.enterCourseGradeLabel,
                         defaultLabelColourCG = FiveErrorPassedValues.dropDownErrorPassedColour
@@ -1006,6 +1065,8 @@ class FiveGpaViewModel @Inject constructor(
 
                     )
                 }
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
             }
 
             is FiveGpaUiEvents.hideFiveCgpaIntroDialogBox -> {
@@ -1015,6 +1076,8 @@ class FiveGpaViewModel @Inject constructor(
 
                     )
                 }
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
             }
 
 
@@ -1026,29 +1089,29 @@ class FiveGpaViewModel @Inject constructor(
 
     private fun textFieldsErrorCheckBaseEntryDB() {
 
-        if (_dbState.value.totalCourses.isEmpty() || _dbState.value.totalCourses == "0" || _dbState.value.totalCourses == "00" || _dbState.value.totalCourses.get(
+        if (_fiveSgpaUiState.value.totalCourses.isEmpty() || _fiveSgpaUiState.value.totalCourses == "0" || _fiveSgpaUiState.value.totalCourses == "00" || _fiveSgpaUiState.value.totalCourses.get(
                 0
             ) == '0'
         ) {
 
-            _dbState.update {
+            _fiveSgpaUiState.update {
                 it.copy(
                     defaultLabelTNOC = FiveErrorMessages.errorLabelMessageForTNOC,
                     defaultLabelColourTNOC = FiveErrorMessages.textFieldErrorLabelColorHexCode
                 )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
-        } else if (_dbState.value.totalCreditLoad.isNotEmpty()) {
-            _dbState.update {
+        } else if (_fiveSgpaUiState.value.totalCreditLoad.isNotEmpty()) {
+            _fiveSgpaUiState.update {
                 it.copy(
                     baseEntryDialogBoxVisibility = false,
                     courseEntryDialogBoxVisibility = true
 
                 )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
         }
@@ -1058,8 +1121,8 @@ class FiveGpaViewModel @Inject constructor(
 
     private fun textFieldsErrorEditedCheckBaseEntryDB() {
 
-        if (_dbState.value.totalCourses == _dbState.value.prevTotalNumberOfCourses && _dbState.value.enteredCourses == "0") {
-            _dbState.update {
+        if (_fiveSgpaUiState.value.totalCourses == _fiveSgpaUiState.value.prevTotalNumberOfCourses && _fiveSgpaUiState.value.enteredCourses == "0") {
+            _fiveSgpaUiState.update {
                 it.copy(
                     errorMessageHolderForETNOCDBToastMessage = "No changes made",
                     editBaseEntryDialogBoxVisibility = false,
@@ -1067,94 +1130,94 @@ class FiveGpaViewModel @Inject constructor(
 
                     )
             }
-        } else if (_dbState.value.editedNumberOfCourses.isEmpty() || _dbState.value.editedNumberOfCourses == "0" || _dbState.value.editedNumberOfCourses == "00" || _dbState.value.editedNumberOfCourses.get(
+        } else if (_fiveSgpaUiState.value.editedNumberOfCourses.isEmpty() || _fiveSgpaUiState.value.editedNumberOfCourses == "0" || _fiveSgpaUiState.value.editedNumberOfCourses == "00" || _fiveSgpaUiState.value.editedNumberOfCourses.get(
                 0
             ) == '0'
         ) {
-            if (_dbState.value.enteredCourses == "0") {
-                _dbState.update {
+            if (_fiveSgpaUiState.value.enteredCourses == "0") {
+                _fiveSgpaUiState.update {
                     it.copy(
                         errorMessageHolderForETNOCDBToastMessage = "entry can't be empty",
-                        totalCourses = _dbState.value.prevTotalNumberOfCourses,
-                        editedNumberOfCourses = _dbState.value.prevTotalNumberOfCourses,
+                        totalCourses = _fiveSgpaUiState.value.prevTotalNumberOfCourses,
+                        editedNumberOfCourses = _fiveSgpaUiState.value.prevTotalNumberOfCourses,
                         errorToastMessageVisibilityETNOCDB = true,
 
 
                         )
                 }
-            } else if (_dbState.value.enteredCourses != "0") {
-                _dbState.update {
+            } else if (_fiveSgpaUiState.value.enteredCourses != "0") {
+                _fiveSgpaUiState.update {
                     it.copy(
                         errorToastMessageVisibilityETNOCDB = true,
                         errorMessageHolderForETNOCDBToastMessage = "entry can't be empty",
-                        totalCourses = _dbState.value.enteredCourses,
-                        editedNumberOfCourses = _dbState.value.enteredCourses
+                        totalCourses = _fiveSgpaUiState.value.enteredCourses,
+                        editedNumberOfCourses = _fiveSgpaUiState.value.enteredCourses
 
                     )
                 }
             }
 
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
-        } else if (_dbState.value.editedNumberOfCourses == "0") {
+        } else if (_fiveSgpaUiState.value.editedNumberOfCourses == "0") {
 
-            if (_dbState.value.enteredCourses == "0") {
-                _dbState.update {
+            if (_fiveSgpaUiState.value.enteredCourses == "0") {
+                _fiveSgpaUiState.update {
                     it.copy(
                         errorToastMessageVisibilityETNOCDB = true,
                         errorMessageHolderForETNOCDBToastMessage = "entry can't be 0",
-                        totalCourses = _dbState.value.prevTotalNumberOfCourses,
-                        editedNumberOfCourses = _dbState.value.prevTotalNumberOfCourses
+                        totalCourses = _fiveSgpaUiState.value.prevTotalNumberOfCourses,
+                        editedNumberOfCourses = _fiveSgpaUiState.value.prevTotalNumberOfCourses
 
                     )
                 }
-            } else if (_dbState.value.enteredCourses != "0") {
-                _dbState.update {
+            } else if (_fiveSgpaUiState.value.enteredCourses != "0") {
+                _fiveSgpaUiState.update {
                     it.copy(
                         errorToastMessageVisibilityETNOCDB = true,
                         errorMessageHolderForETNOCDBToastMessage = "entry can't be 0",
-                        totalCourses = _dbState.value.enteredCourses,
-                        editedNumberOfCourses = _dbState.value.enteredCourses
+                        totalCourses = _fiveSgpaUiState.value.enteredCourses,
+                        editedNumberOfCourses = _fiveSgpaUiState.value.enteredCourses
 
                     )
                 }
             }
 
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
-        } else if (_dbState.value.editedNumberOfCourses.isNotEmpty() && _dbState.value.enteredCourses != "0") {
+        } else if (_fiveSgpaUiState.value.editedNumberOfCourses.isNotEmpty() && _fiveSgpaUiState.value.enteredCourses != "0") {
 
-            if (_dbState.value.editedNumberOfCourses.toInt() < dbState.value.enteredCourses.toInt()) {
-                _dbState.update {
+            if (_fiveSgpaUiState.value.editedNumberOfCourses.toInt() < fiveSgpaUiState.value.enteredCourses.toInt()) {
+                _fiveSgpaUiState.update {
                     it.copy(
                         errorToastMessageVisibilityETNOCDB = true,
                         errorMessageHolderForETNOCDBToastMessage = "entry can't be less than already entered courses",
-                        totalCourses = _dbState.value.enteredCourses,
-                        editedNumberOfCourses = _dbState.value.enteredCourses
+                        totalCourses = _fiveSgpaUiState.value.enteredCourses,
+                        editedNumberOfCourses = _fiveSgpaUiState.value.enteredCourses
 
                     )
                 }
-            } else if (_dbState.value.editedNumberOfCourses >= _dbState.value.enteredCourses) {
-                _dbState.update {
+            } else if (_fiveSgpaUiState.value.editedNumberOfCourses >= _fiveSgpaUiState.value.enteredCourses) {
+                _fiveSgpaUiState.update {
                     it.copy(
                         errorToastMessageVisibilityETNOCDB = false,
                         errorMessageHolderForETNOCDBToastMessage = "successfully updated",
-                        totalCourses = _dbState.value.editedNumberOfCourses,
+                        totalCourses = _fiveSgpaUiState.value.editedNumberOfCourses,
                         editBaseEntryDialogBoxVisibility = false,
-                        editedNumberOfCourses = _dbState.value.editedNumberOfCourses
+                        editedNumberOfCourses = _fiveSgpaUiState.value.editedNumberOfCourses
 
 
                     )
                 }
             }
 
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
         } else {
-            _dbState.update {
+            _fiveSgpaUiState.update {
                 it.copy(
                     errorToastMessageVisibilityETNOCDB = false,
                     errorMessageHolderForETNOCDBToastMessage = "",
@@ -1169,9 +1232,9 @@ class FiveGpaViewModel @Inject constructor(
 
     private fun textFieldsErrorCheckEditedCourseDataEntry() {
 
-        if (_dbState.value.courseCode.isEmpty()) {
+        if (_fiveSgpaUiState.value.courseCode.isEmpty()) {
 
-            _dbState.update {
+            _fiveSgpaUiState.update {
                 it.copy(
                     defaultEditCourseCodeLabel = FiveErrorMessages.errorMessageForCourseCode,
                     defaultLabelColourECC = FiveErrorMessages.textFieldErrorLabelColorHexCode
@@ -1179,7 +1242,7 @@ class FiveGpaViewModel @Inject constructor(
 
                 )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
         } else {
@@ -1187,14 +1250,14 @@ class FiveGpaViewModel @Inject constructor(
             if (
                 _courseEntries.value.contains(
                     FiveGpData(
-                        courseCode = _dbState.value.courseCode.uppercase(),
-                        courseGrade = _dbState.value.selectedCourseGrade,
-                        courseUnit = _dbState.value.selectedCourseUnit.toInt()
+                        courseCode = _fiveSgpaUiState.value.courseCode.uppercase(),
+                        courseGrade = _fiveSgpaUiState.value.selectedCourseGrade,
+                        courseUnit = _fiveSgpaUiState.value.selectedCourseUnit.toInt()
                     )
                 )
             ) {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         enteredCourses = _courseEntries.value.size.toString(),
                         courseEntryEditDialogBoxVisibility = false,
@@ -1204,15 +1267,18 @@ class FiveGpaViewModel @Inject constructor(
 
 
             } else {
-                _courseEntries.value[_dbState.value.courseEntryIndex.toInt()] = FiveGpData(
-                    courseCode = _dbState.value.courseCode.uppercase(),
-                    courseGrade = _dbState.value.selectedCourseGrade,
-                    courseUnit = _dbState.value.selectedCourseUnit.toInt()
+                _courseEntries.value[_fiveSgpaUiState.value.courseEntryIndex.toInt()] = FiveGpData(
+                    courseCode = _fiveSgpaUiState.value.courseCode.uppercase(),
+                    courseGrade = _fiveSgpaUiState.value.selectedCourseGrade,
+                    courseUnit = _fiveSgpaUiState.value.selectedCourseUnit.toInt()
                 )
-                savedStateHandle.set(COURSE_ENTRIES_KEY, _courseEntries.value)
+                savedStateHandle.set(
+                    FIVE_SGPA_COURSE_ENTRIES_KEY,
+                    _courseEntries.value
+                )
 
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         enteredCourses = _courseEntries.value.size.toString(),
                         courseEntryEditDialogBoxVisibility = false
@@ -1221,7 +1287,7 @@ class FiveGpaViewModel @Inject constructor(
                     )
                 }
                 clearCourseDataEntry()
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             }
@@ -1235,89 +1301,92 @@ class FiveGpaViewModel @Inject constructor(
 
     private fun textFieldsErrorCheckCourseDataEntry() {
 
-        if (_dbState.value.courseCode.isEmpty()) {
+        if (_fiveSgpaUiState.value.courseCode.isEmpty()) {
 
-            _dbState.update {
+            _fiveSgpaUiState.update {
                 it.copy(
                     defaultEnteredCourseCodeLabel = FiveErrorMessages.errorMessageForCourseCode,
                     defaultLabelColourCC = FiveErrorMessages.textFieldErrorLabelColorHexCode
                 )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
-        } else if (_dbState.value.selectedCourseUnit.isEmpty()) {
-            _dbState.update {
+        } else if (_fiveSgpaUiState.value.selectedCourseUnit.isEmpty()) {
+            _fiveSgpaUiState.update {
                 it.copy(
                     pickedCourseUnitDefaultLabel = FiveErrorMessages.errorMessageForCourseUnit,
                     defaultLabelColourCU = FiveErrorMessages.textFieldErrorLabelColorHexCode
 
                 )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
-        } else if (_dbState.value.selectedCourseGrade.isEmpty()) {
+        } else if (_fiveSgpaUiState.value.selectedCourseGrade.isEmpty()) {
 
-            _dbState.update {
+            _fiveSgpaUiState.update {
                 it.copy(
                     pickedCourseGradeDefaultLabel = FiveErrorMessages.errorMessageForCourseGrade,
                     defaultLabelColourCG = FiveErrorMessages.textFieldErrorLabelColorHexCode
                 )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
         } else if (
 
 
-            _dbState.value.arrayOfAlreadyEnteredCourseslist.contains(
-                _dbState.value.courseCode.uppercase(Locale.UK)
+            _fiveSgpaUiState.value.arrayOfAlreadyEnteredCourseslist.contains(
+                _fiveSgpaUiState.value.courseCode.uppercase(Locale.UK)
             )
         ) {
 
 
-            _dbState.update {
+            _fiveSgpaUiState.update {
                 it.copy(
-                    matchAlreadyInCourseEntry = _dbState.value.courseCode.uppercase(Locale.UK),
+                    matchAlreadyInCourseEntry = _fiveSgpaUiState.value.courseCode.uppercase(Locale.UK),
                     allReadyInList = true,
 
                     )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
-            _dbState.update {
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
+            _fiveSgpaUiState.update {
                 it.copy(
                     // allReadyInList = false,
                     //matchAlreadyInCourseEntry = ""
                 )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
         } else {
 
             _courseEntries.value.add(
                 FiveGpData(
-                    _dbState.value.courseCode.uppercase(Locale.UK),
-                    _dbState.value.selectedCourseGrade,
-                    _dbState.value.selectedCourseUnit.toInt()
+                    _fiveSgpaUiState.value.courseCode.uppercase(Locale.UK),
+                    _fiveSgpaUiState.value.selectedCourseGrade,
+                    _fiveSgpaUiState.value.selectedCourseUnit.toInt()
                 )
             )
-            savedStateHandle.set(COURSE_ENTRIES_KEY, _courseEntries.value)
+            savedStateHandle.set(
+                FIVE_SGPA_COURSE_ENTRIES_KEY,
+                _courseEntries.value
+            )
 
 
-            _dbState.value.arrayOfAlreadyEnteredCourseslist.add(
-                _dbState.value.courseCode.uppercase(
+            _fiveSgpaUiState.value.arrayOfAlreadyEnteredCourseslist.add(
+                _fiveSgpaUiState.value.courseCode.uppercase(
                     Locale.UK
                 )
             )
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
 
-            _dbState.update {
+            _fiveSgpaUiState.update {
                 it.copy(
                     allReadyInList = false,
                     enteredCourses = _courseEntries.value.size.toString(),
@@ -1327,8 +1396,8 @@ class FiveGpaViewModel @Inject constructor(
                 )
             }
 
-            if (_dbState.value.totalCourses == _dbState.value.enteredCourses) {
-                _dbState.update {
+            if (_fiveSgpaUiState.value.totalCourses == _fiveSgpaUiState.value.enteredCourses) {
+                _fiveSgpaUiState.update {
                     it.copy(
                         changeDoneIcon = true
                     )
@@ -1336,7 +1405,7 @@ class FiveGpaViewModel @Inject constructor(
 
 
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             clearCourseDataEntry()
 
@@ -1358,6 +1427,8 @@ class FiveGpaViewModel @Inject constructor(
                     saveResultDBVisibilty = true
                 )
             }
+            savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
         } else if (_fiveCgpaUiState.value.saveResultAs.isNotEmpty()) {
             viewModelScope.launch {
                 myFiveCgpaRepository.InsertFiveCgpaResult(
@@ -1379,6 +1450,8 @@ class FiveGpaViewModel @Inject constructor(
                     saveResultAs = ""
                 )
             }
+            savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
 
             Log.d("names", "${_fiveCgpaUiState.value.sgpaResultNames}")
 
@@ -1386,7 +1459,7 @@ class FiveGpaViewModel @Inject constructor(
         }
 
 
-        // savedStateHandle.set(FiveGpaViewModel.DB_STATE_KEY, _dbState.value)
+        // savedStateHandle.set(FiveGpaViewModel.FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
     }
@@ -1402,15 +1475,15 @@ class FiveGpaViewModel @Inject constructor(
 
             )
         }
-        //savedStateHandle.set(FiveGpaViewModel.DB_STATE_KEY, _dbState.value)
+        savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
     }
 
 
     private fun textFieldsErrorCheckAndDuplicateEntrySaveFiveSgpaResultAsDataEntry(
         resultNameForCheck: String
     ) {
-        if (_dbState.value.saveResultAs.isEmpty()) {
-            _dbState.update {
+        if (_fiveSgpaUiState.value.saveResultAs.isEmpty()) {
+            _fiveSgpaUiState.update {
                 it.copy(
                     defaultLabelSRA = FiveErrorMessages.errorMessageForSRA,
                     defaultLabelColourSRA = FiveErrorMessages.textFieldErrorLabelColorHexCode,
@@ -1418,14 +1491,14 @@ class FiveGpaViewModel @Inject constructor(
                 )
             }
 
-        } else if (_dbState.value.saveResultAs.isNotEmpty()) {
+        } else if (_fiveSgpaUiState.value.saveResultAs.isNotEmpty()) {
 //            for (i in 0 until _fiveSgparesultIntroDB.value.resultItems.size) {
 //                if (_fiveSgparesultIntroDB.value.resultItems[i].resultName.uppercase() == resultNameForCheck.uppercase()) {
 //                    Log.d(
 //                        "duplicate name",
 //                        "the  name ${_fiveSgparesultIntroDB.value.resultItems[i].resultName} is repeating"
 //                    )
-//                    _dbState.update {
+//                    _fiveSgpaUiState.update {
 //                        it.copy(
 //                            defaultLabelSRA = FiveErrorMessages.errorDuplicateNameForSRA,
 //                            defaultLabelColourSRA = FiveErrorMessages.textFieldErrorLabelColorHexCode,
@@ -1439,7 +1512,7 @@ class FiveGpaViewModel @Inject constructor(
 //            }
 
 
-//            _dbState.update {
+//            _fiveSgpaUiState.update {
 //                it.copy(
 //                    fiveSgpaSRAToastNotifier = true
 //                )
@@ -1452,20 +1525,24 @@ class FiveGpaViewModel @Inject constructor(
                     myFiveSgpaRepository.InsertFiveSgpaResult(
                         FiveSgpaResultEntity(
                             resultEntries = _courseEntries.value,
-                            gp = _dbState.value.fiveSgpaFinalResult,
-                            resultName = _dbState.value.saveResultAs.uppercase(),
-                            remark = _dbState.value.remark,
-                            resultGpaDescriptor = _dbState.value.gpaDescriptor
+                            gp = _fiveSgpaUiState.value.fiveSgpaFinalResult,
+                            resultName = _fiveSgpaUiState.value.saveResultAs.uppercase(),
+                            remark = _fiveSgpaUiState.value.remark,
+                            resultGpaDescriptor = _fiveSgpaUiState.value.gpaDescriptor
 
                         )
                     )
                     _fiveCgpaUiState.value.displayedResultForFiveCgpaCalculation.clear()
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
                     _fiveCgpaUiState.value.cgpaList.clear()
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
                     _fiveCgpaUiState.value.sgpaListToBeCalculated.clear()
+                    savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
+
                 }
                 Log.d("ViewModel", "Exec time: ${execTime}")
                 delay(1000)
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         fiveSgpaSRAToastNotifier = true
                     )
@@ -1474,7 +1551,7 @@ class FiveGpaViewModel @Inject constructor(
 
                 // delay(100)
 
-//                _dbState.update {
+//                _fiveSgpaUiState.update {
 //                    it.copy(
 //                        fiveSgpaSRAToastNotifier = false
 //                    )
@@ -1482,7 +1559,7 @@ class FiveGpaViewModel @Inject constructor(
 //                }
 
             }
-            _dbState.update {
+            _fiveSgpaUiState.update {
                 it.copy(
                     // fiveSgpaSRAToastNotifier = false,
                     saveResultAsDialogBoxVisibility = false,
@@ -1493,7 +1570,7 @@ class FiveGpaViewModel @Inject constructor(
 //            viewModelScope.launch {
 //
 //                delay(1000)
-//                _dbState.update {
+//                _fiveSgpaUiState.update {
 //                    it.copy(
 //                        fiveSgpaSRAToastNotifier = false,
 //                        // saveResultAsDialogBoxVisibility = false,
@@ -1509,14 +1586,14 @@ class FiveGpaViewModel @Inject constructor(
 
 
 
-        savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+        savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
     }
 
 
     private fun resetFiveSgpaSRADBox() {
-        _dbState.update {
+        _fiveSgpaUiState.update {
             it.copy(
                 defaultLabelSRA = FiveErrorPassedValues.labelForSRA,
                 defaultLabelColourSRA = FiveErrorPassedValues.errorPassedColour,
@@ -1526,7 +1603,7 @@ class FiveGpaViewModel @Inject constructor(
 
             )
         }
-        savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+        savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
     }
 
     private fun operations(totalCreditLoad: Int): String {
@@ -1888,7 +1965,7 @@ class FiveGpaViewModel @Inject constructor(
     }
 
     private fun clearCourseDataEntry() {
-        _dbState.update {
+        _fiveSgpaUiState.update {
             it.copy(
                 courseCode = "",
                 selectedCourseUnit = "",
@@ -1900,7 +1977,7 @@ class FiveGpaViewModel @Inject constructor(
             )
 
         }
-        savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+        savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
     }
 
@@ -1975,44 +2052,44 @@ class FiveGpaViewModel @Inject constructor(
 
 
         if (morning.contains(myHour)) {
-            _dbState.update {
+            _fiveSgpaUiState.update {
                 it.copy(
                     greeting = "Good Morning"
                 )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             println("Good Morning")
         } else if (afternoon.contains(myHour)) {
-            _dbState.update {
+            _fiveSgpaUiState.update {
                 it.copy(
                     greeting = "Good Afternoon"
                 )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             println("Good Afternoon")
 
         } else if (evening.contains(myHour)) {
 
-            _dbState.update {
+            _fiveSgpaUiState.update {
                 it.copy(
                     greeting = "Good Evening"
                 )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             println("Good Evening")
 
         } else if (night.contains(myHour)) {
 
-            _dbState.update {
+            _fiveSgpaUiState.update {
                 it.copy(
                     greeting = "Good Evening"
                 )
             }
-            savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+            savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             println("Good Night")
@@ -2023,67 +2100,67 @@ class FiveGpaViewModel @Inject constructor(
     private fun GpaDescriptor(gpa: Float, desc: String) {
         if (desc == "sgpa") {
             if (gpa in 4.50..5.00) {
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         gpaDescriptor = "First Class",
                         remark = "You Performed Brilliantly"
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
             } else if (gpa in 3.50..4.49) {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         gpaDescriptor = "Second Class Upper",
                         remark = "You Performed Amazing "
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             } else if (gpa in 2.40..3.49) {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         gpaDescriptor = "Second Class Lower",
                         remark = "You Performed Great"
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             } else if (gpa in 1.50..2.39) {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         gpaDescriptor = "Third Class",
                         remark = "You performed averagely"
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             } else if (gpa in 1.00..1.49) {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         gpaDescriptor = "Pass",
                         remark = "You passed"
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             } else if (gpa in 0.00..1.00) {
 
-                _dbState.update {
+                _fiveSgpaUiState.update {
                     it.copy(
                         gpaDescriptor = "Failure",
                         remark = "You Failed"
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_SGPA_UI_STATE_KEY, _fiveSgpaUiState.value)
 
 
             }
@@ -2097,7 +2174,7 @@ class FiveGpaViewModel @Inject constructor(
                         remark = "You Performed Brilliantly"
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
 
             } else if (gpa in 3.50..4.49) {
 
@@ -2107,7 +2184,7 @@ class FiveGpaViewModel @Inject constructor(
                         remark = "You Performed Amazing "
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
 
 
             } else if (gpa in 2.40..3.49) {
@@ -2118,7 +2195,7 @@ class FiveGpaViewModel @Inject constructor(
                         remark = "You Performed Great"
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
 
 
             } else if (gpa in 1.50..2.39) {
@@ -2129,7 +2206,7 @@ class FiveGpaViewModel @Inject constructor(
                         remark = "You performed averagely"
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
 
 
             } else if (gpa in 1.00..1.49) {
@@ -2140,7 +2217,7 @@ class FiveGpaViewModel @Inject constructor(
                         remark = "You passed"
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
 
 
             } else if (gpa in 0.00..1.00) {
@@ -2151,7 +2228,7 @@ class FiveGpaViewModel @Inject constructor(
                         remark = "You Failed"
                     )
                 }
-                savedStateHandle.set(DB_STATE_KEY, _dbState.value)
+                savedStateHandle.set(FIVE_CGPA_UI_STATE_KEY, _fiveCgpaUiState.value)
 
 
             }

@@ -1,7 +1,9 @@
 package com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation
 
+import android.os.Parcelable
 import com.engpacalculator.gpcalculator.features.demo_quiz_features.domain.model.Results
 
+@kotlinx.parcelize.Parcelize
 data class DemoQuizUiState(
     val screenStatus: String = "",
     val questions: MutableList<Results> = mutableListOf(),
@@ -22,4 +24,4 @@ data class DemoQuizUiState(
     var endOfQuestionsDialogBoxVisibility: Boolean = false,
     var questionStatus: String = ""
 
-)
+) : Parcelable

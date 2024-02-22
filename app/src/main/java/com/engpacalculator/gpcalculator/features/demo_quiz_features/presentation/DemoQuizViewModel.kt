@@ -1,6 +1,7 @@
 package com.engpacalculator.gpcalculator.features.demo_quiz_features.presentation
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.engpacalculator.gpcalculator.core.util.Resource
@@ -17,11 +18,15 @@ import javax.inject.Inject
 @HiltViewModel
 class DemoQuizViewModel @Inject constructor(
     private val myDemoQuizRepository: QuestionRepository,
+    private val saveStateHandle: SavedStateHandle
+) : ViewModel() {
 
+    companion object {
+        private const val DEMO_QUIZ_UI_STATE_KEY = "my_demo_quiz_ui_state_key"
+    }
 
-    ) : ViewModel() {
-
-    private val _demoQuizUiState = MutableStateFlow(DemoQuizUiState())
+    private val _demoQuizUiState =
+        MutableStateFlow(saveStateHandle.get(DEMO_QUIZ_UI_STATE_KEY) ?: DemoQuizUiState())
     val demoQuizUiState = _demoQuizUiState.asStateFlow()
 
     init {
@@ -45,6 +50,7 @@ class DemoQuizViewModel @Inject constructor(
                         demoQuizQuestionCategory = event.category
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
 
             }
 
@@ -54,6 +60,8 @@ class DemoQuizViewModel @Inject constructor(
                         quizIntroDialogBoxVisibility = false
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
             is DemoQuizUiEventClass.showIntroDialogBoxVisibilty -> {
@@ -62,6 +70,8 @@ class DemoQuizViewModel @Inject constructor(
                         quizIntroDialogBoxVisibility = true
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
             is DemoQuizUiEventClass.setQuestionDetailsForReload -> {
@@ -71,6 +81,8 @@ class DemoQuizViewModel @Inject constructor(
                         amountOfQuestions = event.amount
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
             is DemoQuizUiEventClass.incrementQuestionIndex -> {
@@ -85,6 +97,8 @@ class DemoQuizViewModel @Inject constructor(
                         )
 
                     }
+                    saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
                     _demoQuizUiState.update {
                         it.copy(
                             optionsList =
@@ -93,6 +107,8 @@ class DemoQuizViewModel @Inject constructor(
                         )
 
                     }
+                    saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
 
                 }
             }
@@ -103,6 +119,8 @@ class DemoQuizViewModel @Inject constructor(
                         isRadiobuttonEnabled = true
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
             is DemoQuizUiEventClass.disableRadioButton -> {
@@ -111,6 +129,8 @@ class DemoQuizViewModel @Inject constructor(
                         isRadiobuttonEnabled = false
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
             is DemoQuizUiEventClass.enableNextButton -> {
@@ -119,6 +139,8 @@ class DemoQuizViewModel @Inject constructor(
                         isNextButtonEnabled = true
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
             is DemoQuizUiEventClass.disableNextButton -> {
@@ -127,6 +149,8 @@ class DemoQuizViewModel @Inject constructor(
                         isNextButtonEnabled = false
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
             is DemoQuizUiEventClass.setSelectedOption -> {
@@ -135,6 +159,7 @@ class DemoQuizViewModel @Inject constructor(
                         selectedOption = event.selectedOption
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
                 Log.d("CURRENT_OPTION", _demoQuizUiState.value.selectedOption)
             }
 
@@ -144,6 +169,8 @@ class DemoQuizViewModel @Inject constructor(
                         currentScore = _demoQuizUiState.value.currentScore + 1
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
             is DemoQuizUiEventClass.showCorrectnessDiaogBox -> {
@@ -152,6 +179,8 @@ class DemoQuizViewModel @Inject constructor(
                         correctnessDialogBoxVisibility = true
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
             is DemoQuizUiEventClass.hideCorrectnessDialogBox -> {
@@ -160,6 +189,8 @@ class DemoQuizViewModel @Inject constructor(
                         correctnessDialogBoxVisibility = false
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
             is DemoQuizUiEventClass.showEndOfQuestionsDialogBox -> {
@@ -168,6 +199,8 @@ class DemoQuizViewModel @Inject constructor(
                         endOfQuestionsDialogBoxVisibility = true
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
             is DemoQuizUiEventClass.hideEndOfQuestionsDialogBox -> {
@@ -176,6 +209,8 @@ class DemoQuizViewModel @Inject constructor(
                         endOfQuestionsDialogBoxVisibility = false
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
             is DemoQuizUiEventClass.setQuestionAnsweredStatus -> {
@@ -184,6 +219,8 @@ class DemoQuizViewModel @Inject constructor(
                         questionStatus = event.status
                     )
                 }
+                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
             }
 
 
@@ -194,6 +231,7 @@ class DemoQuizViewModel @Inject constructor(
 
     private fun LoadQuestions(category: String, amount: String) {
         _demoQuizUiState.value.questions.clear()
+        saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
         _demoQuizUiState.update {
             it.copy(
                 isLoading = false,
@@ -203,6 +241,7 @@ class DemoQuizViewModel @Inject constructor(
                 currentScore = 0
             )
         }
+        saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
         viewModelScope.launch {
             // val questions = myDemoQuizRepository.getQuestions()
             myDemoQuizRepository.getQuestions(
@@ -220,12 +259,16 @@ class DemoQuizViewModel @Inject constructor(
                                     .toMutableList(),
                                 isLoading = true,
                             )
+                            saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
                             Log.d(loadingStatus, "LoadedSuccessfully")
                             _demoQuizUiState.update {
                                 it.copy(
                                     screenStatus = "Loaded Successfully"
                                 )
                             }
+                            saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
                         }
 
                         is Resource.Loading -> {
@@ -240,6 +283,7 @@ class DemoQuizViewModel @Inject constructor(
                                     screenStatus = "Is Loading"
                                 )
                             }
+                            saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
 
 
                         }
@@ -251,6 +295,7 @@ class DemoQuizViewModel @Inject constructor(
                                     screenStatus = "An Error occurred"
                                 )
                             }
+                            saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
 
 
 //                            _demoQuizUiState.value = demoQuizUiState.value.copy(

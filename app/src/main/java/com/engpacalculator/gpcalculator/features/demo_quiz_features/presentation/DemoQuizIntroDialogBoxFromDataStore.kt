@@ -161,7 +161,6 @@ fun QuizIntroDialogBoxFromDatatStore(
 
                         Button(
                             onClick = {
-                                demoQuizOnEvent(DemoQuizUiEventClass.hideIntroDialogBoxVisibilty)
                                 scope.launch {
                                     dataStore.saveQuizIntroDialogBoxVisibilityStatus(false)
                                 }

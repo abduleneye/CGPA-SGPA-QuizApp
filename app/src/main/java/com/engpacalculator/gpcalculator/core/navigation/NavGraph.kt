@@ -52,8 +52,8 @@ fun SetUpNavGraph(
     val fourSgpaViewModel = fourGpaViewModel
     val demoQuizViewModel = demoQuizViewModel
     // var fiveCgpaViewModel = fiveCgpaViewModel
-    val fiveSgpaUiStates by fiveSgpaViewModel.dbState.collectAsState()
-    val fourSgpaUiStates by fourSgpaViewModel.dbState.collectAsState()
+    val fiveSgpaUiStates by fiveSgpaViewModel.fiveSgpaUiState.collectAsState()
+    val fourSgpaUiStates by fourSgpaViewModel.fourSgpaUiState.collectAsState()
     val demoQuizUiStates by demoQuizViewModel.demoQuizUiState.collectAsState()
 
     val fiveCgpaUiStates by fiveSgpaViewModel.fiveCgpaUiState.collectAsState()
