@@ -2,11 +2,12 @@ package com.engpacalculator.gpcalculator.features.demo_quiz_features.presentatio
 
 import android.os.Parcelable
 import com.engpacalculator.gpcalculator.features.demo_quiz_features.domain.model.Results
+import kotlinx.parcelize.RawValue
 
 @kotlinx.parcelize.Parcelize
 data class DemoQuizUiState(
     val screenStatus: String = "",
-    val questions: MutableList<Results> = mutableListOf(),
+    val questions: @RawValue MutableList<Results> = mutableListOf(),
     val isLoading: Boolean = false,
     val errorMessage: String = "",
     val demoQuizQuestionCategory: String = "",
@@ -15,7 +16,7 @@ data class DemoQuizUiState(
     val amountOfQuestions: String = "",
     val testLoad: Boolean = true,
     var questionIndex: Int = 0,
-    var optionsList: MutableList<String> = mutableListOf(),
+    var optionsList: @RawValue MutableList<String> = mutableListOf(),
     var selectedOption: String = "",
     var isRadiobuttonEnabled: Boolean = true,
     var isNextButtonEnabled: Boolean = false,

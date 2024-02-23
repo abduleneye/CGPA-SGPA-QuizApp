@@ -43,7 +43,7 @@ fun DemoQuizEndOfQuestionsDialogBox(
 
     Dialog(
         onDismissRequest = {
-            onEvent(DemoQuizUiEventClass.hideEndOfQuestionsDialogBox)
+            // onEvent(DemoQuizUiEventClass.hideEndOfQuestionsDialogBox)
 
         },
         properties = DialogProperties(
@@ -129,6 +129,7 @@ fun DemoQuizEndOfQuestionsDialogBox(
                                 if (navController != null) {
                                     navController.popBackStack()
                                 }
+                                onEvent(DemoQuizUiEventClass.hideEndOfQuestionsDialogBox)
                             },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = AppBars
@@ -154,6 +155,7 @@ fun DemoQuizEndOfQuestionsDialogBox(
                                         demoQuizUiState.amountOfQuestions
                                     )
                                 )
+                                onEvent(DemoQuizUiEventClass.hideEndOfQuestionsDialogBox)
 
 
                             },

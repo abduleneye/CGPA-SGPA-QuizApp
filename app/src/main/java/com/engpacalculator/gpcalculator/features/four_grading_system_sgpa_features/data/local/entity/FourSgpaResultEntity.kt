@@ -6,12 +6,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.model.FourSgpaResult
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 @Entity
 @Parcelize
 data class FourSgpaResultEntity(
 
-    val resultEntries: ArrayList<FourGpData> = ArrayList(),
+    val resultEntries: @RawValue ArrayList<FourGpData> = ArrayList(),
     val gp: String = "",
     val remark: String = "",
     val resultName: String = "",

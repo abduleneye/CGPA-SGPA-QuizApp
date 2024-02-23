@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -75,7 +76,9 @@ fun DefaultCardSample(
                 text = textOneInCardBox,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
-                modifier = Modifier.padding(4.dp)
+                modifier = Modifier.padding(4.dp),
+                fontWeight = FontWeight.Bold
+
             )
             Text(
                 text = textTwoInCardBox,

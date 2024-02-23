@@ -4,7 +4,6 @@ import Quiz.Data.Presentation.Domain.QuizFormat
 import android.annotation.SuppressLint
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -56,7 +55,6 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -441,10 +439,10 @@ fun DemoQuizScreen(
 
                                                                 }
 
-                                                                scope.launch {
-                                                                    delay(1000)
-                                                                    onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
-                                                                }
+//                                                                scope.launch {
+//                                                                    delay(1000)
+                                                                onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
+//                                                                }
 
                                                             }
 
@@ -495,11 +493,7 @@ fun DemoQuizScreen(
                                                                                     ).correct_answer
                                                                                 }"
                                                                     )
-                                                                    Toast.makeText(
-                                                                        context,
-                                                                        "Correct!!!",
-                                                                        Toast.LENGTH_LONG
-                                                                    ).show()
+
                                                                     onNewEvent(DemoQuizUiEventClass.currentScore)
                                                                     onNewEvent(
                                                                         DemoQuizUiEventClass.setQuestionAnsweredStatus(
@@ -518,15 +512,7 @@ fun DemoQuizScreen(
                                                                                 }"
                                                                     )
 
-                                                                    Toast.makeText(
-                                                                        context,
-                                                                        "Wrong!!! the correct answer is ${
-                                                                            quizUiState.questions.get(
-                                                                                quizUiState.questionIndex
-                                                                            ).correct_answer
-                                                                        }",
-                                                                        Toast.LENGTH_LONG
-                                                                    ).show()
+
 
                                                                     onNewEvent(
                                                                         DemoQuizUiEventClass.setQuestionAnsweredStatus(
@@ -537,11 +523,8 @@ fun DemoQuizScreen(
 
                                                                 }
 
-                                                                scope.launch {
-                                                                    delay(1000)
-                                                                    onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
 
-                                                                }
+                                                                onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
 
 
                                                             },
@@ -555,34 +538,61 @@ fun DemoQuizScreen(
                                             }
                                         Spacer(modifier = Modifier.height(4.dp))
 
-                                        Button(
-
-                                            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                                                containerColor = AppBars
-                                            ),
-                                            onClick = {
-
-                                                onNewEvent(DemoQuizUiEventClass.enableRadioButton)
-                                                onNewEvent(DemoQuizUiEventClass.disableNextButton)
-                                                onNewEvent(DemoQuizUiEventClass.incrementQuestionIndex)
-                                                selectedOption.value = ""
-
-                                                if (quizUiState.questionIndex - 1 == quizUiState.questions.size) {
-                                                    Toast.makeText(
-                                                        context,
-                                                        "End of questions",
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
-
-                                                }
-
-                                            },
-                                            enabled = quizUiState.isNextButtonEnabled
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceAround
                                         ) {
 
-                                            Text(text = "next")
+                                            Button(
+
+                                                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                                    containerColor = AppBars
+                                                ),
+                                                onClick = {
+
+                                                    onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
+                                                },
+                                                enabled = quizUiState.isNextButtonEnabled
+                                            ) {
+
+                                                Text(text = "check")
+
+                                            }
+
+                                            Button(
+
+                                                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                                    containerColor = AppBars
+                                                ),
+                                                onClick = {
+
+                                                    onNewEvent(DemoQuizUiEventClass.enableRadioButton)
+                                                    onNewEvent(DemoQuizUiEventClass.disableNextButton)
+                                                    onNewEvent(DemoQuizUiEventClass.incrementQuestionIndex)
+                                                    Log.d(
+                                                        "Current_index",
+                                                        "${quizUiState.questionIndex}"
+                                                    )
+                                                    selectedOption.value = ""
+
+                                                    if (quizUiState.questionIndex == (quizUiState.questions.size - 1)) {
+                                                        onNewEvent(DemoQuizUiEventClass.showEndOfQuestionsDialogBox)
+
+                                                    }
+
+                                                },
+                                                enabled = quizUiState.isNextButtonEnabled
+                                            ) {
+
+                                                Text(text = "next")
+
+                                            }
+
 
                                         }
+
+
                                     }
 
 
@@ -655,6 +665,14 @@ fun DemoQuizScreen(
 
             DemoQuizCorrectnessDialogBox(onEvent = onNewEvent, demoQuizUiState = quizUiState)
 
+        }
+
+        if (quizUiState.endOfQuestionsDialogBoxVisibility == true) {
+            DemoQuizEndOfQuestionsDialogBox(
+                onEvent = onNewEvent,
+                demoQuizUiState = quizUiState,
+                navController = navController
+            )
         }
 
     }

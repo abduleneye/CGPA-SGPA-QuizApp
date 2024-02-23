@@ -79,10 +79,9 @@ fun DemoQuizCorrectnessDialogBox(
                         Text(
                             text = demoQuizUiState.questionStatus,
                             modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(start = 20.dp),
+                                .align(Alignment.CenterHorizontally),
                             fontSize = 18.sp,
-                            fontWeight = FontWeight.W400
+                            fontWeight = FontWeight.Bold
                         )
 
                         if (demoQuizUiState.questionStatus == "wrong") {
@@ -93,8 +92,7 @@ fun DemoQuizCorrectnessDialogBox(
                                     ).correct_answer
                                 }",
                                 modifier = Modifier
-                                    .align(Alignment.CenterHorizontally)
-                                    .padding(start = 20.dp),
+                                    .align(Alignment.CenterHorizontally),
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.W400
                             )
@@ -102,14 +100,14 @@ fun DemoQuizCorrectnessDialogBox(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
 
 
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 0.dp),
+                        .fillMaxWidth(),
+                    //.padding(top = 16.dp)
                     contentAlignment = Alignment.BottomCenter,
 
                     ) {

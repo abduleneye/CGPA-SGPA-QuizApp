@@ -87,7 +87,9 @@ class FourGpaViewModel @Inject constructor(
     val fourCgpaResultIntroDB = _fourCgpaResultIntroDB.asStateFlow()
 
     private var _fourCgpaUiState =
-        MutableStateFlow(savedStateHandle.get(FOUR_CGPA_UI_STATE_KEY) ?: FourCgpaUiStates())
+        MutableStateFlow(
+            savedStateHandle.get(FOUR_CGPA_UI_STATE_KEY) ?: FourCgpaUiStates()
+        )
     var fourCgpaUiState = _fourCgpaUiState.asStateFlow()
 
 
@@ -433,6 +435,8 @@ class FourGpaViewModel @Inject constructor(
 //                    )
 //                }
                 textFieldsErrorCheckAndDuplicateEntrySaveFourSgpaResultAsDataEntry(_fourSgpaUiState.value.saveResultAs)
+
+                savedStateHandle.set(FOUR_SGPA_UI_STATE_KEY, _fourSgpaUiState.value)
 
 
             }
@@ -1481,6 +1485,8 @@ class FourGpaViewModel @Inject constructor(
                     saveResultAsDialogBoxVisibility = true
                 )
             }
+            savedStateHandle.set(FOUR_SGPA_UI_STATE_KEY, _fourSgpaUiState.value)
+
 
         } else if (_fourSgpaUiState.value.saveResultAs.isNotEmpty()) {
 //            for (i in 0 until _fourSgparesultIntroDB.value.resultItems.size) {
@@ -1550,6 +1556,8 @@ class FourGpaViewModel @Inject constructor(
 //                }
 
             }
+            savedStateHandle.set(FOUR_SGPA_UI_STATE_KEY, _fourSgpaUiState.value)
+
             _fourSgpaUiState.update {
                 it.copy(
                     // FourSgpaSRAToastNotifier = false,
@@ -1557,6 +1565,8 @@ class FourGpaViewModel @Inject constructor(
                     saveResultAs = ""
                 )
             }
+            savedStateHandle.set(FOUR_SGPA_UI_STATE_KEY, _fourSgpaUiState.value)
+
 
 //            viewModelScope.launch {
 //
@@ -1570,6 +1580,7 @@ class FourGpaViewModel @Inject constructor(
 //
 //            }
             resetFourSgpaSRADBox()
+            savedStateHandle.set(FOUR_SGPA_UI_STATE_KEY, _fourSgpaUiState.value)
 
 
         }
