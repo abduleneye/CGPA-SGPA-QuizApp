@@ -83,8 +83,8 @@ fun FourSgpaConfirmClearCoursesEntryConfirmationDialogBox(
                     ) {
                         Column {
                             Text(
-                                text = "Are you sure you want to clear all" +
-                                        "\nentered Courses?" +
+                                text = "Are you sure you want to clear all " +
+                                        "\nentered courses? " +
                                         "\nthis action can't be undone",
                                 modifier = Modifier
                                     .align(Alignment.Start)

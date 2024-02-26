@@ -95,12 +95,12 @@ fun FiveSgpaTotalCoursesListCardViewToDisplay(
                 dropDownItems = listOf(
 
                     FiveCourseItemsModifierDropDownItems("Edit"),
-                    FiveCourseItemsModifierDropDownItems("Delete")
+                    FiveCourseItemsModifierDropDownItems("Remove")
 
                 ),
                 onMenuItemClick = {
 
-                    if (it.text == "Delete") {
+                    if (it.text == "Remove") {
                         try {
                             onClickEvent(FiveGpaUiEvents.deleteCourseEntry(index))
 
