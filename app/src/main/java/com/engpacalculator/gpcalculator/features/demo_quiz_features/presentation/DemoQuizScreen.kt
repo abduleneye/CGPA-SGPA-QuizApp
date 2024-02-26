@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -265,7 +266,8 @@ fun DemoQuizScreen(
                         elevation = CardDefaults.cardElevation(8.dp),
                         shape = RoundedCornerShape(16.dp),
                         modifier = Modifier
-                            .fillMaxSize(0.9f)
+                            .fillMaxHeight()
+                            .fillMaxWidth(0.9f)
                             .background(color = Cream),
 
 
@@ -293,9 +295,12 @@ fun DemoQuizScreen(
                                 ) {
                                     Text(
                                         text = "Total questions:  ${quizUiState.questions.size}",
+                                        fontWeight = FontWeight.Bold
+
                                     )
                                     Text(
                                         text = "Score: " + " ${quizUiState.currentScore}",
+                                        fontWeight = FontWeight.Bold
                                     )
 
 
@@ -306,7 +311,7 @@ fun DemoQuizScreen(
                                 elevation = CardDefaults.cardElevation(8.dp),
                                 //shape = RoundedCornerShape(16.dp),
                                 modifier = Modifier
-                                    .height(100.dp)
+                                    .height(80.dp)
                                     .fillMaxWidth(0.9f)
                                     .padding(top = 8.dp)
                                     .background(color = Cream),
@@ -326,7 +331,8 @@ fun DemoQuizScreen(
                                         modifier = Modifier
                                             //.weight(0.9f)
                                             .padding(all = 4.dp),
-                                        fontWeight = FontWeight.Bold
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 12.sp
 
                                     )
 
@@ -335,7 +341,7 @@ fun DemoQuizScreen(
 
                             }
 
-                            Spacer(modifier = Modifier.height(24.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
 
 
                             Column(
@@ -359,7 +365,7 @@ fun DemoQuizScreen(
                                     verticalArrangement = Arrangement.SpaceBetween,
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     modifier = Modifier.fillMaxSize(),
-                                    contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp)
+                                    contentPadding = PaddingValues(top = 8.dp, bottom = 16.dp)
                                 ) {
                                     item {
                                         quizUiState.optionsList
@@ -369,7 +375,7 @@ fun DemoQuizScreen(
                                                     elevation = CardDefaults.cardElevation(8.dp),
                                                     shape = RoundedCornerShape(10.dp),
                                                     modifier = Modifier
-                                                        .height(64.dp)
+                                                        .height(54.dp)
                                                         .fillMaxWidth(0.9f)
                                                         .background(color = Cream)
                                                 ) {
@@ -456,6 +462,7 @@ fun DemoQuizScreen(
                                                                 .weight(0.9f)
                                                                 .padding(start = 8.dp),
                                                             fontWeight = FontWeight.Bold,
+                                                            fontSize = 12.sp
                                                         )
                                                         RadioButton(
                                                             enabled = quizUiState.isRadiobuttonEnabled,
@@ -537,7 +544,7 @@ fun DemoQuizScreen(
                                                 }
 
                                             }
-                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Spacer(modifier = Modifier.height(3.dp))
 
                                         Row(
                                             modifier = Modifier

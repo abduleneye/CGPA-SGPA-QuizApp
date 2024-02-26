@@ -55,7 +55,8 @@ fun QuizIntroDialogBoxFromViewModel(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .fillMaxHeight(0.9f),
+                .fillMaxHeight(0.9f)
+                .fillMaxWidth(0.8f),
 
             backgroundColor = Cream
 
@@ -108,10 +109,9 @@ fun QuizIntroDialogBoxFromViewModel(
                                     "for now just play and enjoy!!! ",
                             modifier = Modifier
                                 .align(Alignment.Start)
-                                .fillMaxWidth(0.8f)
+                                .fillMaxWidth()
                                 .padding(start = 20.dp, top = 16.dp, end = 8.dp)
-                            //.weight(1f)
-                            ,
+                                .weight(1f),
                             fontSize = 20.sp,
                             fontWeight = FontWeight.W400,
                             lineHeight = 29.sp
@@ -128,7 +128,7 @@ fun QuizIntroDialogBoxFromViewModel(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        //  .fillMaxHeight()
+                        //.fillMaxHeight()
                         .padding(bottom = 24.dp),
                     contentAlignment = Alignment.BottomCenter,
 

@@ -85,14 +85,13 @@ fun FiveSgpaBaseEntryDialogBox(
 
 
                 LazyColumn(
-                    verticalArrangement = Arrangement.SpaceBetween,
+                    verticalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
                     item {
                         Box(
-                            modifier = Modifier
-                                .padding(top = 8.dp)
+                            modifier = Modifier.padding(bottom = 16.dp)
                         ) {
                             Column {
                                 Text(
@@ -117,8 +116,7 @@ fun FiveSgpaBaseEntryDialogBox(
 
                         }
 
-                        Spacer(modifier = Modifier.height(8.dp))
-
+                        // Spacer(modifier = Modifier.height(8.dp))
 
 
                         OutlinedTextField(
@@ -158,12 +156,7 @@ fun FiveSgpaBaseEntryDialogBox(
                                 .focusRequester(focusRequester)
                                 .padding(start = 4.dp, end = 4.dp)
                         )
-
-
-
-
-
-
+                        Spacer(Modifier.height(64.dp))
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -173,8 +166,8 @@ fun FiveSgpaBaseEntryDialogBox(
                         ) {
 
                             Button(
-                                modifier = Modifier
-                                    .padding(bottom = 2.dp),
+                                modifier = Modifier,
+                                //  .padding(bottom = 2.dp),
                                 //colors = androidx.compose.material3.MaterialTheme.colorScheme,
                                 onClick = {
                                     events(FiveGpaUiEvents.hideBaseEntryDBox)

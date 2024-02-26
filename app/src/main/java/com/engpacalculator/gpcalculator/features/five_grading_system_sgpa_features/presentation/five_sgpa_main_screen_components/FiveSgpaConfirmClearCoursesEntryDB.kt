@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetState
 import androidx.compose.material.Card
@@ -61,97 +63,104 @@ fun FiveSgpaConfirmClearCoursesEntryConfirmationDialogBox(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .fillMaxHeight(0.4f),
+                .fillMaxWidth(0.8f)
+                .fillMaxHeight(0.3f),
 
             backgroundColor = Cream
 
         ) {
-            Column {
+            LazyColumn(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                item {
 
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp)
-                ) {
-                    Column {
-                        Text(
-                            text = "Are you sure you want to clear all" +
-                                    "\nentered Courses?" +
-                                    "\nthis action can't be undone",
-                            modifier = Modifier
-                                .align(Alignment.Start)
-                                .padding(start = 20.dp),
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.W400
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 0.dp),
-                    contentAlignment = Alignment.BottomCenter,
-
-                    ) {
-
-
-                    Row(
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = 15.dp, bottom = 2.dp),
-                        horizontalArrangement = Arrangement.End
-
+                            .padding(bottom = 16.dp)
                     ) {
-
-                        Button(
-                            onClick = {
-                                onEvent(FiveGpaUiEvents.hideClearConfirmationDBox)
-
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = AppBars
-                            ),
-                        ) {
-
-                            Text(text = "No")
-
-
+                        Column {
+                            Text(
+                                text = "Are you sure you want to clear all " +
+                                        "\nentered courses? " +
+                                        "\nthis action can't be undone",
+                                modifier = Modifier
+                                    .align(Alignment.Start)
+                                    .padding(start = 20.dp),
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.W400
+                            )
                         }
+                    }
 
-                        Spacer(
-                            modifier = Modifier
-                                .width(16.dp)
-                        )
-
-                        Button(
-                            onClick = {
-
-                                onEvent(FiveGpaUiEvents.resetTotalEntries)
-                                onEvent(FiveGpaUiEvents.hideClearConfirmationDBox)
+                    Spacer(modifier = Modifier.height(24.dp))
 
 
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = AppBars
-                            ),
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 0.dp),
+                        contentAlignment = Alignment.BottomCenter,
+
                         ) {
 
-                            Text(text = "Yes")
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = 15.dp, bottom = 2.dp),
+                            horizontalArrangement = Arrangement.End
+
+                        ) {
+
+                            Button(
+                                onClick = {
+                                    onEvent(FiveGpaUiEvents.hideClearConfirmationDBox)
+
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = AppBars
+                                ),
+                            ) {
+
+                                Text(text = "No")
+
+
+                            }
+
+                            Spacer(
+                                modifier = Modifier
+                                    .width(16.dp)
+                            )
+
+                            Button(
+                                onClick = {
+
+                                    onEvent(FiveGpaUiEvents.resetTotalEntries)
+                                    onEvent(FiveGpaUiEvents.hideClearConfirmationDBox)
+
+
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = AppBars
+                                ),
+                            ) {
+
+                                Text(text = "Yes")
+
+                            }
+
 
                         }
 
 
                     }
 
-
                 }
+
 
             }
 

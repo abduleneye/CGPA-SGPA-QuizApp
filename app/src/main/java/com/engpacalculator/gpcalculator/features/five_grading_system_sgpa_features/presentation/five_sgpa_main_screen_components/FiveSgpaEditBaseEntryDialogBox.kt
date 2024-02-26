@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Card
@@ -53,113 +54,138 @@ fun FiveSgpaEditBaseEntryDialogBox(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .fillMaxHeight(0.6f),
+                .fillMaxWidth(0.8f)
+                .fillMaxHeight(0.4f),
             backgroundColor = Cream
 
         ) {
-            Column {
-                Text(
-                    modifier = Modifier.padding(
-                        top = 16.dp,
-                        start = 22.dp
+            LazyColumn(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
 
-                    ),
-                    text = Desc,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.W400
-                )
+                item {
 
+                    Text(
+                        modifier = Modifier.padding(
+                            start = 4.dp,
+                            bottom = 16.dp
+
+                        ),
+                        text = Desc,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.W400
+                    )
+
+
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(bottom = 8.dp),
+                        contentAlignment = Alignment.BottomCenter,
+                    ) {
+
+                        Column(
+                            verticalArrangement = Arrangement.SpaceAround,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+
+                            OutlinedTextField(
+                                value = state.totalCourses,
+                                onValueChange = {
+                                    if (it.length <= state.maxNoOfCoursesLength) {
+                                        events(FiveGpaUiEvents.setTotalNumberOfEditedCourses(it))
+                                        events(FiveGpaUiEvents.setTotalCourses(it))
+                                    } else {
+                                        if (state.enteredCourses != "0") {
+                                            events(
+                                                FiveGpaUiEvents.setTotalNumberOfEditedCourses(
+                                                    state.enteredCourses
+                                                )
+                                            )
+                                            events(FiveGpaUiEvents.setTotalCourses(state.enteredCourses))
+
+                                        } else if (state.enteredCourses == "0") {
+                                            events(
+                                                FiveGpaUiEvents.setTotalNumberOfEditedCourses(
+                                                    state.prevTotalNumberOfCourses
+                                                )
+                                            )
+                                            events(FiveGpaUiEvents.setTotalCourses(state.prevTotalNumberOfCourses))
+
+                                        } else {
+                                            events(
+                                                FiveGpaUiEvents.setTotalNumberOfEditedCourses(
+                                                    state.totalCourses
+                                                )
+                                            )
+                                            events(FiveGpaUiEvents.setTotalCourses(state.totalCourses))
+                                        }
+
+                                        Toast.makeText(
+                                            context, "cannot be more  than two digits",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+//                            events(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsETNOC)
+                                },
+                                label = {
+                                    Text(text = state.defaultLabelETNOC)
+                                },
+                                singleLine = true,
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedLabelColor = Color(state.defaultLabelColourETNOC),
+                                    focusedBorderColor = Color(state.defaultLabelColourETNOC),
+                                ),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.NumberPassword,
+                                    imeAction = ImeAction.Next
+
+                                ),
+                                modifier = Modifier
+                                    .padding(start = 4.dp, end = 4.dp)
+
+                            )
+
+                            Spacer(modifier = Modifier.height(24.dp))
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+
+
+                            ) {
+
+                                Button(
+//                                    modifier = Modifier
+//                                        .padding(bottom = 8.dp)
+                                    //colors = androidx.compose.material3.MaterialTheme.colorScheme,
+                                    onClick = {
+                                        events(FiveGpaUiEvents.hideEditBaseEntryDBox)
+
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = AppBars
+                                    ),
+                                ) {
+
+                                    Text(text = "Done")
+
+                                }
+
+                            }
+
+                        }
+                    }
+
+                }
 
             }
             // Spacer(modifier = Modifier.height(4.dp))
 
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 8.dp),
-                contentAlignment = Alignment.BottomCenter,
-            ) {
-
-                Column(
-                    verticalArrangement = Arrangement.SpaceAround,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
-                    OutlinedTextField(
-                        value = state.totalCourses,
-                        onValueChange = {
-                            if (it.length <= state.maxNoOfCoursesLength) {
-                                events(FiveGpaUiEvents.setTotalNumberOfEditedCourses(it))
-                                events(FiveGpaUiEvents.setTotalCourses(it))
-                            } else {
-                                if (state.enteredCourses != "0") {
-                                    events(FiveGpaUiEvents.setTotalNumberOfEditedCourses(state.enteredCourses))
-                                    events(FiveGpaUiEvents.setTotalCourses(state.enteredCourses))
-
-                                } else if (state.enteredCourses == "0") {
-                                    events(FiveGpaUiEvents.setTotalNumberOfEditedCourses(state.prevTotalNumberOfCourses))
-                                    events(FiveGpaUiEvents.setTotalCourses(state.prevTotalNumberOfCourses))
-
-                                } else {
-                                    events(FiveGpaUiEvents.setTotalNumberOfEditedCourses(state.totalCourses))
-                                    events(FiveGpaUiEvents.setTotalCourses(state.totalCourses))
-                                }
-
-                                Toast.makeText(
-                                    context, "cannot be more  than two digits",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-//                            events(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsETNOC)
-                        },
-                        label = {
-                            Text(text = state.defaultLabelETNOC)
-                        },
-                        singleLine = true,
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedLabelColor = Color(state.defaultLabelColourETNOC),
-                            focusedBorderColor = Color(state.defaultLabelColourETNOC),
-                        ),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.NumberPassword,
-                            imeAction = ImeAction.Next
-
-                        ),
-
-                        )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-
-
-                    ) {
-
-                        Button(
-                            modifier = Modifier
-                                .padding(bottom = 8.dp), //colors = androidx.compose.material3.MaterialTheme.colorScheme,
-                            onClick = {
-                                events(FiveGpaUiEvents.hideEditBaseEntryDBox)
-
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = AppBars
-                            ),
-                        ) {
-
-                            Text(text = "Done")
-
-                        }
-
-                    }
-
-                }
-            }
 
         }
 

@@ -12,9 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -81,147 +81,154 @@ fun FiveSgpaCourseDetailsEntryDialogBox(
             backgroundColor = Cream
 
         ) {
-            Column(
+            LazyColumn(
+//                modifier = Modifier
+//                    .verticalScroll(scrollState)
+                verticalArrangement = Arrangement.Center,
                 modifier = Modifier
-                    .verticalScroll(scrollState)
+                    .fillMaxSize()
 
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 16.dp),
-                    contentAlignment = Alignment.TopStart,
 
-                    ) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 16.dp),
+                        contentAlignment = Alignment.TopStart,
 
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-
-                        Text(
-                            text = title, modifier = Modifier
-                                .align(Alignment.Start)
-                                .padding(start = 20.dp)
-                        )
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Text(
-                            modifier = Modifier
-                                .align(Alignment.Start)
-                                .padding(start = 20.dp),
-                            text = "Entries: ${dbState.enteredCourses} of ${dbState.totalCourses}"
-                        )
-
-
-
-                        OutlinedTextField(
-                            value = dbState.courseCode,
-                            onValueChange = {
-                                onEvent(FiveGpaUiEvents.setCourseCode(it))
-                                onEvent(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCC)
-                            },
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedLabelColor = Color(dbState.defaultLabelColourCC),
-                                focusedBorderColor = Color(dbState.defaultLabelColourCC),
-                                unfocusedBorderColor = Color(dbState.defaultLabelColourCC)
-                            ),
-                            label = {
-                                Text(text = dbState.defaultEnteredCourseCodeLabel)
-                            },
-                            singleLine = true,
-
-                            )
-
-                        Spacer(
-                            modifier = Modifier
-                                .height(8.dp)
-                        )
-
-                        Row {
-
-                            FiveSgpaDropDownMenu(
-                                labelTextOne = dbState.pickedCourseUnitDefaultLabel,
-                                labelTextTwo = dbState.pickedCourseGradeDefaultLabel,
-                                dBState = dbState,
-                                onEvent = onEvent,
-                            )
-
-
-                        }
-
-                        Spacer(
-                            modifier = Modifier
-                                .height(
-                                    //20.dp
-                                    126.dp //final
-                                )
-                        )
-
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(end = 15.dp),
-                            horizontalArrangement = Arrangement.End
                         ) {
 
-                            Button(
-                                onClick = {
-                                    onEvent(FiveGpaUiEvents.hideDataEntryDBox)
-                                    onEvent(FiveGpaUiEvents.setSelectedCourseGrade(""))
-                                    onEvent(FiveGpaUiEvents.setSelectedCourseUnit(""))
-                                    onEvent(FiveGpaUiEvents.setCourseCode(""))
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+
+                            Text(
+                                text = title, modifier = Modifier
+                                    .align(Alignment.Start)
+                                    .padding(start = 4.dp)
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                modifier = Modifier
+                                    .align(Alignment.Start)
+                                    .padding(start = 4.dp),
+                                text = "Entries: ${dbState.enteredCourses} of ${dbState.totalCourses}"
+                            )
+
+
+
+                            OutlinedTextField(
+                                value = dbState.courseCode,
+                                onValueChange = {
+                                    onEvent(FiveGpaUiEvents.setCourseCode(it))
                                     onEvent(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCC)
-
-
                                 },
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = AppBars
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedLabelColor = Color(dbState.defaultLabelColourCC),
+                                    focusedBorderColor = Color(dbState.defaultLabelColourCC),
+                                    unfocusedBorderColor = Color(dbState.defaultLabelColourCC)
                                 ),
-                            ) {
+                                label = {
+                                    Text(text = dbState.defaultEnteredCourseCodeLabel)
+                                },
+                                singleLine = true,
 
-                                Text(text = "Cancel")
+                                )
+
+                            Spacer(
+                                modifier = Modifier
+                                    .height(8.dp)
+                            )
+
+                            Row {
+
+                                FiveSgpaDropDownMenu(
+                                    labelTextOne = dbState.pickedCourseUnitDefaultLabel,
+                                    labelTextTwo = dbState.pickedCourseGradeDefaultLabel,
+                                    dBState = dbState,
+                                    onEvent = onEvent,
+                                )
 
 
                             }
 
                             Spacer(
                                 modifier = Modifier
-                                    .width(16.dp)
+                                    .height(
+                                        //20.dp
+                                        126.dp //final
+                                    )
                             )
 
-                            Button(
-                                onClick = {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(end = 15.dp),
+                                horizontalArrangement = Arrangement.End
+                            ) {
 
-                                    onEvent(FiveGpaUiEvents.addEntriesToArrayList)
-                                    if (dbState.allReadyInList) {
-                                        Toast.makeText(
-                                            context,
-                                            "${dbState.matchAlreadyInCourseEntry} already in list",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-
-                                    //onEvent(FiveGpaUiEvents.setSelectedCourseGrade(""))
-                                    //onEvent(FiveGpaUiEvents.setSelectedCourseUnit(""))
-                                    //onEvent(FiveGpaUiEvents.setCourseCode(""))
-                                    //onEvent(FiveGpaUiEvents.hideDataEntryDBox)
-                                },
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = AppBars
-                                ),
+                                Button(
+                                    onClick = {
+                                        onEvent(FiveGpaUiEvents.hideDataEntryDBox)
+                                        onEvent(FiveGpaUiEvents.setSelectedCourseGrade(""))
+                                        onEvent(FiveGpaUiEvents.setSelectedCourseUnit(""))
+                                        onEvent(FiveGpaUiEvents.setCourseCode(""))
+                                        onEvent(FiveGpaUiEvents.resetBackToDefaultValuesFromErrorsCC)
 
 
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = AppBars
+                                    ),
                                 ) {
 
-                                Text(text = "Add")
+                                    Text(text = "Cancel")
+
+
+                                }
+
+                                Spacer(
+                                    modifier = Modifier
+                                        .width(16.dp)
+                                )
+
+                                Button(
+                                    onClick = {
+
+                                        onEvent(FiveGpaUiEvents.addEntriesToArrayList)
+                                        if (dbState.allReadyInList) {
+                                            Toast.makeText(
+                                                context,
+                                                "${dbState.matchAlreadyInCourseEntry} already in list",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+
+                                        //onEvent(FiveGpaUiEvents.setSelectedCourseGrade(""))
+                                        //onEvent(FiveGpaUiEvents.setSelectedCourseUnit(""))
+                                        //onEvent(FiveGpaUiEvents.setCourseCode(""))
+                                        //onEvent(FiveGpaUiEvents.hideDataEntryDBox)
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = AppBars
+                                    ),
+
+
+                                    ) {
+
+                                    Text(text = "Add")
+
+                                }
 
                             }
+
 
                         }
 
 
                     }
-
 
                 }
 

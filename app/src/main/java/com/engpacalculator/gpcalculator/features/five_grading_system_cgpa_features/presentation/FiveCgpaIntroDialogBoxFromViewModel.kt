@@ -58,7 +58,9 @@ fun FiveCgpaIntroDialogBoxFromViewModel(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .fillMaxHeight(0.9f),
+                .fillMaxHeight(0.9f)
+                .fillMaxWidth(0.8f),
+
 
             backgroundColor = Cream
 

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -56,13 +57,17 @@ fun DemoQuizCorrectnessDialogBox(
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
                 .fillMaxWidth(0.7f)
-                .fillMaxHeight(0.3f),
+                .fillMaxHeight(0.5f),
 
             backgroundColor = Cream
 
         ) {
-            Column {
-
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
                 Box(
                     modifier = Modifier
@@ -83,6 +88,8 @@ fun DemoQuizCorrectnessDialogBox(
                             fontWeight = FontWeight.Bold
                         )
 
+                        Spacer(modifier = Modifier.height(16.dp))
+
                         if (demoQuizUiState.questionStatus == "wrong") {
                             Text(
                                 text = "The Correct answer is ${
@@ -91,22 +98,22 @@ fun DemoQuizCorrectnessDialogBox(
                                     ).correct_answer
                                 }",
                                 modifier = Modifier
-                                    .align(Alignment.CenterHorizontally),
-                                fontSize = 18.sp,
+                                    .align(Alignment.CenterHorizontally)
+                                    .padding(start = 8.dp),
+                                fontSize = 12.sp,
                                 fontWeight = FontWeight.W400
                             )
                         }
                     }
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
-
+                Spacer(modifier = Modifier.height(32.dp))
 
 
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    //.padding(top = 16.dp)
+                        .fillMaxWidth()
+                        .padding(top = 4.dp),
                     contentAlignment = Alignment.BottomCenter,
 
                     ) {
@@ -145,7 +152,9 @@ fun DemoQuizCorrectnessDialogBox(
 
         }
 
+
     }
 
-
 }
+
+

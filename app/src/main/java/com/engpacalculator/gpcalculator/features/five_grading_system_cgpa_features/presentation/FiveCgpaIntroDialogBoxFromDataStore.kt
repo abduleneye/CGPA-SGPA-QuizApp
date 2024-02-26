@@ -61,7 +61,9 @@ fun FiveCgpaIntroDialogBoxFromDatatStore(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .fillMaxSize(0.9f),
+                .fillMaxSize(0.9f)
+                .fillMaxWidth(0.8f),
+
 
             backgroundColor = Cream
 
