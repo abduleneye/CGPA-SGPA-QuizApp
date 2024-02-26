@@ -4,8 +4,12 @@ import android.os.Build
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -14,12 +18,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.engpacalculator.gpcalculator.R
 import com.engpacalculator.gpcalculator.core.navigation.Screen
+import com.engpacalculator.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.delay
 
 @Composable
@@ -57,21 +63,73 @@ fun Splash(
 
     Box(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(color = Cream),
         contentAlignment = Alignment.Center
     ) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            Image(
-                painter = painterResource(id = R.drawable.nocrashss),
-                contentDescription = "SplashScreen",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .alpha(alpha = alpha)
 
-
+        Card(
+            ///
+            //elevation = CardDefaults.cardElevation(8.dp),
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier,
+            colors = CardDefaults.cardColors(
+                containerColor = Cream
             )
+            //.background(color = Cream)
+
+        ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                Image(
+                    painter = painterResource(id = R.drawable.ssf),
+                    contentDescription = "SplashScreen",
+                    contentScale = ContentScale.FillBounds,
+
+                    )
+            }
+
+
         }
 
 
     }
+}
+
+@Composable
+@Preview(showSystemUi = true, showBackground = true)
+fun PrevSplash() {
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Cream),
+        contentAlignment = Alignment.Center
+    ) {
+
+        Card(
+            ///
+            //elevation = CardDefaults.cardElevation(8.dp),
+            shape = RoundedCornerShape(100.dp),
+            modifier = Modifier,
+            colors = CardDefaults.cardColors(
+                containerColor = Cream
+            )
+            //.background(color = Cream)
+
+        ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                Image(
+                    painter = painterResource(id = R.drawable.ssf),
+                    contentDescription = "SplashScreen",
+                    contentScale = ContentScale.FillBounds,
+
+                    )
+            }
+
+
+        }
+
+
+    }
+
 }

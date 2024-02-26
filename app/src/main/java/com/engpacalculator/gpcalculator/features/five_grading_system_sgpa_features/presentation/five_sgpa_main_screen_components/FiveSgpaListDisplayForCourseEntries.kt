@@ -185,15 +185,7 @@ fun FiveSgpaMyCardViewForCoursesList(
         elevation = CardDefaults.cardElevation(8.dp),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-//            .height(90.dp)
-//            .fillMaxWidth()
-//            .padding(
-//                // horizontal = 16.dp, vertical = 8.dp
-//                top = 16.dp,
-//                bottom = 4.dp,
-//                start = 16.dp,
-//                end = 16.dp
-//            ),
+
             .height(140.dp)
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp),

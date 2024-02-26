@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -73,10 +74,10 @@ fun FourSgpaBaseEntryDialogBox(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .height(220.dp)
-                .padding(start = 8.dp, end = 8.dp)
+                .fillMaxWidth(0.9f)
+                .fillMaxHeight(0.4f),
             //.padding(top = 16.dp)
-            ,
+
             backgroundColor = Cream
 
         ) {

@@ -1,7 +1,9 @@
 package com.engpacalculator.gpcalculator.features.demo_quiz_features.data.remote.dto
 
+import androidx.annotation.Keep
 import com.engpacalculator.gpcalculator.features.demo_quiz_features.domain.model.Results
 
+@Keep
 data class ResultDto(
     val category: String,
     val correct_answer: String,
@@ -10,6 +12,7 @@ data class ResultDto(
     val question: String,
     val type: String
 ) {
+    @Keep
     fun toResults(): Results {
         return Results(
             correct_answer = correct_answer,

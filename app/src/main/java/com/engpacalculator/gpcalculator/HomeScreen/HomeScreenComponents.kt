@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -128,7 +127,7 @@ fun HomeScreen(
                                 val localToken = Firebase.messaging.token.await()
                                 res = localToken
                                 // clipboardManager.current.setText(AnnotatedString(localToken))
-                                Toast.makeText(context, localToken, Toast.LENGTH_LONG).show()
+//
                                 Log.d("Token", localToken)
                             }
 
@@ -159,12 +158,15 @@ fun HomeScreen(
 
 
                         ) {
-                        Column {
+                        Column(modifier = Modifier.fillMaxWidth()) {
                             Icon(
                                 painter = painterResource(id = R.drawable.app_update_icon),
                                 contentDescription = "Update App"
                             )
-                            Text(text = "Update App", fontSize = 6.sp)
+                            Text(
+                                text = "Update",
+                                fontSize = 8.sp,
+                            )
 
                         }
 

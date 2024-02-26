@@ -108,9 +108,10 @@ fun QuizIntroDialogBoxFromViewModel(
                                     "for now just play and enjoy!!! ",
                             modifier = Modifier
                                 .align(Alignment.Start)
-                                .fillMaxWidth()
+                                .fillMaxWidth(0.8f)
                                 .padding(start = 20.dp, top = 16.dp, end = 8.dp)
-                                .weight(1f),
+                            //.weight(1f)
+                            ,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.W400,
                             lineHeight = 29.sp
@@ -153,7 +154,7 @@ fun QuizIntroDialogBoxFromViewModel(
                                 containerColor = AppBars
                             ),
                             modifier = Modifier
-                                .fillMaxWidth(0.9f)
+                                .fillMaxWidth(0.8f)
                         ) {
 
                             Text(text = "Ok, I understand")

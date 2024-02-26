@@ -48,6 +48,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.R
 import com.engpacalculator.gpcalculator.core.ads_components.FiveScreensBottomBannerAd
@@ -629,7 +630,7 @@ fun DemoQuizScreen(
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
-                    Text("An error occurred please check your network!!!")
+                    Text("An error occurred please check your network!!!", fontSize = 10.sp)
                     Spacer(
                         modifier = Modifier
                             .height(24.dp)

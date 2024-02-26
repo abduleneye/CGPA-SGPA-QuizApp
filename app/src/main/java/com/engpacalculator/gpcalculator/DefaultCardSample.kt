@@ -77,7 +77,9 @@ fun DefaultCardSample(
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 modifier = Modifier.padding(4.dp),
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                fontSize = 9.sp
+
 
             )
             Text(
@@ -85,7 +87,7 @@ fun DefaultCardSample(
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 modifier = Modifier.padding(4.dp),
-                fontSize = 12.sp
+                fontSize = 8.sp
             )
         }
 
