@@ -67,10 +67,7 @@ fun FiveCgpaSaveResultDialogBox(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .height(
-                    200.dp //final
-
-                ),
+                .fillMaxWidth(0.9f),
 
             backgroundColor = Cream
 
@@ -100,7 +97,7 @@ fun FiveCgpaSaveResultDialogBox(
                 OutlinedTextField(
                     modifier = Modifier
                         .align(Alignment.Start)
-                        .padding(start = 20.dp),
+                        .padding(start = 20.dp, end = 8.dp),
                     value = fiveCgpaUiStates.saveResultAs,
                     onValueChange = {
 

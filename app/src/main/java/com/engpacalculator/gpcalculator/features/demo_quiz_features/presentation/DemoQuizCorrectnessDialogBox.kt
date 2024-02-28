@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -57,14 +55,16 @@ fun DemoQuizCorrectnessDialogBox(
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
                 .fillMaxWidth(0.7f)
-                .fillMaxHeight(0.5f),
+            // .fillMaxHeight(0.5f)
+            ,
 
             backgroundColor = Cream
 
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize(),
+                // .fillMaxSize()
+                ,
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -83,7 +83,10 @@ fun DemoQuizCorrectnessDialogBox(
                         Text(
                             text = demoQuizUiState.questionStatus,
                             modifier = Modifier
-                                .align(Alignment.CenterHorizontally),
+                                .align(Alignment.CenterHorizontally)
+                            //.padding(start = 16.dp)
+                            ,
+
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -99,7 +102,8 @@ fun DemoQuizCorrectnessDialogBox(
                                 }",
                                 modifier = Modifier
                                     .align(Alignment.CenterHorizontally)
-                                    .padding(start = 8.dp),
+                                //.padding(start = 16.dp)
+                                ,
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.W400
                             )
@@ -107,42 +111,42 @@ fun DemoQuizCorrectnessDialogBox(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
 
-                Box(
+//                Box(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .paddingbottom = 0.dp),
+//                    contentAlignment = Alignment.BottomCenter,
+//
+//                    ) {
+
+
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 4.dp),
-                    contentAlignment = Alignment.BottomCenter,
+                        .padding(end = 0.dp, bottom = 4.dp),
+                    horizontalArrangement = Arrangement.Center
 
+                ) {
+
+                    Button(
+                        onClick = {
+                            onEvent(DemoQuizUiEventClass.hideCorrectnessDialogBox)
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = AppBars
+                        ),
                     ) {
 
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 0.dp, bottom = 1.dp),
-                        horizontalArrangement = Arrangement.Center
-
-                    ) {
-
-                        Button(
-                            onClick = {
-                                onEvent(DemoQuizUiEventClass.hideCorrectnessDialogBox)
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = AppBars
-                            ),
-                        ) {
-
-                            Text(text = "Ok")
-
-
-                        }
+                        Text(text = "Ok")
 
 
                     }
+
+
+                    //     }
 
 
                 }

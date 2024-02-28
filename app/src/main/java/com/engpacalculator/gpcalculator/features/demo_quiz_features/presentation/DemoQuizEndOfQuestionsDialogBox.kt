@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -60,7 +59,8 @@ fun DemoQuizEndOfQuestionsDialogBox(
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
                 .fillMaxWidth(0.8f)
-                .fillMaxHeight(0.5f),
+            //.fillMaxHeight(0.5f)
+            ,
 
             backgroundColor = Cream
 
@@ -78,24 +78,24 @@ fun DemoQuizEndOfQuestionsDialogBox(
                             text = "You have answered all questions",
                             modifier = Modifier
                                 .align(Alignment.Start)
-                                .padding(start = 20.dp),
-                            fontSize = 18.sp,
+                                .padding(start = 8.dp),
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.W400
                         )
                         Text(
-                            text = "you scored ${demoQuizUiState.currentScore} out of ${demoQuizUiState.questions.size}",
+                            text = "You scored ${demoQuizUiState.currentScore} out of ${demoQuizUiState.questions.size}",
                             modifier = Modifier
                                 .align(Alignment.Start)
-                                .padding(start = 20.dp),
-                            fontSize = 18.sp,
+                                .padding(start = 8.dp),
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.W400
                         )
                         Text(
                             text = "Do you want to retake the quiz?",
                             modifier = Modifier
                                 .align(Alignment.Start)
-                                .padding(start = 20.dp),
-                            fontSize = 18.sp,
+                                .padding(start = 8.dp),
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.W400
                         )
 
@@ -106,79 +106,71 @@ fun DemoQuizEndOfQuestionsDialogBox(
 
 
 
-                Box(
+
+
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 0.dp),
-                    contentAlignment = Alignment.BottomCenter,
+                        .padding(end = 15.dp, bottom = 4.dp),
+                    horizontalArrangement = Arrangement.End
 
+                ) {
+
+                    Button(
+                        onClick = {
+                            if (navController != null) {
+                                navController.popBackStack()
+                            }
+                            onEvent(DemoQuizUiEventClass.hideEndOfQuestionsDialogBox)
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = AppBars
+                        ),
                     ) {
 
+                        Text(text = "No")
 
-                    Row(
+
+                    }
+
+                    Spacer(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 15.dp, bottom = 2.dp),
-                        horizontalArrangement = Arrangement.End
+                            .width(16.dp)
+                    )
 
+                    Button(
+                        onClick = {
+
+                            onEvent(
+                                DemoQuizUiEventClass.loadData(
+                                    demoQuizUiState.demoQuizQuestionCategory,
+                                    demoQuizUiState.amountOfQuestions
+                                )
+                            )
+                            onEvent(DemoQuizUiEventClass.hideEndOfQuestionsDialogBox)
+
+
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = AppBars
+                        ),
                     ) {
 
-                        Button(
-                            onClick = {
-                                if (navController != null) {
-                                    navController.popBackStack()
-                                }
-                                onEvent(DemoQuizUiEventClass.hideEndOfQuestionsDialogBox)
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = AppBars
-                            ),
-                        ) {
-
-                            Text(text = "No")
-
-
-                        }
-
-                        Spacer(
-                            modifier = Modifier
-                                .width(16.dp)
-                        )
-
-                        Button(
-                            onClick = {
-
-                                onEvent(
-                                    DemoQuizUiEventClass.loadData(
-                                        demoQuizUiState.demoQuizQuestionCategory,
-                                        demoQuizUiState.amountOfQuestions
-                                    )
-                                )
-                                onEvent(DemoQuizUiEventClass.hideEndOfQuestionsDialogBox)
-
-
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = AppBars
-                            ),
-                        ) {
-
-                            Text(text = "Yes")
-
-                        }
-
+                        Text(text = "Yes")
 
                     }
 
 
                 }
 
-            }
 
+            }
 
         }
 
+
     }
 
-
 }
+
+

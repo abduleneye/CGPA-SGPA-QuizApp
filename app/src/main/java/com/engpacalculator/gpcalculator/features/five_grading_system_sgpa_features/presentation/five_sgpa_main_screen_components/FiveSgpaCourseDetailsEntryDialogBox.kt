@@ -6,14 +6,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.OutlinedTextField
@@ -44,7 +42,6 @@ fun FiveSgpaCourseDetailsEntryDialogBox(
     title: String,
     properties: DialogProperties = DialogProperties()
 ) {
-    var scrollState = rememberScrollState()
     val context = LocalContext.current
 
 
@@ -76,7 +73,8 @@ fun FiveSgpaCourseDetailsEntryDialogBox(
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
                 .fillMaxWidth(0.9f)
-                .fillMaxHeight(0.6f),
+            //.fillMaxHeight(0.6f)
+            ,
 
             backgroundColor = Cream
 
@@ -86,7 +84,7 @@ fun FiveSgpaCourseDetailsEntryDialogBox(
 //                    .verticalScroll(scrollState)
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
-                    .fillMaxSize()
+                //  .fillMaxSize()
 
             ) {
 
@@ -165,7 +163,7 @@ fun FiveSgpaCourseDetailsEntryDialogBox(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(end = 15.dp),
+                                    .padding(end = 15.dp, bottom = 4.dp),
                                 horizontalArrangement = Arrangement.End
                             ) {
 

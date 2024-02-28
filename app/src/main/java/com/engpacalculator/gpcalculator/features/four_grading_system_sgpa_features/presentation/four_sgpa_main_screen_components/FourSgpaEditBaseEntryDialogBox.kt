@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,7 +41,6 @@ fun FourSgpaEditBaseEntryDialogBox(
     state: FourSgpaUiStates,
     events: (FourGpaUiEvents) -> Unit
 ) {
-
     val context = LocalContext.current
     Dialog(onDismissRequest = {
         events(FourGpaUiEvents.hideEditBaseEntryRegardlessDBox)
@@ -55,22 +53,24 @@ fun FourSgpaEditBaseEntryDialogBox(
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
                 .fillMaxWidth(0.8f)
-                .fillMaxHeight(0.4f),
+            //.fillMaxHeight(0.4f)
+            ,
             backgroundColor = Cream
 
         ) {
             LazyColumn(
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxSize()
+//                modifier = Modifier
+//                    .fillMaxSize()
             ) {
 
                 item {
 
                     Text(
                         modifier = Modifier.padding(
+                            top = 4.dp,
                             start = 4.dp,
-                            bottom = 16.dp
+                            bottom = 8.dp
 
                         ),
                         text = Desc,

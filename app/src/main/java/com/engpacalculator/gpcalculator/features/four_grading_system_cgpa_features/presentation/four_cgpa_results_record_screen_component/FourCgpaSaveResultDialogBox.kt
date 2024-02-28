@@ -67,10 +67,7 @@ fun FourCgpaSaveResultDialogBox(
             elevation = 8.dp,
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .height(
-                    200.dp //final
-
-                ),
+                .fillMaxWidth(0.9f),
 
             backgroundColor = Cream
 
@@ -100,7 +97,7 @@ fun FourCgpaSaveResultDialogBox(
                 OutlinedTextField(
                     modifier = Modifier
                         .align(Alignment.Start)
-                        .padding(start = 20.dp),
+                        .padding(start = 20.dp, end = 8.dp),
                     value = fourCgpaUiStates.saveResultAs,
                     onValueChange = {
 
@@ -138,7 +135,7 @@ fun FourCgpaSaveResultDialogBox(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = 15.dp, bottom = 2.dp, top = 8.dp),
+                            .padding(end = 15.dp, bottom = 4.dp, top = 8.dp),
                         horizontalArrangement = Arrangement.End
 
                     ) {

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -247,8 +246,10 @@ fun DemoQuizScreen(
 
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it)
+                    //.fillMaxSize()
+                    .padding(
+                        it
+                    )
                     .background(color = Cream)
             ) {
 
@@ -266,7 +267,7 @@ fun DemoQuizScreen(
                         elevation = CardDefaults.cardElevation(8.dp),
                         shape = RoundedCornerShape(16.dp),
                         modifier = Modifier
-                            .fillMaxHeight()
+                            //.fillMaxHeight(0.9f)
                             .fillMaxWidth(0.9f)
                             .background(color = Cream),
 

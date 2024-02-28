@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -64,15 +62,16 @@ fun FiveSgpaConfirmClearCoursesEntryConfirmationDialogBox(
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
                 .fillMaxWidth(0.8f)
-                .fillMaxHeight(0.3f),
+            // .fillMaxHeight(0.3f)
+            ,
 
             backgroundColor = Cream
 
         ) {
             LazyColumn(
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxSize()
+//                modifier = Modifier
+//                    .fillMaxSize()
             ) {
                 item {
 
@@ -88,7 +87,7 @@ fun FiveSgpaConfirmClearCoursesEntryConfirmationDialogBox(
                                         "\nthis action can't be undone",
                                 modifier = Modifier
                                     .align(Alignment.Start)
-                                    .padding(start = 20.dp),
+                                    .padding(start = 16.dp, end = 4.dp),
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.W400
                             )
