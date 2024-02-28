@@ -1,13 +1,11 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -198,12 +196,7 @@ fun MyCardView(
         modifier = Modifier
             .height(120.dp)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable {
-                Toast
-                    .makeText(myContext, "Clicked from card view!!!", Toast.LENGTH_SHORT)
-                    .show()
-            },
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         colors = CardDefaults.cardColors(
             containerColor = Cream
         )
@@ -212,7 +205,7 @@ fun MyCardView(
     ) {
 
         Column(
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
@@ -226,9 +219,9 @@ fun MyCardView(
                             info.resultGpaDescriptor
                         )
                     )
-                    Toast
-                        .makeText(myContext, "Clicked from column!!!", Toast.LENGTH_SHORT)
-                        .show()
+//                    Toast
+//                        .makeText(myContext, "Clicked from column!!!", Toast.LENGTH_SHORT)
+//                        .show()
 
 
                 },
@@ -244,13 +237,8 @@ fun MyCardView(
 //            }
 
             Text(text = info.resultName, fontWeight = FontWeight.Bold)
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(text = info.resultEntries.toString(), fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(8.dp))
             Text(text = info.gp, fontWeight = FontWeight.SemiBold)
-            Spacer(modifier = Modifier.height(8.dp))
             Text(text = info.remark, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(2.dp))
             Text(text = "Tap to open", fontWeight = FontWeight.Light)
 
 

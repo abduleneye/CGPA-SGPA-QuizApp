@@ -192,20 +192,6 @@ fun FiveSgpaMyCardViewForCoursesList(
         colors = CardDefaults.cardColors(
             containerColor = Cream
         )
-        ///
-        //colors = CardDefaults.cardColors(containerColor = Cream),
-//        shape = RoundedCornerShape(16.dp),
-//        //elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-//        elevation = 8.dp,
-//
-//        modifier = Modifier
-//            .onSizeChanged {
-//                itemHeight = with(density) { it.height.toDp() }
-//            }
-//            .padding(horizontal = 16.dp, vertical = 8.dp)
-//            // .fillMaxWidth()
-//            .height(70.dp)
-//            .background(color = Cream)
 
     ) {
         Box(

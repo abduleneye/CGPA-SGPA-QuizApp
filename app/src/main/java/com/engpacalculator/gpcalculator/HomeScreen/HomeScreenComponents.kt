@@ -9,7 +9,6 @@ import android.os.Build
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -43,7 +42,6 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
@@ -158,17 +156,10 @@ fun HomeScreen(
 
 
                         ) {
-                        Column(modifier = Modifier.fillMaxWidth()) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.app_update_icon),
-                                contentDescription = "Update App"
-                            )
-                            Text(
-                                text = "Update",
-                                fontSize = 8.sp,
-                            )
-
-                        }
+                        Icon(
+                            painter = painterResource(id = R.drawable.update),
+                            contentDescription = "Update App"
+                        )
 
 
                     }

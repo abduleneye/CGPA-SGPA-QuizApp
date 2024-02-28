@@ -66,7 +66,7 @@ fun FiveCgpaResultBottomSheetContent(
     ) {
 
         Column(
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -134,11 +134,11 @@ fun FiveCgpaResultBottomSheetContent(
 
 
             }
-            Spacer(modifier = Modifier.height(3.dp))
+            // Spacer(modifier = Modifier.height(3.dp))
 
             Text(text = "${fiveCgpaUiStates.cgpa}", fontSize = 30.sp, fontWeight = FontWeight.Bold)
 
-            Spacer(modifier = Modifier.height(3.dp))
+            // Spacer(modifier = Modifier.height(3.dp))
 
             Text(
                 text = "${fiveCgpaUiStates.gpaDescriptor}",
@@ -146,7 +146,7 @@ fun FiveCgpaResultBottomSheetContent(
                 fontWeight = FontWeight.Medium
             )
 
-            Spacer(modifier = Modifier.height(3.dp))
+            //Spacer(modifier = Modifier.height(3.dp))
 
             Text(
                 text = "${fiveCgpaUiStates.remark}",

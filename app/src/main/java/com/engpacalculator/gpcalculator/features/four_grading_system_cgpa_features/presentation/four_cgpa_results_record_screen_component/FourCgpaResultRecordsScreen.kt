@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -199,9 +198,6 @@ fun MyCardView(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clickable {
-//                Toast
-//                    .makeText(myContext, "Clicked from card view!!!", Toast.LENGTH_SHORT)
-//                    .show()
             },
         colors = CardDefaults.cardColors(
             containerColor = Cream
@@ -211,7 +207,7 @@ fun MyCardView(
     ) {
 
         Column(
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
@@ -232,28 +228,13 @@ fun MyCardView(
 
                 },
         ) {
-//            Row {
-//                IconButton(onClick = {
-//                    onEvent(FourGpaUiEvents.DeleteResult(info))
-//                    //viewModel.loadData()
-//                }) {
-//                    Icon(Icons.Default.Delete, contentDescription = "Delete Result")
-//
-//                }
-//            }
+
 
             Text(text = info.resultName, fontWeight = FontWeight.Bold)
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(text = info.resultEntries.toString(), fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(8.dp))
             Text(text = info.gp, fontWeight = FontWeight.SemiBold)
-            Spacer(modifier = Modifier.height(8.dp))
             Text(text = info.remark, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(2.dp))
             Text(text = "Tap to open", fontWeight = FontWeight.Light)
 
-
-            //}
 
         }
 

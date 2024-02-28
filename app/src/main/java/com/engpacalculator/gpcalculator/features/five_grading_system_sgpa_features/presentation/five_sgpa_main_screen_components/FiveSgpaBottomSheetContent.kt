@@ -64,7 +64,7 @@ fun FiveSgpaResultBottomSheetContent(
     ) {
 
         Column(
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -132,7 +132,7 @@ fun FiveSgpaResultBottomSheetContent(
 
 
             }
-            Spacer(modifier = Modifier.height(3.dp))
+            //Spacer(modifier = Modifier.height(3.dp))
 
             Text(
                 text = "${state.fiveSgpaFinalResult}",
@@ -140,11 +140,11 @@ fun FiveSgpaResultBottomSheetContent(
                 fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.height(3.dp))
+            //Spacer(modifier = Modifier.height(3.dp))
 
             Text(text = "${state.gpaDescriptor}", fontSize = 20.sp, fontWeight = FontWeight.Medium)
 
-            Spacer(modifier = Modifier.height(3.dp))
+            //  Spacer(modifier = Modifier.height(3.dp))
 
             Text(
                 text = "${state.remark}",

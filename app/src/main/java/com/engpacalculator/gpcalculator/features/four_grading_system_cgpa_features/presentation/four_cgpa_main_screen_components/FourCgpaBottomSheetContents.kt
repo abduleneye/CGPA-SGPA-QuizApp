@@ -96,7 +96,7 @@ fun FourCgpaResultBottomSheetContent(
                     .fillMaxWidth()
             ) {
                 Column(
-                    verticalArrangement = Arrangement.Center,
+                    verticalArrangement = Arrangement.SpaceAround,
                     horizontalAlignment = Alignment.End,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -134,11 +134,11 @@ fun FourCgpaResultBottomSheetContent(
 
 
             }
-            Spacer(modifier = Modifier.height(3.dp))
+            //Spacer(modifier = Modifier.height(3.dp))
 
             Text(text = "${fourCgpaUiStates.cgpa}", fontSize = 30.sp, fontWeight = FontWeight.Bold)
 
-            Spacer(modifier = Modifier.height(3.dp))
+            // Spacer(modifier = Modifier.height(3.dp))
 
             Text(
                 text = "${fourCgpaUiStates.gpaDescriptor}",
@@ -146,7 +146,7 @@ fun FourCgpaResultBottomSheetContent(
                 fontWeight = FontWeight.Medium
             )
 
-            Spacer(modifier = Modifier.height(3.dp))
+            // Spacer(modifier = Modifier.height(3.dp))
 
             Text(
                 text = "${fourCgpaUiStates.remark}",
