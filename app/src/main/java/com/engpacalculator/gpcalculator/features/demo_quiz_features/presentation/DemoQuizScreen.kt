@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -243,7 +244,9 @@ fun DemoQuizScreen(
             }
 
         } else if (quizUiState.screenStatus == "Loaded Successfully") {
-
+            var selectedOption = rememberSaveable {
+                mutableStateOf("")
+            }
             Box(
                 modifier = Modifier
                     //.fillMaxSize()
@@ -253,9 +256,6 @@ fun DemoQuizScreen(
                     .background(color = Cream)
             ) {
 
-//                var quizUiState.questionIndex by remember {
-//                    mutableIntStateOf(0)
-//                }
                 Column(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -267,7 +267,7 @@ fun DemoQuizScreen(
                         elevation = CardDefaults.cardElevation(8.dp),
                         shape = RoundedCornerShape(16.dp),
                         modifier = Modifier
-                            //.fillMaxHeight(0.9f)
+                            .fillMaxHeight(0.9f)
                             .fillMaxWidth(0.9f)
                             .background(color = Cream),
 
@@ -282,6 +282,7 @@ fun DemoQuizScreen(
                             verticalArrangement = Arrangement.Top,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
+                            ///////////////////////////////////////////
                             Text(
                                 text = category,
                                 fontWeight = FontWeight.Bold
@@ -342,7 +343,7 @@ fun DemoQuizScreen(
 
                             }
 
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(4.dp))
 
 
                             Column(
@@ -357,9 +358,7 @@ fun DemoQuizScreen(
                                 var context = LocalContext.current
                                 var scope = rememberCoroutineScope()
 
-                                var selectedOption = rememberSaveable {
-                                    mutableStateOf("")
-                                }
+
 
 
                                 LazyColumn(
@@ -547,67 +546,68 @@ fun DemoQuizScreen(
                                             }
                                         Spacer(modifier = Modifier.height(3.dp))
 
-                                        Row(
-                                            modifier = Modifier
-                                                .fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.SpaceAround
-                                        ) {
-
-                                            Button(
-
-                                                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                                                    containerColor = AppBars
-                                                ),
-                                                onClick = {
-
-                                                    onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
-                                                },
-                                                enabled = quizUiState.isNextButtonEnabled
-                                            ) {
-
-                                                Text(text = "check")
-
-                                            }
-
-                                            Button(
-
-                                                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                                                    containerColor = AppBars
-                                                ),
-                                                onClick = {
-
-                                                    onNewEvent(DemoQuizUiEventClass.enableRadioButton)
-                                                    onNewEvent(DemoQuizUiEventClass.disableNextButton)
-                                                    onNewEvent(DemoQuizUiEventClass.incrementQuestionIndex)
-                                                    Log.d(
-                                                        "Current_index",
-                                                        "${quizUiState.questionIndex}"
-                                                    )
-                                                    selectedOption.value = ""
-
-                                                    if (quizUiState.questionIndex == (quizUiState.questions.size - 1)) {
-                                                        onNewEvent(DemoQuizUiEventClass.showEndOfQuestionsDialogBox)
-
-                                                    }
-
-                                                },
-                                                enabled = quizUiState.isNextButtonEnabled
-                                            ) {
-
-                                                Text(text = "next")
-
-                                            }
-
-
-                                        }
-
-
                                     }
 
 
                                 }
 
+
                                 // Spacer(modifier = Modifier.height(4.dp))
+
+
+                            }
+
+                            ////////////////////////////////////////////////////////////
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceAround
+                            ) {
+
+                                Button(
+
+                                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                        containerColor = AppBars
+                                    ),
+                                    onClick = {
+
+                                        onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
+                                    },
+                                    enabled = quizUiState.isNextButtonEnabled
+                                ) {
+
+                                    Text(text = "check")
+
+                                }
+
+                                Button(
+
+                                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                        containerColor = AppBars
+                                    ),
+                                    onClick = {
+
+                                        onNewEvent(DemoQuizUiEventClass.enableRadioButton)
+                                        onNewEvent(DemoQuizUiEventClass.disableNextButton)
+                                        onNewEvent(DemoQuizUiEventClass.incrementQuestionIndex)
+                                        Log.d(
+                                            "Current_index",
+                                            "${quizUiState.questionIndex}"
+                                        )
+                                        selectedOption.value = ""
+
+                                        if (quizUiState.questionIndex == (quizUiState.questions.size - 1)) {
+                                            onNewEvent(DemoQuizUiEventClass.showEndOfQuestionsDialogBox)
+
+                                        }
+
+                                    },
+                                    enabled = quizUiState.isNextButtonEnabled
+                                ) {
+
+                                    Text(text = "next")
+
+                                }
 
 
                             }

@@ -24,9 +24,9 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -81,7 +81,7 @@ fun FourSgpaFullResultScreen(
             .fillMaxSize()
             .background(color = Cream),
         topBar = {
-            CenterAlignedTopAppBar(
+            MediumTopAppBar(
                 title = {
                     Text(text = "5.0 Sgpa Result Display")
                 },
@@ -216,14 +216,14 @@ fun FourSgpaFullResultScreen(
                             .padding(start = 16.dp, end = 16.dp)
                     ) {
                         Text(
-                            text = "Course codes",
+                            text = "course(s)",
                             modifier = Modifier,
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp
                             //.fillMaxHeight()
                         )
                         Text(
-                            text = "Course grades",
+                            text = "grade(s)",
                             modifier = Modifier,
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp
@@ -232,7 +232,7 @@ fun FourSgpaFullResultScreen(
                             // .fillMaxHeight()
                         )
                         Text(
-                            text = "Course units",
+                            text = "unit(s)",
                             modifier = Modifier,
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp
