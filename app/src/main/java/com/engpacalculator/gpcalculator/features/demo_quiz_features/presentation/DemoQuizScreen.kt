@@ -185,8 +185,8 @@ fun DemoQuizScreen(
                 scope.launch {
                     when (helpCategory) {
                         "Sciences" -> {
-                            onNewEvent(DemoQuizUiEventClass.setQuestionDetailsForReload("17", "50"))
-                            onNewEvent(DemoQuizUiEventClass.loadData("17", "50"))
+                            onNewEvent(DemoQuizUiEventClass.setQuestionDetailsForReload("17", "10"))
+                            onNewEvent(DemoQuizUiEventClass.loadData("17", "10"))
                         }
 
                         "History" -> {
@@ -267,349 +267,326 @@ fun DemoQuizScreen(
                         elevation = CardDefaults.cardElevation(8.dp),
                         shape = RoundedCornerShape(16.dp),
                         modifier = Modifier
-                            .fillMaxHeight(0.9f)
+                            .fillMaxHeight(0.95f)
                             .fillMaxWidth(0.9f)
                             .background(color = Cream),
 
 
                         ) {
 
-
                         Column(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .background(color = Cream),
-                            verticalArrangement = Arrangement.Top,
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.SpaceAround,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            ///////////////////////////////////////////
-                            Text(
-                                text = category,
-                                fontWeight = FontWeight.Bold
-                            )
 
-
-                            if (category != null) {
-                                Row(
-                                    horizontalArrangement = Arrangement.SpaceAround,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                ) {
-                                    Text(
-                                        text = "Total questions:  ${quizUiState.questions.size}",
-                                        fontWeight = FontWeight.Bold
-
-                                    )
-                                    Text(
-                                        text = "Score: " + " ${quizUiState.currentScore}",
-                                        fontWeight = FontWeight.Bold
-                                    )
-
-
-                                }
-                            }
-
-                            Card(
-                                elevation = CardDefaults.cardElevation(8.dp),
-                                //shape = RoundedCornerShape(16.dp),
+                            LazyColumn(
                                 modifier = Modifier
-                                    .height(80.dp)
-                                    .fillMaxWidth(0.9f)
-                                    .padding(top = 8.dp)
+                                    .fillMaxSize()
                                     .background(color = Cream),
-
-
-                                ) {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(color = Cream),
-                                    verticalArrangement = Arrangement.Top,
-                                    horizontalAlignment = Alignment.CenterHorizontally
-
-                                ) {
+                                verticalArrangement = Arrangement.Top,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                item {
                                     Text(
-                                        text = "${quizUiState.questions[quizUiState.questionIndex].question}",
-                                        modifier = Modifier
-                                            //.weight(0.9f)
-                                            .padding(all = 4.dp),
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 12.sp
-
+                                        text = category,
+                                        fontWeight = FontWeight.Bold
                                     )
 
+
+                                    if (category != null) {
+                                        Row(
+                                            horizontalArrangement = Arrangement.SpaceAround,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                        ) {
+                                            Text(
+                                                text = "Total questions:  ${quizUiState.questions.size}",
+                                                fontWeight = FontWeight.Bold
+
+                                            )
+                                            Text(
+                                                text = "Score: " + " ${quizUiState.currentScore}",
+                                                fontWeight = FontWeight.Bold
+                                            )
+
+
+                                        }
+                                    }
+
+                                    Card(
+                                        elevation = CardDefaults.cardElevation(8.dp),
+                                        //shape = RoundedCornerShape(16.dp),
+                                        modifier = Modifier
+                                            .height(80.dp)
+                                            .fillMaxWidth(0.9f)
+                                            .padding(top = 8.dp)
+                                            .background(color = Cream),
+
+
+                                        ) {
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .background(color = Cream),
+                                            verticalArrangement = Arrangement.Top,
+                                            horizontalAlignment = Alignment.CenterHorizontally
+
+                                        ) {
+                                            Text(
+                                                text = "${quizUiState.questions[quizUiState.questionIndex].question}",
+                                                modifier = Modifier
+                                                    //.weight(0.9f)
+                                                    .padding(all = 4.dp),
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 12.sp
+
+                                            )
+
+                                        }
+
+                                    }
+                                    ///////////////////////////////////////////
+
+
                                 }
-
-
-                            }
-
-                            Spacer(modifier = Modifier.height(4.dp))
-
-
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                verticalArrangement = Arrangement.SpaceBetween,
-                                horizontalAlignment = Alignment.Start
-
-                            ) {
-
-
-                                var context = LocalContext.current
-                                var scope = rememberCoroutineScope()
-
-
-
-
-                                LazyColumn(
-                                    verticalArrangement = Arrangement.SpaceBetween,
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentPadding = PaddingValues(top = 8.dp, bottom = 16.dp)
-                                ) {
-                                    item {
-                                        quizUiState.optionsList
-                                            .forEachIndexed { index, info ->
-                                                Spacer(modifier = Modifier.height(24.dp))
-                                                Card(
-                                                    elevation = CardDefaults.cardElevation(8.dp),
-                                                    shape = RoundedCornerShape(10.dp),
+                                item {
+                                    quizUiState.optionsList
+                                        .forEachIndexed { index, info ->
+                                            Spacer(modifier = Modifier.height(16.dp))
+                                            Card(
+                                                elevation = CardDefaults.cardElevation(8.dp),
+                                                shape = RoundedCornerShape(10.dp),
+                                                modifier = Modifier
+                                                    .height(54.dp)
+                                                    .fillMaxWidth(0.9f)
+                                                    .background(color = Cream)
+                                            ) {
+                                                Row(
+                                                    verticalAlignment = Alignment.CenterVertically,
                                                     modifier = Modifier
-                                                        .height(54.dp)
-                                                        .fillMaxWidth(0.9f)
+                                                        .fillMaxSize()
                                                         .background(color = Cream)
-                                                ) {
-                                                    Row(
-                                                        verticalAlignment = Alignment.CenterVertically,
-                                                        modifier = Modifier
-                                                            .fillMaxSize()
-                                                            .background(color = Cream)
-                                                            .clickable(enabled = quizUiState.isRadiobuttonEnabled) {
-                                                                selectedOption.value = info
-                                                                onNewEvent(
-                                                                    DemoQuizUiEventClass.setSelectedOption(
-                                                                        selectedOption.value
-                                                                    )
+                                                        .clickable(enabled = quizUiState.isRadiobuttonEnabled) {
+                                                            selectedOption.value = info
+                                                            onNewEvent(
+                                                                DemoQuizUiEventClass.setSelectedOption(
+                                                                    selectedOption.value
                                                                 )
+                                                            )
 
-                                                                onNewEvent(DemoQuizUiEventClass.disableRadioButton)
-                                                                onNewEvent(DemoQuizUiEventClass.enableNextButton)
+                                                            onNewEvent(DemoQuizUiEventClass.disableRadioButton)
+                                                            onNewEvent(DemoQuizUiEventClass.enableNextButton)
 
+                                                            Log.d(
+                                                                "BEFORE_IF_QUESTION_TAG",
+                                                                "SelectedAns: ${selectedOption.value}\n" +
+                                                                        "CorrectAns: ${
+                                                                            quizUiState.questions.get(
+                                                                                quizUiState.questionIndex
+                                                                            ).correct_answer
+                                                                        }"
+                                                            )
+                                                            if (selectedOption.value == quizUiState.questions.get(
+                                                                    quizUiState.questionIndex
+                                                                ).correct_answer
+                                                            ) {
                                                                 Log.d(
-                                                                    "BEFORE_IF_QUESTION_TAG",
-                                                                    "SelectedAns: ${selectedOption.value}\n" +
+                                                                    "IN_IF_QUESTION_TAG",
+                                                                    "SelectedAns: ${quizUiState.selectedOption}\n" +
                                                                             "CorrectAns: ${
                                                                                 quizUiState.questions.get(
                                                                                     quizUiState.questionIndex
                                                                                 ).correct_answer
                                                                             }"
                                                                 )
-                                                                if (selectedOption.value == quizUiState.questions.get(
-                                                                        quizUiState.questionIndex
-                                                                    ).correct_answer
-                                                                ) {
-                                                                    Log.d(
-                                                                        "IN_IF_QUESTION_TAG",
-                                                                        "SelectedAns: ${quizUiState.selectedOption}\n" +
-                                                                                "CorrectAns: ${
-                                                                                    quizUiState.questions.get(
-                                                                                        quizUiState.questionIndex
-                                                                                    ).correct_answer
-                                                                                }"
+
+                                                                onNewEvent(DemoQuizUiEventClass.currentScore)
+                                                                onNewEvent(
+                                                                    DemoQuizUiEventClass.setQuestionAnsweredStatus(
+                                                                        "correct"
                                                                     )
+                                                                )
+                                                            } else {
 
-                                                                    onNewEvent(DemoQuizUiEventClass.currentScore)
-                                                                    onNewEvent(
-                                                                        DemoQuizUiEventClass.setQuestionAnsweredStatus(
-                                                                            "correct"
-                                                                        )
+                                                                Log.d(
+                                                                    "ELSE_QUESTION_TAG",
+                                                                    "SelectedAns: ${quizUiState.selectedOption}\n" +
+                                                                            "CorrectAns: ${
+                                                                                quizUiState.questions.get(
+                                                                                    quizUiState.questionIndex
+                                                                                ).correct_answer
+                                                                            }"
+                                                                )
+
+
+                                                                onNewEvent(
+                                                                    DemoQuizUiEventClass.setQuestionAnsweredStatus(
+                                                                        "wrong"
                                                                     )
-                                                                } else {
-
-                                                                    Log.d(
-                                                                        "ELSE_QUESTION_TAG",
-                                                                        "SelectedAns: ${quizUiState.selectedOption}\n" +
-                                                                                "CorrectAns: ${
-                                                                                    quizUiState.questions.get(
-                                                                                        quizUiState.questionIndex
-                                                                                    ).correct_answer
-                                                                                }"
-                                                                    )
+                                                                )
 
 
-                                                                    onNewEvent(
-                                                                        DemoQuizUiEventClass.setQuestionAnsweredStatus(
-                                                                            "wrong"
-                                                                        )
-                                                                    )
-
-
-                                                                }
+                                                            }
 
 //                                                                scope.launch {
 //                                                                    delay(1000)
-                                                                onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
+                                                            onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
 //                                                                }
+
+                                                        }
+
+
+                                                ) {
+
+                                                    Text(
+                                                        text = info,
+                                                        modifier = Modifier
+                                                            .weight(0.9f)
+                                                            .padding(start = 8.dp),
+                                                        fontWeight = FontWeight.Bold,
+                                                        fontSize = 12.sp
+                                                    )
+                                                    RadioButton(
+                                                        enabled = quizUiState.isRadiobuttonEnabled,
+                                                        selected = selectedOption.value == info,
+                                                        onClick = {
+
+                                                            selectedOption.value = info
+                                                            onNewEvent(
+                                                                DemoQuizUiEventClass.setSelectedOption(
+                                                                    selectedOption.value
+                                                                )
+                                                            )
+
+                                                            onNewEvent(DemoQuizUiEventClass.disableRadioButton)
+                                                            onNewEvent(DemoQuizUiEventClass.enableNextButton)
+
+                                                            Log.d(
+                                                                "BEFORE_IF_QUESTION_TAG",
+                                                                "SelectedAns: ${selectedOption.value}\n" +
+                                                                        "CorrectAns: ${
+                                                                            quizUiState.questions.get(
+                                                                                quizUiState.questionIndex
+                                                                            ).correct_answer
+                                                                        }"
+                                                            )
+                                                            if (selectedOption.value == quizUiState.questions.get(
+                                                                    quizUiState.questionIndex
+                                                                ).correct_answer
+                                                            ) {
+                                                                Log.d(
+                                                                    "IN_IF_QUESTION_TAG",
+                                                                    "SelectedAns: ${quizUiState.selectedOption}\n" +
+                                                                            "CorrectAns: ${
+                                                                                quizUiState.questions.get(
+                                                                                    quizUiState.questionIndex
+                                                                                ).correct_answer
+                                                                            }"
+                                                                )
+
+                                                                onNewEvent(DemoQuizUiEventClass.currentScore)
+                                                                onNewEvent(
+                                                                    DemoQuizUiEventClass.setQuestionAnsweredStatus(
+                                                                        "correct"
+                                                                    )
+                                                                )
+                                                            } else {
+
+                                                                Log.d(
+                                                                    "ELSE_QUESTION_TAG",
+                                                                    "SelectedAns: ${quizUiState.selectedOption}\n" +
+                                                                            "CorrectAns: ${
+                                                                                quizUiState.questions.get(
+                                                                                    quizUiState.questionIndex
+                                                                                ).correct_answer
+                                                                            }"
+                                                                )
+
+
+
+                                                                onNewEvent(
+                                                                    DemoQuizUiEventClass.setQuestionAnsweredStatus(
+                                                                        "wrong"
+                                                                    )
+                                                                )
+
 
                                                             }
 
 
-                                                    ) {
-
-                                                        Text(
-                                                            text = info,
-                                                            modifier = Modifier
-                                                                .weight(0.9f)
-                                                                .padding(start = 8.dp),
-                                                            fontWeight = FontWeight.Bold,
-                                                            fontSize = 12.sp
-                                                        )
-                                                        RadioButton(
-                                                            enabled = quizUiState.isRadiobuttonEnabled,
-                                                            selected = selectedOption.value == info,
-                                                            onClick = {
-
-                                                                selectedOption.value = info
-                                                                onNewEvent(
-                                                                    DemoQuizUiEventClass.setSelectedOption(
-                                                                        selectedOption.value
-                                                                    )
-                                                                )
-
-                                                                onNewEvent(DemoQuizUiEventClass.disableRadioButton)
-                                                                onNewEvent(DemoQuizUiEventClass.enableNextButton)
-
-                                                                Log.d(
-                                                                    "BEFORE_IF_QUESTION_TAG",
-                                                                    "SelectedAns: ${selectedOption.value}\n" +
-                                                                            "CorrectAns: ${
-                                                                                quizUiState.questions.get(
-                                                                                    quizUiState.questionIndex
-                                                                                ).correct_answer
-                                                                            }"
-                                                                )
-                                                                if (selectedOption.value == quizUiState.questions.get(
-                                                                        quizUiState.questionIndex
-                                                                    ).correct_answer
-                                                                ) {
-                                                                    Log.d(
-                                                                        "IN_IF_QUESTION_TAG",
-                                                                        "SelectedAns: ${quizUiState.selectedOption}\n" +
-                                                                                "CorrectAns: ${
-                                                                                    quizUiState.questions.get(
-                                                                                        quizUiState.questionIndex
-                                                                                    ).correct_answer
-                                                                                }"
-                                                                    )
-
-                                                                    onNewEvent(DemoQuizUiEventClass.currentScore)
-                                                                    onNewEvent(
-                                                                        DemoQuizUiEventClass.setQuestionAnsweredStatus(
-                                                                            "correct"
-                                                                        )
-                                                                    )
-                                                                } else {
-
-                                                                    Log.d(
-                                                                        "ELSE_QUESTION_TAG",
-                                                                        "SelectedAns: ${quizUiState.selectedOption}\n" +
-                                                                                "CorrectAns: ${
-                                                                                    quizUiState.questions.get(
-                                                                                        quizUiState.questionIndex
-                                                                                    ).correct_answer
-                                                                                }"
-                                                                    )
+                                                            onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
 
 
-
-                                                                    onNewEvent(
-                                                                        DemoQuizUiEventClass.setQuestionAnsweredStatus(
-                                                                            "wrong"
-                                                                        )
-                                                                    )
+                                                        },
+                                                        modifier = Modifier.weight(0.1f)
+                                                    )
 
 
-                                                                }
-
-
-                                                                onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
-
-
-                                                            },
-                                                            modifier = Modifier.weight(0.1f)
-                                                        )
-
-
-                                                    }
                                                 }
-
                                             }
-                                        Spacer(modifier = Modifier.height(3.dp))
 
-                                    }
-
-
-                                }
-
-
-                                // Spacer(modifier = Modifier.height(4.dp))
-
-
-                            }
-
-                            ////////////////////////////////////////////////////////////
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceAround
-                            ) {
-
-                                Button(
-
-                                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                                        containerColor = AppBars
-                                    ),
-                                    onClick = {
-
-                                        onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
-                                    },
-                                    enabled = quizUiState.isNextButtonEnabled
-                                ) {
-
-                                    Text(text = "check")
+                                        }
+                                    Spacer(modifier = Modifier.height(3.dp))
 
                                 }
+                                item {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(),
+                                        horizontalArrangement = Arrangement.SpaceAround
+                                    ) {
 
-                                Button(
+                                        Button(
 
-                                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                                        containerColor = AppBars
-                                    ),
-                                    onClick = {
+                                            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                                containerColor = AppBars
+                                            ),
+                                            onClick = {
 
-                                        onNewEvent(DemoQuizUiEventClass.enableRadioButton)
-                                        onNewEvent(DemoQuizUiEventClass.disableNextButton)
-                                        onNewEvent(DemoQuizUiEventClass.incrementQuestionIndex)
-                                        Log.d(
-                                            "Current_index",
-                                            "${quizUiState.questionIndex}"
-                                        )
-                                        selectedOption.value = ""
+                                                onNewEvent(DemoQuizUiEventClass.showCorrectnessDiaogBox)
+                                            },
+                                            enabled = quizUiState.isNextButtonEnabled
+                                        ) {
 
-                                        if (quizUiState.questionIndex == (quizUiState.questions.size - 1)) {
-                                            onNewEvent(DemoQuizUiEventClass.showEndOfQuestionsDialogBox)
+                                            Text(text = "check")
 
                                         }
 
-                                    },
-                                    enabled = quizUiState.isNextButtonEnabled
-                                ) {
+                                        Button(
 
-                                    Text(text = "next")
+                                            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                                containerColor = AppBars
+                                            ),
+                                            onClick = {
 
+                                                onNewEvent(DemoQuizUiEventClass.enableRadioButton)
+                                                onNewEvent(DemoQuizUiEventClass.disableNextButton)
+                                                onNewEvent(DemoQuizUiEventClass.incrementQuestionIndex)
+                                                Log.d(
+                                                    "Current_index",
+                                                    "${quizUiState.questionIndex}"
+                                                )
+                                                selectedOption.value = ""
+
+                                                if (quizUiState.questionIndex == (quizUiState.questions.size - 1)) {
+                                                    onNewEvent(DemoQuizUiEventClass.showEndOfQuestionsDialogBox)
+
+                                                }
+
+                                            },
+                                            enabled = quizUiState.isNextButtonEnabled
+                                        ) {
+
+                                            Text(text = "next")
+
+                                        }
+
+
+                                    }
                                 }
-
-
                             }
 
 

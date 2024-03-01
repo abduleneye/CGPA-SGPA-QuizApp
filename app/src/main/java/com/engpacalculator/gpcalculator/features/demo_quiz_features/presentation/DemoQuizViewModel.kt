@@ -43,16 +43,16 @@ class DemoQuizViewModel @Inject constructor(
 
             }
 
-            is DemoQuizUiEventClass.setQuizQuestionCategoryOnNavigate -> {
-
-                _demoQuizUiState.update {
-                    it.copy(
-                        demoQuizQuestionCategory = event.category
-                    )
-                }
-                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
-
-            }
+//            is DemoQuizUiEventClass.setQuizQuestionCategoryOnNavigate -> {
+//
+//                _demoQuizUiState.update {
+//                    it.copy(
+//                        demoQuizQuestionCategory = event.category
+//                    )
+//                }
+//                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+//
+//            }
 
             is DemoQuizUiEventClass.hideIntroDialogBoxVisibilty -> {
                 _demoQuizUiState.update {

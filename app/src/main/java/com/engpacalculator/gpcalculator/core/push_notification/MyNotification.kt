@@ -31,7 +31,6 @@ class MyNotification(var context: Context, var title: String, var msg: String) {
         val pendingIntent =
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         notificationBuilder = NotificationCompat.Builder(context, channelID)
-        notificationBuilder.setSmallIcon(R.drawable.newest)
         notificationBuilder.setContentTitle(title)
         notificationBuilder.setContentText(msg)
         notificationBuilder.setAutoCancel(true)

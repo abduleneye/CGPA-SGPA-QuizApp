@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,7 +37,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -139,10 +136,7 @@ fun FiveCgpaFullResultScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = Cream)
-                .padding(
-                    start = it.calculateStartPadding(LayoutDirection.Rtl),
-                    end = it.calculateStartPadding(LayoutDirection.Rtl)
-                ),
+                .padding(it),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -154,203 +148,78 @@ fun FiveCgpaFullResultScreen(
                 elevation = CardDefaults.cardElevation(8.dp),
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
-                    .fillMaxHeight(0.95f)
+                    .fillMaxHeight()
                     .fillMaxWidth(0.8f)
                     .padding(it)
                     .background(color = Cream)
             ) {
 //
 
-                Column(
+                LazyColumn(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top,
                     modifier = Modifier
                         .fillMaxSize()
                         .background(color = Cream)
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        IconButton(onClick = {
-
-                            var helpName: String = ""
-
-
-                            resultName?.let {
-                                FiveGpaUiEvents.DeleteFiveCgpaResultByReference(
-                                    it
-                                )
-                            }
-                                ?.let {
-                                    onEvent(it)
-                                    helpName = it.fiveCgpaResultName
-                                }
-                            Toast.makeText(
-                                context,
-                                "$helpName deleted successfully",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            navController.popBackStack()
-                        }
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End
                         ) {
-                            Icon(
-                                Icons.Default.Delete,
-                                contentDescription = "Delete Result"
-                            )
+                            IconButton(onClick = {
 
+                                var helpName: String = ""
+
+
+                                resultName?.let {
+                                    FiveGpaUiEvents.DeleteFiveCgpaResultByReference(
+                                        it
+                                    )
+                                }
+                                    ?.let {
+                                        onEvent(it)
+                                        helpName = it.fiveCgpaResultName
+                                    }
+                                Toast.makeText(
+                                    context,
+                                    "$helpName deleted successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                navController.popBackStack()
+                            }
+                            ) {
+                                Icon(
+                                    Icons.Default.Delete,
+                                    contentDescription = "Delete Result"
+                                )
+
+                            }
                         }
+
                     }
 
                     if (resultName != null) {
-                        Text(
-                            text = resultName, modifier = Modifier
-                                .padding(top = 0.dp),
-                            fontWeight = FontWeight.ExtraBold
-                        )
-                    }
+                        item {
 
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, end = 16.dp)
-                    ) {
-                        Text(
-                            text = "CGPA Calculated for".uppercase(),
-                            modifier = Modifier,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .background(color = Cream)
-                            .padding(top = 0.dp, bottom = 0.dp)
-                        //.background(color = Color.Red)
-                    ) {
-
-                        if (actualResults != null) {
-
-
-                            LazyColumn(
-                                state = lazyListState,
+                            Text(
+                                text = resultName, modifier = Modifier
+                                    .padding(top = 0.dp),
+                                fontWeight = FontWeight.ExtraBold
+                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceAround,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    //.background(color = Color.Green)
-                                    .padding(bottom = 0.dp),
-
-                                // .height(1024.dp),
-                                verticalArrangement = Arrangement.SpaceAround,
+                                    .padding(start = 16.dp, end = 16.dp)
                             ) {
-
-
-                                itemsIndexed(
-                                    items = deserializedList,
-                                    key = { id, listItem ->
-                                        id.hashCode()
-                                    }) { index, item ->
-
-                                    val context = LocalContext.current
-
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.SpaceAround,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(start = 16.dp, end = 16.dp)
-                                    ) {
-                                        Text(
-                                            text = deserializedList[index],
-                                            modifier = Modifier
-                                        )
-
-                                    }
-
-
-                                }
-                                item {
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                        // .fillMaxSize()
-                                        ,
-                                        verticalArrangement = Arrangement.Center,
-                                        horizontalAlignment = Alignment.CenterHorizontally
-                                    ) {
-
-
-                                        if (gP != null) {
-                                            Text(
-                                                // text = "Sgpa: $gP",
-                                                // modifier = Modifier.padding(it),
-                                                text = buildAnnotatedString {
-                                                    withStyle(
-                                                        style = SpanStyle(
-                                                            fontSize = 12.sp,
-                                                            fontWeight = FontWeight.Bold
-
-                                                        )
-                                                    ) {
-                                                        append("CGPA: ")
-                                                    }
-                                                    withStyle(
-                                                        style = SpanStyle(
-                                                            fontSize = 12.sp,
-                                                            fontWeight = FontWeight.Bold
-                                                        )
-
-                                                    ) {
-                                                        append(gP)
-                                                    }
-                                                },
-                                            )
-                                        }
-                                        if (resultGpaDescriptor != null) {
-
-                                            Text(
-                                                text = resultGpaDescriptor.uppercase(),
-                                                fontSize = 12.sp,
-                                                fontWeight = FontWeight.Bold
-                                            )
-
-                                        }
-                                        if (resultRemark != null) {
-                                            Text(
-                                                text = buildAnnotatedString {
-                                                    withStyle(
-                                                        style = SpanStyle(
-                                                            fontSize = 12.sp,
-                                                            fontWeight = FontWeight.Bold
-                                                        )
-
-                                                    ) {
-                                                        append("Remark: ".uppercase())
-                                                    }
-                                                    withStyle(
-                                                        style = SpanStyle(
-                                                            fontSize = 12.sp,
-                                                            fontWeight = FontWeight.Bold
-
-                                                        )
-                                                    ) {
-                                                        append(resultRemark.uppercase())
-                                                    }
-
-                                                },
-                                                modifier = Modifier.padding(bottom = 24.dp)
-                                            )
-                                        }
-
-
-                                    }
-
-
-                                }
-
+                                Text(
+                                    text = "CGPA Calculated for".uppercase(),
+                                    modifier = Modifier,
+                                    fontWeight = FontWeight.Bold
+                                )
 
                             }
 
@@ -358,16 +227,126 @@ fun FiveCgpaFullResultScreen(
 
 
                     }
+
+
+                    if (actualResults != null) {
+
+
+                        itemsIndexed(
+                            items = deserializedList,
+                            key = { id, listItem ->
+                                id.hashCode()
+                            }) { index, item ->
+
+                            val context = LocalContext.current
+
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceAround,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 16.dp, end = 16.dp)
+                            ) {
+                                Text(
+                                    text = deserializedList[index],
+                                    modifier = Modifier
+                                )
+
+                            }
+
+
+                        }
+                        item {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                // .fillMaxSize()
+                                ,
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+
+
+                                if (gP != null) {
+                                    Text(
+                                        // text = "Sgpa: $gP",
+                                        // modifier = Modifier.padding(it),
+                                        text = buildAnnotatedString {
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    fontSize = 12.sp,
+                                                    fontWeight = FontWeight.Bold
+
+                                                )
+                                            ) {
+                                                append("CGPA: ")
+                                            }
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    fontSize = 12.sp,
+                                                    fontWeight = FontWeight.Bold
+                                                )
+
+                                            ) {
+                                                append(gP)
+                                            }
+                                        },
+                                    )
+                                }
+                                if (resultGpaDescriptor != null) {
+
+                                    Text(
+                                        text = resultGpaDescriptor.uppercase(),
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+
+                                }
+                                if (resultRemark != null) {
+                                    Text(
+                                        text = buildAnnotatedString {
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    fontSize = 12.sp,
+                                                    fontWeight = FontWeight.Bold
+                                                )
+
+                                            ) {
+                                                append("Remark: ".uppercase())
+                                            }
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    fontSize = 12.sp,
+                                                    fontWeight = FontWeight.Bold
+
+                                                )
+                                            ) {
+                                                append(resultRemark.uppercase())
+                                            }
+
+                                        },
+                                        modifier = Modifier.padding(bottom = 24.dp)
+                                    )
+                                }
+
+
+                            }
+
+
+                        }
+
+
+                    }
+
                 }
 
 
             }
-
-
         }
 
 
     }
+
 
 }
 

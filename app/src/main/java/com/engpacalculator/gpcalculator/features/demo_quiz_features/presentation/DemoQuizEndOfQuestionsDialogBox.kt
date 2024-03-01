@@ -143,8 +143,8 @@ fun DemoQuizEndOfQuestionsDialogBox(
 
                             onEvent(
                                 DemoQuizUiEventClass.loadData(
-                                    demoQuizUiState.demoQuizQuestionCategory,
-                                    demoQuizUiState.amountOfQuestions
+                                    category = demoQuizUiState.questionCategory,
+                                    amount = demoQuizUiState.amountOfQuestions
                                 )
                             )
                             onEvent(DemoQuizUiEventClass.hideEndOfQuestionsDialogBox)
