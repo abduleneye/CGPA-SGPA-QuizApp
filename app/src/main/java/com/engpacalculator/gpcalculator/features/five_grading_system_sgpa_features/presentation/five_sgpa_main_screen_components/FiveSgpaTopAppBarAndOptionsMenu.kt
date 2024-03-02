@@ -1,5 +1,6 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_main_screen_components
 
+import android.os.Bundle
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -47,6 +48,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.coroutines.launch
 
 
@@ -57,7 +59,9 @@ fun FiveSgpaTopAppBarAndOptionsMenu(
     calcViewModel: FiveGpaViewModel,
     dbState: FiveSgpaUiStates,
     navController: NavController,
-    sheetState: BottomSheetState
+    sheetState: BottomSheetState,
+    mFirebaseAnalytics: FirebaseAnalytics
+
 
 ) {
     var optionsMenuState by remember {
@@ -249,6 +253,13 @@ fun FiveSgpaTopAppBarAndOptionsMenu(
                 //About Item
 
                 DropdownMenuItem(onClick = {
+
+                    val params = Bundle()
+                    params.putString(
+                        "FiveSgpaAboutButton",
+                        "FiveSgpaAboutButtonClicked"
+                    )
+                    mFirebaseAnalytics.logEvent("FiveSgpaAboutButton", params)
                     navController.navigate(Screen.About.route)
                     optionsMenuState = !optionsMenuState
 

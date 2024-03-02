@@ -1,5 +1,6 @@
 package com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation.four_cgpa_main_screen_components
 
+import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -42,6 +43,7 @@ import com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_featur
 import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourGpaUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
@@ -51,7 +53,9 @@ fun FourCgpaTopAppBarAndOptionsMenu(
     calcViewModel: FourGpaViewModel,
     dbState: FourCgpaUiStates,
     navController: NavController,
-    sheetState: BottomSheetState
+    sheetState: BottomSheetState,
+    mFirebaseAnalytics: FirebaseAnalytics
+
 
 ) {
     var optionsMenuState by remember {
@@ -128,6 +132,12 @@ fun FourCgpaTopAppBarAndOptionsMenu(
                 //About Item
 
                 DropdownMenuItem(onClick = {
+                    val params = Bundle()
+                    params.putString(
+                        "FourCgpaAboutButton",
+                        "FourCgpaAboutButtonClicked"
+                    )
+                    mFirebaseAnalytics.logEvent("FourCgpaAboutButton", params)
                     onEvent(FourGpaUiEvents.showFourCgpaIntroDialogBox)
                     optionsMenuState = !optionsMenuState
 

@@ -45,6 +45,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.coroutines.launch
 
 
@@ -63,6 +64,8 @@ fun FiveCgpaMainScreen(
     adId: String,
     //uniFiveCgpaViewModel: FiveCgpaViewModel,
     fiveGpaViewModel: FiveGpaViewModel,
+    mFirebaseAnalytics: FirebaseAnalytics
+
 
     // onEventFiveCgpa: (FiveCgpaUiEvents) -> Unit
 
@@ -172,7 +175,8 @@ fun FiveCgpaMainScreen(
                     calcViewModel = fiveGpaViewModel,
                     dbState = fiveCgpaUiStates,
                     navController = navController,
-                    sheetState = sheetState
+                    sheetState = sheetState,
+                    mFirebaseAnalytics = mFirebaseAnalytics
                 )
 
             },
@@ -242,7 +246,9 @@ fun FiveCgpaMainScreen(
                     FiveCgpaSaveResultDialogBox(
                         onEvent = onEvent,
                         fiveCgpaUiStates = fiveCgpaUiStates,
-                        sheetState = sheetState
+                        sheetState = sheetState,
+                        mFirebaseAnalytics = mFirebaseAnalytics
+
                     )
 
                 }

@@ -146,12 +146,7 @@ fun FiveSgpaSaveResultDialogBox(
                         Button(
                             onClick = {
 
-                                val params = Bundle()
-                                params.putString(
-                                    "FiveSgpaSaveResultButton",
-                                    "FiveSgpaSaveResultButtonClicked"
-                                )
-                                mFirebaseAnalytics.logEvent("FiveSgpaSaveResultButton", params)
+
                                 onEvent(FiveGpaUiEvents.hideFiveSgpaSaveResultDB)
                                 onEvent(FiveGpaUiEvents.resetBackToDefaultValueFromErrorSRA)
 
@@ -177,6 +172,14 @@ fun FiveSgpaSaveResultDialogBox(
                             onClick = {
 
                                 // if (dbState.saveResultAs.isNotEmpty()) {
+
+                                val params = Bundle()
+                                params.putString(
+                                    "FiveSgpaSaveResultButton",
+                                    "FiveSgpaSaveResultButtonClicked"
+                                )
+                                mFirebaseAnalytics.logEvent("FiveSgpaSaveResultButton", params)
+
 
                                 onEvent(FiveGpaUiEvents.saveFiveSgpaResult)
                                 //onEvent(FiveGpaUiEvents.hideFiveCgpaSaveResultDB)

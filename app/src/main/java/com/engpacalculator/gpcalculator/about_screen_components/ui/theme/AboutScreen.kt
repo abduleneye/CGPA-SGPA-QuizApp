@@ -143,74 +143,13 @@ fun AboutScreen(
                     elevation = CardDefaults.cardElevation(8.dp),
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier
-                        .height(500.dp)
-                        .fillMaxWidth()
-                        .padding(top = 16.dp, start = 10.dp, end = 10.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Cream
-                    )
-
-
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-
-                    ) {
-
-                        Text(
-                            modifier = Modifier
-                                .padding(top = 16.dp)
-                                .fillMaxWidth(),
-                            text = "About App",
-                            textAlign = TextAlign.Center,
-                            fontSize = 20.sp,
-                            textDecoration = TextDecoration.Underline,
-                            fontWeight = FontWeight.Bold
-
-
-                        )
-
-                        Spacer(modifier = Modifier.height(2.dp))
-
-                        Text(
-                            modifier = Modifier
-                                .padding(10.dp)
-                                .fillMaxSize(),
-                            text = "EnGPA(Grade point average)Calculator is an app developed as a hobby project for university and polytechnic students using the(5.0) and (4.0) grading system respectively.\n" +
-                                    "Manage your course entries, calculate your (SGPA),(CGPA) and simulate your future performance with different scenarios.\n" +
-                                    "Key features include:\n" +
-                                    "Easy Course Management: Add, edit, and remove course details seamlessly.\n" +
-                                    "Result Storage: Save and retrieve your results seamlessly.\n" +
-                                    "Accurate (SGPA) and (CGPA) Calculation: Effortlessly calculate your (SGPA) and (CGPA) based on your  course grades and credit loads.\n" +
-                                    "Simulation Analysis: Use our simulation capability by editing your course entry grades  and credit unit to  explore how your (SGPA) might change under different circumstances.\n" +
-                                    "We've also added a quiz section as a bonus, more info in the quiz section.\n" +
-                                    "Tip: Click  on the three dots on  a course entry to edit or remove course details and simulate your  result.\n",
-                            textAlign = TextAlign.Start,
-                            fontSize = 15.sp,
-
-
-                            )
-
-
-                    }
-
-
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Card(
-                    elevation = CardDefaults.cardElevation(8.dp),
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier
-                        .height(460.dp)
+                        .height(440.dp)
                         .fillMaxWidth()
                         .padding(
-                            top = 16.dp,
+                            top = 8.dp,
                             start = 8.dp,
                             end = 8.dp,
-                            bottom = 16.dp
+                            bottom = 8.dp
                         ),
                     colors = CardDefaults.cardColors(
                         containerColor = Cream
@@ -380,6 +319,73 @@ fun AboutScreen(
                         }
 
                     }
+                }
+
+                Spacer(modifier = Modifier.height(2.dp))
+
+
+                Card(
+                    elevation = CardDefaults.cardElevation(8.dp),
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .height(520.dp)
+                        .fillMaxWidth()
+                        .padding(
+                            top = 4.dp,
+                            start = 8.dp,
+                            end = 8.dp,
+                            bottom = 8.dp
+                        ),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Cream
+                    )
+
+
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+
+                    ) {
+
+                        Text(
+                            modifier = Modifier
+                                .padding(top = 16.dp)
+                                .fillMaxWidth(),
+                            text = "About App",
+                            textAlign = TextAlign.Center,
+                            fontSize = 20.sp,
+                            textDecoration = TextDecoration.Underline,
+                            fontWeight = FontWeight.Bold
+
+
+                        )
+
+                        Spacer(modifier = Modifier.height(2.dp))
+
+                        Text(
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .fillMaxSize(),
+                            text = "EnGPA(Grade point average)Calculator is an app developed as a hobby project for university and polytechnic students using the(5.0) and (4.0) grading system respectively.\n" +
+                                    "Manage your course entries, calculate your (SGPA),(CGPA) and simulate your future performance with different scenarios.\n" +
+                                    "Key features include:\n" +
+                                    "Easy Course Management: Add, edit, and remove course details seamlessly.\n" +
+                                    "Result Storage: Save and retrieve your results seamlessly.\n" +
+                                    "Accurate (SGPA) and (CGPA) Calculation: Effortlessly calculate your (SGPA) and (CGPA) based on your  course grades and credit loads.\n" +
+                                    "Simulation Analysis: Use our simulation capability by editing your course entry grades  and credit unit to  explore how your (SGPA) might change under different circumstances.\n" +
+                                    "We've also added a quiz section as a bonus, more info in the quiz section.\n" +
+                                    "Tip: Click  on the three dots on  a course entry to edit or remove course details and simulate your  result.\n",
+                            textAlign = TextAlign.Start,
+                            fontSize = 15.sp,
+
+
+                            )
+
+
+                    }
+
+
                 }
 
 

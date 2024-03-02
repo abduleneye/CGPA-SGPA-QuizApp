@@ -1,5 +1,6 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_results_record_screen_component
 
+import android.os.Bundle
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,6 +35,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -41,7 +43,8 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 fun FiveCgpaSaveResultDialogBox(
     onEvent: (FiveGpaUiEvents) -> Unit,
     fiveCgpaUiStates: FiveCgpaUiStates,
-    sheetState: BottomSheetState
+    sheetState: BottomSheetState,
+    mFirebaseAnalytics: FirebaseAnalytics
 
 
 ) {
@@ -163,6 +166,13 @@ fun FiveCgpaSaveResultDialogBox(
 
                         Button(
                             onClick = {
+
+                                val params = Bundle()
+                                params.putString(
+                                    "FiveCgpaSaveResultButton",
+                                    "FiveCgpaSaveResultButtonClicked"
+                                )
+                                mFirebaseAnalytics.logEvent("FiveCgpaSaveResultButton", params)
 
                                 onEvent(FiveGpaUiEvents.saveFiveCgpaResult)
                                 // onEvent(FiveGpaUiEvents.hideFiveCgpaSaveResultDB)

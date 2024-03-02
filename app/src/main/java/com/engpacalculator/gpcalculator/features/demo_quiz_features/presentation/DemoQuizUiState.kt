@@ -23,6 +23,7 @@ data class DemoQuizUiState(
     var currentScore: Int = 0,
     var correctnessDialogBoxVisibility: Boolean = false,
     var endOfQuestionsDialogBoxVisibility: Boolean = false,
-    var questionStatus: String = ""
+    var questionStatus: String = "",
+    var questionLoadingStatus: Int = 0
 
 ) : Parcelable

@@ -37,6 +37,7 @@ import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.four_sgpa_main_screen_components.FourSgpaBaseEntryDialogBox
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.coroutines.launch
 
 
@@ -50,6 +51,8 @@ fun FourSgpaMainScreen(
     calcViewModel: FourGpaViewModel,
     navController: NavController,
     adId: String,
+    mFirebaseAnalytics: FirebaseAnalytics
+
 ) {
 
     val context = LocalContext.current
@@ -190,7 +193,8 @@ fun FourSgpaMainScreen(
                     calcViewModel = calcViewModel,
                     dbState = state,
                     navController = navController,
-                    sheetState = sheetState
+                    sheetState = sheetState,
+                    mFirebaseAnalytics = mFirebaseAnalytics
                 )
 
             },
@@ -351,7 +355,9 @@ fun FourSgpaMainScreen(
                 FourSgpaSaveResultDialogBox(
                     onEvent = onEvent,
                     dbState = state,
-                    sheetState = sheetState
+                    sheetState = sheetState,
+                    mFirebaseAnalytics = mFirebaseAnalytics
+
                 )
             } else {
 

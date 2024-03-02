@@ -1,5 +1,6 @@
 package com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation.four_cgpa_results_record_screen_component
 
+import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.ads_components.FourScreensBottomBannerAd
@@ -44,6 +46,7 @@ import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 
 
@@ -70,9 +73,10 @@ fun FourCgpaResultRecordScreen(
     viewModel: FourGpaViewModel,
     onEvent: (FourGpaUiEvents) -> Unit,
     adId: String?,
+    mFirebaseAnalytics: FirebaseAnalytics
 
 
-    ) {
+) {
 
     val scope = rememberCoroutineScope()
 
@@ -155,7 +159,9 @@ fun FourCgpaResultRecordScreen(
                 navController = navController,
                 onEvent = onEvent,
                 viewModel = viewModel,
-                helperPadder = it
+                helperPadder = it,
+                mFirebaseAnalytics = mFirebaseAnalytics
+
             )
 
         }
@@ -176,9 +182,10 @@ fun MyCardView(
     state: FourCgpaUiStates,
     onEvent: (FourGpaUiEvents) -> Unit,
     viewModel: FourGpaViewModel,
+    mFirebaseAnalytics: FirebaseAnalytics
 
 
-    ) {
+) {
 
     val json = Gson().toJson(info.resultEntries)
 
@@ -196,9 +203,7 @@ fun MyCardView(
         modifier = Modifier
             .height(120.dp)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable {
-            },
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         colors = CardDefaults.cardColors(
             containerColor = Cream
         )
@@ -212,6 +217,12 @@ fun MyCardView(
             modifier = Modifier
                 .fillMaxSize()
                 .clickable {
+                    val params = Bundle()
+                    params.putString(
+                        "FourCgpaResultRecordButton",
+                        "FourCgpaResultRecordButtonClicked"
+                    )
+                    mFirebaseAnalytics.logEvent("FourCgpaResultRecordButton", params)
                     navController.navigate(
                         Screen.Four_Cgpa_Full_Records_Screen.withArgs(
                             info.resultName,
@@ -230,7 +241,12 @@ fun MyCardView(
         ) {
 
 
-            Text(text = info.resultName, fontWeight = FontWeight.Bold)
+            Text(
+                text = info.resultName,
+                fontWeight = FontWeight.Bold,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+            )
             Text(text = info.gp, fontWeight = FontWeight.SemiBold)
             Text(text = info.remark, fontWeight = FontWeight.Bold)
             Text(text = "Tap to open", fontWeight = FontWeight.Light)
@@ -252,7 +268,8 @@ fun FiveCgpaResultRecordToDisplay(
     navController: NavController,
     onEvent: (FourGpaUiEvents) -> Unit,
     viewModel: FourGpaViewModel,
-    helperPadder: PaddingValues
+    helperPadder: PaddingValues,
+    mFirebaseAnalytics: FirebaseAnalytics
 
 
 ) {
@@ -288,7 +305,9 @@ fun FiveCgpaResultRecordToDisplay(
                 state = FourCgpaUiStates(),
                 navController = navController,
                 onEvent = onEvent,
-                viewModel = viewModel
+                viewModel = viewModel,
+                mFirebaseAnalytics = mFirebaseAnalytics
+
 
             )
 

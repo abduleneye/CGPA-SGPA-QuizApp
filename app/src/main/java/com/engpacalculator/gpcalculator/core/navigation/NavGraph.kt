@@ -101,6 +101,7 @@ fun SetUpNavGraph(
                     onEvent = fiveSgpaViewModel::onEvent,
                     state = fiveSgpaUiStates,
                     adId = "ca-app-pub-3940256099942544/6300978111",
+                    //  "ca-app-pub-3656021994888380/6956404909" +
                     mFirebaseAnalytics = mFirebaseAnalytics
                 )
 
@@ -115,7 +116,6 @@ fun SetUpNavGraph(
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
                 //ca-app-pub-3656021994888380/4847206452
-                // Test Ad unit ca-app-pub-3940256099942544/6300978111
 
                 state = fiveSgpaUiStates,
                 onEvent = fiveSgpaViewModel::onEvent,
@@ -131,6 +131,7 @@ fun SetUpNavGraph(
             Five_Grading_System_Mode_Screen(
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/3017159896"
                 state = fiveSgpaUiStates,
                 onEvent = fiveSgpaViewModel::onEvent
             )
@@ -146,7 +147,6 @@ fun SetUpNavGraph(
                 adId = "ca-app-pub-3940256099942544/6300978111",
                 mFirebaseAnalytics = mFirebaseAnalytics
                 //ca-app-pub-3656021994888380/3450364305
-                /// Test Ad unit ca-app-pub-3940256099942544/6300978111
             )
 
         }
@@ -158,9 +158,10 @@ fun SetUpNavGraph(
                 stateTwo = fourSgpaCourseEntriesState,
                 calcViewModel = fourSgpaViewModel,
                 navController = navController,
-                adId = "ca-app-pub-3940256099942544/6300978111"
-                //ca-app-pub-3656021994888380/3450364305
-                // Test Ad unit ca-app-pub-3940256099942544/6300978111
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                // "ca-app-pub-3656021994888380/3103229308",
+                mFirebaseAnalytics = mFirebaseAnalytics
+
             )
 
         }
@@ -174,8 +175,10 @@ fun SetUpNavGraph(
                 stateTwo = fiveSgpaCourseEntriesState,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/8128325271",
                 fiveGpaViewModel = fiveSgpaViewModel,
                 fiveCgpaUiStates = fiveCgpaUiStates,
+                mFirebaseAnalytics = mFirebaseAnalytics
             )
         }
 
@@ -188,8 +191,10 @@ fun SetUpNavGraph(
                 stateTwo = fourSgpaCourseEntriesState,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/9138154610",
                 fourGpaViewModel = fourSgpaViewModel,
                 fourCgpaUiStates = fourCgpaUiStates,
+                mFirebaseAnalytics = mFirebaseAnalytics
             )
         }
 
@@ -198,10 +203,12 @@ fun SetUpNavGraph(
             Quiz_Mode_Screen(
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/4033167592",
                 state = fiveSgpaUiStates,
                 onEvent = fiveSgpaViewModel::onEvent,
                 quizIntroDBState = demoQuizUiStates,
-                onQuizModeEvent = demoQuizViewModel::onEvent
+                onQuizModeEvent = demoQuizViewModel::onEvent,
+                mFirebaseAnalytics = mFirebaseAnalytics
             )
         }
 
@@ -209,6 +216,7 @@ fun SetUpNavGraph(
             Four_Grading_System_Mode_Screen(
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/7916039451",
                 state = fourSgpaUiStates,
                 onEvent = fourSgpaViewModel::onEvent
             )
@@ -225,6 +233,7 @@ fun SetUpNavGraph(
                 onEvent = fiveSgpaViewModel::onEvent,
                 state = fiveSgpaUiStates,
                 adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/2762009025",
                 mFirebaseAnalytics = mFirebaseAnalytics
             )
         }
@@ -241,7 +250,9 @@ fun SetUpNavGraph(
                 viewModel = fourSgpaViewModel,
                 onEvent = fourSgpaViewModel::onEvent,
                 state = fourSgpaUiStates,
-                adId = "ca-app-pub-3940256099942544/6300978111"
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/6432100221",
+                mFirebaseAnalytics = mFirebaseAnalytics
             )
         }
 
@@ -255,7 +266,9 @@ fun SetUpNavGraph(
                 viewModel = fourSgpaViewModel,
                 onEvent = fourSgpaViewModel::onEvent,
                 state = fourSgpaUiStates,
-                adId = "ca-app-pub-3940256099942544/6300978111"
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/5198909608",
+                mFirebaseAnalytics = mFirebaseAnalytics
             )
         }
 
@@ -270,7 +283,9 @@ fun SetUpNavGraph(
                 viewModel = fiveSgpaViewModel,
                 onEvent = fiveSgpaViewModel::onEvent,
                 state = fiveSgpaUiStates,
-                adId = "ca-app-pub-3940256099942544/6300978111"
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/9988201853",
+                mFirebaseAnalytics = mFirebaseAnalytics
 
 
             )
@@ -314,6 +329,7 @@ fun SetUpNavGraph(
                 onEvent = fiveSgpaViewModel::onEvent,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/8758880665",
                 state = fiveSgpaUiStates,
                 resultGpaDescriptor = entry.arguments?.getString("ResultGpaDescriptor")
 
@@ -358,6 +374,7 @@ fun SetUpNavGraph(
                 onEvent = fourSgpaViewModel::onEvent,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/3805936882",
                 state = fourSgpaUiStates,
                 resultGpaDescriptor = entry.arguments?.getString("ResultGpaDescriptor")
 
@@ -401,6 +418,7 @@ fun SetUpNavGraph(
                 onEvent = fourSgpaViewModel::onEvent,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/6926924244",
                 state = fourSgpaUiStates,
                 resultGpaDescriptor = entry.arguments?.getString("ResultGpaDescriptor")
 
@@ -447,6 +465,7 @@ fun SetUpNavGraph(
                 onEvent = fiveSgpaViewModel::onEvent,
                 navController = navController,
                 adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/7525690045",
                 state = fiveSgpaUiStates,
                 resultGpaDescriptor = entry.arguments?.getString("ResultGpaDescriptor")
             )
@@ -462,7 +481,8 @@ fun SetUpNavGraph(
                 navController = navController,
                 onEvent = fiveSgpaViewModel::onEvent,
                 state = fiveSgpaUiStates,
-                adId = "ca-app-pub-3940256099942544/6300978111"
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                //"ca-app-pub-3656021994888380/7633501252"
 
 
             )
@@ -484,6 +504,7 @@ fun SetUpNavGraph(
                     category = it,
                     navController = navController,
                     adId = "ca-app-pub-3940256099942544/6300978111",
+                    //"ca-app-pub-3656021994888380/1810328936",
                     state = fiveSgpaUiStates,
                     onEvent = fiveSgpaViewModel::onEvent,
                     quizUiState = demoQuizUiStates,

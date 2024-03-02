@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.ads_components.FiveScreensBottomBannerAd
@@ -245,7 +246,12 @@ fun MyCardView(
 //                }
 //            }
 
-            Text(text = info.resultName, fontWeight = FontWeight.Bold)
+            Text(
+                text = info.resultName,
+                fontWeight = FontWeight.Bold,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+            )
             Text(text = info.gp, fontWeight = FontWeight.SemiBold)
             Text(text = info.remark, fontWeight = FontWeight.Bold)
             Text(text = "Tap to open", fontWeight = FontWeight.Light)

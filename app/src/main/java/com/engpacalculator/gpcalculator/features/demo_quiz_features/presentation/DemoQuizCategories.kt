@@ -13,9 +13,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -77,6 +81,19 @@ fun DemoQuizCategoriesScreen(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = AppBars
                 ),
+                navigationIcon = {
+                    IconButton(onClick = {
+                        //navController.navigate(Screen.Home.route)
+                        navController?.popBackStack()
+                        //navController.popBackStack()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back Arrow"
+                        )
+
+                    }
+                },
 
 
                 )

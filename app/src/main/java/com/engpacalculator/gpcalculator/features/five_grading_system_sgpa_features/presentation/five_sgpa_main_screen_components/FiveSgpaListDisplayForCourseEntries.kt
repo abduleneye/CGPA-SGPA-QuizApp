@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.FiveCourseItemsModifierDropDownItems
@@ -253,6 +254,8 @@ fun FiveSgpaMyCardViewForCoursesList(
                     Text(
                         text = info.courseCode,
                         fontWeight = FontWeight.Bold,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
                         modifier = Modifier
                             .weight(0.9f)
                             .wrapContentWidth()

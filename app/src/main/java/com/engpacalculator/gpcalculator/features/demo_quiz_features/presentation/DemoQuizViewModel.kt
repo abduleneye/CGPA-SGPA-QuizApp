@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.engpacalculator.gpcalculator.core.util.Resource
 import com.engpacalculator.gpcalculator.features.demo_quiz_features.domain.repository.QuestionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -38,9 +39,10 @@ class DemoQuizViewModel @Inject constructor(
     fun onEvent(event: DemoQuizUiEventClass) {
         when (event) {
             is DemoQuizUiEventClass.loadData -> {
+                //   if (_demoQuizUiState.value.questionLoadingStatus == 0) {
                 LoadQuestions(event.category, event.amount)
 
-
+                //   }
             }
 
 //            is DemoQuizUiEventClass.setQuizQuestionCategoryOnNavigate -> {
@@ -243,7 +245,8 @@ class DemoQuizViewModel @Inject constructor(
         }
         saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
         viewModelScope.launch {
-            // val questions = myDemoQuizRepository.getQuestions()
+            //delay(5000)
+            //val questions = myDemoQuizRepository.getQuestions()
             myDemoQuizRepository.getQuestions(
                 // _demoQuizUiState.value.demoQuizQuestionCategory
                 category = category,
@@ -268,6 +271,25 @@ class DemoQuizViewModel @Inject constructor(
                                 )
                             }
                             saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
+                            viewModelScope.launch {
+                                _demoQuizUiState.update {
+                                    it.copy(
+                                        questionLoadingStatus = 1
+                                    )
+                                }
+                                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
+                                delay(5000)
+                                _demoQuizUiState.update {
+                                    it.copy(
+                                        questionLoadingStatus = 0
+                                    )
+                                }
+                                saveStateHandle.set(DEMO_QUIZ_UI_STATE_KEY, _demoQuizUiState.value)
+
+
+                            }
 
                         }
 

@@ -85,8 +85,8 @@ fun DefaultCardSample(
                         when (route) {
                             Screen.Quiz_Legit_Screen.route -> {
                                 val params = Bundle()
-                                params.putString("DemoQuizCard", "DemoQuizCardClicked")
-                                mFirebaseAnalytics.logEvent("demoQuizCard", params)
+                                params.putString("RewardingCard", "RewardingQuizCardClicked")
+                                mFirebaseAnalytics.logEvent("rewardingQuizCard", params)
 
                                 Toast
                                     .makeText(
@@ -98,10 +98,10 @@ fun DefaultCardSample(
                                     .show()
                             }
 
-                            Screen.Quiz_Legit_Screen.route -> {
+                            Screen.Demo_Quiz.route -> {
                                 val params = Bundle()
-                                params.putString("LegitQuizCard", "LegitQuizCardClicked")
-                                mFirebaseAnalytics.logEvent("legitQuizCard", params)
+                                params.putString("DemoQuizCard", "DemoQuizCardClicked")
+                                mFirebaseAnalytics.logEvent("demoQuizCard", params)
                                 navController?.navigate(route)
 
 

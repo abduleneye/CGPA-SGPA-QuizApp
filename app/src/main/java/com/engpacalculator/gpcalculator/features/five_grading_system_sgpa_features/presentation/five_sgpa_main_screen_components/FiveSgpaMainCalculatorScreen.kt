@@ -193,7 +193,8 @@ fun FiveSgpaMainScreen(
                     calcViewModel = calcViewModel,
                     dbState = state,
                     navController = navController,
-                    sheetState = sheetState
+                    sheetState = sheetState,
+                    mFirebaseAnalytics = mFirebaseAnalytics
                 )
 
             },

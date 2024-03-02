@@ -1,6 +1,7 @@
 package com.engpacalculator.gpcalculator.quiz_top_level_components
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -57,9 +58,10 @@ fun Quiz_Mode_Screen(
     onEvent: ((FiveGpaUiEvents) -> Unit)?,
     onQuizModeEvent: (DemoQuizUiEventClass) -> Unit,
     quizIntroDBState: DemoQuizUiState,
+    mFirebaseAnalytics: FirebaseAnalytics
 
 
-    ) {
+) {
 
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -100,6 +102,12 @@ fun Quiz_Mode_Screen(
                 actions = {
                     IconButton(
                         onClick = {
+                            val params = Bundle()
+                            params.putString(
+                                "AboutQuizButton",
+                                "AboutQuizButtonClicked"
+                            )
+                            mFirebaseAnalytics.logEvent("AboutQuizButton", params)
                             onQuizModeEvent(DemoQuizUiEventClass.showIntroDialogBoxVisibilty)
 
                         },
@@ -213,7 +221,7 @@ fun Quiz_Mode_Screen(
                     if (navController != null) {
                         DefaultCardSample(
                             mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
-                            textOneInCardBox = "Legit".uppercase(),
+                            textOneInCardBox = "Rewarding".uppercase(),
                             textTwoInCardBox = "(Mode)".uppercase(),
                             navController = navController,
                             route = Screen.Quiz_Legit_Screen.route,

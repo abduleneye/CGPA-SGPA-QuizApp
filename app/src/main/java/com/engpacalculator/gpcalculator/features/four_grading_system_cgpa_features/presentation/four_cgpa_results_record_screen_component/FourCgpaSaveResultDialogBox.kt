@@ -1,5 +1,6 @@
 package com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.presentation.four_cgpa_results_record_screen_component
 
+import android.os.Bundle
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,6 +35,7 @@ import com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_featur
 import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourGpaUiEvents
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -41,7 +43,8 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 fun FourCgpaSaveResultDialogBox(
     onEvent: (FourGpaUiEvents) -> Unit,
     fourCgpaUiStates: FourCgpaUiStates,
-    sheetState: BottomSheetState
+    sheetState: BottomSheetState,
+    mFirebaseAnalytics: FirebaseAnalytics
 
 
 ) {
@@ -163,6 +166,14 @@ fun FourCgpaSaveResultDialogBox(
 
                         Button(
                             onClick = {
+
+                                val params = Bundle()
+                                params.putString(
+                                    "FourCgpaSaveResultButton",
+                                    "FourCgpaSaveResultButtonClicked"
+                                )
+                                mFirebaseAnalytics.logEvent("FourCgpaSaveResultButton", params)
+
 
                                 onEvent(FourGpaUiEvents.saveFourCgpaResult)
                                 // onEvent(FourGpaUiEvents.hideFourCgpaSaveResultDB)

@@ -1,6 +1,7 @@
 package com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.four_sgpa_results_record_screen_component
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.ads_components.FourScreensBottomBannerAd
@@ -45,6 +47,7 @@ import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.presentation.FourSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 
 
@@ -72,7 +75,9 @@ fun FourSgpaResultRecordScreen(
     fourSgpaResultRecordState: FourSgpaResultsRecordState,
     adId: String?,
     viewModel: FourGpaViewModel,
-    onEvent: (FourGpaUiEvents) -> Unit
+    onEvent: (FourGpaUiEvents) -> Unit,
+    mFirebaseAnalytics: FirebaseAnalytics
+
 
 ) {
 
@@ -145,7 +150,9 @@ fun FourSgpaResultRecordScreen(
                 navController = navController,
                 onEvent = onEvent,
                 viewModel = viewModel,
-                helperPadder = it
+                helperPadder = it,
+                mFirebaseAnalytics = mFirebaseAnalytics
+
 
             )
 
@@ -168,9 +175,10 @@ fun FourSgpaMyCardView(
     state: FourSgpaUiStates,
     onEvent: (FourGpaUiEvents) -> Unit,
     viewModel: FourGpaViewModel,
+    mFirebaseAnalytics: FirebaseAnalytics
 
 
-    ) {
+) {
 
     val json = Gson().toJson(info.resultEntries)
 
@@ -208,6 +216,13 @@ fun FourSgpaMyCardView(
                 .fillMaxSize()
                 .clickable
                 {
+
+                    val params = Bundle()
+                    params.putString(
+                        "FourSgpaResultRecordButton",
+                        "FourSgpaResultRecordButtonClicked"
+                    )
+                    mFirebaseAnalytics.logEvent("FourSgpaResultRecordButton", params)
                     navController.navigate(
                         Screen.Four_Sgpa_Full_Records_Screen.withArgs(
                             info.resultName,
@@ -230,7 +245,12 @@ fun FourSgpaMyCardView(
 //                }
 //            }
 
-            Text(text = info.resultName, fontWeight = FontWeight.Bold)
+            Text(
+                text = info.resultName,
+                fontWeight = FontWeight.Bold,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+            )
             Text(text = info.gp, fontWeight = FontWeight.SemiBold)
             Text(text = info.remark, fontWeight = FontWeight.Bold)
             Text(text = "Tap to open", fontWeight = FontWeight.Light)
@@ -254,7 +274,9 @@ fun FourSgpaResultRecordToDisplay(
     navController: NavController,
     onEvent: (FourGpaUiEvents) -> Unit,
     viewModel: FourGpaViewModel,
-    helperPadder: PaddingValues
+    helperPadder: PaddingValues,
+    mFirebaseAnalytics: FirebaseAnalytics
+
 
 ) {
     val state = rememberLazyListState()
@@ -290,7 +312,9 @@ fun FourSgpaResultRecordToDisplay(
                 navController = navController,
                 onEvent = onEvent,
                 viewModel = viewModel,
-                helperPadder = helperPadder
+                helperPadder = helperPadder,
+                mFirebaseAnalytics = mFirebaseAnalytics
+
 
             )
 

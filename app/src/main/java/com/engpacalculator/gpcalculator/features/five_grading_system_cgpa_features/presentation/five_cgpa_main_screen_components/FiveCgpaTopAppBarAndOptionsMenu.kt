@@ -1,5 +1,6 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.presentation.five_cgpa_main_screen_components
 
+import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -42,6 +43,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
@@ -51,7 +53,8 @@ fun FiveCgpaTopAppBarAndOptionsMenu(
     calcViewModel: FiveGpaViewModel,
     dbState: FiveCgpaUiStates,
     navController: NavController,
-    sheetState: BottomSheetState
+    sheetState: BottomSheetState,
+    mFirebaseAnalytics: FirebaseAnalytics
 
 ) {
     var optionsMenuState by remember {
@@ -128,6 +131,12 @@ fun FiveCgpaTopAppBarAndOptionsMenu(
 //About Item
 
                 DropdownMenuItem(onClick = {
+                    val params = Bundle()
+                    params.putString(
+                        "FiveCgpaAboutButton",
+                        "FiveCgpaAboutButtonClicked"
+                    )
+                    mFirebaseAnalytics.logEvent("FiveCgpaAboutButton", params)
                     onEvent(FiveGpaUiEvents.showFiveCgpaIntroDialogBox)
                     optionsMenuState = !optionsMenuState
 

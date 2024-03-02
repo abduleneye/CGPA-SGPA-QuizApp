@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.BottomSheetState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -63,20 +64,19 @@ fun FiveSgpaResultBottomSheetContent(
         contentAlignment = Alignment.TopCenter
     ) {
 
-        Column(
+        LazyColumn(
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            item {
+                Icon(
+                    painter = painterResource(id = R.drawable.horizontal_rule),
+                    contentDescription = "handle",
+                    modifier = Modifier
+                        .padding(top = 0.dp),
+                    tint = Color.DarkGray
 
-
-            Icon(
-                painter = painterResource(id = R.drawable.horizontal_rule),
-                contentDescription = "handle",
-                modifier = Modifier
-                    .padding(top = 0.dp),
-                tint = Color.DarkGray
-
-            )
+                )
 
 //            Button(onClick = {
 //                onEvent(FiveGpaUiEvents.showSaveResultDBox)
@@ -87,71 +87,77 @@ fun FiveSgpaResultBottomSheetContent(
 //
 //            }
 
-            Row(
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.End,
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(end = 10.dp)
                 ) {
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.save_icon_foreground),
-                        contentDescription = "handle",
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.End,
                         modifier = Modifier
-                            .padding(top = 0.dp)
-                            .size(64.dp)
-                            .clickable {
-                                onEvent(FiveGpaUiEvents.showSaveResultDBox)
-                            },
-                        tint = Color.DarkGray
+                            .fillMaxWidth()
+                            .padding(end = 10.dp)
+                    ) {
 
-                    )
-                    Text(text = "Save as")
+                        Icon(
+                            painter = painterResource(id = R.drawable.save_icon_foreground),
+                            contentDescription = "handle",
+                            modifier = Modifier
+                                .padding(top = 0.dp)
+                                .size(64.dp)
+                                .clickable {
+                                    onEvent(FiveGpaUiEvents.showSaveResultDBox)
+                                },
+                            tint = Color.DarkGray
+
+                        )
+                        Text(text = "Save as")
+
+
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Divider(
+                    thickness = 2.dp,
+                    color = Color.DarkGray
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Row {
+                    Text(text = "Your SGPA is:", fontSize = 20.sp)
 
 
                 }
+                //Spacer(modifier = Modifier.height(3.dp))
+
+                Text(
+                    text = "${state.fiveSgpaFinalResult}",
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                //Spacer(modifier = Modifier.height(3.dp))
+
+                Text(
+                    text = "${state.gpaDescriptor}",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Medium
+                )
+
+                //  Spacer(modifier = Modifier.height(3.dp))
+
+                Text(
+                    text = "${state.remark}",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Light,
+                    modifier = Modifier.padding(bottom = 20.dp)
+                )
+
             }
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Divider(
-                thickness = 2.dp,
-                color = Color.DarkGray
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Row {
-                Text(text = "Your SGPA is:", fontSize = 20.sp)
-
-
-            }
-            //Spacer(modifier = Modifier.height(3.dp))
-
-            Text(
-                text = "${state.fiveSgpaFinalResult}",
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            //Spacer(modifier = Modifier.height(3.dp))
-
-            Text(text = "${state.gpaDescriptor}", fontSize = 20.sp, fontWeight = FontWeight.Medium)
-
-            //  Spacer(modifier = Modifier.height(3.dp))
-
-            Text(
-                text = "${state.remark}",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Light,
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
 
 
         }
