@@ -39,6 +39,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -142,6 +143,7 @@ fun DemoQuizCategoriesScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
+                            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
                             textOneInCardBox = "Sciences".uppercase(),
                             textTwoInCardBox = "(Demo)".uppercase(),
                             navController = navController,
@@ -163,6 +165,7 @@ fun DemoQuizCategoriesScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
+                            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
                             textOneInCardBox = "Art".uppercase(),
                             textTwoInCardBox = "(Demo)".uppercase(),
                             navController = navController,
@@ -196,6 +199,7 @@ fun DemoQuizCategoriesScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
+                            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
                             textOneInCardBox = "Mythology".uppercase(),
                             textTwoInCardBox = "(Demo)".uppercase(),
                             navController = navController,
@@ -215,9 +219,10 @@ fun DemoQuizCategoriesScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
+                            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
                             textOneInCardBox = "History".uppercase(),
                             textTwoInCardBox = "(Demo)".uppercase(),
-                            navController,
+                            navController = navController,
                             route = Screen.Demo_Quiz.withArgs(
                                 "History"
                             ),

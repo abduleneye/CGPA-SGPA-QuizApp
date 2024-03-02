@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -36,6 +37,7 @@ import com.engpacalculator.gpcalculator.four_grading_system_top_level_components
 import com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component.FiveSgpaMainScreen
 import com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_screen_component.FourSgpaMainScreen
 import com.engpacalculator.gpcalculator.quiz_top_level_components.Quiz_Mode_Screen
+import com.google.firebase.analytics.FirebaseAnalytics
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -43,11 +45,13 @@ fun SetUpNavGraph(
     navController: NavHostController,
     fiveGpaViewModel: FiveGpaViewModel,
     fourGpaViewModel: FourGpaViewModel,
-    demoQuizViewModel: DemoQuizViewModel
+    demoQuizViewModel: DemoQuizViewModel,
+    mFirebaseAnalytics: FirebaseAnalytics
 
 
 ) {
     //val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val context = LocalContext.current
     val fiveSgpaViewModel = fiveGpaViewModel
     val fourSgpaViewModel = fourGpaViewModel
     val demoQuizViewModel = demoQuizViewModel
@@ -96,7 +100,8 @@ fun SetUpNavGraph(
                     navController = navController,
                     onEvent = fiveSgpaViewModel::onEvent,
                     state = fiveSgpaUiStates,
-                    adId = "ca-app-pub-3940256099942544/6300978111"
+                    adId = "ca-app-pub-3940256099942544/6300978111",
+                    mFirebaseAnalytics = mFirebaseAnalytics
                 )
 
 
@@ -113,7 +118,8 @@ fun SetUpNavGraph(
                 // Test Ad unit ca-app-pub-3940256099942544/6300978111
 
                 state = fiveSgpaUiStates,
-                onEvent = fiveSgpaViewModel::onEvent
+                onEvent = fiveSgpaViewModel::onEvent,
+                mFirebaseAnalytics = mFirebaseAnalytics
 
 
             )
@@ -137,7 +143,8 @@ fun SetUpNavGraph(
                 stateTwo = fiveSgpaCourseEntriesState,
                 calcViewModel = fiveSgpaViewModel,
                 navController = navController,
-                adId = "ca-app-pub-3940256099942544/6300978111"
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                mFirebaseAnalytics = mFirebaseAnalytics
                 //ca-app-pub-3656021994888380/3450364305
                 // Test Ad unit ca-app-pub-3940256099942544/6300978111
             )
@@ -217,7 +224,8 @@ fun SetUpNavGraph(
                 viewModel = fiveSgpaViewModel,
                 onEvent = fiveSgpaViewModel::onEvent,
                 state = fiveSgpaUiStates,
-                adId = "ca-app-pub-3940256099942544/6300978111"
+                adId = "ca-app-pub-3940256099942544/6300978111",
+                mFirebaseAnalytics = mFirebaseAnalytics
             )
         }
 

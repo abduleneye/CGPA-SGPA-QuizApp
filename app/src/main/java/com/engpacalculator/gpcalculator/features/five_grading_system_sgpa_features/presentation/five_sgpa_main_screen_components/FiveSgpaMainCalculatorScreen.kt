@@ -37,6 +37,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component.FiveSgpaSaveResultDialogBox
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.coroutines.launch
 
 
@@ -50,6 +51,8 @@ fun FiveSgpaMainScreen(
     calcViewModel: FiveGpaViewModel,
     navController: NavController,
     adId: String,
+    mFirebaseAnalytics: FirebaseAnalytics
+
 ) {
 
     val context = LocalContext.current
@@ -351,7 +354,8 @@ fun FiveSgpaMainScreen(
                 FiveSgpaSaveResultDialogBox(
                     onEvent = onEvent,
                     dbState = state,
-                    sheetState = sheetState
+                    sheetState = sheetState,
+                    mFirebaseAnalytics = mFirebaseAnalytics
                 )
             } else {
 

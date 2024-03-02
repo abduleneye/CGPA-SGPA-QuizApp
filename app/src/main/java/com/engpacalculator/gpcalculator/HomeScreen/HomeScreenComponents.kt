@@ -6,6 +6,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -57,6 +58,7 @@ import com.engpacalculator.gpcalculator.ui.theme.Cream
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.messaging
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -68,7 +70,9 @@ fun HomeScreen(
     navController: NavController?,
     adId: String?,
     state: FiveSgpaUiStates?,
-    onEvent: ((FiveGpaUiEvents) -> Unit)?
+    onEvent: ((FiveGpaUiEvents) -> Unit)?,
+    mFirebaseAnalytics: FirebaseAnalytics
+
 
 ) {
 
@@ -120,6 +124,10 @@ fun HomeScreen(
                 actions = {
                     IconButton(
                         onClick = {
+
+                            val params = Bundle()
+                            params.putString("AppUpdateButton", "AppUpdateButtonClicked")
+                            mFirebaseAnalytics.logEvent("appUpdateButton", params)
 
                             scope.launch {
                                 val localToken = Firebase.messaging.token.await()
@@ -321,10 +329,11 @@ fun HomeScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
+                            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
                             textOneInCardBox = "5.0 grading system".uppercase(),
                             textTwoInCardBox = "(Universities)".uppercase(),
                             navController = navController,
-                            Screen.Five_Screen.route,
+                            route = Screen.Five_Screen.route,
                             modifier = Modifier
                                 .height(164.dp)
                                 .weight(0.5f)
@@ -333,6 +342,7 @@ fun HomeScreen(
 
 
                         )
+
                     }
 
                     Spacer(modifier = Modifier.width(24.dp))
@@ -340,10 +350,11 @@ fun HomeScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
+                            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
                             textOneInCardBox = "4.0 grading system".uppercase(),
                             textTwoInCardBox = "(polytechnics)".uppercase(),
                             navController = navController,
-                            Screen.Four_Screen.route,
+                            route = Screen.Four_Screen.route,
                             modifier = Modifier
                                 .height(164.dp)
                                 .weight(0.5f)
@@ -372,10 +383,11 @@ fun HomeScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
+                            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
                             textOneInCardBox = "quiz".uppercase(),
                             textTwoInCardBox = "(Section)".uppercase(),
                             navController = navController,
-                            Screen.Quiz_Mode_Screen.route,
+                            route = Screen.Quiz_Mode_Screen.route,
                             modifier = Modifier
                                 .height(164.dp)
                                 .weight(0.5f)
@@ -389,10 +401,11 @@ fun HomeScreen(
 
                     if (navController != null) {
                         DefaultCardSample(
+                            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
                             textOneInCardBox = "About".uppercase(),
                             textTwoInCardBox = "(App and developer)".uppercase(),
-                            navController,
-                            Screen.About.route,
+                            navController = navController,
+                            route = Screen.About.route,
                             modifier = Modifier
                                 .height(164.dp)
                                 .weight(0.5f)
@@ -420,5 +433,5 @@ fun HomeScreen(
 fun HomeScreenPreview(
 
 ) {
-    HomeScreen(navController = null, null, state = null, onEvent = null)
+    //HomeScreen(navController = null, null, state = null, onEvent = null)
 }

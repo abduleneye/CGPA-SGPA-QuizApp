@@ -1,6 +1,7 @@
 package com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.five_sgpa_results_record_screen_component
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +45,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 
 
@@ -71,7 +73,9 @@ fun FiveSgpaResultRecordScreen(
     fiveSgpaResultRecordState: FiveSgpaResultsRecordState,
     adId: String?,
     viewModel: FiveGpaViewModel,
-    onEvent: (FiveGpaUiEvents) -> Unit
+    onEvent: (FiveGpaUiEvents) -> Unit,
+    mFirebaseAnalytics: FirebaseAnalytics
+
 
 ) {
 
@@ -144,7 +148,9 @@ fun FiveSgpaResultRecordScreen(
                 navController = navController,
                 onEvent = onEvent,
                 viewModel = viewModel,
-                helperPadder = it
+                helperPadder = it,
+                mFirebaseAnalytics = mFirebaseAnalytics
+
 
             )
 
@@ -167,9 +173,10 @@ fun MyCardView(
     state: FiveSgpaUiStates,
     onEvent: (FiveGpaUiEvents) -> Unit,
     viewModel: FiveGpaViewModel,
+    mFirebaseAnalytics: FirebaseAnalytics
 
 
-    ) {
+) {
 
     val json = Gson().toJson(info.resultEntries)
 
@@ -207,6 +214,13 @@ fun MyCardView(
                 .fillMaxSize()
                 .clickable
                 {
+                    val params = Bundle()
+                    params.putString(
+                        "FiveSgpaResultButton",
+                        "FiveSgpaResultButtonClicked"
+                    )
+                    mFirebaseAnalytics.logEvent("FiveSgpaResultButton", params)
+
                     navController.navigate(
                         Screen.Five_Sgpa_Full_Records_Screen.withArgs(
                             info.resultName,
@@ -255,7 +269,9 @@ fun ResultRecordToDisplay(
     navController: NavController,
     onEvent: (FiveGpaUiEvents) -> Unit,
     viewModel: FiveGpaViewModel,
-    helperPadder: PaddingValues
+    helperPadder: PaddingValues,
+    mFirebaseAnalytics: FirebaseAnalytics
+
 
 ) {
     val state = rememberLazyListState()
@@ -291,7 +307,9 @@ fun ResultRecordToDisplay(
                 navController = navController,
                 onEvent = onEvent,
                 viewModel = viewModel,
-                helperPadder = helperPadder
+                helperPadder = helperPadder,
+                mFirebaseAnalytics = mFirebaseAnalytics
+
 
             )
 

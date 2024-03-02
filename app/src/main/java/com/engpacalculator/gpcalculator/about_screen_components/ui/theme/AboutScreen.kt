@@ -2,6 +2,7 @@ package com.engpacalculator.gpcalculator.about_screen_components.ui.theme
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -47,6 +48,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +56,9 @@ fun AboutScreen(
     navController: NavController,
     adId: String,
     state: FiveSgpaUiStates,
-    onEvent: (FiveGpaUiEvents) -> Unit
+    onEvent: (FiveGpaUiEvents) -> Unit,
+    mFirebaseAnalytics: FirebaseAnalytics
+
 
 ) {
 //    val navController = rememberNavController()
@@ -139,7 +143,7 @@ fun AboutScreen(
                     elevation = CardDefaults.cardElevation(8.dp),
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier
-                        .height(450.dp)
+                        .height(500.dp)
                         .fillMaxWidth()
                         .padding(top = 16.dp, start = 10.dp, end = 10.dp),
                     colors = CardDefaults.cardColors(
@@ -173,14 +177,15 @@ fun AboutScreen(
                             modifier = Modifier
                                 .padding(10.dp)
                                 .fillMaxSize(),
-                            text = "EnGPA(Grade point average)Calculator is an app developed as a hobby project for university students using the(5.0) grading system.\n" +
-                                    "Manage your course entries, calculate your (SGPA) and simulate your future performance with different scenarios.\n" +
+                            text = "EnGPA(Grade point average)Calculator is an app developed as a hobby project for university and polytechnic students using the(5.0) and (4.0) grading system respectively.\n" +
+                                    "Manage your course entries, calculate your (SGPA),(CGPA) and simulate your future performance with different scenarios.\n" +
                                     "Key features include:\n" +
                                     "Easy Course Management: Add, edit, and remove course details seamlessly.\n" +
-                                    "Accurate (SGPA) Calculation: Effortlessly calculate your (SGPA) based on your  course grades and credit loads.\n" +
+                                    "Result Storage: Save and retrieve your results seamlessly.\n" +
+                                    "Accurate (SGPA) and (CGPA) Calculation: Effortlessly calculate your (SGPA) and (CGPA) based on your  course grades and credit loads.\n" +
                                     "Simulation Analysis: Use our simulation capability by editing your course entry grades  and credit unit to  explore how your (SGPA) might change under different circumstances.\n" +
-                                    "For now the calculator can only calculate your  gpa per semester basis i.e (SGPA)  future app updates will be able to calculate your (CGPA) and packed with more features, so stay tuned for updates.\n" +
-                                    "Tip: Long press on a course entry to edit  details and simulate your  result.\n",
+                                    "We've also added a quiz section as a bonus, more info in the quiz section.\n" +
+                                    "Tip: Click  on the three dots on  a course entry to edit or remove course details and simulate your  result.\n",
                             textAlign = TextAlign.Start,
                             fontSize = 15.sp,
 
@@ -199,7 +204,7 @@ fun AboutScreen(
                     elevation = CardDefaults.cardElevation(8.dp),
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier
-                        .height(450.dp)
+                        .height(460.dp)
                         .fillMaxWidth()
                         .padding(
                             top = 16.dp,
@@ -236,7 +241,7 @@ fun AboutScreen(
                                 .fillMaxWidth(),
                             text = "Abdulhameed Abdulhakeem Eneye is a passionate tech enthusiast currently pursuing studies at the Federal University of Technology Minna,\n" +
                                     "Although relatively new to android development, he loves exploring the latest tools and technologies.\n" +
-                                    "Abdulhameed has keen interest in open source projects and is open to freelance opportunities.\n" +
+                                    "Abdulhakeem has keen interest in open source projects and is open to freelance opportunities.\n" +
                                     "Get in touch with Abdulhameed for: new app  features request, collaborations and projects through the platforms below:\n",
                             textAlign = TextAlign.Start,
                             fontSize = 15.sp,
@@ -258,6 +263,12 @@ fun AboutScreen(
                                 modifier = Modifier
                                     .padding(top = 0.dp)
                                     .clickable {
+                                        val params = Bundle()
+                                        params.putString(
+                                            "GmailButton",
+                                            "GmailButtonClicked"
+                                        )
+                                        mFirebaseAnalytics.logEvent("gmailButton", params)
                                         val recipientEmail = "abdulhakeemab15@gmail.com"
                                         val subject = "Contacting Developer"
                                         val message = "Write something"
@@ -286,6 +297,13 @@ fun AboutScreen(
                                 modifier = Modifier
                                     .padding(top = 0.dp)
                                     .clickable {
+                                        val params = Bundle()
+                                        params.putString(
+                                            "WhatsappButton",
+                                            "WhatsappButtonClicked"
+                                        )
+                                        mFirebaseAnalytics.logEvent("whatsappButton", params)
+
                                         val phoneNumber = "+2347018341516"
                                         val smsPhoneNumber = "+2347035106986"
                                         val message = "Hello, Contacting Developer"
@@ -327,6 +345,12 @@ fun AboutScreen(
                                 modifier = Modifier
                                     .padding(top = 0.dp)
                                     .clickable {
+                                        val params = Bundle()
+                                        params.putString(
+                                            "LinkdnButton",
+                                            "LinkdnButtonClicked"
+                                        )
+                                        mFirebaseAnalytics.logEvent("linkdnButton", params)
                                         val linkdInProfileUrl =
                                             "https://www.linkedin.com/in/abdulhakeem-eneye-127b93274?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
                                         val intent =

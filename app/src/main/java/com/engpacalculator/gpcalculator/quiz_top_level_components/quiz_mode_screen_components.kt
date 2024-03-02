@@ -44,6 +44,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -193,10 +194,11 @@ fun Quiz_Mode_Screen(
 
                     if (navController != null) {
                         DefaultCardSample(
+                            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
                             textOneInCardBox = "Demo".uppercase(),
                             textTwoInCardBox = "(Mode)".uppercase(),
                             navController = navController,
-                            Screen.Quiz_Demo_Screen_Categories.route,
+                            route = Screen.Quiz_Demo_Screen_Categories.route,
                             modifier = Modifier
                                 .height(164.dp)
                                 .weight(0.5f)
@@ -210,10 +212,11 @@ fun Quiz_Mode_Screen(
 
                     if (navController != null) {
                         DefaultCardSample(
+                            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
                             textOneInCardBox = "Legit".uppercase(),
                             textTwoInCardBox = "(Mode)".uppercase(),
                             navController = navController,
-                            Screen.Quiz_Legit_Screen.route,
+                            route = Screen.Quiz_Legit_Screen.route,
                             modifier = Modifier
                                 .height(164.dp)
                                 .weight(0.5f)

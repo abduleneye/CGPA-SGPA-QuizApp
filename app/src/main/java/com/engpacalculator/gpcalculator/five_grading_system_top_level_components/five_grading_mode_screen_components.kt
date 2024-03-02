@@ -25,6 +25,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -35,6 +36,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -47,6 +49,7 @@ fun Five_Grading_System_Mode_Screen(
     onEvent: ((FiveGpaUiEvents) -> Unit)?
 
 ) {
+    val context = LocalContext.current
 
     Scaffold(
         modifier = Modifier
@@ -130,10 +133,12 @@ fun Five_Grading_System_Mode_Screen(
 
                     if (navController != null) {
                         DefaultCardSample(
+                            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
+
                             textOneInCardBox = "sgpa".uppercase(),
                             textTwoInCardBox = "(semesterial gpa)".uppercase(),
                             navController = navController,
-                            Screen.Five_Sgpa_Screen.route,
+                            route = Screen.Five_Sgpa_Screen.route,
                             modifier = Modifier
                                 .height(164.dp)
                                 .weight(0.5f)
@@ -148,10 +153,11 @@ fun Five_Grading_System_Mode_Screen(
 
                     if (navController != null) {
                         DefaultCardSample(
+                            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context),
                             textOneInCardBox = "cgpa".uppercase(),
                             textTwoInCardBox = "(Cumulative gpa)".uppercase(),
                             navController = navController,
-                            Screen.Five_Cgpa_Screen.route,
+                            route = Screen.Five_Cgpa_Screen.route,
                             modifier = Modifier
                                 .height(164.dp)
                                 .weight(0.5f)

@@ -36,16 +36,20 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     @OptIn(DelicateCoroutinesApi::class, ExperimentalPermissionsApi::class)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         setContent {
 
+            firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
 
             MobileAds.initialize(this)
-            FirebaseAnalytics.getInstance(this)
 
 
             val token = FirebaseMessaging.getInstance().token
@@ -107,7 +111,8 @@ class MainActivity : ComponentActivity(), OnBackPressedDispatcherOwner {
                             navController = navController,
                             fiveGpaViewModel = fiveGpaViewModel,
                             fourGpaViewModel = fourGpaViewModel,
-                            demoQuizViewModel = demoQuizViewModel
+                            demoQuizViewModel = demoQuizViewModel,
+                            mFirebaseAnalytics = firebaseAnalytics
                         )
 
 

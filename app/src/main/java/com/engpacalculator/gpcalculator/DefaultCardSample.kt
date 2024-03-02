@@ -1,5 +1,6 @@
 package com.engpacalculator.gpcalculator
 
+import android.os.Bundle
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 
 @Composable
 fun DefaultCardSample(
@@ -29,7 +31,8 @@ fun DefaultCardSample(
     textTwoInCardBox: String,
     navController: NavController?,
     route: String?,
-    modifier: Modifier
+    modifier: Modifier,
+    mFirebaseAnalytics: FirebaseAnalytics
 ) {
 
     val context = LocalContext.current
@@ -38,11 +41,6 @@ fun DefaultCardSample(
         elevation = CardDefaults.cardElevation(8.dp),
         shape = RoundedCornerShape(16.dp),
         modifier = modifier
-
-//        modifier = Modifier
-//            .height(164.dp)
-//            .width(164.dp)
-
 
     ) {
 
@@ -54,20 +52,127 @@ fun DefaultCardSample(
                 .background(color = Cream)
                 .clickable {
                     if (route != null) {
-                        if (route == Screen.Quiz_Legit_Screen.route) {
-                            Toast
-                                .makeText(
-                                    context,
-                                    "Under Development," +
-                                            "Still Cooking...",
-                                    Toast.LENGTH_LONG
-                                )
-                                .show()
+                        when (textOneInCardBox) {
+                            "Sciences".uppercase() -> {
+                                val params = Bundle()
+                                params.putString("SciencesQuizCard", "SciencesQuizCardClicked")
+                                mFirebaseAnalytics.logEvent("sciencesQuizCard", params)
 
-                        } else {
-                            navController?.navigate(route)
+                            }
+
+                            "Art".uppercase() -> {
+                                val params = Bundle()
+                                params.putString("ArtQuizCard", "ArtQuizCardClicked")
+                                mFirebaseAnalytics.logEvent("artQuizCard", params)
+
+                            }
+
+                            "History".uppercase() -> {
+                                val params = Bundle()
+                                params.putString("HistoryQuizCard", "HistoryQuizCardClicked")
+                                mFirebaseAnalytics.logEvent("historyQuizCard", params)
+
+                            }
+
+                            "Mythology".uppercase() -> {
+                                val params = Bundle()
+                                params.putString("MythologyQuizCard", "MythologyQuizCardClicked")
+                                mFirebaseAnalytics.logEvent("mythologyQuizCard", params)
+
+                            }
 
                         }
+                        when (route) {
+                            Screen.Quiz_Legit_Screen.route -> {
+                                val params = Bundle()
+                                params.putString("DemoQuizCard", "DemoQuizCardClicked")
+                                mFirebaseAnalytics.logEvent("demoQuizCard", params)
+
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Under Development," +
+                                                "Still Cooking...",
+                                        Toast.LENGTH_LONG
+                                    )
+                                    .show()
+                            }
+
+                            Screen.Quiz_Legit_Screen.route -> {
+                                val params = Bundle()
+                                params.putString("LegitQuizCard", "LegitQuizCardClicked")
+                                mFirebaseAnalytics.logEvent("legitQuizCard", params)
+                                navController?.navigate(route)
+
+
+                            }
+
+                            Screen.Quiz_Mode_Screen.route -> {
+                                val params = Bundle()
+                                params.putString("QuizSectionCard", "QuizSectionCardClicked")
+                                mFirebaseAnalytics.logEvent("quizSectionCard", params)
+                                navController?.navigate(route)
+
+
+                            }
+
+                            Screen.Five_Screen.route -> {
+                                val params = Bundle()
+                                params.putString("FiveGpaCard", "FiveGpaCardClicked")
+                                mFirebaseAnalytics.logEvent("fiveGpaScreen", params)
+                                navController?.navigate(route)
+
+                            }
+
+                            Screen.Five_Sgpa_Screen.route -> {
+                                val params = Bundle()
+                                params.putString("FiveSgpaCard", "FiveSgpaCardClicked")
+                                mFirebaseAnalytics.logEvent("fiveSgpaCard", params)
+                                navController?.navigate(route)
+
+                            }
+
+                            Screen.Five_Cgpa_Screen.route -> {
+                                val params = Bundle()
+                                params.putString("FiveCgpaCard", "FiveCgpaCardClicked")
+                                mFirebaseAnalytics.logEvent("fiveCgpaCard", params)
+                                navController?.navigate(route)
+
+                            }
+
+                            Screen.Four_Screen.route -> {
+                                val params = Bundle()
+                                params.putString("FourGpaCard", "FourGpaCardClicked")
+                                mFirebaseAnalytics.logEvent("fourGpaScreen", params)
+                                navController?.navigate(route)
+
+                            }
+
+                            Screen.Four_Sgpa_Screen.route -> {
+                                val params = Bundle()
+                                params.putString("FourSgpaCard", "FourSgpaCardClicked")
+                                mFirebaseAnalytics.logEvent("fourSgpaCard", params)
+                                navController?.navigate(route)
+
+                            }
+
+                            Screen.Four_Cgpa_Screen.route -> {
+                                val params = Bundle()
+                                params.putString("FourCgpaCard", "FourCgpaCardClicked")
+                                mFirebaseAnalytics.logEvent("fourCgpaCard", params)
+                                navController?.navigate(route)
+
+                            }
+
+                            else -> {
+
+                                navController?.navigate(route)
+
+                            }
+
+
+                        }
+
                     }
                 },
         ) {
