@@ -146,7 +146,7 @@ fun SetUpNavGraph(
                 adId = "ca-app-pub-3940256099942544/6300978111",
                 mFirebaseAnalytics = mFirebaseAnalytics
                 //ca-app-pub-3656021994888380/3450364305
-                // Test Ad unit ca-app-pub-3940256099942544/6300978111
+                /// Test Ad unit ca-app-pub-3940256099942544/6300978111
             )
 
         }
