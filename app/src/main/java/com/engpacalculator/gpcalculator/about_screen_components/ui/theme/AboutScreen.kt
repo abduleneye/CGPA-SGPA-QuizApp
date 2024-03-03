@@ -328,7 +328,7 @@ fun AboutScreen(
                     elevation = CardDefaults.cardElevation(8.dp),
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier
-                        .height(520.dp)
+                        .height(560.dp)
                         .fillMaxWidth()
                         .padding(
                             top = 4.dp,
@@ -372,10 +372,10 @@ fun AboutScreen(
                                     "Key features include:\n" +
                                     "Easy Course Management: Add, edit, and remove course details seamlessly.\n" +
                                     "Result Storage: Save and retrieve your results seamlessly.\n" +
-                                    "Accurate (SGPA) and (CGPA) Calculation: Effortlessly calculate your (SGPA) and (CGPA) based on your  course grades and credit loads.\n" +
-                                    "Simulation Analysis: Use our simulation capability by editing your course entry grades  and credit unit to  explore how your (SGPA) might change under different circumstances.\n" +
+                                    "Accurate (SGPA) and (CGPA) Calculation: Effortlessly calculate your (SGPA) and (CGPA) based on your course grades and credit loads.\n" +
+                                    "Simulation Analysis: Use our simulation capability by editing your course entry grades  and credit unit to explore how your (SGPA) and  (CGPA) might change under different circumstances.\n" +
                                     "We've also added a quiz section as a bonus, more info in the quiz section.\n" +
-                                    "Tip: Click  on the three dots on  a course entry to edit or remove course details and simulate your  result.\n",
+                                    "Tip: Click  on the three dots on  a course entry to edit or remove course details and simulate your result.\n",
                             textAlign = TextAlign.Start,
                             fontSize = 15.sp,
 
