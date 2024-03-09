@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -217,14 +218,16 @@ fun FiveSgpaFullResultScreen(
                                     text = "course(s)",
                                     modifier = Modifier,
                                     fontWeight = FontWeight.Bold,
-                                    fontSize = 12.sp
+                                    fontSize = 12.sp,
+                                    textAlign = TextAlign.Center
                                     //.fillMaxHeight()
                                 )
                                 Text(
                                     text = "grade(s)",
                                     modifier = Modifier,
                                     fontWeight = FontWeight.Bold,
-                                    fontSize = 12.sp
+                                    fontSize = 12.sp,
+                                    textAlign = TextAlign.Center
 
 
                                     // .fillMaxHeight()
@@ -233,7 +236,8 @@ fun FiveSgpaFullResultScreen(
                                     text = "unit(s)",
                                     modifier = Modifier,
                                     fontWeight = FontWeight.Bold,
-                                    fontSize = 12.sp
+                                    fontSize = 12.sp,
+                                    textAlign = TextAlign.Center
 
 
                                     //.fillMaxHeight()
@@ -256,7 +260,7 @@ fun FiveSgpaFullResultScreen(
 
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceAround,
+                                horizontalArrangement = Arrangement.SpaceBetween,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(start = 16.dp, end = 16.dp)
@@ -265,7 +269,9 @@ fun FiveSgpaFullResultScreen(
                                 Text(
                                     text = deserializedList[index].courseCode,
                                     modifier = Modifier,
-                                    fontSize = 12.sp
+                                    fontSize = 12.sp,
+                                    textAlign = TextAlign.Center,
+
 
                                     //  .fillMaxHeight()
                                 )
@@ -273,7 +279,9 @@ fun FiveSgpaFullResultScreen(
                                 Text(
                                     text = deserializedList[index].courseGrade,
                                     modifier = Modifier,
-                                    fontSize = 12.sp
+                                    fontSize = 12.sp,
+                                    textAlign = TextAlign.Center
+
 
                                     // .fillMaxHeight()
                                 )
@@ -281,7 +289,9 @@ fun FiveSgpaFullResultScreen(
                                 Text(
                                     text = deserializedList[index].courseUnit.toString(),
                                     modifier = Modifier,
-                                    fontSize = 12.sp
+                                    fontSize = 12.sp,
+                                    textAlign = TextAlign.Center
+
 
                                     // .fillMaxHeight()
                                 )

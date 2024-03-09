@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -63,6 +64,7 @@ import com.google.firebase.messaging.messaging
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -76,7 +78,8 @@ fun HomeScreen(
 
 ) {
 
-    val permissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+    val permissionState =
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         rememberMultiplePermissionsState(
             permissions = listOf(
                 Manifest.permission.POST_NOTIFICATIONS,
@@ -84,19 +87,9 @@ fun HomeScreen(
             )
 
         )
-    } else {
-        //TODO("VERSION.SDK_INT < TIRAMISU")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            rememberMultiplePermissionsState(
-                permissions = listOf(
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                )
-
-            )
-        } else {
-            TODO("VERSION.SDK_INT < Q")
-        }
-    }
+//    } else {
+//
+//    }
 
     val lifeCycleOwner = LocalLifecycleOwner.current
 

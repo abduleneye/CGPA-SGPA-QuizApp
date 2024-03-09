@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.engpacalculator.gpcalculator.R
+import com.engpacalculator.gpcalculator.core.ads_components.shimmerEffect
 import com.engpacalculator.gpcalculator.core.navigation.Screen
 import com.engpacalculator.gpcalculator.ui.theme.Cream
 import kotlinx.coroutines.delay
@@ -64,6 +65,7 @@ fun Splash(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .shimmerEffect()
             .background(color = Cream),
         contentAlignment = Alignment.Center
     ) {

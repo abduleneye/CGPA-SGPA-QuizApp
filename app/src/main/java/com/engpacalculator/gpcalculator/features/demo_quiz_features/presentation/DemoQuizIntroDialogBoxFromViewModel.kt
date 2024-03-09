@@ -97,7 +97,7 @@ fun QuizIntroDialogBoxFromViewModel(
                                     "which would have repetition of " +
                                     "questions " +
                                     "since it's just the demo mode, " +
-                                    "once the rewarding version is active which " +
+                                    "once the rewarding mode is active which " +
                                     "will definitely take sometime due to complexities. " +
                                     "hopefully if all goes well you will be " +
                                     "notified with a push notification to " +

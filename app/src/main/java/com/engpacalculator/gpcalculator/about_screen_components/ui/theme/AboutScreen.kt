@@ -143,12 +143,10 @@ fun AboutScreen(
                     elevation = CardDefaults.cardElevation(8.dp),
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier
-                        .height(440.dp)
-                        .fillMaxWidth()
+                        //.height(440.dp)
+                        .fillMaxWidth(0.9f)
                         .padding(
                             top = 8.dp,
-                            start = 8.dp,
-                            end = 8.dp,
                             bottom = 8.dp
                         ),
                     colors = CardDefaults.cardColors(
@@ -156,8 +154,9 @@ fun AboutScreen(
                     )
                 ) {
                     Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        verticalArrangement = Arrangement.SpaceAround,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxSize()
 
                     ) {
 
@@ -194,6 +193,7 @@ fun AboutScreen(
                             horizontalArrangement = Arrangement.SpaceEvenly,
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .padding(bottom = 24.dp)
                         ) {
                             val context = LocalContext.current
                             Image(
@@ -328,12 +328,9 @@ fun AboutScreen(
                     elevation = CardDefaults.cardElevation(8.dp),
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier
-                        .height(560.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(0.9f)
                         .padding(
                             top = 4.dp,
-                            start = 8.dp,
-                            end = 8.dp,
                             bottom = 8.dp
                         ),
                     colors = CardDefaults.cardColors(
@@ -344,7 +341,8 @@ fun AboutScreen(
                 ) {
                     Column(
                         verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxSize()
 
                     ) {
 
@@ -373,7 +371,7 @@ fun AboutScreen(
                                     "Easy Course Management: Add, edit, and remove course details seamlessly.\n" +
                                     "Result Storage: Save and retrieve your results seamlessly.\n" +
                                     "Accurate (SGPA) and (CGPA) Calculation: Effortlessly calculate your (SGPA) and (CGPA) based on your course grades and credit loads.\n" +
-                                    "Simulation Analysis: Use our simulation capability by editing your course entry grades  and credit unit to explore how your (SGPA) and  (CGPA) might change under different circumstances.\n" +
+                                    "Simulation Analysis: Use our simulation capability by editing your course entry grades  and credit unit to explore how your (SGPA) and (CGPA) might change under different circumstances.\n" +
                                     "We've also added a quiz section as a bonus, more info in the quiz section.\n" +
                                     "Tip: Click  on the three dots on  a course entry to edit or remove course details and simulate your result.\n",
                             textAlign = TextAlign.Start,

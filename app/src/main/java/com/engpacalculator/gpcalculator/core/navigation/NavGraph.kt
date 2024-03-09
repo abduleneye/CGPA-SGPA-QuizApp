@@ -39,7 +39,7 @@ import com.engpacalculator.gpcalculator.presentation.myViewModels.course_list_sc
 import com.engpacalculator.gpcalculator.quiz_top_level_components.Quiz_Mode_Screen
 import com.google.firebase.analytics.FirebaseAnalytics
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.TIRAMISU, Build.VERSION_CODES.O)
 @Composable
 fun SetUpNavGraph(
     navController: NavHostController,
@@ -521,7 +521,8 @@ fun SetUpNavGraph(
                     state = fiveSgpaUiStates,
                     onEvent = fiveSgpaViewModel::onEvent,
                     quizUiState = demoQuizUiStates,
-                    onNewEvent = demoQuizViewModel::onEvent
+                    onNewEvent = demoQuizViewModel::onEvent,
+                    mFirebaseAnalytics = mFirebaseAnalytics
 
                 )
             }

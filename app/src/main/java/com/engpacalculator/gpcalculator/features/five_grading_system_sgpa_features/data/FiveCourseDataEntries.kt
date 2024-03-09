@@ -6,7 +6,6 @@ import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class FiveCourseDataEntries(
-
     val coursesDataEntry: @RawValue ArrayList<FiveGpData> = ArrayList<FiveGpData>(),
     var sixUnitCoursesPointSum: Int = 0,
     var fourUnitCoursesPointSum: Int = 0,

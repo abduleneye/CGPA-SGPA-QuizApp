@@ -164,6 +164,14 @@ fun DefaultCardSample(
 
                             }
 
+                            Screen.About.route -> {
+                                val params = Bundle()
+                                params.putString("AboutCard", "AboutCardClicked")
+                                mFirebaseAnalytics.logEvent("aboutCard", params)
+                                navController?.navigate(route)
+
+                            }
+
                             else -> {
 
                                 navController?.navigate(route)

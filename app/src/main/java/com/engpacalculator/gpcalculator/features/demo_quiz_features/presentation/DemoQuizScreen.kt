@@ -3,6 +3,7 @@ package com.engpacalculator.gpcalculator.features.demo_quiz_features.presentatio
 import Quiz.Data.Presentation.Domain.QuizFormat
 import android.annotation.SuppressLint
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -57,6 +58,7 @@ import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_featur
 import com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveSgpaUiStates
 import com.engpacalculator.gpcalculator.ui.theme.AppBars
 import com.engpacalculator.gpcalculator.ui.theme.Cream
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.coroutines.launch
 
 
@@ -73,7 +75,8 @@ fun DemoQuizScreen(
     state: FiveSgpaUiStates?,
     quizUiState: DemoQuizUiState,
     onEvent: ((FiveGpaUiEvents) -> Unit),
-    onNewEvent: ((DemoQuizUiEventClass) -> Unit)
+    onNewEvent: ((DemoQuizUiEventClass) -> Unit),
+    mFirebaseAnalytics: FirebaseAnalytics
 
 
 ) {
@@ -561,6 +564,17 @@ fun DemoQuizScreen(
                                                 containerColor = AppBars
                                             ),
                                             onClick = {
+
+                                                val params = Bundle()
+                                                params.putString(
+                                                    "NextQuestionButton",
+                                                    "NextQuestionButtonClicked"
+                                                )
+                                                mFirebaseAnalytics.logEvent(
+                                                    "nextQuestionButton",
+                                                    params
+                                                )
+
 
                                                 onNewEvent(DemoQuizUiEventClass.enableRadioButton)
                                                 onNewEvent(DemoQuizUiEventClass.disableNextButton)
