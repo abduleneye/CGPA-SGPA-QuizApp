@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EnGPA Calculator</string>
+    <string name="app_name">EnQuiz GPA</string>
     <string name="title_activity_samplechk">Samplechk</string>
     <string name="title_activity_about">AboutActivity</string>
     <string name="title_activity_about_screen">AboutScreenActivity</string>

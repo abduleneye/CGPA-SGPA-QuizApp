@@ -1,47 +1,28 @@
 {
   "project_info": {
-    "project_number": "359244255251",
-    "project_id": "engpa-calculator",
-    "storage_bucket": "engpa-calculator.appspot.com"
+    "project_number": "75440467455",
+    "project_id": "enquiz-gpa",
+    "storage_bucket": "enquiz-gpa.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:359244255251:android:7f56e74be703ea1e1c2fe6",
+        "mobilesdk_app_id": "1:75440467455:android:7c94d41845287dfe0b8bca",
         "android_client_info": {
-          "package_name": "com.engpacalculator.gpcalculator"
+          "package_name": "com.eneye.enquizgpa"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "359244255251-fblu25it5jct5ub6ee8oiksn3fguu5f1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.engpacalculator.gpcalculator",
-            "certificate_hash": "735713cac7178fdc027409d6ccc1a4e3424bdcf6"
-          }
-        },
-        {
-          "client_id": "359244255251-25jnra3n7ljutp9e6jc91uncni5tnp3j.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAOwL-0Nx22iJoMMYxzWAkgcKavSlO6syk"
+          "current_key": "AIzaSyBEtFXAV8qPZV1YtJTTsV37lY06JC6Lg14"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "359244255251-25jnra3n7ljutp9e6jc91uncni5tnp3j.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
-      },
-      "admob_app_id": "ca-app-pub-3656021994888380~4763445973"
+      }
     }
   ],
   "configuration_version": "1"

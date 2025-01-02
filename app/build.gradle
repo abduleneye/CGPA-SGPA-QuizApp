@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace 'com.engpacalculator.gpcalculator'
+    namespace 'com.eneye.enquizgpa'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.engpacalculator.gpcalculator"
+        applicationId "com.eneye.enquizgpa"
         minSdk 21
         //noinspection EditedTargetSdkVersion
         targetSdk 34
@@ -90,7 +90,7 @@ dependencies {
     //Splash Screen Api Library
     implementation("androidx.core:core-splashscreen:1.0.1")
 
-    implementation("com.google.android.gms:play-services-ads:22.6.0")
+    implementation("com.google.android.gms:play-services-ads:23.6.0")
 
     // Import the Firebase BoM
     implementation(platform('com.google.firebase:firebase-bom:32.3.1'))
@@ -140,5 +140,9 @@ dependencies {
 
     //Notification
     implementation("com.google.accompanist:accompanist-permissions:0.14.0")
+
+    //Amazon app store sdk
+    implementation("com.amazon.device:amazon-appstore-sdk:3.0.6")
+
 
 }

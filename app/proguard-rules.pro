@@ -3,24 +3,24 @@
 -dontwarn org.bouncycastle.**
 -dontwarn org.openjsse.**
 #Keep  Dagger-generated classes
--keep class com.engpacalculator.gpcalculator.core.di.**{*;}
+-keep class com.eneye.enquizgpa.core.di.**{*;}
 #Keep Room-generated classes
--keep class com.engpacalculator.gpcalculator.core.local_data_base.**{*;}
--keep class com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.**{*;}
--keep class com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.**{*;}
--keep class com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.data.**{*;}
--keep class com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.data.**{*;}
--keep class com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.**{*;}
--keep class com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.domain.**{*;}
--keep class com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.domain.**{*;}
--keep class com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.domain.**{*;}
--keep class com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
--keep class com.engpacalculator.gpcalculator.features.Four_grading_system_sgpa_features.presentation.FourGpaViewModel
+#-keep class com.engpacalculator.gpcalculator.core.local_data_base.**{*;}
+#-keep class com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.data.**{*;}
+#-keep class com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.data.**{*;}
+#-keep class com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.data.**{*;}
+#-keep class com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.data.**{*;}
+#-keep class com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.domain.**{*;}
+#-keep class com.engpacalculator.gpcalculator.features.five_grading_system_cgpa_features.domain.**{*;}
+#-keep class com.engpacalculator.gpcalculator.features.four_grading_system_sgpa_features.domain.**{*;}
+#-keep class com.engpacalculator.gpcalculator.features.four_grading_system_cgpa_features.domain.**{*;}
+#-keep class com.engpacalculator.gpcalculator.features.five_grading_system_sgpa_features.presentation.FiveGpaViewModel
+#-keep class com.engpacalculator.gpcalculator.features.Four_grading_system_sgpa_features.presentation.FourGpaViewModel
 
 
 #Keep retrofit related
--keep class com.engpacalculator.gpcalculator.features.demo_quiz_features.data.**{*;}
--keep class com.engpacalculator.gpcalculator.features.demo_quiz_features.domain.**{*;}
+-keep class com.eneye.enquizgpa.features.demo_quiz_features.data.**{*;}
+-keep class com.eneye.enquizgpa.features.demo_quiz_features.domain.**{*;}
 -keepattributes *Annotation*, EnclosingMethod
 -keepclasseswithmembers class *  {
    @retrofit2.http.* <methods>;
