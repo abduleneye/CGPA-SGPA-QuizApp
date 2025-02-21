@@ -72,7 +72,7 @@ Base URL: https://opentdb.com/api.php?amount = 10
       <br>Screenshot 2
     </td>
      <td align="center">
-      <img src="AppViews/Screenshot_2025-02-21-19-38-31-26_0215209bb0df09a8a1eddc6702fb767c.jpg" alt="Screenshot 3" width="200">
+      <img src="AppViews/Screenshot_2025-02-21-19-38-43-83_0215209bb0df09a8a1eddc6702fb767c.jpg" alt="Screenshot 3" width="200">
       <br>Screenshot 3
     </td>
     <td align="center">
