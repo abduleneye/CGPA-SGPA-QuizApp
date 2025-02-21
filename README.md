@@ -60,6 +60,9 @@ The app uses Retrofit for network operations.
 
 Base URL: https://opentdb.com/api.php?amount = 10
 
+[Download the App](https://github.com/abduleneye/CGPA-SGPA-QuizApp/releases/download/v1.0.0/app-release.apk)
+
+
 
 <table>
   <tr>
