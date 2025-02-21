@@ -6,7 +6,7 @@ A  user-friendly native Android app built with **Kotlin** and **Jetpack Compose*
 
 - **Enter total number of courses**: Users can add to tal number of courses for thier semester.
 - **Enter course details**: A dialog box for entering a course details.
-- **Calculate Result based on **: Built using Jetpack Compose for a declarative UI.
+- **Calculate Result based on**: Entered details.
 - **Clean Architecture**: Organized in a clear structure using modern Android development practices.
 - **Design Pattern**: Used the MVI design pattern.
 - **Dependency Injection**: Used dependency injection using daggerhilt.
