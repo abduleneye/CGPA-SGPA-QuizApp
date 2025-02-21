@@ -106,6 +106,14 @@ Base URL: https://opentdb.com/api.php?amount = 10
       <img src="AppViews/Screenshot_2025-02-21-19-40-16-41_0215209bb0df09a8a1eddc6702fb767c.jpg" alt="Screenshot 6" width="200">
       <br>Screenshot 10
     </td>
+    <td align="center">
+      <img src="AppViews/quiz_cat.jpg" alt="Screenshot 5" width="200">
+      <br>Screenshot 11
+    </td>
+    <td align="center">
+      <img src="AppViews/quiz_question.jpg" alt="Screenshot 6" width="200">
+      <br>Screenshot 12
+    </td>
   </tr>
 </table>
 
