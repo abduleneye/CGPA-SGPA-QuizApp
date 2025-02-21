@@ -61,7 +61,7 @@ The app uses Retrofit for network operations.
 Base URL: https://opentdb.com/api.php?amount = 10
 
 ![screenshot](AppViews/Screenshot_2025-02-21-19-38-31-26_0215209bb0df09a8a1eddc6702fb767c.jpg)
-![screenshot](/Screenshot_2025-02-21-19-38-39-20_0215209bb0df09a8a1eddc6702fb767c.jpg)
+![screenshot](AppViews/Screenshot_2025-02-21-19-38-39-20_0215209bb0df09a8a1eddc6702fb767c.jpg)
 
 
 
