@@ -71,6 +71,22 @@ Base URL: https://opentdb.com/api.php?amount = 10
       <img src="AppViews/Screenshot_2025-02-21-19-38-39-20_0215209bb0df09a8a1eddc6702fb767c.jpg" alt="Screenshot 2" width="200">
       <br>Screenshot 2
     </td>
+     <td align="center">
+      <img src="AppViews/Screenshot_2025-02-21-19-38-31-26_0215209bb0df09a8a1eddc6702fb767c.jpg" alt="Screenshot 3" width="200">
+      <br>Screenshot 1
+    </td>
+    <td align="center">
+      <img src="AppViews/Screenshot_2025-02-21-19-38-43-83_0215209bb0df09a8a1eddc6702fb767c.jpg" alt="Screenshot 4" width="200">
+      <br>Screenshot 2
+    </td>
+     <td align="center">
+      <img src="AppViews/Screenshot_2025-02-21-19-38-48-03_0215209bb0df09a8a1eddc6702fb767c.jpg" alt="Screenshot 5" width="200">
+      <br>Screenshot 1
+    </td>
+    <td align="center">
+      <img src="AppViews/Screenshot_2025-02-21-19-38-55-09_0215209bb0df09a8a1eddc6702fb767c.jpg" alt="Screenshot 6" width="200">
+      <br>Screenshot 2
+    </td>
   </tr>
 </table>
 
