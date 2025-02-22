@@ -54,11 +54,6 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
-        <!--  Legit-->
-        <!--        ca-app-pub-3656021994888380~4763445973-->
-
-        <!--        Test-->
-        <!--        ca-app-pub-3940256099942544~3347511713-->
 
     </application>
 
